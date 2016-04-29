@@ -9,8 +9,12 @@ History: PJN / 18-03-2012 1. All global "g_*" tables are now const. Thanks to Ro
                           reporting this issue. Spot tests indicate that this change only affected the 
                           ecliptic latitude in the sixth decimal place.
                           2. Updated copyright details
+         PJN / 16-09-2015 1. CAANeptune::EclipticLongitude, EclipticLatitude & RadiusVector now include a
+                          "bool bHighPrecision" parameter which if set to true means the code uses the full
+                          VSOP87 theory rather than the truncated theory as presented in Meeus's book.
 
-Copyright (c) 2003 - 2015 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+
+Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -30,6 +34,9 @@ to maintain a single distribution point for the source code.
 #include "stdafx.h"
 #include "AANeptune.h"
 #include "AACoordinateTransformation.h"
+#ifndef AAPLUS_VSOP87_NO_HIGH_PRECISION
+#include "AAVSOP87D_NEP.h"
+#endif //#ifndef AAPLUS_VSOP87_NO_HIGH_PRECISION
 #include <cmath>
 using namespace std;
 
@@ -261,11 +268,22 @@ const VSOP87Coefficient g_R3NeptuneCoefficients[] =
   { 166,  4.552,  38.133 }
 };
 
+#ifndef UNREFERENCED_PARAMETER
+#define UNREFERENCED_PARAMETER(x) ((void)(x))
+#endif //#ifndef UNREFERENCED_PARAMETER
+
 
 ///////////////////////////// Implementation //////////////////////////////////
 
-double CAANeptune::EclipticLongitude(double JD)
+double CAANeptune::EclipticLongitude(double JD, bool bHighPrecision)
 {
+#ifndef AAPLUS_VSOP87_NO_HIGH_PRECISION
+  if (bHighPrecision)
+    return CAACoordinateTransformation::MapTo0To360Range(CAACoordinateTransformation::RadiansToDegrees(CAAVSOP87D_Neptune::L(JD)));
+#else
+  UNREFERENCED_PARAMETER(bHighPrecision);
+#endif //#ifndef AAPLUS_VSOP87_NO_HIGH_PRECISION
+
   double rho = (JD - 2451545) / 365250;
   double rhosquared = rho*rho;
   double rhocubed = rhosquared*rho;
@@ -310,8 +328,15 @@ double CAANeptune::EclipticLongitude(double JD)
   return value;
 }
 
-double CAANeptune::EclipticLatitude(double JD)
+double CAANeptune::EclipticLatitude(double JD, bool bHighPrecision)
 {
+#ifndef AAPLUS_VSOP87_NO_HIGH_PRECISION
+  if (bHighPrecision)
+    return CAACoordinateTransformation::MapToMinus90To90Range(CAACoordinateTransformation::RadiansToDegrees(CAAVSOP87D_Neptune::B(JD)));
+#else
+  UNREFERENCED_PARAMETER(bHighPrecision);
+#endif //#ifndef AAPLUS_VSOP87_NO_HIGH_PRECISION
+
   double rho = (JD - 2451545) / 365250;
   double rhosquared = rho*rho;
   double rhocubed = rhosquared*rho;
@@ -351,12 +376,19 @@ double CAANeptune::EclipticLatitude(double JD)
   double value = (B0 + B1*rho + B2*rhosquared + B3*rhocubed + B4*rho4) / 100000000;
 
   //convert results back to degrees
-  value = CAACoordinateTransformation::RadiansToDegrees(value);
+  value = CAACoordinateTransformation::MapToMinus90To90Range(CAACoordinateTransformation::RadiansToDegrees(value));
   return value;
 }
 
-double CAANeptune::RadiusVector(double JD)
+double CAANeptune::RadiusVector(double JD, bool bHighPrecision)
 {
+#ifndef AAPLUS_VSOP87_NO_HIGH_PRECISION
+  if (bHighPrecision)
+    return CAAVSOP87D_Neptune::R(JD);
+#else
+  UNREFERENCED_PARAMETER(bHighPrecision);
+#endif //#ifndef AAPLUS_VSOP87_NO_HIGH_PRECISION
+
   double rho = (JD - 2451545) / 365250;
   double rhosquared = rho*rho;
   double rhocubed = rhosquared*rho;

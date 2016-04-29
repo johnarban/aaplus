@@ -3,7 +3,7 @@ Module : AASUN.H
 Purpose: Implementation for the algorithms which obtain the position of the Sun
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2015 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -22,14 +22,14 @@ to maintain a single distribution point for the source code.
 
 #if _MSC_VER > 1000
 #pragma once
-#endif
+#endif //#if _MSC_VER > 1000
 
 #ifndef __AASUN_H__
 #define __AASUN_H__
 
 #ifndef AAPLUS_EXT_CLASS
 #define AAPLUS_EXT_CLASS
-#endif
+#endif //#ifndef AAPLUS_EXT_CLASS
 
 
 /////////////////////// Includes //////////////////////////////////////////////
@@ -43,19 +43,20 @@ class AAPLUS_EXT_CLASS CAASun
 {
 public:
 //Static methods
-  static double GeometricEclipticLongitude(double JD);
-  static double GeometricEclipticLatitude(double JD);
-  static double GeometricEclipticLongitudeJ2000(double JD);
-  static double GeometricEclipticLatitudeJ2000(double JD);
-  static double GeometricFK5EclipticLongitude(double JD);
-  static double GeometricFK5EclipticLatitude(double JD);
-  static double ApparentEclipticLongitude(double JD);
-  static double ApparentEclipticLatitude(double JD);
-  static CAA3DCoordinate EquatorialRectangularCoordinatesMeanEquinox(double JD);
-  static CAA3DCoordinate EclipticRectangularCoordinatesJ2000(double JD);
-  static CAA3DCoordinate EquatorialRectangularCoordinatesJ2000(double JD);
-  static CAA3DCoordinate EquatorialRectangularCoordinatesB1950(double JD);
-  static CAA3DCoordinate EquatorialRectangularCoordinatesAnyEquinox(double JD, double JDEquinox);
+  static double GeometricEclipticLongitude(double JD, bool bHighPrecision);
+  static double GeometricEclipticLatitude(double JD, bool bHighPrecision);
+  static double GeometricEclipticLongitudeJ2000(double JD, bool bHighPrecision);
+  static double GeometricEclipticLatitudeJ2000(double JD, bool bHighPrecision);
+  static double GeometricFK5EclipticLongitude(double JD, bool bHighPrecision);
+  static double GeometricFK5EclipticLatitude(double JD, bool bHighPrecision);
+  static double ApparentEclipticLongitude(double JD, bool bHighPrecision);
+  static double ApparentEclipticLatitude(double JD, bool bHighPrecision);
+  static CAA3DCoordinate EquatorialRectangularCoordinatesMeanEquinox(double JD, bool bHighPrecision);
+  static CAA3DCoordinate EclipticRectangularCoordinatesJ2000(double JD, bool bHighPrecision);
+  static CAA3DCoordinate EquatorialRectangularCoordinatesJ2000(double JD, bool bHighPrecision);
+  static CAA3DCoordinate EquatorialRectangularCoordinatesB1950(double JD, bool bHighPrecision);
+  static CAA3DCoordinate EquatorialRectangularCoordinatesAnyEquinox(double JD, double JDEquinox, bool bHighPrecision);
 };
 
-#endif //__AASUN_H__
+
+#endif //#ifndef __AASUN_H__

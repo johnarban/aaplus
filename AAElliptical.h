@@ -3,7 +3,7 @@ Module : AAELLIPTICAL.H
 Purpose: Implementation for the algorithms for an elliptical orbit
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2015 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -22,14 +22,14 @@ to maintain a single distribution point for the source code.
 
 #if _MSC_VER > 1000
 #pragma once
-#endif
+#endif //#if _MSC_VER > 1000
 
 #ifndef __AAELLIPTICAL_H__
 #define __AAELLIPTICAL_H__
 
 #ifndef AAPLUS_EXT_CLASS
 #define AAPLUS_EXT_CLASS
-#endif
+#endif //#ifndef AAPLUS_EXT_CLASS
 
 
 /////////////////////// Includes //////////////////////////////////////////////
@@ -140,10 +140,10 @@ public:
 
 //Static methods
   static double DistanceToLightTime(double Distance);
-  static CAAEllipticalPlanetaryDetails Calculate(double JD, EllipticalObject object);
+  static CAAEllipticalPlanetaryDetails Calculate(double JD, EllipticalObject object, bool bHighPrecision);
   static double SemiMajorAxisFromPerihelionDistance(double q, double e);
   static double MeanMotionFromSemiMajorAxis(double a);
-  static CAAEllipticalObjectDetails Calculate(double JD, const CAAEllipticalObjectElements& elements);
+  static CAAEllipticalObjectDetails Calculate(double JD, const CAAEllipticalObjectElements& elements, bool bHighPrecision);
   static double InstantaneousVelocity(double r, double a);
   static double VelocityAtPerihelion(double e, double a);
   static double VelocityAtAphelion(double e, double a);
@@ -152,4 +152,5 @@ public:
   static double MinorPlanetMagnitude(double H, double delta, double G, double r, double PhaseAngle);
 };
 
-#endif //__AAELLIPTICAL_H__
+
+#endif //#ifndef __AAELLIPTICAL_H__

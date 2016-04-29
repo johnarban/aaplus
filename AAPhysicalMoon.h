@@ -3,7 +3,7 @@ Module : AAPHYSICALMOON.H
 Purpose: Implementation for the algorithms which obtain the physical parameters of the Moon
 Created: PJN / 17-01-2004
 
-Copyright (c) 2004 - 2015 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2004 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -22,14 +22,14 @@ to maintain a single distribution point for the source code.
 
 #if _MSC_VER > 1000
 #pragma once
-#endif
+#endif //#if _MSC_VER > 1000
 
-#ifndef __AAPHYSICALMOON_H_
-#define __AAPHYSICALMOON_H_
+#ifndef __AAPHYSICALMOON_H__
+#define __AAPHYSICALMOON_H__
 
 #ifndef AAPLUS_EXT_CLASS
 #define AAPLUS_EXT_CLASS
-#endif
+#endif //#ifndef AAPLUS_EXT_CLASS
 
 
 /////////////////////// Includes //////////////////////////////////////////////
@@ -85,15 +85,16 @@ public:
 //Static methods
   static CAAPhysicalMoonDetails CalculateGeocentric(double JD);
   static CAAPhysicalMoonDetails CalculateTopocentric(double JD, double Longitude, double Latitude);
-  static CAASelenographicMoonDetails CalculateSelenographicPositionOfSun(double JD);
-  static double AltitudeOfSun(double JD, double Longitude, double Latitude);
-  static double TimeOfSunrise(double JD, double Longitude, double Latitude);
-  static double TimeOfSunset(double JD, double Longitude, double Latitude);
+  static CAASelenographicMoonDetails CalculateSelenographicPositionOfSun(double JD, bool bHighPrecision);
+  static double AltitudeOfSun(double JD, double Longitude, double Latitude, bool bHighPrecision);
+  static double TimeOfSunrise(double JD, double Longitude, double Latitude, bool bHighPrecision);
+  static double TimeOfSunset(double JD, double Longitude, double Latitude, bool bHighPrecision);
 
 protected:
-  static double SunriseSunsetHelper(double JD, double Longitude, double Latitude, bool bSunrise);
+  static double SunriseSunsetHelper(double JD, double Longitude, double Latitude, bool bSunrise, bool bHighPrecision);
   static CAAPhysicalMoonDetails CalculateHelper(double JD, double& Lambda, double& Beta, double& epsilon, CAA2DCoordinate& Equatorial);
   static void CalculateOpticalLibration(double JD, double Lambda, double Beta, double& ldash, double& bdash, double& ldash2, double& bdash2, double& epsilon, double& omega, double& DeltaU, double& sigma, double& I, double& rho);
 };
 
-#endif //__AAPHYSICALMOON_H_
+
+#endif //#ifndef __AAPHYSICALMOON_H__

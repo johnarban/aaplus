@@ -26,8 +26,13 @@ History: PJN / 15-10-2004 1. bValid variable is now correctly set in CAARiseTran
                           Andrew Hood for prompting this update
          PJN / 12-10-2012 1. Refactored the code in CAARiseTransitSet::Calculate.
          PJN / 13-10-2012 1. Fixed a small typo in the AARiseTransitSet.cpp history comments.
+         PJN / 10-04-2016 1. Introduction of a new bool CAARiseTransitSetDetails::bTransitValid member variable. It
+                          turns out that celestial objects do not always transit in a 24 hour UTC day. Test code
+                          has been added to AATest.cpp to fully exercise all the cases for the three boolean member 
+                          variables of bRiseValid, bTransitValid & bSetValid. Thanks to "Pavel" for reporting this 
+                          issue.
 
-Copyright (c) 2003 - 2015 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -111,7 +116,7 @@ void CAARiseTransitSet::CorrectRAValuesForInterpolation(double& Alpha1, double& 
     Alpha3 += 24;  
 }
 
-void CAARiseTransitSet::CalculateRiseHelper(const CAARiseTransitSetDetails& details, double theta0, double deltaT, double Alpha1, double Delta1, double Alpha2, double Delta2, double Alpha3, double Delta3, double Longitude, double Latitude, double LatitudeRad, double h0, double& M1)
+void CAARiseTransitSet::CalculateRiseHelper(CAARiseTransitSetDetails& details, double theta0, double deltaT, double Alpha1, double Delta1, double Alpha2, double Delta2, double Alpha3, double Delta3, double Longitude, double Latitude, double LatitudeRad, double h0, double& M1)
 {
   for (int i=0; i<2; i++)
   {
@@ -131,11 +136,14 @@ void CAARiseTransitSet::CalculateRiseHelper(const CAARiseTransitSetDetails& deta
 
       double DeltaM = (Horizontal.Y - h0) / (360*cos(CAACoordinateTransformation::DegreesToRadians(Delta))*cos(LatitudeRad)*sin(CAACoordinateTransformation::DegreesToRadians(H)));
       M1 += DeltaM;
+
+      if ((M1 < 0) || (M1 >= 1))
+        details.bRiseValid = false;
     }
   }
 }
 
-void CAARiseTransitSet::CalculateSetHelper(const CAARiseTransitSetDetails& details, double theta0, double deltaT, double Alpha1, double Delta1, double Alpha2, double Delta2, double Alpha3, double Delta3, double Longitude, double Latitude, double LatitudeRad, double h0, double& M2)
+void CAARiseTransitSet::CalculateSetHelper(CAARiseTransitSetDetails& details, double theta0, double deltaT, double Alpha1, double Delta1, double Alpha2, double Delta2, double Alpha3, double Delta3, double Longitude, double Latitude, double LatitudeRad, double h0, double& M2)
 {
   for (int i=0; i<2; i++)
   {
@@ -155,29 +163,38 @@ void CAARiseTransitSet::CalculateSetHelper(const CAARiseTransitSetDetails& detai
 
       double DeltaM = (Horizontal.Y - h0) / (360*cos(CAACoordinateTransformation::DegreesToRadians(Delta))*cos(LatitudeRad)*sin(CAACoordinateTransformation::DegreesToRadians(H)));
       M2 += DeltaM;
+
+      if ((M2 < 0) || (M2 >= 1))
+        details.bSetValid = false;
     }
   }
 }
 
-void CAARiseTransitSet::CalculateTransitHelper(double theta0, double deltaT, double Alpha1, double Alpha2, double Alpha3, double Longitude, double& M0)
+void CAARiseTransitSet::CalculateTransitHelper(CAARiseTransitSetDetails& details, double theta0, double deltaT, double Alpha1, double Alpha2, double Alpha3, double Longitude, double& M0)
 {
   for (int i=0; i<2; i++)
   {
     //Calculate the details of transit
-    double theta1 = theta0 + 360.985647*M0;
-    theta1 = CAACoordinateTransformation::MapTo0To360Range(theta1);
+    if (details.bTransitValid)
+    {
+      double theta1 = theta0 + 360.985647*M0;
+      theta1 = CAACoordinateTransformation::MapTo0To360Range(theta1);
 
-    double n = M0 + deltaT/86400;
+      double n = M0 + deltaT / 86400;
 
-    double Alpha = CAAInterpolate::Interpolate(n, Alpha1, Alpha2, Alpha3);
+      double Alpha = CAAInterpolate::Interpolate(n, Alpha1, Alpha2, Alpha3);
 
-    double H = theta1 - Longitude - Alpha*15;
-    H = CAACoordinateTransformation::MapTo0To360Range(H);
-    if (H > 180)
-      H -= 360;
+      double H = theta1 - Longitude - Alpha * 15;
+      H = CAACoordinateTransformation::MapTo0To360Range(H);
+      if (H > 180)
+        H -= 360;
 
-    double DeltaM = -H / 360;
-    M0 += DeltaM;
+      double DeltaM = -H / 360;
+      M0 += DeltaM;
+
+      if (M0 < 0 || M0 >= 1)
+        details.bTransitValid = false;
+    }
   }
 }
 
@@ -187,6 +204,7 @@ CAARiseTransitSetDetails CAARiseTransitSet::Calculate(double JD, double Alpha1, 
   CAARiseTransitSetDetails details;
   details.bRiseValid = false;
   details.bSetValid = false;
+  details.bTransitValid = true;
   details.bTransitAboveHorizon = false;
 
   //Calculate the sidereal time
@@ -218,13 +236,13 @@ CAARiseTransitSetDetails CAARiseTransitSet::Calculate(double JD, double Alpha1, 
   CorrectRAValuesForInterpolation(Alpha1, Alpha2, Alpha3);
     
   //Do the main work
-  CalculateTransitHelper(theta0, deltaT, Alpha1, Alpha2, Alpha3, Longitude, M0);
+  CalculateTransitHelper(details, theta0, deltaT, Alpha1, Alpha2, Alpha3, Longitude, M0);
   CalculateRiseHelper(details, theta0, deltaT, Alpha1, Delta1, Alpha2, Delta2, Alpha3, Delta3, Longitude, Latitude, LatitudeRad, h0, M1);
   CalculateSetHelper(details, theta0, deltaT, Alpha1, Delta1, Alpha2, Delta2, Alpha3, Delta3, Longitude, Latitude, LatitudeRad, h0, M2);
 
   details.Rise = details.bRiseValid ? (M1 * 24) : 0.0;
   details.Set = details.bSetValid ? (M2 * 24) : 0.0;
-  details.Transit = M0 * 24; //We always return the transit time even if it occurs below the horizon
+  details.Transit = details.bTransitValid ? (M0 * 24) : 0.0;
 
   return details;
 }

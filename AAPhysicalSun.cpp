@@ -2,10 +2,14 @@
 Module : AAPHYSICALSUN.CPP
 Purpose: Implementation for the algorithms which obtain the physical parameters of the Sun
 Created: PJN / 29-12-2003
-History: PJN / 16-06-2004 1) Fixed a typo in the calculation of SunLongDash in CAAPhysicalSun::Calculate.
+History: PJN / 16-06-2004 1. Fixed a typo in the calculation of SunLongDash in CAAPhysicalSun::Calculate.
                           Thanks to Brian Orme for spotting this problem.
+         PJN / 16-09-2015 1. CAAPhysicalSun::Calculate now includes a "bool bHighPrecision" parameter
+                          which if set to true means the code uses the full VSOP87 theory rather than the
+                          truncated theory as presented in Meeus's book.
 
-Copyright (c) 2003 - 2015 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+
+Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -34,15 +38,15 @@ using namespace std;
 
 //////////////////////////////// Implementation ///////////////////////////////
 
-CAAPhysicalSunDetails CAAPhysicalSun::Calculate(double JD)
+CAAPhysicalSunDetails CAAPhysicalSun::Calculate(double JD, bool bHighPrecision)
 {
   double theta = CAACoordinateTransformation::MapTo0To360Range((JD - 2398220) * 360 / 25.38);
   double I = 7.25;
   double K = 73.6667 + 1.3958333*(JD - 2396758)/36525;
 
   //Calculate the apparent longitude of the sun (excluding the effect of nutation)
-  double L = CAAEarth::EclipticLongitude(JD);
-  double R = CAAEarth::RadiusVector(JD);
+  double L = CAAEarth::EclipticLongitude(JD, bHighPrecision);
+  double R = CAAEarth::RadiusVector(JD, bHighPrecision);
   double SunLong = L + 180 - CAACoordinateTransformation::DMSToDegrees(0, 0, 20.4898 / R);
 
   double epsilon = CAANutation::TrueObliquityOfEcliptic(JD);

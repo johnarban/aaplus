@@ -3,7 +3,7 @@ Module : AAMOONMAXDECLINATIONS.H
 Purpose: Implementation for the algorithms which obtain the dates and values for Maximum declination of the Moon
 Created: PJN / 13-01-2004
 
-Copyright (c) 2004 - 2015 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2004 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -22,14 +22,14 @@ to maintain a single distribution point for the source code.
 
 #if _MSC_VER > 1000
 #pragma once
-#endif
+#endif //#if _MSC_VER > 1000
 
 #ifndef __AAMOONMAXDECLINATIONS_H__
 #define __AAMOONMAXDECLINATIONS_H__
 
 #ifndef AAPLUS_EXT_CLASS
 #define AAPLUS_EXT_CLASS
-#endif
+#endif //#ifndef AAPLUS_EXT_CLASS
 
 
 ////////////////////// Classes ////////////////////////////////////////////////
@@ -45,4 +45,5 @@ public:
   static double TrueGreatestDeclinationValue(double k, bool bNortherly);
 };
 
-#endif //__AAMOONMAXDECLINATIONS_H__
+
+#endif //#ifndef __AAMOONMAXDECLINATIONS_H__

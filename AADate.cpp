@@ -43,7 +43,7 @@ History: PJN / 10-11-2004 1. Fix for CAADate::Get so that it works correctly for
          PJN / 29-03-2015 1. Fixed up some variable initializations around the use of modf. Thanks to Arnaud Cueille for
                           reporting this issue.
 
-Copyright (c) 2003 - 2015 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -196,10 +196,10 @@ void CAADate::SetInGregorianCalendar(bool bGregorianCalendar)
 {
   bool bAfterPapalReform = (m_dblJulian >= 2299160.5);
 
-#ifdef _DEBUG  
+#ifdef _DEBUG
   if (bGregorianCalendar) //We do not allow storage of propalatic Gregorian dates
     assert(bAfterPapalReform);
-#endif
+#endif //#ifdef _DEBUG
 
   m_bGregorianCalendar = bGregorianCalendar && bAfterPapalReform;
 }
@@ -285,9 +285,9 @@ long CAADate::DaysInMonth(long Month, bool bLeap)
 {
   //Validate our parameters
   assert(Month >= 1 && Month <= 12);
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
   __analysis_assume(Month >= 1 && Month <= 12);
-#endif  
+#endif //#ifdef _MSC_VER
   
   int MonthLength[] =
   { 

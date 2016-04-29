@@ -8,8 +8,22 @@ History: PJN / 12-11-2014 1. Fixed two transcription bugs in the CAAPrecession::
                           The errors were so small that the values from the worked example of 21.b from the book ended up giving the 
                           same results. If a longer timespan was used for the example instead of the 28 years then the errors would 
                           have been easier to spot from the incorrect terms.
+         PJN / 20-03-2016 1.CAAPrecession::AdjustPositionUsingUniformProperMotion now ensures that the return value is in the 
+                          normalized range for right ascension and declination.
+                          2. CAAPrecession::AdjustPositionUsingMotionInSpace now ensures that the return value is in the 
+                          normalized range for right ascension and declination.
+                          3. CAAPrecession::PrecessEquatorial now ensures that the return value is in the 
+                          normalized range for right ascension and declination.
+                          4. CAAPrecession::PrecessEquatorialFK4 now ensures that the return value is in the 
+                          normalized range for right ascension and declination.
+                          5. CAAPrecession::PrecessEcliptic now ensures that the return value is in the normalized range for
+                          ecliptic longitude and latitude.
+                          6. CAAPrecession::PrecessEquatorialFK4 now adds the Equinox correction to the returned right ascension. 
+                          Thanks to "Pavel" for reporting this issue.
+                          7. Optimized the code in CAAPrecession::PrecessEquatorial, CAAPrecession::PrecessEquatorialFK4 &
+                          CAAPrecession::PrecessEcliptic.
 
-Copyright (c) 2003 - 2015 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -37,8 +51,8 @@ using namespace std;
 CAA2DCoordinate CAAPrecession::AdjustPositionUsingUniformProperMotion(double t, double Alpha, double Delta, double PMAlpha, double PMDelta)
 {
   CAA2DCoordinate value;
-  value.X = Alpha + (PMAlpha * t / 3600);
-  value.Y = Delta + (PMDelta * t / 3600);
+  value.X = CAACoordinateTransformation::MapTo0To24Range(Alpha + (PMAlpha * t / 3600));
+  value.Y = CAACoordinateTransformation::MapToMinus90To90Range(Delta + (PMDelta * t / 3600));
 
   return value;
 }
@@ -71,10 +85,7 @@ CAA2DCoordinate CAAPrecession::AdjustPositionUsingMotionInSpace(double r, double
   z += t*DeltaZ;
 
   CAA2DCoordinate value;
-  value.X = CAACoordinateTransformation::RadiansToHours(atan2(y, x));
-  if (value.X < 0)
-    value.X += 24;
- 
+  value.X = CAACoordinateTransformation::MapTo0To24Range(CAACoordinateTransformation::RadiansToHours(atan2(y, x)));
   value.Y = CAACoordinateTransformation::RadiansToDegrees(atan2(z, sqrt(x*x + y*y)));
 
   return value;
@@ -92,23 +103,15 @@ CAA2DCoordinate CAAPrecession::PrecessEquatorial(double Alpha, double Delta, dou
   Alpha = CAACoordinateTransformation::HoursToRadians(Alpha);
   Delta = CAACoordinateTransformation::DegreesToRadians(Delta);
 
-  double sigma = (2306.2181 + 1.39656*T - 0.000139*Tsquared)*t + (0.30188 - 0.000344*T)*tsquared + 0.017988*tcubed;
-  sigma = CAACoordinateTransformation::DegreesToRadians(CAACoordinateTransformation::DMSToDegrees(0, 0, sigma));
-
-  double zeta = (2306.2181 + 1.39656*T - 0.000139*Tsquared)*t + (1.09468 + 0.000066*T)*tsquared + 0.018203*tcubed;
-  zeta = CAACoordinateTransformation::DegreesToRadians(CAACoordinateTransformation::DMSToDegrees(0, 0, zeta));
-
-  double phi = (2004.3109 - 0.8533*T - 0.000217*Tsquared)*t -  (0.42665 + 0.000217*T)*tsquared - 0.041833*tcubed;
-  phi = CAACoordinateTransformation::DegreesToRadians(CAACoordinateTransformation::DMSToDegrees(0, 0, phi));
-
+  double sigma = CAACoordinateTransformation::DegreesToRadians(CAACoordinateTransformation::DMSToDegrees(0, 0, (2306.2181 + 1.39656*T - 0.000139*Tsquared)*t + (0.30188 - 0.000344*T)*tsquared + 0.017988*tcubed));
+  double zeta = CAACoordinateTransformation::DegreesToRadians(CAACoordinateTransformation::DMSToDegrees(0, 0, (2306.2181 + 1.39656*T - 0.000139*Tsquared)*t + (1.09468 + 0.000066*T)*tsquared + 0.018203*tcubed));
+  double phi = CAACoordinateTransformation::DegreesToRadians(CAACoordinateTransformation::DMSToDegrees(0, 0, (2004.3109 - 0.8533*T - 0.000217*Tsquared)*t -  (0.42665 + 0.000217*T)*tsquared - 0.041833*tcubed));
   double A = cos(Delta) * sin(Alpha + sigma);
   double B = cos(phi)*cos(Delta)*cos(Alpha + sigma) - sin(phi)*sin(Delta);
   double C = sin(phi)*cos(Delta)*cos(Alpha + sigma) + cos(phi)*sin(Delta);
 
   CAA2DCoordinate value;
-  value.X = CAACoordinateTransformation::RadiansToHours(atan2(A, B) + zeta);  
-  if (value.X < 0)
-    value.X += 24;
+  value.X = CAACoordinateTransformation::MapTo0To24Range(CAACoordinateTransformation::RadiansToHours(atan2(A, B) + zeta));
   value.Y = CAACoordinateTransformation::RadiansToDegrees(asin(C));
 
   return value;
@@ -125,24 +128,16 @@ CAA2DCoordinate CAAPrecession::PrecessEquatorialFK4(double Alpha, double Delta, 
   Alpha = CAACoordinateTransformation::HoursToRadians(Alpha);
   Delta = CAACoordinateTransformation::DegreesToRadians(Delta);
 
-  double sigma = (2304.250 + 1.396*T)*t + 0.302*tsquared + 0.018*tcubed;
-  sigma = CAACoordinateTransformation::DegreesToRadians(CAACoordinateTransformation::DMSToDegrees(0, 0, sigma));
-
-  double zeta = 0.791*tsquared + 0.001*tcubed;
-  zeta = CAACoordinateTransformation::DegreesToRadians(CAACoordinateTransformation::DMSToDegrees(0, 0, zeta));
-  zeta += sigma;
-
-  double phi = (2004.682 - 0.853*T)*t - 0.426*tsquared - 0.042*tcubed;
-  phi = CAACoordinateTransformation::DegreesToRadians(CAACoordinateTransformation::DMSToDegrees(0, 0, phi));
-
+  double sigma = CAACoordinateTransformation::DegreesToRadians(CAACoordinateTransformation::DMSToDegrees(0, 0, (2304.250 + 1.396*T)*t + 0.302*tsquared + 0.018*tcubed));
+  double zeta = CAACoordinateTransformation::DegreesToRadians(CAACoordinateTransformation::DMSToDegrees(0, 0, 0.791*tsquared + 0.001*tcubed)) + sigma;
+  double phi = CAACoordinateTransformation::DegreesToRadians(CAACoordinateTransformation::DMSToDegrees(0, 0, (2004.682 - 0.853*T)*t - 0.426*tsquared - 0.042*tcubed));
   double A = cos(Delta) * sin(Alpha + sigma);
   double B = cos(phi)*cos(Delta)*cos(Alpha + sigma) - sin(phi)*sin(Delta);
   double C = sin(phi)*cos(Delta)*cos(Alpha + sigma) + cos(phi)*sin(Delta);
 
+  double DeltaAlpha = CAACoordinateTransformation::DMSToDegrees(0, 0, 0.0775 + 0.0850*T);
   CAA2DCoordinate value;
-  value.X = CAACoordinateTransformation::RadiansToHours(atan2(A, B) + zeta);  
-  if (value.X < 0)
-    value.X += 24;
+  value.X = CAACoordinateTransformation::MapTo0To24Range(CAACoordinateTransformation::RadiansToHours(atan2(A, B) + zeta) + DeltaAlpha);
   value.Y = CAACoordinateTransformation::RadiansToDegrees(asin(C));
 
   return value;
@@ -160,23 +155,15 @@ CAA2DCoordinate CAAPrecession::PrecessEcliptic(double Lambda, double Beta, doubl
   Lambda = CAACoordinateTransformation::DegreesToRadians(Lambda);
   Beta = CAACoordinateTransformation::DegreesToRadians(Beta);
 
-  double eta = (47.0029 - 0.06603*T + 0.000598*Tsquared)*t + (-0.03302 + 0.000598*T)*tsquared + 0.00006*tcubed;
-  eta = CAACoordinateTransformation::DegreesToRadians(CAACoordinateTransformation::DMSToDegrees(0, 0, eta));
-
-  double pi = 174.876384*3600 + 3289.4789*T + 0.60622*Tsquared - (869.8089 + 0.50491*T)*t + 0.03536*tsquared;
-  pi = CAACoordinateTransformation::DegreesToRadians(CAACoordinateTransformation::DMSToDegrees(0, 0, pi));
-
-  double p = (5029.0966 + 2.22226*T - 0.000042*Tsquared)*t + (1.11113 - 0.000042*T)*tsquared - 0.000006*tcubed;
-  p = CAACoordinateTransformation::DegreesToRadians(CAACoordinateTransformation::DMSToDegrees(0, 0, p));
-
+  double eta = CAACoordinateTransformation::DegreesToRadians(CAACoordinateTransformation::DMSToDegrees(0, 0, (47.0029 - 0.06603*T + 0.000598*Tsquared)*t + (-0.03302 + 0.000598*T)*tsquared + 0.00006*tcubed));
+  double pi = CAACoordinateTransformation::DegreesToRadians(CAACoordinateTransformation::DMSToDegrees(0, 0, 174.876384*3600 + 3289.4789*T + 0.60622*Tsquared - (869.8089 + 0.50491*T)*t + 0.03536*tsquared));
+  double p = CAACoordinateTransformation::DegreesToRadians(CAACoordinateTransformation::DMSToDegrees(0, 0, (5029.0966 + 2.22226*T - 0.000042*Tsquared)*t + (1.11113 - 0.000042*T)*tsquared - 0.000006*tcubed));
   double A = cos(eta)*cos(Beta)*sin(pi - Lambda) - sin(eta)*sin(Beta);
   double B = cos(Beta)*cos(pi - Lambda);
   double C = cos(eta)*sin(Beta) + sin(eta)*cos(Beta)*sin(pi - Lambda);
 
   CAA2DCoordinate value;
-  value.X = CAACoordinateTransformation::RadiansToDegrees(p + pi - atan2(A, B));  
-  if (value.X < 0)
-    value.X += 360;
+  value.X = CAACoordinateTransformation::MapTo0To360Range(CAACoordinateTransformation::RadiansToDegrees(p + pi - atan2(A, B)));
   value.Y = CAACoordinateTransformation::RadiansToDegrees(asin(C));
 
   return value;

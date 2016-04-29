@@ -3,7 +3,7 @@ Module : AA3DCOORDINATE.H
 Purpose: Implementation for the simple class to encapsulate a three dimensional coordinate
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2015 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -22,14 +22,14 @@ to maintain a single distribution point for the source code.
 
 #if _MSC_VER > 1000
 #pragma once
-#endif
+#endif //#if _MSC_VER > 1000
 
 #ifndef __AA3DCOORDINATE_H__
 #define __AA3DCOORDINATE_H__
 
 #ifndef AAPLUS_EXT_CLASS
 #define AAPLUS_EXT_CLASS
-#endif
+#endif //#ifndef AAPLUS_EXT_CLASS
 
 
 /////////////////////// Classes ///////////////////////////////////////////////
@@ -50,4 +50,5 @@ public:
   double Z;
 };
 
-#endif //__AA3DCOORDINATE_H__
+
+#endif //#ifndef __AA3DCOORDINATE_H__

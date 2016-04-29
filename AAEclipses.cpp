@@ -5,8 +5,11 @@ Created: PJN / 21-01-2004
 History: PJN / 25-02-2004 1. Calculation of semi durations is now calculated only when required
          PJN / 31-01-2005 1. Fixed a GCC compiler error related to missing include for memset. Thanks to Mika Heiskanen for 
                           reporting this problem.
+         PJN / 27-03-2016 1. Updated CAAEclipses::Calculate to return a bitmask of attributes about the calculated solar 
+                          eclipse in CAASolarEclipseDetails::Details. These attributes correspond to the values as discussed
+                          in Meeus's book on Pages 381 & 382. Thanks to "Pavel" for providing this nice addition.
 
-Copyright (c) 2004 - 2015 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2004 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -79,40 +82,40 @@ CAASolarEclipseDetails CAAEclipses::Calculate(double k, double& Mdash)
   double DeltaJD = 0;
   if (bSolarEclipse)
     DeltaJD += -0.4075*sin(Mdash) +
-               0.1721*E*sin(M);
+                0.1721*E*sin(M);
   else
     DeltaJD += -0.4065*sin(Mdash) +
-               0.1727*E*sin(M);
+                0.1727*E*sin(M);
   DeltaJD += 0.0161*sin(2*Mdash) +
-             -0.0097*sin(2*Fdash) +
+            -0.0097*sin(2*Fdash) +
              0.0073*E*sin(Mdash - M) +
-             -0.0050*E*sin(Mdash + M) +
-             -0.0023*sin(Mdash - 2*Fdash) +
+            -0.0050*E*sin(Mdash + M) +
+            -0.0023*sin(Mdash - 2*Fdash) +
              0.0021*E*sin(2*M) +
              0.0012*sin(Mdash + 2*Fdash) +
              0.0006*E*sin(2*Mdash + M) +
-             -0.0004*sin(3*Mdash) +
-             -0.0003*E*sin(M + 2*Fdash) +
+            -0.0004*sin(3*Mdash) +
+            -0.0003*E*sin(M + 2*Fdash) +
              0.0003*sin(A1) +
-             -0.0002*E*sin(M - 2*Fdash) +
-             -0.0002*E*sin(2*Mdash - M) +
-             -0.0002*sin(omega);
+            -0.0002*E*sin(M - 2*Fdash) +
+            -0.0002*E*sin(2*Mdash - M) +
+            -0.0002*sin(omega);
 
   details.TimeOfMaximumEclipse += DeltaJD;
 
   double P = 0.2070*E*sin(M) +
              0.0024*E*sin(2*M) +
-             -0.0392*sin(Mdash) +
+            -0.0392*sin(Mdash) +
              0.0116*sin(2*Mdash) +
-             -0.0073*E*sin(Mdash + M) +
+            -0.0073*E*sin(Mdash + M) +
              0.0067*E*sin(Mdash - M) +
              0.0118*sin(2*Fdash);
 
   double Q = 5.2207 +
-             -0.0048*E*cos(M) +
+            -0.0048*E*cos(M) +
              0.0020*E*cos(2*M) +
-             -0.3299*cos(Mdash) +
-             -0.0060*E*cos(Mdash + M) +
+            -0.3299*cos(Mdash) +
+            -0.0060*E*cos(Mdash + M) +
              0.0041*E*cos(Mdash - M);
 
   double W = fabs(cos(Fdash));
@@ -120,22 +123,59 @@ CAASolarEclipseDetails CAAEclipses::Calculate(double k, double& Mdash)
   details.gamma = (P*cos(Fdash) + Q*sin(Fdash))*(1 - 0.0048*W);
 
   details.u = 0.0059 +
-             0.0046*E*cos(M) +
+              0.0046*E*cos(M) +
              -0.0182*cos(Mdash) +
-             0.0004*cos(2*Mdash) +
+              0.0004*cos(2*Mdash) +
              -0.0005*cos(M + Mdash);
 
   //Check to see if the eclipse is visible from the Earth's surface
-  if (fabs(details.gamma) > (1.5433 + details.u))
+  double fgamma = fabs(details.gamma);
+  if (fgamma > (1.5433 + details.u))
     return details;
 
-  //We have an eclipse at this time
-  details.bEclipse = true;
+  //We have an eclipse at this time, fill in the details
+  if (fgamma < 0.9972)
+  {
+    if (details.u < 0)
+      details.Flags = CAASolarEclipseDetails::TOTAL_ECLIPSE;
+    else if (details.u > 0.0047)
+      details.Flags = CAASolarEclipseDetails::ANNULAR_ECLIPSE;
+    else if (details.u >= 0 && details.u <= 0.0047)
+    {
+      double w = 0.00464 * sqrt(1 - (details.gamma * details.gamma));
+      if (details.u < w)
+        details.Flags = CAASolarEclipseDetails::ANNULAR_TOTAL_ECLIPSE;
+      else
+        details.Flags = CAASolarEclipseDetails::ANNULAR_ECLIPSE;
+    }
 
-  //In the case of a partial eclipse, calculate its magnitude
-  double fgamma = fabs(details.gamma);
-  if (((fgamma > 0.9972) && (fgamma < 1.5433 + details.u)))
-    details.GreatestMagnitude = (1.5433 + details.u - fgamma) / (0.5461 + 2*details.u);
+    details.Flags |= CAASolarEclipseDetails::CENTRAL_ECLIPSE;
+  }
+  else if ((fgamma > 0.9972) && (fgamma < (1.5433 + details.u)))
+  {
+    if ((fgamma > 0.9972) && (fgamma < (0.9972 + fabs(details.u))))
+    {
+      if (details.u < 0)
+        details.Flags = CAASolarEclipseDetails::TOTAL_ECLIPSE;
+      else if (details.u > 0.0047)
+        details.Flags = CAASolarEclipseDetails::ANNULAR_ECLIPSE;
+      else if (details.u >= 0 && details.u <= 0.0047)
+      {
+        double w = 0.00464 * sqrt(1 - (details.gamma * details.gamma));
+        if (details.u < w)
+          details.Flags = CAASolarEclipseDetails::ANNULAR_TOTAL_ECLIPSE;
+        else
+          details.Flags = CAASolarEclipseDetails::ANNULAR_ECLIPSE;
+      }
+    }
+    else
+    {
+      details.Flags = CAASolarEclipseDetails::PARTIAL_ECLIPSE;
+      details.GreatestMagnitude = (1.5433 + details.u - fgamma) / (0.5461 + (2*details.u));
+    }
+
+    details.Flags |= CAASolarEclipseDetails::NON_CENTRAL_ECLIPSE;
+  }
 
   return details;
 }
@@ -146,12 +186,11 @@ CAASolarEclipseDetails CAAEclipses::CalculateSolar(double k)
   double intp = 0;
   bool bSolarEclipse = (modf(k, &intp) == 0);
   assert(bSolarEclipse);
-#endif
+#endif //#ifdef _DEBUG
 
   double Mdash = 0;
   return Calculate(k, Mdash);
 }
-
 
 CAALunarEclipseDetails CAAEclipses::CalculateLunar(double k)
 {
@@ -159,14 +198,14 @@ CAALunarEclipseDetails CAAEclipses::CalculateLunar(double k)
   double intp = 0;
   bool bSolarEclipse = (modf(k, &intp) == 0);
   assert(!bSolarEclipse);
-#endif
+#endif //#ifdef _DEBUG
 
   double Mdash = 0;
   CAASolarEclipseDetails solarDetails = Calculate(k, Mdash);
 
   //What will be the return value
   CAALunarEclipseDetails details;
-  details.bEclipse = solarDetails.bEclipse;
+  details.bEclipse = solarDetails.Flags != 0;
   details.F = solarDetails.F;
   details.gamma = solarDetails.gamma;
   details.TimeOfMaximumEclipse = solarDetails.TimeOfMaximumEclipse;

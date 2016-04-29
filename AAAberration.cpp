@@ -7,8 +7,12 @@ History: PJN / 21-04-2005 1. Renamed "AAAberation.cpp" to "AAAberration.cpp" so 
                           update.
          PJN / 18-03-2012 1. All global "g_*" tables are now const. Thanks to Roger Dahl for reporting this 
                           issue when compiling AA+ on ARM.
+         PJN / 16-09-2015 1. CAAAberration::EclipticAberration, EarthVelocity and EquatorialAberration now 
+                          include a "bool bHighPrecision" parameter which if set to true means the code uses 
+                          the full  VSOP87 theory rather than the truncated theory as presented in Meeus's 
+                          book.
 
-Copyright (c) 2003 - 2015 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -30,6 +34,10 @@ to maintain a single distribution point for the source code.
 #include "AACoordinateTransformation.h"
 #include "AAEarth.h"
 #include "AASun.h"
+#ifndef AAPLUS_VSOP87_NO_HIGH_PRECISION
+#include "AAVSOP87A_EAR.h"
+#include "AAFK5.h"
+#endif //#ifndef AAPLUS_VSOP87_NO_HIGH_PRECISION
 #include <cmath>
 using namespace std;
 
@@ -104,11 +112,33 @@ const AberrationCoefficient g_AberrationCoefficients[] =
   {  0,  0,   0,  0,  0,  0,  0,  1,    -2, 0,    0,  5,        0,    0,      0,    0,     0,    -5,      0,    0,     0,    -2,     0    },
 };
 
+#ifndef UNREFERENCED_PARAMETER
+#define UNREFERENCED_PARAMETER(x) ((void)(x))
+#endif //#ifndef UNREFERENCED_PARAMETER
+
 
 //////////////////////////////// Implementation ///////////////////////////////
 
-CAA3DCoordinate CAAAberration::EarthVelocity(double JD)
+CAA3DCoordinate CAAAberration::EarthVelocity(double JD, bool bHighPrecision)
 {
+  CAA3DCoordinate velocity;
+
+#ifndef AAPLUS_VSOP87_NO_HIGH_PRECISION
+  if (bHighPrecision)
+  {
+    velocity.X = CAAVSOP87A_Earth::X_DASH(JD);
+    velocity.Y = CAAVSOP87A_Earth::Y_DASH(JD);
+    velocity.Z = CAAVSOP87A_Earth::Z_DASH(JD);
+    velocity = CAAFK5::ConvertVSOPToFK5J2000(velocity);
+    velocity.X *= 100000000;
+    velocity.Y *= 100000000;
+    velocity.Z *= 100000000;
+    return velocity;
+  }
+#else
+  UNREFERENCED_PARAMETER(bHighPrecision);
+#endif
+
   double T = (JD - 2451545) / 36525;
   double L2 = 3.1761467 + 1021.3285546 * T;
   double L3 = 1.7534703 + 628.3075849 * T;
@@ -121,8 +151,6 @@ CAA3DCoordinate CAAAberration::EarthVelocity(double JD)
   double D = 5.1984667 + 7771.3771486 * T;
   double Mdash = 2.3555559 + 8328.6914289 * T;
   double F = 1.6279052 + 8433.4661601 * T;
-
-  CAA3DCoordinate velocity;
 
   int nAberrationCoefficients = sizeof(g_AberrationCoefficients) / sizeof(AberrationCoefficient);
   for (int i=0; i<nAberrationCoefficients; i++)
@@ -146,7 +174,7 @@ CAA3DCoordinate CAAAberration::EarthVelocity(double JD)
   return velocity;
 }
 
-CAA2DCoordinate CAAAberration::EquatorialAberration(double Alpha, double Delta, double JD)
+CAA2DCoordinate CAAAberration::EquatorialAberration(double Alpha, double Delta, double JD, bool bHighPrecision)
 {
   //Convert to radians
   Alpha = CAACoordinateTransformation::DegreesToRadians(Alpha*15);
@@ -157,7 +185,7 @@ CAA2DCoordinate CAAAberration::EquatorialAberration(double Alpha, double Delta, 
   double cosDelta = cos(Delta);
   double sinDelta = sin(Delta);
 
-  CAA3DCoordinate velocity = EarthVelocity(JD);
+  CAA3DCoordinate velocity = EarthVelocity(JD, bHighPrecision);
 
   //What is the return value
   CAA2DCoordinate aberration;
@@ -168,7 +196,7 @@ CAA2DCoordinate CAAAberration::EquatorialAberration(double Alpha, double Delta, 
   return aberration;
 }
 
-CAA2DCoordinate CAAAberration::EclipticAberration(double Lambda, double Beta, double JD)
+CAA2DCoordinate CAAAberration::EclipticAberration(double Lambda, double Beta, double JD, bool bHighPrecision)
 {
   //What is the return value
   CAA2DCoordinate aberration;
@@ -178,7 +206,7 @@ CAA2DCoordinate CAAAberration::EclipticAberration(double Lambda, double Beta, do
   double e = 0.016708634 - 0.000042037*T - 0.0000001267*Tsquared;
   double pi = 102.93735 + 1.71946*T + 0.00046*Tsquared;
   double k = 20.49552;
-  double SunLongitude = CAASun::GeometricEclipticLongitude(JD);
+  double SunLongitude = CAASun::GeometricEclipticLongitude(JD, bHighPrecision);
 
   //Convert to radians
   pi = CAACoordinateTransformation::DegreesToRadians(pi);

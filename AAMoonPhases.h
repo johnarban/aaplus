@@ -3,7 +3,7 @@ Module : AAMOONPHASES.H
 Purpose: Implementation for the algorithms which obtain the dates for the phases of the Moon
 Created: PJN / 11-01-2004
 
-Copyright (c) 2004 - 2015 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2004 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -22,14 +22,14 @@ to maintain a single distribution point for the source code.
 
 #if _MSC_VER > 1000
 #pragma once
-#endif
+#endif //#if _MSC_VER > 1000
 
 #ifndef __AAMOONPHASES_H__
 #define __AAMOONPHASES_H__
 
 #ifndef AAPLUS_EXT_CLASS
 #define AAPLUS_EXT_CLASS
-#endif
+#endif //#ifndef AAPLUS_EXT_CLASS
 
 
 /////////////////////// Classes ///////////////////////////////////////////////
@@ -43,4 +43,5 @@ public:
   static double TruePhase(double k);
 };
 
-#endif //__AAMOONPHASES_H__
+
+#endif //#ifndef __AAMOONPHASES_H__

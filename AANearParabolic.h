@@ -3,7 +3,7 @@ Module : AANEARPARABOLIC.H
 Purpose: Implementation for the algorithms for a parabolic orbit
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2015 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -22,14 +22,14 @@ to maintain a single distribution point for the source code.
 
 #if _MSC_VER > 1000
 #pragma once
-#endif
+#endif //#if _MSC_VER > 1000
 
 #ifndef __AANEARPARABOLIC_H__
 #define __AANEARPARABOLIC_H__
 
 #ifndef AAPLUS_EXT_CLASS
 #define AAPLUS_EXT_CLASS
-#endif
+#endif //#ifndef AAPLUS_EXT_CLASS
 
 
 /////////////////////// Includes //////////////////////////////////////////////
@@ -103,9 +103,10 @@ class AAPLUS_EXT_CLASS CAANearParabolic
 {
 public:
 //Static methods
-  static CAANearParabolicObjectDetails Calculate(double JD, const CAANearParabolicObjectElements& elements);
+  static CAANearParabolicObjectDetails Calculate(double JD, const CAANearParabolicObjectElements& elements, bool bHighPrecision);
   static double cbrt(double x);
   static void CalulateTrueAnnomalyAndRadius(double JD, const CAANearParabolicObjectElements& elements, double& v, double& r);
 };
 
-#endif //__AANEARPARABOLIC_H__
+
+#endif //#ifndef __AANEARPARABOLIC_H__

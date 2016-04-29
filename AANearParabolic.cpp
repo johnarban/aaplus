@@ -14,8 +14,11 @@ History: PJN / 16-03-2009 1. Fixed a bug in CAANearParabolic::Calculate(double J
          PJN / 08-09-2013 1. Fixed a bug in the calculation of HeliocentricEclipticLongitude and 
                           HeliocentricEclipticLatitude in CAANearParabolic::Calculate. Thanks to Joe Novak 
                           for reporting this problem.
+         PJN / 16-09-2015 1. CAANearParabolic::Calculate now includes a "bool bHighPrecision" parameter which 
+                          if set to true means the code uses the full VSOP87 theory rather than the truncated
+                          theory as presented in Meeus's book.
 
-Copyright (c) 2006 - 2015 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2006 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -69,7 +72,7 @@ void CAANearParabolic::CalulateTrueAnnomalyAndRadius(double JD, const CAANearPar
   r = elements.q * (1 + w2) / (1 + w2 * f);
 }
 
-CAANearParabolicObjectDetails CAANearParabolic::Calculate(double JD, const CAANearParabolicObjectElements& elements)
+CAANearParabolicObjectDetails CAANearParabolic::Calculate(double JD, const CAANearParabolicObjectElements& elements, bool bHighPrecision)
 {
   double Epsilon = CAANutation::MeanObliquityOfEcliptic(elements.JDEquinox);
 
@@ -103,7 +106,7 @@ CAANearParabolicObjectDetails CAANearParabolic::Calculate(double JD, const CAANe
   double B = atan2(G, Q);
   double C = atan2(H, R);
 
-  CAA3DCoordinate SunCoord = CAASun::EquatorialRectangularCoordinatesAnyEquinox(JD, elements.JDEquinox);
+  CAA3DCoordinate SunCoord = CAASun::EquatorialRectangularCoordinatesAnyEquinox(JD, elements.JDEquinox, bHighPrecision);
 
   for (int j=0; j<2; j++)
   {

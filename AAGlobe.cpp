@@ -2,9 +2,11 @@
 Module : AAGLOBE.CPP
 Purpose: Implementation for the algorithms for the Earth's Globe
 Created: PJN / 29-12-2003
-History: None
+History: PJN / 20-03-2016 1. Fixed a transcription error in the CAAGlobe::RhoSinThetaPrime and 
+                          CAAGlobe::RhoCosThetaPrime functions. The value 6378149 was being used instead of 
+                          the correct value 6378140. Thanks to "Pavel" for reporting this bug.
 
-Copyright (c) 2003 - 2015 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -32,10 +34,11 @@ using namespace std;
 
 double CAAGlobe::RhoSinThetaPrime(double GeographicalLatitude, double Height)
 {
+  //Convert from degress to radians
   GeographicalLatitude = CAACoordinateTransformation::DegreesToRadians(GeographicalLatitude);
 
   double U = atan(0.99664719 * tan(GeographicalLatitude));
-  return 0.99664719 * sin(U) + (Height/6378149 * sin(GeographicalLatitude));
+  return 0.99664719 * sin(U) + (Height/6378140 * sin(GeographicalLatitude));
 }
 
 double CAAGlobe::RhoCosThetaPrime(double GeographicalLatitude, double Height)
@@ -44,7 +47,7 @@ double CAAGlobe::RhoCosThetaPrime(double GeographicalLatitude, double Height)
   GeographicalLatitude = CAACoordinateTransformation::DegreesToRadians(GeographicalLatitude);
 
   double U = atan(0.99664719 * tan(GeographicalLatitude));
-  return cos(U) + (Height/6378149 * cos(GeographicalLatitude));
+  return cos(U) + (Height/6378140 * cos(GeographicalLatitude));
 }
 
 double CAAGlobe::RadiusOfParallelOfLatitude(double GeographicalLatitude)

@@ -3,7 +3,7 @@ Module : AARISETRANSITSET.H
 Purpose: Implementation for the algorithms which obtain the Rise, Transit and Set times
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2015 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -22,14 +22,14 @@ to maintain a single distribution point for the source code.
 
 #if _MSC_VER > 1000
 #pragma once
-#endif
+#endif //#if _MSC_VER > 1000
 
 #ifndef __AARISETRANSITSET_H__
 #define __AARISETRANSITSET_H__
 
 #ifndef AAPLUS_EXT_CLASS
 #define AAPLUS_EXT_CLASS
-#endif
+#endif //#ifndef AAPLUS_EXT_CLASS
 
 
 /////////////////////// Classes ///////////////////////////////////////////////
@@ -50,6 +50,7 @@ public:
 //Member variables
   bool   bRiseValid;
   double Rise;
+  bool   bTransitValid;
   bool   bTransitAboveHorizon;
   double Transit;
   bool   bSetValid;
@@ -67,12 +68,13 @@ protected:
   static double CalculateTransit(double Alpha2, double theta0, double Longitude);
   static void CalculateRiseSet(double M0, double cosH0, CAARiseTransitSetDetails& details, double& M1, double& M2);
   static void CorrectRAValuesForInterpolation(double& Alpha1, double& Alpha2, double& Alpha3);
-  static void CalculateRiseHelper(const CAARiseTransitSetDetails& details, double theta0, double deltaT, double Alpha1, double Delta1, double Alpha2, double Delta2, double Alpha3, 
+  static void CalculateRiseHelper(CAARiseTransitSetDetails& details, double theta0, double deltaT, double Alpha1, double Delta1, double Alpha2, double Delta2, double Alpha3, 
                                   double Delta3, double Longitude, double Latitude, double LatitudeRad, double h0, double& M1);
-  static void CalculateSetHelper(const CAARiseTransitSetDetails& details, double theta0, double deltaT, double Alpha1, double Delta1, double Alpha2, double Delta2, double Alpha3, 
+  static void CalculateSetHelper(CAARiseTransitSetDetails& details, double theta0, double deltaT, double Alpha1, double Delta1, double Alpha2, double Delta2, double Alpha3, 
                                  double Delta3, double Longitude, double Latitude, double LatitudeRad, double h0, double& M2);
-  static void CalculateTransitHelper(double theta0, double deltaT, double Alpha1, double Alpha2, double Alpha3, double Longitude, double& M0);
+  static void CalculateTransitHelper(CAARiseTransitSetDetails& details, double theta0, double deltaT, double Alpha1, double Alpha2, double Alpha3, double Longitude, double& M0);
   static void ConstraintM(double& M);
 };
 
-#endif //__AARISETRANSITSET_H__
+
+#endif //#ifndef __AARISETRANSITSET_H__

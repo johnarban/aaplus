@@ -3,7 +3,7 @@ Module : AAMOONPERIGEEAPOGEE.H
 Purpose: Implementation for the algorithms which obtain the dates of Lunar Apogee and Perigee
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2015 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -22,14 +22,14 @@ to maintain a single distribution point for the source code.
 
 #if _MSC_VER > 1000
 #pragma once
-#endif
+#endif //#if _MSC_VER > 1000
 
 #ifndef __AAMOONPERIGEEAPOGEE_H__
 #define __AAMOONPERIGEEAPOGEE_H__
 
 #ifndef AAPLUS_EXT_CLASS
 #define AAPLUS_EXT_CLASS
-#endif
+#endif //#ifndef AAPLUS_EXT_CLASS
 
 
 /////////////////////// Classes ///////////////////////////////////////////////
@@ -47,4 +47,5 @@ public:
   static double ApogeeParallax(double k);
 };
 
-#endif //__AAMOONPERIGEEAPOGEE_H__
+
+#endif //#ifndef __AAMOONPERIGEEAPOGEE_H__

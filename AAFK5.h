@@ -3,7 +3,7 @@ Module : AAFK5.H
 Purpose: Implementation for the algorithms to convert to the FK5 standard reference frame
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2015 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -22,14 +22,14 @@ to maintain a single distribution point for the source code.
 
 #if _MSC_VER > 1000
 #pragma once
-#endif
+#endif //#if _MSC_VER > 1000
 
 #ifndef __AAFK5_H__
 #define __AAFK5_H__
 
 #ifndef AAPLUS_EXT_CLASS
 #define AAPLUS_EXT_CLASS
-#endif
+#endif //#ifndef AAPLUS_EXT_CLASS
 
 
 /////////////////////// Includes //////////////////////////////////////////////
@@ -50,4 +50,5 @@ public:
   static CAA3DCoordinate ConvertVSOPToFK5AnyEquinox(const CAA3DCoordinate& value, double JDEquinox);
 };
 
-#endif //__AAFk5_H__
+
+#endif //#ifndef __AAFK5_H__

@@ -3,7 +3,7 @@ Module : AAEQUINOXESANDSOLTICES.H
 Purpose: Implementation for the algorithms to calculate the dates of the Equinoxes and Solstices
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2015 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -22,14 +22,14 @@ to maintain a single distribution point for the source code.
 
 #if _MSC_VER > 1000
 #pragma once
-#endif
+#endif //#if _MSC_VER > 1000
 
 #ifndef __AAEQUINOXESANDSOLSTICES_H_
 #define __AAEQUINOXESANDSOLSTICES_H_
 
 #ifndef AAPLUS_EXT_CLASS
 #define AAPLUS_EXT_CLASS
-#endif
+#endif //#ifndef AAPLUS_EXT_CLASS
 
 
 /////////////////////// Classes ///////////////////////////////////////////////
@@ -38,15 +38,15 @@ class AAPLUS_EXT_CLASS CAAEquinoxesAndSolstices
 {
 public:
 //Static methods
-  static double NorthwardEquinox(long Year);
-  static double NorthernSolstice(long Year);
-  static double SouthwardEquinox(long Year);
-  static double SouthernSolstice(long Year);
-
-  static double LengthOfSpring(long Year, bool bNorthernHemisphere = true);
-  static double LengthOfSummer(long Year, bool bNorthernHemisphere = true);
-  static double LengthOfAutumn(long Year, bool bNorthernHemisphere = true);
-  static double LengthOfWinter(long Year, bool bNorthernHemisphere = true);
+  static double NorthwardEquinox(long Year, bool bHighPrecision);
+  static double NorthernSolstice(long Year, bool bHighPrecision);
+  static double SouthwardEquinox(long Year, bool bHighPrecision);
+  static double SouthernSolstice(long Year, bool bHighPrecision);
+  static double LengthOfSpring(long Year, bool bNorthernHemisphere, bool bHighPrecision);
+  static double LengthOfSummer(long Year, bool bNorthernHemisphere, bool bHighPrecision);
+  static double LengthOfAutumn(long Year, bool bNorthernHemisphere, bool bHighPrecision);
+  static double LengthOfWinter(long Year, bool bNorthernHemisphere, bool bHighPrecision);
 };
 
-#endif //__AAEQUINOXESANDSOLSTICES_H_
+
+#endif //#ifndef __AAEQUINOXESANDSOLSTICES_H_

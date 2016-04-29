@@ -5,8 +5,11 @@ Created: PJN / 09-01-2004
 History: PJN / 09-02-2004 1. Updated the values used in the calculation of the a1 and a2 constants 
                           for Rhea (satellite V) following an email from Jean Meeus confirming
                           that these constants are indeed incorrect as published in the book. 
+         PJN / 16-09-2015 1. CAASaturnMoons::Calculate now includes a "bool bHighPrecision" parameter
+                          which if set to true means the code uses the full VSOP87 theory rather than the
+                          truncated theory as presented in Meeus's book.
 
-Copyright (c) 2004 - 2015 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2004 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -66,7 +69,7 @@ void CAASaturnMoons::HelperSubroutine(double e, double lambdadash, double p, dou
   lambda = lambdadash + C + u - g - psi;
 }
 
-CAASaturnMoonsDetails CAASaturnMoons::CalculateHelper(double JD, double sunlongrad, double betarad, double R)
+CAASaturnMoonsDetails CAASaturnMoons::CalculateHelper(double JD, double sunlongrad, double betarad, double R, bool bHighPrecision)
 {
   //What will be the return value
   CAASaturnMoonsDetails details;
@@ -83,11 +86,11 @@ CAASaturnMoonsDetails CAASaturnMoons::CalculateHelper(double JD, double sunlongr
   while (bIterate)
   {
     //Calculate the position of Saturn
-    double l = CAASaturn::EclipticLongitude(JD1);
+    double l = CAASaturn::EclipticLongitude(JD1, bHighPrecision);
     double lrad = CAACoordinateTransformation::DegreesToRadians(l);
-    double b = CAASaturn::EclipticLatitude(JD1);
+    double b = CAASaturn::EclipticLatitude(JD1, bHighPrecision);
     double brad = CAACoordinateTransformation::DegreesToRadians(b);
-    double r = CAASaturn::RadiusVector(JD1);
+    double r = CAASaturn::RadiusVector(JD1, bHighPrecision);
 
     x = r*cos(brad)*cos(lrad) + R*cos(sunlongrad);
     y = r*cos(brad)*sin(lrad) + R*sin(sunlongrad);
@@ -530,14 +533,14 @@ CAASaturnMoonsDetails CAASaturnMoons::CalculateHelper(double JD, double sunlongr
   return details;
 }
 
-CAASaturnMoonsDetails CAASaturnMoons::Calculate(double JD)
+CAASaturnMoonsDetails CAASaturnMoons::Calculate(double JD, bool bHighPrecision)
 {
   //Calculate the position of the Sun
-  double sunlong = CAASun::GeometricEclipticLongitude(JD);
+  double sunlong = CAASun::GeometricEclipticLongitude(JD, bHighPrecision);
   double sunlongrad = CAACoordinateTransformation::DegreesToRadians(sunlong);
-  double beta = CAASun::GeometricEclipticLatitude(JD);
+  double beta = CAASun::GeometricEclipticLatitude(JD, bHighPrecision);
   double betarad = CAACoordinateTransformation::DegreesToRadians(beta);
-  double R = CAAEarth::RadiusVector(JD);
+  double R = CAAEarth::RadiusVector(JD, bHighPrecision);
 
   //Calculate the the light travel time from Saturn to the Earth
   double DELTA = 9;
@@ -551,11 +554,11 @@ CAASaturnMoonsDetails CAASaturnMoons::Calculate(double JD)
   while (bIterate)
   {
     //Calculate the position of Jupiter
-    double l = CAASaturn::EclipticLongitude(JD1);
+    double l = CAASaturn::EclipticLongitude(JD1, bHighPrecision);
     double lrad = CAACoordinateTransformation::DegreesToRadians(l);
-    double b = CAASaturn::EclipticLatitude(JD1);
+    double b = CAASaturn::EclipticLatitude(JD1, bHighPrecision);
     double brad = CAACoordinateTransformation::DegreesToRadians(b);
-    double r = CAASaturn::RadiusVector(JD1);
+    double r = CAASaturn::RadiusVector(JD1, bHighPrecision);
 
     x = r*cos(brad)*cos(lrad) + R*cos(sunlongrad);
     y = r*cos(brad)*sin(lrad) + R*sin(sunlongrad);
@@ -573,7 +576,7 @@ CAASaturnMoonsDetails CAASaturnMoons::Calculate(double JD)
   }
 
   //Calculate the details as seen from the earth
-  CAASaturnMoonsDetails details1 = CalculateHelper(JD, sunlongrad, betarad, R);
+  CAASaturnMoonsDetails details1 = CalculateHelper(JD, sunlongrad, betarad, R, bHighPrecision);
   FillInPhenomenaDetails(details1.Satellite1);
   FillInPhenomenaDetails(details1.Satellite2);
   FillInPhenomenaDetails(details1.Satellite3);
@@ -585,11 +588,11 @@ CAASaturnMoonsDetails CAASaturnMoons::Calculate(double JD)
 
   //Calculate the the light travel time from Saturn to the Sun
   JD1 = JD - EarthLightTravelTime;
-  double l = CAASaturn::EclipticLongitude(JD1);
+  double l = CAASaturn::EclipticLongitude(JD1, bHighPrecision);
   double lrad = CAACoordinateTransformation::DegreesToRadians(l);
-  double b = CAASaturn::EclipticLatitude(JD1);
+  double b = CAASaturn::EclipticLatitude(JD1, bHighPrecision);
   double brad = CAACoordinateTransformation::DegreesToRadians(b);
-  double r = CAASaturn::RadiusVector(JD1);
+  double r = CAASaturn::RadiusVector(JD1, bHighPrecision);
   x = r*cos(brad)*cos(lrad);
   y = r*cos(brad)*sin(lrad);
   z = r*sin(brad);
@@ -597,7 +600,7 @@ CAASaturnMoonsDetails CAASaturnMoons::Calculate(double JD)
   double SunLightTravelTime = CAAElliptical::DistanceToLightTime(DELTA);
 
   //Calculate the details as seen from the Sun
-  CAASaturnMoonsDetails details2 = CalculateHelper(JD + SunLightTravelTime - EarthLightTravelTime, sunlongrad, betarad, 0);
+  CAASaturnMoonsDetails details2 = CalculateHelper(JD + SunLightTravelTime - EarthLightTravelTime, sunlongrad, betarad, 0, bHighPrecision);
   FillInPhenomenaDetails(details2.Satellite1);
   FillInPhenomenaDetails(details2.Satellite2);
   FillInPhenomenaDetails(details2.Satellite3);

@@ -5,8 +5,12 @@ Created: PJN / 17-01-2004
 History: PJN / 19-02-2004 1. The optical libration in longitude is now returned in the range -180 - 180 degrees
          PJN / 10-05-2010 1. Minor update to CAAPhysicalMoon::CalculateTopocentric to put a value in a variable 
                           for easier debugging 
+         PJN / 30-08-2015 1. CAAPhysicalMoon::CalculateSelenographicPositionOfSun, AltitudeOfSun, TimeOfSunrise
+                          and TimeOfSunset methods now include a "bool bHighPrecision" parameter which if set 
+                          to true means the code uses the full VSOP87 theory rather than the truncated theory 
+                          as presented in Meeus's book.
 
-Copyright (c) 2004 - 2015 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2004 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -203,11 +207,11 @@ CAAPhysicalMoonDetails CAAPhysicalMoon::CalculateTopocentric(double JD, double L
   return details;
 }
 
-CAASelenographicMoonDetails CAAPhysicalMoon::CalculateSelenographicPositionOfSun(double JD)
+CAASelenographicMoonDetails CAAPhysicalMoon::CalculateSelenographicPositionOfSun(double JD, bool bHighPrecision)
 {
-  double R = CAAEarth::RadiusVector(JD)*149597970;
+  double R = CAAEarth::RadiusVector(JD, bHighPrecision)*149597970;
   double Delta = CAAMoon::RadiusVector(JD);
-  double lambda0 = CAASun::ApparentEclipticLongitude(JD);
+  double lambda0 = CAASun::ApparentEclipticLongitude(JD, bHighPrecision);
   double lambda = CAAMoon::EclipticLongitude(JD);
   double beta = CAAMoon::EclipticLatitude(JD);
 
@@ -236,10 +240,10 @@ CAASelenographicMoonDetails CAAPhysicalMoon::CalculateSelenographicPositionOfSun
   return details;
 }
 
-double CAAPhysicalMoon::AltitudeOfSun(double JD, double Longitude, double Latitude)
+double CAAPhysicalMoon::AltitudeOfSun(double JD, double Longitude, double Latitude, bool bHighPrecision)
 {
   //Calculate the selenographic details
-  CAASelenographicMoonDetails selenographicDetails = CalculateSelenographicPositionOfSun(JD);
+  CAASelenographicMoonDetails selenographicDetails = CalculateSelenographicPositionOfSun(JD, bHighPrecision);
 
   //convert to radians
   Latitude = CAACoordinateTransformation::DegreesToRadians(Latitude);
@@ -250,14 +254,14 @@ double CAAPhysicalMoon::AltitudeOfSun(double JD, double Longitude, double Latitu
   return CAACoordinateTransformation::RadiansToDegrees(asin(sin(selenographicDetails.b0)*sin(Latitude) + cos(selenographicDetails.b0)*cos(Latitude)*sin(selenographicDetails.c0 + Longitude)));
 }
 
-double CAAPhysicalMoon::SunriseSunsetHelper(double JD, double Longitude, double Latitude, bool bSunrise)
+double CAAPhysicalMoon::SunriseSunsetHelper(double JD, double Longitude, double Latitude, bool bSunrise, bool bHighPrecision)
 {
   double JDResult = JD;
   double Latituderad = CAACoordinateTransformation::DegreesToRadians(Latitude);
   double h;
   do
   {
-    h = AltitudeOfSun(JDResult, Longitude, Latitude);
+    h = AltitudeOfSun(JDResult, Longitude, Latitude, bHighPrecision);
     double DeltaJD = h/(12.19075*cos(Latituderad));
     if (bSunrise)
       JDResult -= DeltaJD;
@@ -269,12 +273,12 @@ double CAAPhysicalMoon::SunriseSunsetHelper(double JD, double Longitude, double 
   return JDResult;
 }
 
-double CAAPhysicalMoon::TimeOfSunrise(double JD, double Longitude, double Latitude)
+double CAAPhysicalMoon::TimeOfSunrise(double JD, double Longitude, double Latitude, bool bHighPrecision)
 {
-  return SunriseSunsetHelper(JD, Longitude, Latitude, true);
+  return SunriseSunsetHelper(JD, Longitude, Latitude, true, bHighPrecision);
 }
 
-double CAAPhysicalMoon::TimeOfSunset(double JD, double Longitude, double Latitude)
+double CAAPhysicalMoon::TimeOfSunset(double JD, double Longitude, double Latitude, bool bHighPrecision)
 {
-  return SunriseSunsetHelper(JD, Longitude, Latitude, false);
+  return SunriseSunsetHelper(JD, Longitude, Latitude, false, bHighPrecision);
 }

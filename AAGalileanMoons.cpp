@@ -5,8 +5,11 @@ Created: PJN / 06-01-2004
 History: PJN / 08-05-2011 1. Fixed a bug in CAAGalileanMoons::CalculateHelper where the periodic terms in longitude for
                           the four satellites (Sigma1 to Sigma4) were not being converted to radians prior to some
                           trigonometric calculations. Thanks to Thomas Meyer for reporting this bug.
+         PJN / 16-09-2015 1. CAAGalileanMoons::Calculate now includes a "bool bHighPrecision" parameter which if set to 
+                          true means the code uses the full VSOP87 theory rather than the truncated theory as 
+                          presented in Meeus's book.
 
-Copyright (c) 2003 - 2015 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -37,7 +40,7 @@ using namespace std;
 
 //////////////////////////////// Implementation ///////////////////////////////
 
-CAAGalileanMoonsDetails CAAGalileanMoons::CalculateHelper(double JD, double sunlongrad, double betarad, double R)
+CAAGalileanMoonsDetails CAAGalileanMoons::CalculateHelper(double JD, double sunlongrad, double betarad, double R, bool bHighPrecision)
 {
   //What will be the return value
   CAAGalileanMoonsDetails details;
@@ -59,11 +62,11 @@ CAAGalileanMoonsDetails CAAGalileanMoons::CalculateHelper(double JD, double sunl
   while (bIterate)
   {
     //Calculate the position of Jupiter
-    l = CAAJupiter::EclipticLongitude(JD1);
+    l = CAAJupiter::EclipticLongitude(JD1, bHighPrecision);
     lrad = CAACoordinateTransformation::DegreesToRadians(l);
-    b = CAAJupiter::EclipticLatitude(JD1);
+    b = CAAJupiter::EclipticLatitude(JD1, bHighPrecision);
     brad = CAACoordinateTransformation::DegreesToRadians(b);
-    r = CAAJupiter::RadiusVector(JD1);
+    r = CAAJupiter::RadiusVector(JD1, bHighPrecision);
 
     x = r*cos(brad)*cos(lrad) + R*cos(sunlongrad);
     y = r*cos(brad)*sin(lrad) + R*sin(sunlongrad);
@@ -508,14 +511,14 @@ CAAGalileanMoonsDetails CAAGalileanMoons::CalculateHelper(double JD, double sunl
   return details;
 }
 
-CAAGalileanMoonsDetails CAAGalileanMoons::Calculate(double JD)
+CAAGalileanMoonsDetails CAAGalileanMoons::Calculate(double JD, bool bHighPrecision)
 {
   //Calculate the position of the Sun
-  double sunlong = CAASun::GeometricEclipticLongitude(JD);
+  double sunlong = CAASun::GeometricEclipticLongitude(JD, bHighPrecision);
   double sunlongrad = CAACoordinateTransformation::DegreesToRadians(sunlong);
-  double beta = CAASun::GeometricEclipticLatitude(JD);
+  double beta = CAASun::GeometricEclipticLatitude(JD, bHighPrecision);
   double betarad = CAACoordinateTransformation::DegreesToRadians(beta);
-  double R = CAAEarth::RadiusVector(JD);
+  double R = CAAEarth::RadiusVector(JD, bHighPrecision);
 
   //Calculate the the light travel time from Jupiter to the Earth
   double DELTA = 5;
@@ -529,11 +532,11 @@ CAAGalileanMoonsDetails CAAGalileanMoons::Calculate(double JD)
   while (bIterate)
   {
     //Calculate the position of Jupiter
-    double l = CAAJupiter::EclipticLongitude(JD1);
+    double l = CAAJupiter::EclipticLongitude(JD1, bHighPrecision);
     double lrad = CAACoordinateTransformation::DegreesToRadians(l);
-    double b = CAAJupiter::EclipticLatitude(JD1);
+    double b = CAAJupiter::EclipticLatitude(JD1, bHighPrecision);
     double brad = CAACoordinateTransformation::DegreesToRadians(b);
-    double r = CAAJupiter::RadiusVector(JD1);
+    double r = CAAJupiter::RadiusVector(JD1, bHighPrecision);
 
     x = r*cos(brad)*cos(lrad) + R*cos(sunlongrad);
     y = r*cos(brad)*sin(lrad) + R*sin(sunlongrad);
@@ -551,7 +554,7 @@ CAAGalileanMoonsDetails CAAGalileanMoons::Calculate(double JD)
   }
 
   //Calculate the details as seen from the earth
-  CAAGalileanMoonsDetails details1 = CalculateHelper(JD, sunlongrad, betarad, R);
+  CAAGalileanMoonsDetails details1 = CalculateHelper(JD, sunlongrad, betarad, R, bHighPrecision);
   FillInPhenomenaDetails(details1.Satellite1);
   FillInPhenomenaDetails(details1.Satellite2);
   FillInPhenomenaDetails(details1.Satellite3);
@@ -559,11 +562,11 @@ CAAGalileanMoonsDetails CAAGalileanMoons::Calculate(double JD)
 
   //Calculate the the light travel time from Jupiter to the Sun
   JD1 = JD - EarthLightTravelTime;
-  double l = CAAJupiter::EclipticLongitude(JD1);
+  double l = CAAJupiter::EclipticLongitude(JD1, bHighPrecision);
   double lrad = CAACoordinateTransformation::DegreesToRadians(l);
-  double b = CAAJupiter::EclipticLatitude(JD1);
+  double b = CAAJupiter::EclipticLatitude(JD1, bHighPrecision);
   double brad = CAACoordinateTransformation::DegreesToRadians(b);
-  double r = CAAJupiter::RadiusVector(JD1);
+  double r = CAAJupiter::RadiusVector(JD1, bHighPrecision);
   x = r*cos(brad)*cos(lrad);
   y = r*cos(brad)*sin(lrad);
   z = r*sin(brad);
@@ -571,7 +574,7 @@ CAAGalileanMoonsDetails CAAGalileanMoons::Calculate(double JD)
   double SunLightTravelTime = CAAElliptical::DistanceToLightTime(DELTA);
 
   //Calculate the details as seen from the Sun
-  CAAGalileanMoonsDetails details2 = CalculateHelper(JD + SunLightTravelTime - EarthLightTravelTime, sunlongrad, betarad, 0);
+  CAAGalileanMoonsDetails details2 = CalculateHelper(JD + SunLightTravelTime - EarthLightTravelTime, sunlongrad, betarad, 0, bHighPrecision);
   FillInPhenomenaDetails(details2.Satellite1);
   FillInPhenomenaDetails(details2.Satellite2);
   FillInPhenomenaDetails(details2.Satellite3);

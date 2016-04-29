@@ -2,9 +2,14 @@
 Module : AAMOONNODES.CPP
 Purpose: Implementation for the algorithms which obtain the dates when the Moon passes thro its nodes
 Created: PJN / 29-12-2003
-History: None
+History: PJN / 28-03-2016 1. Fixed two transcription errors in CAAMoonNodes::PassageThroNode. The first 
+                          error was the calculation of the D4 local variable which represented 4D in 
+                          Meeus's formulae while the second error was in the -E*0.0003*sin(2D - 2M) 
+                          coefficient. With these two fixes the calculated time of Example 51.a from
+                          Meeus's book is within 2 seconds of the value he reports. Thanks to Alejandro 
+                          Krohn for prompting this bug fix.
 
-Copyright (c) 2003 - 2015 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -54,7 +59,7 @@ double CAAMoonNodes::PassageThroNode(double k)
   //convert to radians
   D = CAACoordinateTransformation::DegreesToRadians(D);
   double D2 = 2*D;
-  double D4 = D2*D2;
+  double D4 = D2*2;
   M = CAACoordinateTransformation::DegreesToRadians(M);
   Mdash = CAACoordinateTransformation::DegreesToRadians(Mdash);
   double Mdash2 = 2*Mdash;
@@ -84,7 +89,7 @@ double CAAMoonNodes::PassageThroNode(double k)
               + 0.0014*sin(D4 - Mdash) 
               + E*0.0005*sin(D2 + M - Mdash) 
               + E*0.0004*sin(D2 - M + Mdash) 
-              - E*0.0003*sin(D2 - M*M) 
+              - E*0.0003*sin(D2 - 2*M)
               + E*0.0003*sin(D4 - M) 
               + 0.0003*sin(V) 
               + 0.0003*sin(P);

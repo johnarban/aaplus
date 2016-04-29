@@ -43,8 +43,11 @@ History: PJN / 24-05-2004 1. Fixed a missing break statement in CAAElliptical::C
                           optimize the code in this method. With these changes the errors are now down to 0.5 
                           seconds of an angle in declination and right ascension. Thanks to Marko Peric for 
                           reporting this bug.
+         PJN / 16-09-2015 1. CAAElliptical::Calculate now includes a "bool bHighPrecision" parameter which if 
+                          set to true means the code uses the full VSOP87 theory rather than the truncated 
+                          theory as presented in Meeus's book.
 
-Copyright (c) 2003 - 2015 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -90,16 +93,16 @@ double CAAElliptical::DistanceToLightTime(double Distance)
   return Distance * 0.0057755183;
 }
 
-CAAEllipticalPlanetaryDetails CAAElliptical::Calculate(double JD, EllipticalObject object)
+CAAEllipticalPlanetaryDetails CAAElliptical::Calculate(double JD, EllipticalObject object, bool bHighPrecision)
 {
   //What will be the return value
   CAAEllipticalPlanetaryDetails details;
 
   //Calculate the position of the earth first
   double JD0 = JD;
-  double L0 = CAAEarth::EclipticLongitude(JD0);
-  double B0 = CAAEarth::EclipticLatitude(JD0);
-  double R0 = CAAEarth::RadiusVector(JD0);
+  double L0 = CAAEarth::EclipticLongitude(JD0, bHighPrecision);
+  double B0 = CAAEarth::EclipticLatitude(JD0, bHighPrecision);
+  double R0 = CAAEarth::RadiusVector(JD0, bHighPrecision);
   L0 = CAACoordinateTransformation::DegreesToRadians(L0);
   B0 = CAACoordinateTransformation::DegreesToRadians(B0);
   double cosB0 = cos(B0);
@@ -121,51 +124,51 @@ CAAEllipticalPlanetaryDetails CAAElliptical::Calculate(double JD, EllipticalObje
       {
         case MERCURY:
         {
-          L = CAAMercury::EclipticLongitude(JD0);
-          B = CAAMercury::EclipticLatitude(JD0);
-          R = CAAMercury::RadiusVector(JD0);
+          L = CAAMercury::EclipticLongitude(JD0, bHighPrecision);
+          B = CAAMercury::EclipticLatitude(JD0, bHighPrecision);
+          R = CAAMercury::RadiusVector(JD0, bHighPrecision);
           break;
         }
         case VENUS:
         {
-          L = CAAVenus::EclipticLongitude(JD0);
-          B = CAAVenus::EclipticLatitude(JD0);
-          R = CAAVenus::RadiusVector(JD0);
+          L = CAAVenus::EclipticLongitude(JD0, bHighPrecision);
+          B = CAAVenus::EclipticLatitude(JD0, bHighPrecision);
+          R = CAAVenus::RadiusVector(JD0, bHighPrecision);
           break;
         }
         case MARS:
         {
-          L = CAAMars::EclipticLongitude(JD0);
-          B = CAAMars::EclipticLatitude(JD0);
-          R = CAAMars::RadiusVector(JD0);
+          L = CAAMars::EclipticLongitude(JD0, bHighPrecision);
+          B = CAAMars::EclipticLatitude(JD0, bHighPrecision);
+          R = CAAMars::RadiusVector(JD0, bHighPrecision);
           break;
         }
         case JUPITER:
         {
-          L = CAAJupiter::EclipticLongitude(JD0);
-          B = CAAJupiter::EclipticLatitude(JD0);
-          R = CAAJupiter::RadiusVector(JD0);
+          L = CAAJupiter::EclipticLongitude(JD0, bHighPrecision);
+          B = CAAJupiter::EclipticLatitude(JD0, bHighPrecision);
+          R = CAAJupiter::RadiusVector(JD0, bHighPrecision);
           break;
         }
         case SATURN:
         {
-          L = CAASaturn::EclipticLongitude(JD0);
-          B = CAASaturn::EclipticLatitude(JD0);
-          R = CAASaturn::RadiusVector(JD0);
+          L = CAASaturn::EclipticLongitude(JD0, bHighPrecision);
+          B = CAASaturn::EclipticLatitude(JD0, bHighPrecision);
+          R = CAASaturn::RadiusVector(JD0, bHighPrecision);
           break;
         }
         case URANUS:
         {
-          L = CAAUranus::EclipticLongitude(JD0);
-          B = CAAUranus::EclipticLatitude(JD0);
-          R = CAAUranus::RadiusVector(JD0);
+          L = CAAUranus::EclipticLongitude(JD0, bHighPrecision);
+          B = CAAUranus::EclipticLatitude(JD0, bHighPrecision);
+          R = CAAUranus::RadiusVector(JD0, bHighPrecision);
           break;
         }
         case NEPTUNE:
         {
-          L = CAANeptune::EclipticLongitude(JD0);
-          B = CAANeptune::EclipticLatitude(JD0);
-          R = CAANeptune::RadiusVector(JD0);
+          L = CAANeptune::EclipticLongitude(JD0, bHighPrecision);
+          B = CAANeptune::EclipticLatitude(JD0, bHighPrecision);
+          R = CAANeptune::RadiusVector(JD0, bHighPrecision);
           break;
         }
         case PLUTO:
@@ -239,7 +242,7 @@ CAAEllipticalPlanetaryDetails CAAElliptical::Calculate(double JD, EllipticalObje
   details.ApparentLightTime = CAAElliptical::DistanceToLightTime(details.ApparentGeocentricDistance);
 
   //Adjust for Aberration
-  CAA2DCoordinate Aberration = CAAAberration::EclipticAberration(details.ApparentGeocentricLongitude, details.ApparentGeocentricLatitude, JD);
+  CAA2DCoordinate Aberration = CAAAberration::EclipticAberration(details.ApparentGeocentricLongitude, details.ApparentGeocentricLatitude, JD, bHighPrecision);
   details.ApparentGeocentricLongitude += Aberration.X;
   details.ApparentGeocentricLatitude += Aberration.Y;
 
@@ -271,7 +274,7 @@ double CAAElliptical::MeanMotionFromSemiMajorAxis(double a)
   return 0.9856076686 / (a * sqrt(a));
 }
 
-CAAEllipticalObjectDetails CAAElliptical::Calculate(double JD, const CAAEllipticalObjectElements& elements)
+CAAEllipticalObjectDetails CAAElliptical::Calculate(double JD, const CAAEllipticalObjectElements& elements, bool bHighPrecision)
 {
   double Epsilon = CAANutation::MeanObliquityOfEcliptic(elements.JDEquinox);
 
@@ -306,7 +309,7 @@ CAAEllipticalObjectDetails CAAElliptical::Calculate(double JD, const CAAElliptic
   double C = atan2(H, R);
   double n = CAAElliptical::MeanMotionFromSemiMajorAxis(elements.a);
 
-  CAA3DCoordinate SunCoord = CAASun::EquatorialRectangularCoordinatesAnyEquinox(JD, elements.JDEquinox);
+  CAA3DCoordinate SunCoord = CAASun::EquatorialRectangularCoordinatesAnyEquinox(JD, elements.JDEquinox, bHighPrecision);
 
   for (int j=0; j<2; j++)
   {

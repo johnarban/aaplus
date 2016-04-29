@@ -5,8 +5,11 @@ Created: PJN / 29-12-2003
 History: PJN / 05-07-2005 1. Fix for a bug to ensure that values returned from CAAEquationOfTime::Calculate
                           does not return discontinuities. Instead it now returns negative values when
                           required.
+         PJN / 16-09-2015 1. CAAEquationOfTime::Calculate now includes a "bool bHighPrecision" parameter
+                          which if set to true means the code uses the full VSOP87 theory rather than the
+                          truncated theory as presented in Meeus's book.
 
-Copyright (c) 2003 - 2015 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -35,7 +38,7 @@ using namespace std;
 
 ///////////////////////// Implementation //////////////////////////////////////
 
-double CAAEquationOfTime::Calculate(double JD)
+double CAAEquationOfTime::Calculate(double JD, bool bHighPrecision)
 {
   double rho = (JD - 2451545) / 365250;
   double rhosquared = rho*rho;
@@ -48,8 +51,8 @@ double CAAEquationOfTime::Calculate(double JD)
                                                             rhocubed / 49931 - rho4 / 15300 - rho5 / 2000000);
 
   //Calculate the Suns apparent right ascension
-  double SunLong = CAASun::ApparentEclipticLongitude(JD);
-  double SunLat = CAASun::ApparentEclipticLatitude(JD);
+  double SunLong = CAASun::ApparentEclipticLongitude(JD, bHighPrecision);
+  double SunLat = CAASun::ApparentEclipticLatitude(JD, bHighPrecision);
   double epsilon = CAANutation::TrueObliquityOfEcliptic(JD);
   CAA2DCoordinate Equatorial = CAACoordinateTransformation::Ecliptic2Equatorial(SunLong, SunLat, epsilon);
 

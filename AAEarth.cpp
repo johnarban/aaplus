@@ -16,8 +16,12 @@ History: PJN / 03-10-2009 1. Fixed a copy and paste gremlin in the CAAEarth::Ecl
                           3. Spot tests indicate that these two changes only affected the the ecliptic longitude in the 
                           eight decimal place.
                           4. Updated copyright details
+         PJN / 16-09-2015 1. CAAEarth::EclipticLongitude, EclipticLatitude, RadiusVector, EclipticLongitudeJ2000 & 
+                          EclipticLatitudeJ2000 now include a "bool bHighPrecision" parameter which if set to true means 
+                          the code uses the full VSOP87 theory rather than the truncated theory as presented in Meeus's 
+                          book.
 
-Copyright (c) 2003 - 2015 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -37,6 +41,10 @@ to maintain a single distribution point for the source code.
 #include "stdafx.h"
 #include "AAEarth.h"
 #include "AACoordinateTransformation.h"
+#ifndef AAPLUS_VSOP87_NO_HIGH_PRECISION
+#include "AAVSOP87D_EAR.h"
+#include "AAVSOP87B_EAR.h"
+#endif //#ifndef AAPLUS_VSOP87_NO_HIGH_PRECISION
 #include <cmath>
 using namespace std;
 
@@ -408,11 +416,22 @@ const VSOP87Coefficient g_B4EarthCoefficientsJ2000[] =
   { 1,  0,    0 }
 };
 
+#ifndef UNREFERENCED_PARAMETER
+#define UNREFERENCED_PARAMETER(x) ((void)(x))
+#endif //#ifndef UNREFERENCED_PARAMETER
+
 
 //////////////////////////////// Implementation ///////////////////////////////
 
-double CAAEarth::EclipticLongitude(double JD)
+double CAAEarth::EclipticLongitude(double JD, bool bHighPrecision)
 {
+#ifndef AAPLUS_VSOP87_NO_HIGH_PRECISION
+  if (bHighPrecision)
+    return CAACoordinateTransformation::MapTo0To360Range(CAACoordinateTransformation::RadiansToDegrees(CAAVSOP87D_Earth::L(JD)));
+#else
+  UNREFERENCED_PARAMETER(bHighPrecision);
+#endif //#ifndef AAPLUS_VSOP87_NO_HIGH_PRECISION
+
   double rho = (JD - 2451545) / 365250;
   double rhosquared = rho*rho;
   double rhocubed = rhosquared*rho;
@@ -463,8 +482,15 @@ double CAAEarth::EclipticLongitude(double JD)
   return value;
 }
 
-double CAAEarth::EclipticLatitude(double JD)
+double CAAEarth::EclipticLatitude(double JD, bool bHighPrecision)
 {
+#ifndef AAPLUS_VSOP87_NO_HIGH_PRECISION
+  if (bHighPrecision)
+    return CAACoordinateTransformation::MapToMinus90To90Range(CAACoordinateTransformation::RadiansToDegrees(CAAVSOP87D_Earth::B(JD)));
+#else
+  UNREFERENCED_PARAMETER(bHighPrecision);
+#endif //#ifndef AAPLUS_VSOP87_NO_HIGH_PRECISION
+
   double rho = (JD - 2451545) / 365250;
 
   //Calculate B0
@@ -485,12 +511,19 @@ double CAAEarth::EclipticLatitude(double JD)
   double value = (B0 + B1*rho) / 100000000;
 
   //convert results back to degrees
-  value = CAACoordinateTransformation::RadiansToDegrees(value);
+  value = CAACoordinateTransformation::MapToMinus90To90Range(CAACoordinateTransformation::RadiansToDegrees(value));
   return value;
 }
 
-double CAAEarth::RadiusVector(double JD)
+double CAAEarth::RadiusVector(double JD, bool bHighPrecision)
 {
+#ifndef AAPLUS_VSOP87_NO_HIGH_PRECISION
+  if (bHighPrecision)
+    return CAAVSOP87D_Earth::R(JD);
+#else
+  UNREFERENCED_PARAMETER(bHighPrecision);
+#endif //#ifndef AAPLUS_VSOP87_NO_HIGH_PRECISION
+
   double rho = (JD - 2451545) / 365250;
   double rhosquared = rho*rho;
   double rhocubed = rhosquared*rho;
@@ -531,8 +564,15 @@ double CAAEarth::RadiusVector(double JD)
 }
 
 
-double CAAEarth::EclipticLongitudeJ2000(double JD)
+double CAAEarth::EclipticLongitudeJ2000(double JD, bool bHighPrecision)
 {
+#ifndef AAPLUS_VSOP87_NO_HIGH_PRECISION
+  if (bHighPrecision)
+    return CAACoordinateTransformation::MapTo0To360Range(CAACoordinateTransformation::RadiansToDegrees(CAAVSOP87B_Earth::L(JD)));
+#else
+  UNREFERENCED_PARAMETER(bHighPrecision);
+#endif //#ifndef AAPLUS_VSOP87_NO_HIGH_PRECISION
+
   double rho = (JD - 2451545) / 365250;
   double rhosquared = rho*rho;
   double rhocubed = rhosquared*rho;
@@ -576,8 +616,15 @@ double CAAEarth::EclipticLongitudeJ2000(double JD)
   return value;
 }
 
-double CAAEarth::EclipticLatitudeJ2000(double JD)
+double CAAEarth::EclipticLatitudeJ2000(double JD, bool bHighPrecision)
 {
+#ifndef AAPLUS_VSOP87_NO_HIGH_PRECISION
+  if (bHighPrecision)
+    return CAACoordinateTransformation::MapToMinus90To90Range(CAACoordinateTransformation::RadiansToDegrees(CAAVSOP87B_Earth::B(JD)));
+#else
+  UNREFERENCED_PARAMETER(bHighPrecision);
+#endif //#ifndef AAPLUS_VSOP87_NO_HIGH_PRECISION
+
   double rho = (JD - 2451545) / 365250;
   double rhosquared = rho*rho;
   double rhocubed = rhosquared*rho;
@@ -617,7 +664,7 @@ double CAAEarth::EclipticLatitudeJ2000(double JD)
   double value = (B0 + B1*rho + B2*rhosquared + B3*rhocubed + B4*rho4) / 100000000;
 
   //convert results back to degrees
-  value = CAACoordinateTransformation::RadiansToDegrees(value);
+  value = CAACoordinateTransformation::MapToMinus90To90Range(CAACoordinateTransformation::RadiansToDegrees(value));
   return value;
 }
 

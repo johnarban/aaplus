@@ -3,7 +3,7 @@ Module : AAANGULARSEPARATION.H
 Purpose: Implementation for the algorithms which obtain various separation distances between celestial objects
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2015 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -22,14 +22,14 @@ to maintain a single distribution point for the source code.
 
 #if _MSC_VER > 1000
 #pragma once
-#endif
+#endif //#if _MSC_VER > 1000
 
 #ifndef __AAANGULARSEPARATION_H__
 #define __AAANGULARSEPARATION_H__
 
 #ifndef AAPLUS_EXT_CLASS
 #define AAPLUS_EXT_CLASS
-#endif
+#endif //#ifndef AAPLUS_EXT_CLASS
 
 
 ////////////////////// Classes ////////////////////////////////////////////////
@@ -44,4 +44,5 @@ public:
   static double SmallestCircle(double Alpha1, double Delta1, double Alpha2, double Delta2, double Alpha3, double Delta3, bool& bType1);
 };
 
-#endif //__AAANGULARSEPARATION_H__
+
+#endif //#ifndef __AAANGULARSEPARATION_H__

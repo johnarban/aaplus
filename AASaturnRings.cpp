@@ -12,8 +12,11 @@ History: PJN / 05-07-2015 1. U1 (the Saturnicentric longitude of the Sun) and U2
                           than 180 degrees. The bug occurred between the dates of June 3rd 2024 and July 28th 
                           2024 and December 1st 2024 and February 12 2025. Thanks to Frank Vergeest for 
                           reporting this bug.
+         PJN / 16-09-2015 1. CAASaturnRings::Calculate now includes a "bool bHighPrecision" parameter
+                          which if set to true means the code uses the full VSOP87 theory rather than the
+                          truncated theory as presented in Meeus's book. 
 
-Copyright (c) 2004 - 2015 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2004 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -44,7 +47,7 @@ using namespace std;
 
 //////////////////////////////// Implementation ///////////////////////////////
 
-CAASaturnRingDetails CAASaturnRings::Calculate(double JD)
+CAASaturnRingDetails CAASaturnRings::Calculate(double JD, bool bHighPrecision)
 {
   //What will be the return value
   CAASaturnRingDetails details;
@@ -59,13 +62,13 @@ CAASaturnRingDetails CAASaturnRings::Calculate(double JD)
   double omegarad = CAACoordinateTransformation::DegreesToRadians(omega);
 
   //Step 2. Calculate the heliocentric longitude, latitude and radius vector of the Earth in the FK5 system
-  double l0 = CAAEarth::EclipticLongitude(JD);
-  double b0 = CAAEarth::EclipticLatitude(JD);
+  double l0 = CAAEarth::EclipticLongitude(JD, bHighPrecision);
+  double b0 = CAAEarth::EclipticLatitude(JD, bHighPrecision);
   l0 += CAAFK5::CorrectionInLongitude(l0, b0, JD);
   double l0rad = CAACoordinateTransformation::DegreesToRadians(l0);
   b0 += CAAFK5::CorrectionInLatitude(l0, JD);
   double b0rad = CAACoordinateTransformation::DegreesToRadians(b0);
-  double R = CAAEarth::RadiusVector(JD);
+  double R = CAAEarth::RadiusVector(JD, bHighPrecision);
 
   //Step 3. Calculate the corresponding coordinates l,b,r for Saturn but for the instance t-lightraveltime
   double DELTA = 9;
@@ -82,14 +85,14 @@ CAASaturnRingDetails CAASaturnRings::Calculate(double JD)
   while (bIterate)
   {
     //Calculate the position of Saturn
-    l = CAASaturn::EclipticLongitude(JD1);
-    b = CAASaturn::EclipticLatitude(JD1);
+    l = CAASaturn::EclipticLongitude(JD1, bHighPrecision);
+    b = CAASaturn::EclipticLatitude(JD1, bHighPrecision);
     l += CAAFK5::CorrectionInLongitude(l, b, JD1);
     b += CAAFK5::CorrectionInLatitude(l, JD1);
 
     double lrad = CAACoordinateTransformation::DegreesToRadians(l);
     double brad = CAACoordinateTransformation::DegreesToRadians(b);
-    r = CAASaturn::RadiusVector(JD1);
+    r = CAASaturn::RadiusVector(JD1, bHighPrecision);
 
     //Step 4
     x = r*cos(brad)*cos(lrad) - R*cos(l0rad);

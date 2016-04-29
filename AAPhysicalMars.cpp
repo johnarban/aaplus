@@ -2,9 +2,12 @@
 Module : AAPHYSICALMARS.CPP
 Purpose: Implementation for the algorithms which obtain the physical parameters of Mars
 Created: PJN / 04-01-2004
-History: None
+History: PJN / 16-09-2015 1. CAAPhysicalMars::Calculate now includes a "bool bHighPrecision" parameter
+                          which if set to true means the code uses the full VSOP87 theory rather than the
+                          truncated theory as presented in Meeus's book. 
 
-Copyright (c) 2003 - 2015 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+
+Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -37,7 +40,7 @@ using namespace std;
 
 //////////////////////////////// Implementation ///////////////////////////////
 
-CAAPhysicalMarsDetails CAAPhysicalMars::Calculate(double JD)
+CAAPhysicalMarsDetails CAAPhysicalMars::Calculate(double JD, bool bHighPrecision)
 {
   //What will be the return value
   CAAPhysicalMarsDetails details;
@@ -50,11 +53,11 @@ CAAPhysicalMarsDetails CAAPhysicalMars::Calculate(double JD)
   double Beta0rad = CAACoordinateTransformation::DegreesToRadians(Beta0);
 
   //Step 2
-  double l0 = CAAEarth::EclipticLongitude(JD);
+  double l0 = CAAEarth::EclipticLongitude(JD, bHighPrecision);
   double l0rad = CAACoordinateTransformation::DegreesToRadians(l0);
-  double b0 = CAAEarth::EclipticLatitude(JD);
+  double b0 = CAAEarth::EclipticLatitude(JD, bHighPrecision);
   double b0rad = CAACoordinateTransformation::DegreesToRadians(b0);
-  double R = CAAEarth::RadiusVector(JD);
+  double R = CAAEarth::RadiusVector(JD, bHighPrecision);
 
   double PreviousLightTravelTime = 0;
   double LightTravelTime = 0;
@@ -72,11 +75,11 @@ CAAPhysicalMarsDetails CAAPhysicalMars::Calculate(double JD)
     double JD2 = JD - LightTravelTime;
 
     //Step 3
-    l = CAAMars::EclipticLongitude(JD2);
+    l = CAAMars::EclipticLongitude(JD2, bHighPrecision);
     lrad = CAACoordinateTransformation::DegreesToRadians(l);
-    b = CAAMars::EclipticLatitude(JD2);
+    b = CAAMars::EclipticLatitude(JD2, bHighPrecision);
     double brad = CAACoordinateTransformation::DegreesToRadians(b);
-    r = CAAMars::RadiusVector(JD2);
+    r = CAAMars::RadiusVector(JD2, bHighPrecision);
 
     //Step 4
     x = r*cos(brad)*cos(lrad) - R*cos(l0rad);
@@ -159,8 +162,8 @@ CAAPhysicalMarsDetails CAAPhysicalMars::Calculate(double JD)
   details.P = CAACoordinateTransformation::MapTo0To360Range(CAACoordinateTransformation::RadiansToDegrees(atan2(cos(delta0dash)*sin(alpha0dash - alphadash), sin(delta0dash)*cos(deltadash) - cos(delta0dash)*sin(deltadash)*cos(alpha0dash - alphadash))));
 
   //Step 18
-  double SunLambda = CAASun::GeometricEclipticLongitude(JD);
-  double SunBeta = CAASun::GeometricEclipticLatitude(JD);
+  double SunLambda = CAASun::GeometricEclipticLongitude(JD, bHighPrecision);
+  double SunBeta = CAASun::GeometricEclipticLatitude(JD, bHighPrecision);
   CAA2DCoordinate SunEquatorial = CAACoordinateTransformation::Ecliptic2Equatorial(SunLambda, SunBeta, e0);
   details.X = CAAMoonIlluminatedFraction::PositionAngle(SunEquatorial.X, SunEquatorial.Y, alpha, delta);
 

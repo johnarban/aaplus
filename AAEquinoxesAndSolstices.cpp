@@ -22,8 +22,11 @@ History: PJN / 28-10-2013 1. Renamed the method SpringEquinox to NorthwardEquino
                           8. The method LengthOfWinter now takes a boolean to indicate which hemisphere the observer
                           is located it as previously the code assumed a northern hemisphere bias. Thanks to Marius 
                           Gleeson for prompting this update.
+         PJN / 30-08-2015 1. All the methods in CAAEquinoxesAndSolstices now include a "bool bHighPrecision" parameter
+                          which if set to true means the code uses the full VSOP87 theory rather than the truncated 
+                          theory as presented in Meeus's book.
 
-Copyright (c) 2003 - 2015 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -50,7 +53,7 @@ using namespace std;
 
 //////////////////////////////// Implementation ///////////////////////////////
 
-double CAAEquinoxesAndSolstices::NorthwardEquinox(long Year)
+double CAAEquinoxesAndSolstices::NorthwardEquinox(long Year, bool bHighPrecision)
 {
   //calculate the approximate date
   double JDE;
@@ -74,7 +77,7 @@ double CAAEquinoxesAndSolstices::NorthwardEquinox(long Year)
   double Correction;
   do
   {
-    double SunLongitude = CAASun::ApparentEclipticLongitude(JDE);
+    double SunLongitude = CAASun::ApparentEclipticLongitude(JDE, bHighPrecision);
     Correction = 58 * sin(CAACoordinateTransformation::DegreesToRadians(-SunLongitude));  
     JDE += Correction;
   }
@@ -83,7 +86,7 @@ double CAAEquinoxesAndSolstices::NorthwardEquinox(long Year)
   return JDE;
 }
 
-double CAAEquinoxesAndSolstices::NorthernSolstice(long Year)
+double CAAEquinoxesAndSolstices::NorthernSolstice(long Year, bool bHighPrecision)
 {
   //calculate the approximate date
   double JDE;
@@ -107,7 +110,7 @@ double CAAEquinoxesAndSolstices::NorthernSolstice(long Year)
   double Correction;
   do
   {
-    double SunLongitude = CAASun::ApparentEclipticLongitude(JDE);
+    double SunLongitude = CAASun::ApparentEclipticLongitude(JDE, bHighPrecision);
     Correction = 58 * sin(CAACoordinateTransformation::DegreesToRadians(90 - SunLongitude));  
     JDE += Correction;
   }
@@ -116,7 +119,7 @@ double CAAEquinoxesAndSolstices::NorthernSolstice(long Year)
   return JDE;
 }
 
-double CAAEquinoxesAndSolstices::SouthwardEquinox(long Year)
+double CAAEquinoxesAndSolstices::SouthwardEquinox(long Year, bool bHighPrecision)
 {
   //calculate the approximate date
   double JDE;
@@ -140,7 +143,7 @@ double CAAEquinoxesAndSolstices::SouthwardEquinox(long Year)
   double Correction;
   do
   {
-    double SunLongitude = CAASun::ApparentEclipticLongitude(JDE);
+    double SunLongitude = CAASun::ApparentEclipticLongitude(JDE, bHighPrecision);
     Correction = 58 * sin(CAACoordinateTransformation::DegreesToRadians(180 - SunLongitude));  
     JDE += Correction;
   }
@@ -149,7 +152,7 @@ double CAAEquinoxesAndSolstices::SouthwardEquinox(long Year)
   return JDE;
 }
 
-double CAAEquinoxesAndSolstices::SouthernSolstice(long Year)
+double CAAEquinoxesAndSolstices::SouthernSolstice(long Year, bool bHighPrecision)
 {
   //calculate the approximate date
   double JDE;
@@ -173,7 +176,7 @@ double CAAEquinoxesAndSolstices::SouthernSolstice(long Year)
   double Correction;
   do
   {
-    double SunLongitude = CAASun::ApparentEclipticLongitude(JDE);
+    double SunLongitude = CAASun::ApparentEclipticLongitude(JDE, bHighPrecision);
     Correction = 58 * sin(CAACoordinateTransformation::DegreesToRadians(270 - SunLongitude));  
     JDE += Correction;
   }
@@ -182,40 +185,40 @@ double CAAEquinoxesAndSolstices::SouthernSolstice(long Year)
   return JDE;
 }
 
-double CAAEquinoxesAndSolstices::LengthOfSpring(long Year, bool bNorthernHemisphere)
+double CAAEquinoxesAndSolstices::LengthOfSpring(long Year, bool bNorthernHemisphere, bool bHighPrecision)
 {
   if (bNorthernHemisphere)
-    return NorthernSolstice(Year) - NorthwardEquinox(Year);
+    return NorthernSolstice(Year, bHighPrecision) - NorthwardEquinox(Year, bHighPrecision);
   else
-    return SouthernSolstice(Year) - SouthwardEquinox(Year);
+    return SouthernSolstice(Year, bHighPrecision) - SouthwardEquinox(Year, bHighPrecision);
 }
 
-double CAAEquinoxesAndSolstices::LengthOfSummer(long Year, bool bNorthernHemisphere)
+double CAAEquinoxesAndSolstices::LengthOfSummer(long Year, bool bNorthernHemisphere, bool bHighPrecision)
 {
   if (bNorthernHemisphere)
-    return SouthwardEquinox(Year) - NorthernSolstice(Year);
+    return SouthwardEquinox(Year, bHighPrecision) - NorthernSolstice(Year, bHighPrecision);
   else
   {
     //The Summer season wraps around into the following year for the southern hemisphere
-    return NorthwardEquinox(Year+1) - SouthernSolstice(Year);
+    return NorthwardEquinox(Year + 1, bHighPrecision) - SouthernSolstice(Year, bHighPrecision);
   }  
 }
 
-double CAAEquinoxesAndSolstices::LengthOfAutumn(long Year, bool bNorthernHemisphere)
+double CAAEquinoxesAndSolstices::LengthOfAutumn(long Year, bool bNorthernHemisphere, bool bHighPrecision)
 {
   if (bNorthernHemisphere)
-    return SouthernSolstice(Year) - SouthwardEquinox(Year);
+    return SouthernSolstice(Year, bHighPrecision) - SouthwardEquinox(Year, bHighPrecision);
   else
-    return NorthernSolstice(Year) - NorthwardEquinox(Year);
+    return NorthernSolstice(Year, bHighPrecision) - NorthwardEquinox(Year, bHighPrecision);
 }
 
-double CAAEquinoxesAndSolstices::LengthOfWinter(long Year, bool bNorthernHemisphere)
+double CAAEquinoxesAndSolstices::LengthOfWinter(long Year, bool bNorthernHemisphere, bool bHighPrecision)
 {
   if (bNorthernHemisphere)
   {
     //The Winter season wraps around into the following year for the nothern hemisphere
-    return NorthwardEquinox(Year+1) - SouthernSolstice(Year);
+    return NorthwardEquinox(Year + 1, bHighPrecision) - SouthernSolstice(Year, bHighPrecision);
   }
   else
-    return SouthwardEquinox(Year) - NorthernSolstice(Year);
+    return SouthwardEquinox(Year, bHighPrecision) - NorthernSolstice(Year, bHighPrecision);
 }

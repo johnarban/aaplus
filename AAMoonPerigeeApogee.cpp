@@ -17,8 +17,13 @@ History: PJN / 07-02-2009 1. Fixed a seemingly copy and paste bug in CAAMoonPeri
                           incorrectly using "D+2M-0.0011". Thanks to Thomas Meyer for reporting this bug.
          PJN / 18-03-2012 1. All global "g_*" tables are now const. Thanks to Roger Dahl for reporting this 
                           issue when compiling AA+ on ARM.
+         PJN / 09-03-2016 1. Fixed three transcription bugs in the g_MoonPerigeeApogeeCoefficients3 table. Thanks to 
+                          "Pavel" for reporting this bug. A spot check of the True Perigee parallax values from 1984 to 2026 
+                          indicate that this bug did not affect the calculated distances at least in this time range to a 
+                          precision of a kilometer which is well within the claimed accuracy of 12 KM as mentioned in 
+                          Meeus's book on page 361.
 
-Copyright (c) 2003 - 2015 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -157,16 +162,13 @@ const MoonPerigeeApogeeCoefficient g_MoonPerigeeApogeeCoefficients3[] =
 { 
   { 2,  0,  0,   63.224,   0        },
   { 4,  0,  0,   -6.990,   0        },
-  { 2,  -1, 0,   2.834,    0        },
-  { 2,  -1, 0,   0,        -0.0071  },
+  { 2,  -1, 0,   2.834,    -0.0071  },
   { 6,  0,  0,   1.927,    0        },
   { 1,  0,  0,   -1.263,   0        },
   { 8,  0,  0,   -0.702,   0        },
-  { 0,  1,  0,   0.696,    0        },
-  { 0,  1,  0,   0,        -0.0017  },
+  { 0,  1,  0,   0.696,    -0.0017  },
   { 0,  0,  2,   -0.690,   0        },
-  { 4,  -1, 0,   -0.629,   0        },
-  { 4,  -1, 0,   0,        0.0016   },
+  { 4,  -1, 0,   -0.629,   0.0016   },
   { 2,  0,  -2,  -0.392,   0        },
   { 10, 0,  0,   0.297,    0        },
   { 6,  -1, 0,   0.260,    0        },

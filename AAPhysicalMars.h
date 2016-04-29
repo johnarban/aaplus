@@ -3,7 +3,7 @@ Module : AAPHYSICALMARS.H
 Purpose: Implementation for the algorithms which obtain the physical parameters of Mars
 Created: PJN / 04-01-2004
 
-Copyright (c) 2003 - 2015 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -22,14 +22,14 @@ to maintain a single distribution point for the source code.
 
 #if _MSC_VER > 1000
 #pragma once
-#endif
+#endif //#if _MSC_VER > 1000
 
-#ifndef __AAPHYSICALMARS_H_
-#define __AAPHYSICALMARS_H_
+#ifndef __AAPHYSICALMARS_H__
+#define __AAPHYSICALMARS_H__
 
 #ifndef AAPLUS_EXT_CLASS
 #define AAPLUS_EXT_CLASS
-#endif
+#endif //#ifndef AAPLUS_EXT_CLASS
 
 
 /////////////////////// Classes ///////////////////////////////////////////////
@@ -63,7 +63,8 @@ class AAPLUS_EXT_CLASS CAAPhysicalMars
 {
 public:
 //Static methods
-  static CAAPhysicalMarsDetails Calculate(double JD);
+  static CAAPhysicalMarsDetails Calculate(double JD, bool bHighPrecision);
 };
 
-#endif //__AAPHYSICALMARS_H_
+
+#endif //#ifndef __AAPHYSICALMARS_H__

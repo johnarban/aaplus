@@ -4,7 +4,7 @@ Purpose: Implementation for the algorithms for Interpolation
 Created: PJN / 29-12-2003
 History: None
 
-Copyright (c) 2003 - 2015 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -72,7 +72,7 @@ double CAAInterpolate::LagrangeInterpolate(double X, int n, double* pX, double* 
 #ifdef __analysis_assume
   __analysis_assume(pX);
   __analysis_assume(pY);
-#endif
+#endif //#ifdef __analysis_assume
 
   double V = 0;
 

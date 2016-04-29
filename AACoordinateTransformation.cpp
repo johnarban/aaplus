@@ -10,8 +10,11 @@ History: PJN / 14-02-2004 1. Fixed a "minus zero" bug in the function CAACoordin
          PJN / 25-01-2007 1. Fixed a minor compliance issue with GCC in the AACoordinateTransformation.h to do
                           with the declaration of various methods. Thanks to Mathieu Peyréga for reporting this
                           issue.
+         PJN / 30-08-2015 1. Updated the MapTo0To360Range to use the fmod C runtime function.
+                          2. Updated the MapTo0To24Range to use the fmod C runtime function.
+                          3. Added new MapTo0To2PIRange & MapToMinus180To180Range methods.
 
-Copyright (c) 2003 - 2015 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

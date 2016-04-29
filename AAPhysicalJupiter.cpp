@@ -2,9 +2,11 @@
 Module : AAPHYSICALJUPITER.CPP
 Purpose: Implementation for the algorithms which obtain the physical parameters of the Jupiter
 Created: PJN / 29-12-2003
-History: None
+History: PJN / 16-09-2015 1. CAAPhysicalJupiter::Calculate now includes a "bool bHighPrecision" parameter
+                          which if set to true means the code uses the full VSOP87 theory rather than the
+                          truncated theory as presented in Meeus's book. 
 
-Copyright (c) 2003 - 2015 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -33,7 +35,7 @@ using namespace std;
 
 //////////////////////////////// Implementation ///////////////////////////////
 
-CAAPhysicalJupiterDetails CAAPhysicalJupiter::Calculate(double JD)
+CAAPhysicalJupiterDetails CAAPhysicalJupiter::Calculate(double JD, bool bHighPrecision)
 {
   //What will be the return value
   CAAPhysicalJupiterDetails details;
@@ -51,18 +53,18 @@ CAAPhysicalJupiterDetails CAAPhysicalJupiter::Calculate(double JD)
   double W2 = CAACoordinateTransformation::MapTo0To360Range(16.838 + 870.27003539*d);
   
   //Step 3
-  double l0 = CAAEarth::EclipticLongitude(JD);
+  double l0 = CAAEarth::EclipticLongitude(JD, bHighPrecision);
   double l0rad = CAACoordinateTransformation::DegreesToRadians(l0);
-  double b0 = CAAEarth::EclipticLatitude(JD);
+  double b0 = CAAEarth::EclipticLatitude(JD, bHighPrecision);
   double b0rad = CAACoordinateTransformation::DegreesToRadians(b0);
-  double R = CAAEarth::RadiusVector(JD);
+  double R = CAAEarth::RadiusVector(JD, bHighPrecision);
 
   //Step 4
-  double l = CAAJupiter::EclipticLongitude(JD);
+  double l = CAAJupiter::EclipticLongitude(JD, bHighPrecision);
   double lrad = CAACoordinateTransformation::DegreesToRadians(l);
-  double b = CAAJupiter::EclipticLatitude(JD);
+  double b = CAAJupiter::EclipticLatitude(JD, bHighPrecision);
   double brad = CAACoordinateTransformation::DegreesToRadians(b);
-  double r = CAAJupiter::RadiusVector(JD);
+  double r = CAAJupiter::RadiusVector(JD, bHighPrecision);
 
   //Step 5
   double x = r*cos(brad)*cos(lrad) - R*cos(l0rad);

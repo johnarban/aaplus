@@ -12,8 +12,11 @@ History: PJN / 17-01-2007 1. Changed name of CAASun::ApparentEclipticLongtitude 
                           2. Updated copyright details.
                           3. zip file now ships with a VC 2005 solution instead of a VC 6 solution file.
                           4. Code now compiles cleanly using Code Analysis (/analyze)
+         PJN / 16-09-2015 1. All the methods in CAASun now include a "bool bHighPrecision" parameter
+                          which if set to true means the code uses the full VSOP87 theory rather than the
+                          truncated theory as presented in Meeus's book.
 
-Copyright (c) 2003 - 2015 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -42,71 +45,71 @@ using namespace std;
 
 //////////////////////////// Implementation ///////////////////////////////////
 
-double CAASun::GeometricEclipticLongitude(double JD)
+double CAASun::GeometricEclipticLongitude(double JD, bool bHighPrecision)
 {
-  return CAACoordinateTransformation::MapTo0To360Range(CAAEarth::EclipticLongitude(JD) + 180);
+  return CAACoordinateTransformation::MapTo0To360Range(CAAEarth::EclipticLongitude(JD, bHighPrecision) + 180);
 }
 
-double CAASun::GeometricEclipticLatitude(double JD)
+double CAASun::GeometricEclipticLatitude(double JD, bool bHighPrecision)
 {
-  return -CAAEarth::EclipticLatitude(JD);
+  return -CAAEarth::EclipticLatitude(JD, bHighPrecision);
 }
 
-double CAASun::GeometricEclipticLongitudeJ2000(double JD)
+double CAASun::GeometricEclipticLongitudeJ2000(double JD, bool bHighPrecision)
 {
-  return CAACoordinateTransformation::MapTo0To360Range(CAAEarth::EclipticLongitudeJ2000(JD) + 180);
+  return CAACoordinateTransformation::MapTo0To360Range(CAAEarth::EclipticLongitudeJ2000(JD, bHighPrecision) + 180);
 }
 
-double CAASun::GeometricEclipticLatitudeJ2000(double JD)
+double CAASun::GeometricEclipticLatitudeJ2000(double JD, bool bHighPrecision)
 {
-  return -CAAEarth::EclipticLatitudeJ2000(JD);
+  return -CAAEarth::EclipticLatitudeJ2000(JD, bHighPrecision);
 }
 
-double CAASun::GeometricFK5EclipticLongitude(double JD)
+double CAASun::GeometricFK5EclipticLongitude(double JD, bool bHighPrecision)
 {
   //Convert to the FK5 stystem
-  double Longitude = GeometricEclipticLongitude(JD);
-  double Latitude = GeometricEclipticLatitude(JD);
+  double Longitude = GeometricEclipticLongitude(JD, bHighPrecision);
+  double Latitude = GeometricEclipticLatitude(JD, bHighPrecision);
   Longitude += CAAFK5::CorrectionInLongitude(Longitude, Latitude, JD);
 
   return Longitude;
 }
 
-double CAASun::GeometricFK5EclipticLatitude(double JD)
+double CAASun::GeometricFK5EclipticLatitude(double JD, bool bHighPrecision)
 {
   //Convert to the FK5 stystem
-  double Longitude = GeometricEclipticLongitude(JD);
-  double Latitude = GeometricEclipticLatitude(JD);
+  double Longitude = GeometricEclipticLongitude(JD, bHighPrecision);
+  double Latitude = GeometricEclipticLatitude(JD, bHighPrecision);
   double SunLatCorrection = CAAFK5::CorrectionInLatitude(Longitude, JD);
   Latitude += SunLatCorrection;
 
   return Latitude;
 }
 
-double CAASun::ApparentEclipticLongitude(double JD)
+double CAASun::ApparentEclipticLongitude(double JD, bool bHighPrecision)
 {
-  double Longitude = GeometricFK5EclipticLongitude(JD);
+  double Longitude = GeometricFK5EclipticLongitude(JD, bHighPrecision);
 
   //Apply the correction in longitude due to nutation
   Longitude += CAACoordinateTransformation::DMSToDegrees(0, 0, CAANutation::NutationInLongitude(JD));
 
   //Apply the correction in longitude due to aberration
-  double R = CAAEarth::RadiusVector(JD);
+  double R = CAAEarth::RadiusVector(JD, bHighPrecision);
   Longitude -= CAACoordinateTransformation::DMSToDegrees(0, 0, 20.4898 / R);
 
   return Longitude;
 }
 
-double CAASun::ApparentEclipticLatitude(double JD)
+double CAASun::ApparentEclipticLatitude(double JD, bool bHighPrecision)
 {
-  return GeometricFK5EclipticLatitude(JD);
+  return GeometricFK5EclipticLatitude(JD, bHighPrecision);
 }
 
-CAA3DCoordinate CAASun::EquatorialRectangularCoordinatesMeanEquinox(double JD)
+CAA3DCoordinate CAASun::EquatorialRectangularCoordinatesMeanEquinox(double JD, bool bHighPrecision)
 {
-  double Longitude = CAACoordinateTransformation::DegreesToRadians(GeometricFK5EclipticLongitude(JD));
-  double Latitude = CAACoordinateTransformation::DegreesToRadians(GeometricFK5EclipticLatitude(JD));
-  double R = CAAEarth::RadiusVector(JD);
+  double Longitude = CAACoordinateTransformation::DegreesToRadians(GeometricFK5EclipticLongitude(JD, bHighPrecision));
+  double Latitude = CAACoordinateTransformation::DegreesToRadians(GeometricFK5EclipticLatitude(JD, bHighPrecision));
+  double R = CAAEarth::RadiusVector(JD, bHighPrecision);
   double epsilon = CAACoordinateTransformation::DegreesToRadians(CAANutation::MeanObliquityOfEcliptic(JD));
 
   CAA3DCoordinate value;
@@ -117,13 +120,13 @@ CAA3DCoordinate CAASun::EquatorialRectangularCoordinatesMeanEquinox(double JD)
   return value;
 }
 
-CAA3DCoordinate CAASun::EclipticRectangularCoordinatesJ2000(double JD)
+CAA3DCoordinate CAASun::EclipticRectangularCoordinatesJ2000(double JD, bool bHighPrecision)
 {
-  double Longitude = GeometricEclipticLongitudeJ2000(JD);
+  double Longitude = GeometricEclipticLongitudeJ2000(JD, bHighPrecision);
   Longitude = CAACoordinateTransformation::DegreesToRadians(Longitude);
-  double Latitude = GeometricEclipticLatitudeJ2000(JD);
+  double Latitude = GeometricEclipticLatitudeJ2000(JD, bHighPrecision);
   Latitude = CAACoordinateTransformation::DegreesToRadians(Latitude);
-  double R = CAAEarth::RadiusVector(JD);
+  double R = CAAEarth::RadiusVector(JD, bHighPrecision);
 
   CAA3DCoordinate value;
   double coslatitude = cos(Latitude);
@@ -134,26 +137,25 @@ CAA3DCoordinate CAASun::EclipticRectangularCoordinatesJ2000(double JD)
   return value;
 }
 
-
-CAA3DCoordinate CAASun::EquatorialRectangularCoordinatesJ2000(double JD)
+CAA3DCoordinate CAASun::EquatorialRectangularCoordinatesJ2000(double JD, bool bHighPrecision)
 {
-  CAA3DCoordinate value = EclipticRectangularCoordinatesJ2000(JD);
+  CAA3DCoordinate value = EclipticRectangularCoordinatesJ2000(JD, bHighPrecision);
   value = CAAFK5::ConvertVSOPToFK5J2000(value);
 
   return value;
 }
 
-CAA3DCoordinate CAASun::EquatorialRectangularCoordinatesB1950(double JD)
+CAA3DCoordinate CAASun::EquatorialRectangularCoordinatesB1950(double JD, bool bHighPrecision)
 {
-  CAA3DCoordinate value = EclipticRectangularCoordinatesJ2000(JD);
+  CAA3DCoordinate value = EclipticRectangularCoordinatesJ2000(JD, bHighPrecision);
   value = CAAFK5::ConvertVSOPToFK5B1950(value);
 
   return value;
 }
 
-CAA3DCoordinate CAASun::EquatorialRectangularCoordinatesAnyEquinox(double JD, double JDEquinox)
+CAA3DCoordinate CAASun::EquatorialRectangularCoordinatesAnyEquinox(double JD, double JDEquinox, bool bHighPrecision)
 {
-  CAA3DCoordinate value = EquatorialRectangularCoordinatesJ2000(JD);
+  CAA3DCoordinate value = EquatorialRectangularCoordinatesJ2000(JD, bHighPrecision);
   value = CAAFK5::ConvertVSOPToFK5AnyEquinox(value, JDEquinox);
 
   return value;
