@@ -1,9 +1,9 @@
 /*
-Module : AAMOONNODES.H
+Module : AAMoonNodes.h
 Purpose: Implementation for the algorithms which obtain the dates when the Moon passes thro its nodes
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -38,8 +38,12 @@ class AAPLUS_EXT_CLASS CAAMoonNodes
 {
 public:
 //Static methods
-  static double K(double Year);
-  static double PassageThroNode(double k);
+  constexpr static double K(double Year) noexcept
+  {
+    return 13.4223*(Year - 2000.05);
+  }
+
+  static double PassageThroNode(double k) noexcept;
 };
 
 

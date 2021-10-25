@@ -1,9 +1,9 @@
 /*
-Module : AANUTATION.H
+Module : AANutation.h
 Purpose: Implementation for the algorithms for Nutation
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -38,12 +38,12 @@ class AAPLUS_EXT_CLASS CAANutation
 {
 public:
 //Static methods
-  static double NutationInLongitude(double JD);
-  static double NutationInObliquity(double JD);
-  static double NutationInRightAscension(double Alpha, double Delta, double Obliquity, double NutationInLongitude, double NutationInObliquity);
-  static double NutationInDeclination(double Alpha, double Obliquity, double NutationInLongitude, double NutationInObliquity);
-  static double MeanObliquityOfEcliptic(double JD);
-  static double TrueObliquityOfEcliptic(double JD);
+  static double NutationInLongitude(double JD) noexcept;
+  static double NutationInObliquity(double JD) noexcept;
+  static double NutationInRightAscension(double Alpha, double Delta, double Obliquity, double NutationInLongitude, double NutationInObliquity) noexcept;
+  static double NutationInDeclination(double Alpha, double Obliquity, double NutationInLongitude, double NutationInObliquity) noexcept;
+  static double MeanObliquityOfEcliptic(double JD) noexcept;
+  static double TrueObliquityOfEcliptic(double JD) noexcept;
 };
 
 

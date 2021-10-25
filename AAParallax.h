@@ -1,9 +1,9 @@
 /*
-Module : AAPARALLAX.H
+Module : AAParallax.h
 Purpose: Implementation for the algorithms which convert a geocentric set of coordinates to their topocentric equivalent
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -42,29 +42,22 @@ to maintain a single distribution point for the source code.
 class AAPLUS_EXT_CLASS CAATopocentricEclipticDetails
 {
 public:
-//Constructors / Destructors
-  CAATopocentricEclipticDetails() : Lambda(0), 
-                                    Beta(0), 
-                                    Semidiameter(0) 
-  {
-  };
-
 //Member variables
-  double Lambda;
-  double Beta;
-  double Semidiameter;
+  double Lambda = 0;
+  double Beta = 0;
+  double Semidiameter = 0;
 };
 
 class AAPLUS_EXT_CLASS CAAParallax
 {
 public:
 //Conversion functions
-  static CAA2DCoordinate Equatorial2TopocentricDelta(double Alpha, double Delta, double Distance, double Longitude, double Latitude, double Height, double JD);
-  static CAA2DCoordinate Equatorial2Topocentric(double Alpha, double Delta, double Distance, double Longitude, double Latitude, double Height, double JD);
-  static CAATopocentricEclipticDetails Ecliptic2Topocentric(double Lambda, double Beta, double Semidiameter, double Distance, double Epsilon, double Latitude, double Height, double JD);
+  static CAA2DCoordinate Equatorial2TopocentricDelta(double Alpha, double Delta, double Distance, double Longitude, double Latitude, double Height, double JD) noexcept;
+  static CAA2DCoordinate Equatorial2Topocentric(double Alpha, double Delta, double Distance, double Longitude, double Latitude, double Height, double JD) noexcept;
+  static CAATopocentricEclipticDetails Ecliptic2Topocentric(double Lambda, double Beta, double Semidiameter, double Distance, double Epsilon, double Latitude, double Height, double JD) noexcept;
 
-  static double ParallaxToDistance(double Parallax);
-  static double DistanceToParallax(double Distance);
+  static double ParallaxToDistance(double Parallax) noexcept;
+  static double DistanceToParallax(double Distance) noexcept;
 };
 
 

@@ -1,13 +1,27 @@
 /*
-Module : AAPLANETARYPHENOMENA.CPP
+Module : AAPlanetaryPhenomena.cpp
 Purpose: Implementation for the algorithms which obtain the dates of various planetary phenomena
 Created: PJN / 29-12-2003
 History: PJN / 08-05-2011 1. Fixed a compilation issue on GCC where size_t was undefined in various methods. Thanks to 
                           Carsten A. Arnholm and Andrew Hammond for reporting this bug.
          PJN / 18-03-2012 1. All global "g_*" tables are now const. Thanks to Roger Dahl for reporting this 
                           issue when compiling AA+ on ARM.
+         PJN / 22-07-2018 1. Fixed a number of gcc warnings in CAAPlanetaryPhenomena::K, CAAPlanetaryPhenomena::Mean,
+                          CAAPlanetaryPhenomena::True &  CAAPlanetaryPhenomena::ElongationValue. Thanks to Todd Carnes 
+                          for reportying this issue.
+         PJN / 24-07-2018 1. Fixed a number of GCC warnings in the methods CAAPlanetaryPhenomena::K, 
+                          CAAPlanetaryPhenomena::Mean, CAAPlanetaryPhenomena::True & 
+                          CAAPlanetaryPhenomena::ElongationValue. Thanks to Todd Carnes for reporting this issue.
+         PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
+         PJN / 15-04-2020 1. Reworked C arrays to use std::array
+         PJN / 12-03-2021 1. Changed the behavior of the CAAPlanetaryPhenomena::K method to now return the K value before 
+                          it is rounded. This new behaviour is now consistent with all the other methods in the AA+ 
+                          framework which return so called "K" values. This means that client code must round this value 
+                          to an integer before calling other methods in this class with this K value.
+         PJN / 03-10-2021 1. Renamed CAAPlanetaryPhenomena::PlanetaryObject type to Planet.
+                          2. Renamed CAAPlanetaryPhenomena::EventType type to Type.
 
-Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -30,6 +44,7 @@ to maintain a single distribution point for the source code.
 #include <cmath>
 #include <cassert>
 #include <cstddef>
+#include <array>
 using namespace std;
 
 
@@ -43,8 +58,8 @@ struct PlanetaryPhenomenaCoefficient1
   double M1;
 };
 
-const PlanetaryPhenomenaCoefficient1 g_PlanetaryPhenomenaCoefficient1[] = 
-{
+constexpr array<PlanetaryPhenomenaCoefficient1, 14> g_PlanetaryPhenomenaCoefficient1
+{ {
   { 2451612.023, 115.8774771, 63.5867,  114.2088742 },
   { 2451554.084, 115.8774771, 6.4822,   114.2088742 },
   { 2451996.706, 583.921361,  82.7311,  215.513058  },
@@ -58,150 +73,155 @@ const PlanetaryPhenomenaCoefficient1 g_PlanetaryPhenomenaCoefficient1[] =
   { 2451764.317, 369.656035,  213.6884, 4.333093    },
   { 2451579.489, 369.656035,  31.5219,  4.333093    },
   { 2451753.122, 367.486703,  202.6544, 2.194998    },
-  { 2451569.379, 367.486703,  21.5569,  2.194998    },
-};
+  { 2451569.379, 367.486703,  21.5569,  2.194998    }
+} };
 
 
 /////////////////////////// Implementation ////////////////////////////////////
 
-double CAAPlanetaryPhenomena::K(double Year, PlanetaryObject object, EventType type)
+double CAAPlanetaryPhenomena::K(double Year, Planet planet, Type type) noexcept
 {
-  size_t nCoefficient;
-  if (object >= MARS)
+  size_t nCoefficient = 0;
+  if (planet >= Planet::MARS)
   {
-    assert(type == OPPOSITION || type == CONJUNCTION);
+    assert(type == Type::OPPOSITION || type == Type::CONJUNCTION);
 
-    if (type == OPPOSITION)
-      nCoefficient = object*2;
+    if (type == Type::OPPOSITION)
+      nCoefficient = static_cast<size_t>(planet) * 2;
     else
-      nCoefficient = object*2 + 1;
+      nCoefficient = static_cast<size_t>(planet) * 2 + 1;
   }
   else
   {
-    assert(type == INFERIOR_CONJUNCTION || type == SUPERIOR_CONJUNCTION);
+    assert(type == Type::INFERIOR_CONJUNCTION || type == Type::SUPERIOR_CONJUNCTION);
 
-    if (type == INFERIOR_CONJUNCTION)
-      nCoefficient = object*2;
+    if (type == Type::INFERIOR_CONJUNCTION)
+      nCoefficient = static_cast<size_t>(planet) * 2;
     else
-      nCoefficient = object*2 + 1;
+      nCoefficient = static_cast<size_t>(planet) * 2 + 1;
   }
-  assert(nCoefficient >= 0 && nCoefficient < sizeof(g_PlanetaryPhenomenaCoefficient1)/sizeof(PlanetaryPhenomenaCoefficient1));
-
-  double k = (365.2425*Year + 1721060 - g_PlanetaryPhenomenaCoefficient1[nCoefficient].A) / g_PlanetaryPhenomenaCoefficient1[nCoefficient].B;
-  return floor(k + 0.5);
+  assert(nCoefficient < g_PlanetaryPhenomenaCoefficient1.size());
+#ifdef _MSC_VER
+  #pragma warning(suppress : 26446 26482)
+#endif //#ifdef _MSC_VER
+  return (365.2425*Year + 1721060 - g_PlanetaryPhenomenaCoefficient1[nCoefficient].A) / g_PlanetaryPhenomenaCoefficient1[nCoefficient].B;
 }
 
-double CAAPlanetaryPhenomena::Mean(double k, PlanetaryObject object, EventType type)
+double CAAPlanetaryPhenomena::Mean(double k, Planet planet, Type type) noexcept
 {
-  size_t nCoefficient;
-  if (object >= MARS)
+  size_t nCoefficient = 0;
+  if (planet >= Planet::MARS)
   {
-    assert(type == OPPOSITION || type == CONJUNCTION);
+    assert(type == Type::OPPOSITION || type == Type::CONJUNCTION);
 
-    if (type == OPPOSITION)
-      nCoefficient = object*2;
+    if (type == Type::OPPOSITION)
+      nCoefficient = static_cast<size_t>(planet) * 2;
     else
-      nCoefficient = object*2 + 1;
+      nCoefficient = static_cast<size_t>(planet) * 2 + 1;
   }
   else
   {
-    assert(type == INFERIOR_CONJUNCTION || type == SUPERIOR_CONJUNCTION);
+    assert(type == Type::INFERIOR_CONJUNCTION || type == Type::SUPERIOR_CONJUNCTION);
 
-    if (type == INFERIOR_CONJUNCTION)
-      nCoefficient = object*2;
+    if (type == Type::INFERIOR_CONJUNCTION)
+      nCoefficient = static_cast<size_t>(planet) * 2;
     else
-      nCoefficient = object*2 + 1;
+      nCoefficient = static_cast<size_t>(planet) * 2 + 1;
   }
-  assert(nCoefficient >= 0 && nCoefficient < sizeof(g_PlanetaryPhenomenaCoefficient1)/sizeof(PlanetaryPhenomenaCoefficient1));
-
+  assert(nCoefficient < g_PlanetaryPhenomenaCoefficient1.size());
+#ifdef _MSC_VER
+  #pragma warning(suppress : 26446 26482)
+#endif //#ifdef _MSC_VER
   return g_PlanetaryPhenomenaCoefficient1[nCoefficient].A + g_PlanetaryPhenomenaCoefficient1[nCoefficient].B*k;
 }
 
-double CAAPlanetaryPhenomena::True(double k, PlanetaryObject object, EventType type)
+double CAAPlanetaryPhenomena::True(double k, Planet planet, Type type) noexcept
 {
-  double JDE0;
-  
-  if (type == WESTERN_ELONGATION || type == EASTERN_ELONGATION || type == STATION1 || type == STATION2)
+  double JDE0 = 0;
+
+  if (type == Type::WESTERN_ELONGATION || type == Type::EASTERN_ELONGATION || type == Type::STATION1 || type == Type::STATION2)
   {
-    if (object >= MARS)
-      JDE0 = Mean(k, object, OPPOSITION);
+    if (planet >= Planet::MARS)
+      JDE0 = Mean(k, planet, Type::OPPOSITION);
     else
-      JDE0 = Mean(k, object, INFERIOR_CONJUNCTION);
+      JDE0 = Mean(k, planet, Type::INFERIOR_CONJUNCTION);
   }
   else
-    JDE0 = Mean(k, object, type);
+    JDE0 = Mean(k, planet, type);
 
-  size_t nCoefficient;
-  if (object >= MARS)
+  size_t nCoefficient = 0;
+  if (planet >= Planet::MARS)
   {
-    assert(type == OPPOSITION || type == CONJUNCTION || type == STATION1 || type == STATION2);
+    assert(type == Type::OPPOSITION || type == Type::CONJUNCTION || type == Type::STATION1 || type == Type::STATION2);
 
-    if (type == OPPOSITION || type == STATION1 || type == STATION2)
-      nCoefficient = object*2;
+    if (type == Type::OPPOSITION || type == Type::STATION1 || type == Type::STATION2)
+      nCoefficient = static_cast<size_t>(planet) * 2;
     else
-      nCoefficient = object*2 + 1;
+      nCoefficient = static_cast<size_t>(planet) * 2 + 1;
   }
   else
   {
-    assert(type == INFERIOR_CONJUNCTION || type == SUPERIOR_CONJUNCTION || type == EASTERN_ELONGATION || 
-           type == WESTERN_ELONGATION || type == STATION1 || type == STATION2);
+    assert(type == Type::INFERIOR_CONJUNCTION || type == Type::SUPERIOR_CONJUNCTION || type == Type::EASTERN_ELONGATION ||
+           type == Type::WESTERN_ELONGATION || type == Type::STATION1 || type == Type::STATION2);
 
-    if (type == INFERIOR_CONJUNCTION || type == EASTERN_ELONGATION || type == WESTERN_ELONGATION || type == STATION1 || type == STATION2)
-      nCoefficient = object*2;
+    if (type == Type::INFERIOR_CONJUNCTION || type == Type::EASTERN_ELONGATION || type == Type::WESTERN_ELONGATION || type == Type::STATION1 || type == Type::STATION2)
+      nCoefficient = static_cast<size_t>(planet) * 2;
     else
-      nCoefficient = object*2 + 1;
+      nCoefficient = static_cast<size_t>(planet) * 2 + 1;
   }
-  assert(nCoefficient >= 0 && nCoefficient < sizeof(g_PlanetaryPhenomenaCoefficient1)/sizeof(PlanetaryPhenomenaCoefficient1));
-
+  assert(nCoefficient < g_PlanetaryPhenomenaCoefficient1.size());
+#ifdef _MSC_VER
+  #pragma warning(suppress : 26482 26446)
+#endif //#ifdef _MSC_VER
   double M = CAACoordinateTransformation::MapTo0To360Range(g_PlanetaryPhenomenaCoefficient1[nCoefficient].M0 + g_PlanetaryPhenomenaCoefficient1[nCoefficient].M1*k);
-  M = CAACoordinateTransformation::DegreesToRadians(M);   //convert M to radians
+  M = CAACoordinateTransformation::DegreesToRadians(M); //convert M to radians
 
-  double T = (JDE0 - 2451545) / 36525;
-  double T2 = T*T;
+  const double T = (JDE0 - 2451545) / 36525;
+  const double T2 = T*T;
 
-  double a=0;
-  double b=0;
-  double c=0;
-  double d=0;
-  double e=0;
-  double f=0;
-  double g=0;
+  double a = 0;
+  double b = 0;
+  double c = 0;
+  double d = 0;
+  double e = 0;
+  double f = 0;
+  double g = 0;
 
-  if (object == JUPITER)
+  if (planet == Planet::JUPITER)
   {
     a = CAACoordinateTransformation::MapTo0To360Range(82.74 + 40.76*T);
-    a = CAACoordinateTransformation::DegreesToRadians(a);    
+    a = CAACoordinateTransformation::DegreesToRadians(a);
   }
-  else if (object == SATURN)
+  else if (planet == Planet::SATURN)
   {
     a = CAACoordinateTransformation::MapTo0To360Range(82.74 + 40.76*T);
-    a = CAACoordinateTransformation::DegreesToRadians(a);    
+    a = CAACoordinateTransformation::DegreesToRadians(a);
     b = CAACoordinateTransformation::MapTo0To360Range(29.86 + 1181.36*T);
-    b = CAACoordinateTransformation::DegreesToRadians(b);    
+    b = CAACoordinateTransformation::DegreesToRadians(b);
     c = CAACoordinateTransformation::MapTo0To360Range(14.13 + 590.68*T);
-    c = CAACoordinateTransformation::DegreesToRadians(c);    
+    c = CAACoordinateTransformation::DegreesToRadians(c);
     d = CAACoordinateTransformation::MapTo0To360Range(220.02 + 1262.87*T);
-    d = CAACoordinateTransformation::DegreesToRadians(d);    
+    d = CAACoordinateTransformation::DegreesToRadians(d);
   }
-  else if (object == URANUS)
+  else if (planet == Planet::URANUS)
   {
     e = CAACoordinateTransformation::MapTo0To360Range(207.83 + 8.51*T);
-    e = CAACoordinateTransformation::DegreesToRadians(e);    
+    e = CAACoordinateTransformation::DegreesToRadians(e);
     f = CAACoordinateTransformation::MapTo0To360Range(108.84 + 419.96*T);
-    f = CAACoordinateTransformation::DegreesToRadians(f);    
+    f = CAACoordinateTransformation::DegreesToRadians(f);
   }
-  else if (object == NEPTUNE)
+  else if (planet == Planet::NEPTUNE)
   {
     e = CAACoordinateTransformation::MapTo0To360Range(207.83 + 8.51*T);
-    e = CAACoordinateTransformation::DegreesToRadians(e);    
+    e = CAACoordinateTransformation::DegreesToRadians(e);
     g = CAACoordinateTransformation::MapTo0To360Range(276.74 + 209.98*T);
-    g = CAACoordinateTransformation::DegreesToRadians(g);    
+    g = CAACoordinateTransformation::DegreesToRadians(g);
   }
 
-  double delta;
-  if (object == MERCURY)
+  double delta = 0;
+  if (planet == Planet::MERCURY)
   {
-    if (type == INFERIOR_CONJUNCTION)
+    if (type == Type::INFERIOR_CONJUNCTION)
     {
       delta = (0.0545 + 0.0002*T) + 
                sin(M) * (-6.2008 + 0.0074*T + 0.00003*T2) +
@@ -215,7 +235,7 @@ double CAAPlanetaryPhenomena::True(double k, PlanetaryObject object, EventType t
                sin(5*M) * (0.0083 + 0.0001*T) +
                cos(5*M) * (-0.0040 + 0.0001*T);
     }
-    else if (type == SUPERIOR_CONJUNCTION)
+    else if (type == Type::SUPERIOR_CONJUNCTION)
     {
       delta = (-0.0548 - 0.0002*T) +
               sin(M) * (7.3894 - 0.0100*T - 0.00003*T2) +
@@ -229,7 +249,7 @@ double CAAPlanetaryPhenomena::True(double k, PlanetaryObject object, EventType t
               sin(5*M) * (-0.0122 - 0.0002*T) +
               cos(5*M) * (0.0173 - 0.0002*T); 
     }  
-    else if (type == EASTERN_ELONGATION)
+    else if (type == Type::EASTERN_ELONGATION)
     {
       delta = (-21.6101 + 0.0002*T) +
               sin(M) * (-1.9803 - 0.0060*T + 0.00001*T2) +
@@ -243,7 +263,7 @@ double CAAPlanetaryPhenomena::True(double k, PlanetaryObject object, EventType t
               sin(5*M) * (-0.0061) +
               cos(5*M) * (-0.0032 - 0.0001*T2);
     }
-    else if (type == WESTERN_ELONGATION)
+    else if (type == Type::WESTERN_ELONGATION)
     {
       delta = (21.6249 - 0.0002*T) +
               sin(M) * (0.1306 + 0.0065*T) +
@@ -257,7 +277,7 @@ double CAAPlanetaryPhenomena::True(double k, PlanetaryObject object, EventType t
               sin(5*M) * (0.0026) +
               cos(5*M) * (0.0037);
     }
-    else if (type == STATION1)
+    else if (type == Type::STATION1)
     {
       delta = (-11.0761 + 0.0003*T) +
               sin(M) * (-4.7321 + 0.0023*T + 0.00002*T2) + 
@@ -273,7 +293,7 @@ double CAAPlanetaryPhenomena::True(double k, PlanetaryObject object, EventType t
     }
     else
     {
-      assert(type == STATION2);
+      assert(type == Type::STATION2);
 
       delta = (11.1343 - 0.0001*T) +
               sin(M) * (-3.9137 + 0.0073*T + 0.00002*T2) + 
@@ -288,9 +308,9 @@ double CAAPlanetaryPhenomena::True(double k, PlanetaryObject object, EventType t
               cos(5*M) * (-0.0115 + 0.0001*T); 
     }
   }
-  else if (object == VENUS)
+  else if (planet == Planet::VENUS)
   {
-    if (type == INFERIOR_CONJUNCTION)
+    if (type == Type::INFERIOR_CONJUNCTION)
     {
       delta = (-0.0096 + 0.0002*T - 0.00001*T2) +
               sin(M) * (2.0009 - 0.0033*T - 0.00001*T2) +
@@ -300,7 +320,7 @@ double CAAPlanetaryPhenomena::True(double k, PlanetaryObject object, EventType t
               sin(3*M) * (0.0046 - 0.0002*T) +
               cos(3*M) * (0.0079 + 0.0001*T);
     }
-    else if (type == SUPERIOR_CONJUNCTION)
+    else if (type == Type::SUPERIOR_CONJUNCTION)
     {
       delta = (0.0099 - 0.0002*T - 0.00001*T2) +
               sin(M) * (4.1991 - 0.0121*T - 0.00003*T2) +
@@ -310,7 +330,7 @@ double CAAPlanetaryPhenomena::True(double k, PlanetaryObject object, EventType t
               sin(3*M) * (0.0232 - 0.0005*T - 0.00001*T2) + 
               cos(3*M) * (0.0031 + 0.0004*T);
     }  
-    else if (type == EASTERN_ELONGATION)
+    else if (type == Type::EASTERN_ELONGATION)
     {
       delta = (-70.7600 + 0.0002*T - 0.00001*T2) +
               sin(M) * (1.0282 - 0.0010*T - 0.00001*T2) +
@@ -320,7 +340,7 @@ double CAAPlanetaryPhenomena::True(double k, PlanetaryObject object, EventType t
               sin(3*M) * (0.0036 + 0.0001*T) +
               cos(3*M) * (-0.0011 + 0.00001*T2);
     }
-    else if (type == WESTERN_ELONGATION)
+    else if (type == Type::WESTERN_ELONGATION)
     {
       delta = (70.7462 - 0.00001*T2) +
               sin(M) * (1.1218 - 0.0025*T - 0.00001*T2) +
@@ -330,7 +350,7 @@ double CAAPlanetaryPhenomena::True(double k, PlanetaryObject object, EventType t
               sin(3*M) * (0.0062 - 0.0001*T) +
               cos(3*M) * (0.0015 - 0.00001*T2);
     }
-    else if (type == STATION1)
+    else if (type == Type::STATION1)
     {
       delta = (-21.0672 + 0.0002*T - 0.00001*T2) +
           sin(M) * (1.9396 - 0.0029*T - 0.00001*T2) + 
@@ -342,7 +362,7 @@ double CAAPlanetaryPhenomena::True(double k, PlanetaryObject object, EventType t
     }
     else
     {
-      assert(type == STATION2);
+      assert(type == Type::STATION2);
 
       delta = (21.0623 - 0.00001*T2) +
               sin(M) * (1.9913 - 0.0040*T - 0.00001*T2) + 
@@ -353,9 +373,9 @@ double CAAPlanetaryPhenomena::True(double k, PlanetaryObject object, EventType t
               cos(3*M) * (0.0043 + 0.0001*T);
     }
   }
-  else if (object == MARS)
+  else if (planet == Planet::MARS)
   {
-    if (type == OPPOSITION)
+    if (type == Type::OPPOSITION)
     {
       delta = (-0.3088 + 0.00002*T2) +
               sin(M) * (-17.6965 + 0.0363*T + 0.00005*T2) +
@@ -369,7 +389,7 @@ double CAAPlanetaryPhenomena::True(double k, PlanetaryObject object, EventType t
               sin(5*M) * (0.0737 - 0.0008*T) +
               cos(5*M) * (-0.0980 - 0.0011*T);
     }
-    else if (type == CONJUNCTION)
+    else if (type == Type::CONJUNCTION)
     {
       delta = (0.3102 - 0.0001*T + 0.00001*T2) +
               sin(M) * (9.7273 - 0.0156*T + 0.00001*T2) +
@@ -382,8 +402,8 @@ double CAAPlanetaryPhenomena::True(double k, PlanetaryObject object, EventType t
               cos(4*M) * (0.1584 + 0.0013*T) +
               sin(5*M) * (0.0270 + 0.0005*T) +
               cos(5*M) * (0.0433);
-    }  
-    else if (type == STATION1)
+    }
+    else if (type == Type::STATION1)
     {
       delta = (-37.0790 - 0.0009*T + 0.00002*T2) +
               sin(M) * (-20.0651 + 0.0228*T + 0.00004*T2) + 
@@ -399,7 +419,7 @@ double CAAPlanetaryPhenomena::True(double k, PlanetaryObject object, EventType t
     }
     else
     {
-      assert(type == STATION2);
+      assert(type == Type::STATION2);
 
       delta = (36.7191 + 0.0016*T + 0.00003*T2) +
               sin(M) * (-12.6163 + 0.0417*T - 0.00001*T2) + 
@@ -414,9 +434,9 @@ double CAAPlanetaryPhenomena::True(double k, PlanetaryObject object, EventType t
               cos(5*M) * (-0.1497 - 0.0006*T); 
     }
   }
-  else if (object == JUPITER)
+  else if (planet == Planet::JUPITER)
   {
-    if (type == OPPOSITION)
+    if (type == Type::OPPOSITION)
     {
       delta = (-0.1029 - 0.00009*T2) +
               sin(M) * (-1.9658 - 0.0056*T + 0.00007*T2) +
@@ -428,7 +448,7 @@ double CAAPlanetaryPhenomena::True(double k, PlanetaryObject object, EventType t
               sin(a) * (0.0144*T - 0.00008*T2) +
               cos(a) * (0.3642 - 0.0019*T - 0.00029*T2);
     }
-    else if (type == CONJUNCTION)
+    else if (type == Type::CONJUNCTION)
     {
       delta = (0.1027 + 0.0002*T - 0.00009*T2) +
               sin(M) * (-2.2637 + 0.0163*T - 0.00003*T2) +
@@ -440,7 +460,7 @@ double CAAPlanetaryPhenomena::True(double k, PlanetaryObject object, EventType t
               sin(a) * (0.0144*T - 0.00008*T2) +
               cos(a) * (0.3642 - 0.0019*T - 0.00029*T2);
     }  
-    else if (type == STATION1)
+    else if (type == Type::STATION1)
     {
       delta = (-60.3670 - 0.0001*T - 0.00009*T2) +
               sin(M) * (-2.3144 - 0.0124*T + 0.00007*T2) + 
@@ -454,7 +474,7 @@ double CAAPlanetaryPhenomena::True(double k, PlanetaryObject object, EventType t
     }
     else
     {
-      assert(type == STATION2);
+      assert(type == Type::STATION2);
 
       delta = (60.3023 + 0.0002*T - 0.00009*T2) +
               sin(M) * (0.3506 - 0.0034*T + 0.00004*T2) + 
@@ -467,9 +487,9 @@ double CAAPlanetaryPhenomena::True(double k, PlanetaryObject object, EventType t
               cos(a) * (0.3642 - 0.0019*T - 0.00029*T2);
     }
   }
-  else if (object == SATURN)
+  else if (planet == Planet::SATURN)
   {
-    if (type == OPPOSITION)
+    if (type == Type::OPPOSITION)
     {
       delta = (-0.0209 + 0.0006*T + 0.00023*T2) +
               sin(M) * (4.5795 - 0.0312*T - 0.00017*T2) +
@@ -487,7 +507,7 @@ double CAAPlanetaryPhenomena::True(double k, PlanetaryObject object, EventType t
               sin(d) * (0.0024*T - 0.00003*T2) +
               cos(d) * (0.0477 - 0.0005*T - 0.00006*T2);
     }
-    else if (type == CONJUNCTION)
+    else if (type == Type::CONJUNCTION)
     {
       delta = (0.0172 - 0.0006*T + 0.00023*T2) +
               sin(M) * (-8.5885 + 0.0411*T + 0.00020*T2) +
@@ -505,7 +525,7 @@ double CAAPlanetaryPhenomena::True(double k, PlanetaryObject object, EventType t
               sin(d) * (0.0024*T - 0.00003*T2) +
               cos(d) * (0.0477 - 0.0005*T - 0.00006*T2);
     }  
-    else if (type == STATION1)
+    else if (type == Type::STATION1)
     {
       delta = (-68.8840 + 0.0009*T + 0.00023*T2) +
               sin(M) * (5.5452 - 0.0279*T - 0.00020*T2) + 
@@ -525,7 +545,7 @@ double CAAPlanetaryPhenomena::True(double k, PlanetaryObject object, EventType t
     }
     else
     {
-      assert(type == STATION2);
+      assert(type == Type::STATION2);
 
       delta = (68.8720 - 0.0007*T + 0.00023*T2) +
               sin(M) * (5.9399 - 0.0400*T - 0.00015*T2) + 
@@ -544,9 +564,9 @@ double CAAPlanetaryPhenomena::True(double k, PlanetaryObject object, EventType t
               cos(d) * (0.0477 - 0.0005*T - 0.00006*T2);
     }
   }
-  else if (object == URANUS)
+  else if (planet == Planet::URANUS)
   {
-    if (type == OPPOSITION)
+    if (type == Type::OPPOSITION)
     {
       delta = (0.0844 - 0.0006*T) +
               sin(M) * (-0.1048 + 0.0246*T) +
@@ -559,7 +579,7 @@ double CAAPlanetaryPhenomena::True(double k, PlanetaryObject object, EventType t
     }
     else
     {
-      assert(type == CONJUNCTION);
+      assert(type == Type::CONJUNCTION);
 
       delta = (-0.0859 + 0.0003*T) +
               sin(M) * (-3.8179 - 0.0148*T + 0.00003*T2) +
@@ -573,9 +593,9 @@ double CAAPlanetaryPhenomena::True(double k, PlanetaryObject object, EventType t
   }
   else
   {
-    assert(object == NEPTUNE);
+    assert(planet == Planet::NEPTUNE);
     
-    if (type == OPPOSITION)
+    if (type == Type::OPPOSITION)
     {
       delta = (-0.0140 + 0.00001*T2) +
               sin(M) * (-1.3486 + 0.0010*T + 0.00001*T2) +
@@ -587,7 +607,7 @@ double CAAPlanetaryPhenomena::True(double k, PlanetaryObject object, EventType t
     }
     else
     {
-      assert(type == CONJUNCTION);
+      assert(type == Type::CONJUNCTION);
 
       delta = (0.0168) +
               sin(M) * (-2.5606 + 0.0088*T + 0.00002*T2) +
@@ -602,23 +622,25 @@ double CAAPlanetaryPhenomena::True(double k, PlanetaryObject object, EventType t
   return JDE0 + delta;
 }
 
-double CAAPlanetaryPhenomena::ElongationValue(double k, PlanetaryObject object, bool bEastern)
+double CAAPlanetaryPhenomena::ElongationValue(double k, Planet planet, bool bEastern) noexcept
 {
-  double JDE0 = Mean(k, object, INFERIOR_CONJUNCTION);
+  const double JDE0 = Mean(k, planet, Type::INFERIOR_CONJUNCTION);
 
-  assert(object < MARS);
+  assert(planet < Planet::MARS);
 
-  size_t nCoefficient = object*2;
-  assert(nCoefficient >= 0 && nCoefficient < sizeof(g_PlanetaryPhenomenaCoefficient1)/sizeof(PlanetaryPhenomenaCoefficient1));
-
+  const size_t nCoefficient = static_cast<size_t>(planet) * 2;
+  assert(nCoefficient < g_PlanetaryPhenomenaCoefficient1.size());
+#ifdef _MSC_VER
+  #pragma warning(suppress : 26446 26482)
+#endif //#ifdef _MSC_VER
   double M = CAACoordinateTransformation::MapTo0To360Range(g_PlanetaryPhenomenaCoefficient1[nCoefficient].M0 + g_PlanetaryPhenomenaCoefficient1[nCoefficient].M1*k);
-  M = CAACoordinateTransformation::DegreesToRadians(M);   //convert M to radians
+  M = CAACoordinateTransformation::DegreesToRadians(M); //convert M to radians
 
-  double T = (JDE0 - 2451545) / 36525;
-  double T2 = T*T;
+  const double T = (JDE0 - 2451545) / 36525;
+  const double T2 = T*T;
 
   double value = 0;
-  if (object == MERCURY)
+  if (planet == Planet::MERCURY)
   {
     if (bEastern)
     {
@@ -649,7 +671,7 @@ double CAAPlanetaryPhenomena::ElongationValue(double k, PlanetaryObject object, 
               cos(5*M) * (-0.0011);
     }  
   }
-  else if (object == VENUS)
+  else if (planet == Planet::VENUS)
   {
     if (bEastern)
     {
@@ -666,8 +688,8 @@ double CAAPlanetaryPhenomena::ElongationValue(double k, PlanetaryObject object, 
               cos(M) * (0.3097 + 0.0016*T - 0.00001*T2) +
               sin(2*M) * (-0.0163) +
               cos(2*M) * (-0.0075 + 0.0001*T);
-    }  
+    }
   }
-  
+
   return value;
 }

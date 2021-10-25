@@ -1,9 +1,9 @@
 /*
-Module : AAPHYSICALJUPITER.H
+Module : AAPhysicalJupiter.h
 Purpose: Implementation for the algorithms which obtain the physical parameters of Jupiter
 Created: PJN / 05-01-2004
 
-Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -37,32 +37,21 @@ to maintain a single distribution point for the source code.
 class AAPLUS_EXT_CLASS CAAPhysicalJupiterDetails
 {
 public:
-//Constructors / Destructors
-  CAAPhysicalJupiterDetails() : DE(0), 
-                                DS(0), 
-                                Geometricw1(0), 
-                                Geometricw2(0),
-                                Apparentw1(0), 
-                                Apparentw2(0), 
-                                P(0) 
-  {
-  };
-
 //Member variables
-  double DE;
-  double DS;
-  double Geometricw1;
-  double Geometricw2;
-  double Apparentw1;
-  double Apparentw2;
-  double P;
+  double DE = 0;
+  double DS = 0;
+  double Geometricw1 = 0;
+  double Geometricw2 = 0;
+  double Apparentw1 = 0;
+  double Apparentw2 = 0;
+  double P = 0;
 };
 
 class AAPLUS_EXT_CLASS CAAPhysicalJupiter
 {
 public:
 //Static methods
-  static CAAPhysicalJupiterDetails Calculate(double JD, bool bHighPrecision);
+  static CAAPhysicalJupiterDetails Calculate(double JD, bool bHighPrecision) noexcept;
 };
 
 #endif //#ifndef __AAPHYSICALJUPITER_H__

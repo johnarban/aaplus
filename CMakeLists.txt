@@ -1,6 +1,9 @@
 PROJECT (AstronomicalAlgorithms)
 
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 3.8)
+
+SET(CMAKE_CXX_STANDARD 17)
+SET(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 #-----------------------------------------------------------------------------
 # Output directories.
@@ -20,14 +23,15 @@ SET ( SRCS_LIB
   AADiameters.cpp
   AADynamicalTime.cpp
   AAEarth.cpp
-  AAEaster.cpp
   AAEclipses.cpp
   AAEclipticalElements.cpp
   AAElementsPlanetaryOrbit.cpp
   AAElliptical.cpp
   AAELP2000.cpp
+  AAELPMPP02.cpp
   AAEquationOfTime.cpp
   AAEquinoxesAndSolstices.cpp
+  AAEquinoxesAndSolstices2.cpp
   AAFK5.cpp
   AAGalileanMoons.cpp
   AAGlobe.cpp
@@ -41,9 +45,13 @@ SET ( SRCS_LIB
   AAMoon.cpp
   AAMoonIlluminatedFraction.cpp
   AAMoonMaxDeclinations.cpp
+  AAMoonMaxDeclinations2.cpp
   AAMoonNodes.cpp
+  AAMoonNodes2.cpp
   AAMoonPerigeeApogee.cpp
+  AAMoonPerigeeApogee2.cpp
   AAMoonPhases.cpp
+  AAMoonPhases2.cpp
   AAMoslemCalendar.cpp
   AANearParabolic.cpp
   AANeptune.cpp
@@ -57,11 +65,14 @@ SET ( SRCS_LIB
   AAPhysicalMoon.cpp
   AAPhysicalSun.cpp
   AAPlanetPerihelionAphelion.cpp
+  AAPlanetPerihelionAphelion2.cpp
   AAPlanetaryPhenomena.cpp
+  AAPlanetaryPhenomena2.cpp
   AAPluto.cpp
   AAPrecession.cpp
   AARefraction.cpp
   AARiseTransitSet.cpp
+  AARiseTransitSet2.cpp
   AASaturn.cpp
   AASaturnMoons.cpp
   AASaturnRings.cpp
@@ -70,6 +81,7 @@ SET ( SRCS_LIB
   AASun.cpp
   AAUranus.cpp
   AAVenus.cpp
+  AAVSOP2013.cpp
   AAVSOP87.cpp
   AAVSOP87A_EAR.cpp
   AAVSOP87A_EMB.cpp
@@ -134,6 +146,7 @@ SET ( INCS
   AABinaryStar.h
   AACoordinateTransformation.h
   AADate.h
+  AADefines.h
   AADiameters.h
   AADynamicalTime.h
   AAEarth.h
@@ -172,7 +185,9 @@ SET ( INCS
   AAPhysicalMoon.h
   AAPhysicalSun.h
   AAPlanetPerihelionAphelion.h
+  AAPlanetPerihelionAphelion2.h
   AAPlanetaryPhenomena.h
+  AAPlanetaryPhenomena2.h
   AAPluto.h
   AAPrecession.h
   AARefraction.h
@@ -185,6 +200,7 @@ SET ( INCS
   AASun.h
   AAUranus.h
   AAVenus.h
+  AAVSOP2013.h
   AAVSOP87.h
   AAVSOP87A_EAR.h
   AAVSOP87A_EMB.h

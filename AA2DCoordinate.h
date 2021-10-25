@@ -1,9 +1,9 @@
 /*
-Module : AA2DCOORDINATE.H
+Module : AA2DCoordinate.h
 Purpose: Implementation for the simple class to encapsulate a two dimensional coordinate
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -37,15 +37,9 @@ to maintain a single distribution point for the source code.
 class AAPLUS_EXT_CLASS CAA2DCoordinate
 {
 public:
-//Constructors / Destructors
-  CAA2DCoordinate(): X(0), 
-                     Y(0) 
-  {
-  };
-
 //Member variables
-  double X;
-  double Y;
+  double X = 0;
+  double Y = 0;
 };
 
 

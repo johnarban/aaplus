@@ -4,7 +4,7 @@ Purpose: Implementation for the algorithms for ELP2000-82B
 Created: PJN / 28-12-2015
 History: PJN / 28-12-2015 1. Initial public release.
 
-Copyright (c) 2015 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2015 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -35,22 +35,24 @@ to maintain a single distribution point for the source code.
 
 /////////////////////// Includes //////////////////////////////////////////////
 
+#include <array>
+#include <cstddef>
 #include "AA3DCoordinate.h"
 
 
-////////////////////////////// Classes ////////////////////////////////////////
+/////////////////////// Classes ///////////////////////////////////////////////
 
 struct AAPLUS_EXT_CLASS ELP2000MainProblemCoefficient
 {
-  int    m_I[4];
+  std::array<int, 4> m_I;
   double m_A;
-  double m_B[6];
+  std::array<double, 6> m_B;
 };
 
 struct AAPLUS_EXT_CLASS ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient
 {
-  int    m_IZ;
-  int    m_I[4];
+  int m_IZ;
+  std::array<int, 4> m_I;
   double m_O;
   double m_A;
   double m_P;
@@ -58,7 +60,7 @@ struct AAPLUS_EXT_CLASS ELP2000EarthTidalMoonRelativisticSolarEccentricityCoeffi
 
 struct AAPLUS_EXT_CLASS ELP2000PlanetPertCoefficient
 {
-  int    m_ip[11];
+  std::array<int, 11> m_ip;
   double m_theta;
   double m_O;
   double m_P;
@@ -68,49 +70,53 @@ class AAPLUS_EXT_CLASS CAAELP2000
 {
 public:
 //Static methods
-  static double EclipticLongitude(double JD);
-  static double EclipticLatitude(double JD);
-  static double RadiusVector(double JD);
-  static CAA3DCoordinate EclipticRectangularCoordinates(double JD);
-  static CAA3DCoordinate EclipticRectangularCoordinatesJ2000(double JD);
-  static CAA3DCoordinate EquatorialRectangularCoordinatesFK5(double JD);
-  static double MoonMeanLongitude(double* pT, int nTSize);
-  static double MoonMeanLongitude(double JD);
-  static double MoonMeanLongitudeLunarPerigee(double* pT, int nTSize);
-  static double MoonMeanLongitudeLunarPerigee(double JD);
-  static double MoonMeanLongitudeLunarAscendingNode(double* pT, int nTSize);
-  static double MoonMeanLongitudeLunarAscendingNode(double JD);
-  static double EarthMoonBarycentreMeanLongitude(double* pT, int nTSize);
-  static double EarthMoonBarycentreMeanLongitude(double JD);
-  static double EarthMoonBarycentreMeanLongitudeOfPerihelion(double* pT, int nTSize);
-  static double EarthMoonBarycentreMeanLongitudeOfPerihelion(double JD);
-  static double MoonMeanSolarElongation(double* pT, int nTSize);
-  static double MoonMeanSolarElongation(double JD);
-  static double SunMeanAnomaly(double* pT, int nTSize);
-  static double SunMeanAnomaly(double JD);
-  static double MoonMeanAnomaly(double* pT, int nTSize);
-  static double MoonMeanAnomaly(double JD);
-  static double MoonMeanArgumentOfLatitude(double* pT, int nTSize);
-  static double MoonMeanArgumentOfLatitude(double JD);
-  static double MercuryMeanLongitude(double T);
-  static double VenusMeanLongitude(double T);
-  static double MarsMeanLongitude(double T);
-  static double JupiterMeanLongitude(double T);
-  static double SaturnMeanLongitude(double T);
-  static double UranusMeanLongitude(double T);
-  static double NeptuneMeanLongitude(double T);
+  static double EclipticLongitude(double JD) noexcept;
+  static double EclipticLongitude(const double* pT, int nTSize) noexcept;
+  static double EclipticLatitude(double JD) noexcept;
+  static double EclipticLatitude(const double* pT, int nTSize) noexcept;
+  static double RadiusVector(double JD) noexcept;
+  static double RadiusVector(const double* pT, int nTSize) noexcept;
+  static CAA3DCoordinate EclipticRectangularCoordinates(double JD) noexcept;
+  static CAA3DCoordinate EclipticRectangularCoordinatesJ2000(double JD) noexcept;
+  static CAA3DCoordinate EquatorialRectangularCoordinatesFK5(double JD) noexcept;
+  static double MoonMeanMeanLongitude(const double* pT, int nTSize) noexcept;
+  static double MoonMeanMeanLongitude(double JD) noexcept;
+  static double MeanLongitudeLunarPerigee(const double* pT, int nTSize) noexcept;
+  static double MeanLongitudeLunarPerigee(double JD) noexcept;
+  static double MeanLongitudeLunarAscendingNode(const double* pT, int nTSize) noexcept;
+  static double MeanLongitudeLunarAscendingNode(double JD) noexcept;
+  static double MeanHeliocentricMeanLongitudeEarthMoonBarycentre(const double* pT, int nTSize) noexcept;
+  static double MeanHeliocentricMeanLongitudeEarthMoonBarycentre(double JD) noexcept;
+  static double MeanLongitudeOfPerilhelionOfEarthMoonBarycentre(const double* pT, int nTSize) noexcept;
+  static double MeanLongitudeOfPerilhelionOfEarthMoonBarycentre(double JD) noexcept;
+  static double MoonMeanSolarElongation(const double* pT, int nTSize) noexcept;
+  static double MoonMeanSolarElongation(double JD) noexcept;
+  static double SunMeanAnomaly(const double* pT, int nTSize) noexcept;
+  static double SunMeanAnomaly(double JD) noexcept;
+  static double MoonMeanAnomaly(const double* pT, int nTSize) noexcept;
+  static double MoonMeanAnomaly(double JD) noexcept;
+  static double MoonMeanArgumentOfLatitude(const double* pT, int nTSize) noexcept;
+  static double MoonMeanArgumentOfLatitude(double JD) noexcept;
+  static double MercuryMeanLongitude(double T) noexcept;
+  static double VenusMeanLongitude(double T) noexcept;
+  static double MarsMeanLongitude(double T) noexcept;
+  static double JupiterMeanLongitude(double T) noexcept;
+  static double SaturnMeanLongitude(double T) noexcept;
+  static double UranusMeanLongitude(double T) noexcept;
+  static double NeptuneMeanLongitude(double T) noexcept;
 
 protected:
 //static methods
-  static double Accumulate(const ELP2000MainProblemCoefficient* pCoefficients, int nCoefficients, double fD, double fldash, double fl, double fF);
-  static double Accumulate_2(const ELP2000MainProblemCoefficient* pCoefficients, int nCoefficients, double fD, double fldash, double fl, double fF);
-  static double Accumulate(double* pT, int nTSize, const ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient* pCoefficients, int nCoefficients, double fD, double fldash, double fl, double fF, bool bI1isZero);
-  static double Accumulate_2(double* pT, int nTSize, const ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient* pCoefficients, int nCoefficients, double fD, double fldash, double fl, double fF, bool bI1isZero);
-  static double AccumulateTable1(const ELP2000PlanetPertCoefficient* pCoefficients, int nCoefficients, double fD, double fl, double fF, double fMe, double fV, double fT, double fMa, double fJ, double fS, double fU, double fN);
-  static double AccumulateTable1_2(double* pT, int nTSize, const ELP2000PlanetPertCoefficient* pCoefficients, int nCoefficients, double fD, double fl, double fF, double fMe, double fV, double fT, double fMa, double fJ, double fS, double fU, double fN);
-  static double AccumulateTable2(const ELP2000PlanetPertCoefficient* pCoefficients, int nCoefficients, double fD, double fldash, double fl, double fF, double fMe, double fV, double fT, double fMa, double fJ, double fS, double fU);
-  static double AccumulateTable2_2(double* pT, int nTSize, const ELP2000PlanetPertCoefficient* pCoefficients, int nCoefficients, double fD, double fldash, double fl, double fF, double fMe, double fV, double fT, double fMa, double fJ, double fS, double fU);
-  static double Accumulate_3(double* pT, int nTSize, const ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient* pCoefficients, int nCoefficients, double fD, double fldash, double fl, double fF);
+  static double Accumulate(const ELP2000MainProblemCoefficient* pCoefficients, size_t nCoefficients, double fD, double fldash, double fl, double fF) noexcept;
+  static double Accumulate_2(const ELP2000MainProblemCoefficient* pCoefficients, size_t nCoefficients, double fD, double fldash, double fl, double fF) noexcept;
+  static double Accumulate(const double* pT, int nTSize, const ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient* pCoefficients, size_t nCoefficients, double fD, double fldash, double fl, double fF, bool bI1isZero) noexcept;
+  static double Accumulate_2(const double* pT, int nTSize, const ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient* pCoefficients, size_t nCoefficients, double fD, double fldash, double fl, double fF, bool bI1isZero) noexcept;
+  static double AccumulateTable1(const ELP2000PlanetPertCoefficient* pCoefficients, size_t nCoefficients, double fD, double fl, double fF, double fMe, double fV, double fT, double fMa, double fJ, double fS, double fU, double fN) noexcept;
+  static double AccumulateTable1_2(const double* pT, int nTSize, const ELP2000PlanetPertCoefficient* pCoefficients, size_t nCoefficients, double fD, double fl, double fF, double fMe, double fV, double fT, double fMa, double fJ, double fS, double fU, double fN) noexcept;
+  static double AccumulateTable2(const ELP2000PlanetPertCoefficient* pCoefficients, size_t nCoefficients, double fD, double fldash, double fl, double fF, double fMe, double fV, double fT, double fMa, double fJ, double fS, double fU) noexcept;
+  static double AccumulateTable2_2(const double* pT, int nTSize, const ELP2000PlanetPertCoefficient* pCoefficients, size_t nCoefficients, double fD, double fldash, double fl, double fF, double fMe, double fV, double fT, double fMa, double fJ, double fS, double fU) noexcept;
+  static double Accumulate_3(const double* pT, int nTSize, const ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient* pCoefficients, size_t nCoefficients, double fD, double fldash, double fl, double fF) noexcept;
 };
+
 
 #endif //#ifndef __AAELP2000_H__

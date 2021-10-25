@@ -1,9 +1,9 @@
 /*
-Module : AAANGULARSEPARATION.H
+Module : AAAngularSeparation.h
 Purpose: Implementation for the algorithms which obtain various separation distances between celestial objects
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -38,10 +38,10 @@ class AAPLUS_EXT_CLASS CAAAngularSeparation
 {
 public:
 //Static methods
-  static double Separation(double Alpha1, double Delta1, double Alpha2, double Delta2);
-  static double PositionAngle(double Alpha1, double Delta1, double Alpha2, double Delta2);
-  static double DistanceFromGreatArc(double Alpha1, double Delta1, double Alpha2, double Delta2, double Alpha3, double Delta3);
-  static double SmallestCircle(double Alpha1, double Delta1, double Alpha2, double Delta2, double Alpha3, double Delta3, bool& bType1);
+  static double Separation(double Alpha1, double Delta1, double Alpha2, double Delta2) noexcept;
+  static double PositionAngle(double Alpha1, double Delta1, double Alpha2, double Delta2) noexcept;
+  static double DistanceFromGreatArc(double Alpha1, double Delta1, double Alpha2, double Delta2, double Alpha3, double Delta3) noexcept;
+  static double SmallestCircle(double Alpha1, double Delta1, double Alpha2, double Delta2, double Alpha3, double Delta3, bool& bType1) noexcept;
 };
 
 

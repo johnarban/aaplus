@@ -1,9 +1,9 @@
 /*
-Module : AAPLANETARYPHENOMENA.H
+Module : AAPlanetaryPhenomena.h
 Purpose: Implementation for the algorithms which obtain the dates of various planetary phenomena
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -38,7 +38,7 @@ class AAPLUS_EXT_CLASS CAAPlanetaryPhenomena
 {
 public:
 //Enums
-  enum PlanetaryObject
+  enum class Planet
   {
     MERCURY,
     VENUS,
@@ -49,7 +49,7 @@ public:
     NEPTUNE
   };
 
-  enum EventType
+  enum class Type
   {
     INFERIOR_CONJUNCTION,
     SUPERIOR_CONJUNCTION,
@@ -62,10 +62,10 @@ public:
   };
 
 //Static methods
-  static double K(double Year, PlanetaryObject object, EventType type);
-  static double Mean(double k, PlanetaryObject object, EventType type);
-  static double True(double k, PlanetaryObject object, EventType type);
-  static double ElongationValue(double k, PlanetaryObject object, bool bEastern);
+  static double K(double Year, Planet planet, Type type) noexcept;
+  static double Mean(double k, Planet planet, Type type) noexcept;
+  static double True(double k, Planet planet, Type type) noexcept;
+  static double ElongationValue(double k, Planet planet, bool bEastern) noexcept;
 };
 
 

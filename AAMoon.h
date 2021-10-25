@@ -1,9 +1,9 @@
 /*
-Module : AAMOON.H
+Module : AAMoon.h
 Purpose: Implementation for the algorithms which obtain the position of the Moon
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -38,20 +38,18 @@ class AAPLUS_EXT_CLASS CAAMoon
 {
 public:
 //Static methods
-  static double MeanLongitude(double JD);
-  static double MeanElongation(double JD);
-  static double MeanAnomaly(double JD);
-  static double ArgumentOfLatitude(double JD);
-  static double MeanLongitudeAscendingNode(double JD);
-  static double MeanLongitudePerigee(double JD);
-  static double TrueLongitudeAscendingNode(double JD);
-
-  static double EclipticLongitude(double JD);
-  static double EclipticLatitude(double JD);
-  static double RadiusVector(double JD);
-
-  static double RadiusVectorToHorizontalParallax(double RadiusVector);
-  static double HorizontalParallaxToRadiusVector(double Parallax);
+  static double MeanLongitude(double JD) noexcept;
+  static double MeanElongation(double JD) noexcept;
+  static double MeanAnomaly(double JD) noexcept;
+  static double ArgumentOfLatitude(double JD) noexcept;
+  static double MeanLongitudeAscendingNode(double JD) noexcept;
+  static double MeanLongitudePerigee(double JD) noexcept;
+  static double TrueLongitudeAscendingNode(double JD) noexcept;
+  static double EclipticLongitude(double JD) noexcept;
+  static double EclipticLatitude(double JD) noexcept;
+  static double RadiusVector(double JD) noexcept;
+  static double RadiusVectorToHorizontalParallax(double RadiusVector) noexcept;
+  static double HorizontalParallaxToRadiusVector(double Parallax) noexcept;
 };
 
 

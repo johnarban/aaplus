@@ -1,9 +1,9 @@
 /*
-Module : AAURANUS.H
+Module : AAUranus.h
 Purpose: Implementation for the algorithms which obtain the heliocentric position of Uranus
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -38,9 +38,9 @@ class AAPLUS_EXT_CLASS CAAUranus
 {
 public:
 //Static methods
-  static double EclipticLongitude(double JD, bool bHighPrecision);
-  static double EclipticLatitude(double JD, bool bHighPrecision);
-  static double RadiusVector(double JD, bool bHighPrecision);
+  static double EclipticLongitude(double JD, bool bHighPrecision) noexcept;
+  static double EclipticLatitude(double JD, bool bHighPrecision) noexcept;
+  static double RadiusVector(double JD, bool bHighPrecision) noexcept;
 };
 
 

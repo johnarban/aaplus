@@ -1,9 +1,9 @@
 /*
-Module : AAECLIPTICALELEMENTS.H
+Module : AAEclipticalElements.h
 Purpose: Implementation for the algorithms which map the ecliptical elements from one equinox to another
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -37,25 +37,18 @@ to maintain a single distribution point for the source code.
 class AAPLUS_EXT_CLASS CAAEclipticalElementDetails
 {
 public:
-//Constructors / Destructors
-  CAAEclipticalElementDetails() : i(0), 
-                                  w(0), 
-                                  omega(0) 
-  {
-  };
-
 //Member variables
-  double i;
-  double w;
-  double omega;
+  double i = 0;
+  double w = 0;
+  double omega = 0;
 };
 
 class AAPLUS_EXT_CLASS CAAEclipticalElements
 {
 public:
 //Static methods
-  static CAAEclipticalElementDetails Calculate(double i0, double w0, double omega0, double JD0, double JD);
-  static CAAEclipticalElementDetails FK4B1950ToFK5J2000(double i0, double w0, double omega0);
+  static CAAEclipticalElementDetails Calculate(double i0, double w0, double omega0, double JD0, double JD) noexcept;
+  static CAAEclipticalElementDetails FK4B1950ToFK5J2000(double i0, double w0, double omega0) noexcept;
 };
 
 

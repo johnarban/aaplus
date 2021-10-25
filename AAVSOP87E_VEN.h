@@ -2,9 +2,8 @@
 Module : AAVSOP87E_VEN.h
 Purpose: Implementation for the algorithms for VSOP87
 Created: PJN / 13-09-2015
-History: PJN / 13-09-2015 1. Initial public release.
 
-Copyright (c) 2015 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2015 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -38,12 +37,12 @@ to maintain a single distribution point for the source code.
 class AAPLUS_EXT_CLASS CAAVSOP87E_Venus
 {
 public:
-  static double X(double JD);
-  static double X_DASH(double JD);
-  static double Y(double JD);
-  static double Y_DASH(double JD);
-  static double Z(double JD);
-  static double Z_DASH(double JD);
+  static double X(double JD) noexcept;
+  static double X_DASH(double JD) noexcept;
+  static double Y(double JD) noexcept;
+  static double Y_DASH(double JD) noexcept;
+  static double Z(double JD) noexcept;
+  static double Z_DASH(double JD) noexcept;
 };
 
 

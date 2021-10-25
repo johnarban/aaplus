@@ -1,13 +1,13 @@
 /*
-Module : AAREFRACTION.CPP
-Purpose: Implementation for the algorithms which model Atmospheric Refraction
+Module : AARefraction.cpp
+Purpose: Implementation for the algorithms which model Atmospheric refraction
 Created: PJN / 29-12-2003
 History: PJN / 26-11-2010 1. CAARefraction::RefractionFromApparent now returns a constant refraction value for all 
                           altitudes below a certain limit. Thanks to mehrzad khoddam for prompting this update.
                           2. CAARefraction::RefractionFromTrue now returns a constant refraction value for all 
                           altitudes below a certain limit. Thanks to mehrzad khoddam for prompting this update.
 
-Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -33,7 +33,7 @@ using namespace std;
 
 /////////////////////////////////// Implementation ////////////////////////////
 
-double CAARefraction::RefractionFromApparent(double Altitude, double Pressure, double Temperature)
+double CAARefraction::RefractionFromApparent(double Altitude, double Pressure, double Temperature) noexcept
 {
   //return a constant value from this method if the altitude is below a specific value
   if (Altitude <= -1.6962987799993996)
@@ -45,7 +45,7 @@ double CAARefraction::RefractionFromApparent(double Altitude, double Pressure, d
   return value;
 }
 
-double CAARefraction::RefractionFromTrue(double Altitude, double Pressure, double Temperature)
+double CAARefraction::RefractionFromTrue(double Altitude, double Pressure, double Temperature) noexcept
 {
   //return a constant value from this method if the altitude is below a specific value
   if (Altitude <= -1.9006387000003735)

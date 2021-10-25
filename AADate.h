@@ -1,9 +1,9 @@
 /*
-Module : AADATE.H
+Module : AADate.h
 Purpose: Implementation for the algorithms which convert between the Gregorian and Julian calendars and the Julian Day
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -32,83 +32,89 @@ to maintain a single distribution point for the source code.
 #endif //#ifndef AAPLUS_EXT_CLASS
 
 
+/////////////////////// Includes //////////////////////////////////////////////
+
+#include "AADefines.h"
+
+
 /////////////////////// Classes ///////////////////////////////////////////////
 
 class AAPLUS_EXT_CLASS CAACalendarDate
 {
 public:
-//Constructors / Destructors
-  CAACalendarDate() : Year(0), 
-                      Month(0), 
-                      Day(0) 
-  {
-  };
-
 //Member variables
-  long Year;
-  long Month;
-  long Day;
+  long Year = 0;
+  long Month = 0;
+  long Day = 0;
 };
-
 
 class AAPLUS_EXT_CLASS CAADate
 {
 public:
 //Enums
-  enum DAY_OF_WEEK
-  {	
-    SUNDAY	  = 0,
-    MONDAY	  = 1,
-    TUESDAY	  = 2,
-    WEDNESDAY	= 3,
-    THURSDAY	= 4,
-    FRIDAY	  = 5,
-    SATURDAY	= 6
+  enum class DOW
+  {
+    SUNDAY = 0,
+    MONDAY = 1,
+    TUESDAY = 2,
+    WEDNESDAY = 3,
+    THURSDAY = 4,
+    FRIDAY = 5,
+    SATURDAY = 6
   };
 
 //Constructors / Destructors
-  CAADate();
-  CAADate(long Year, long Month, double Day, bool bGregorianCalendar);
-  CAADate(long Year, long Month, double Day, double Hour, double Minute, double Second, bool bGregorianCalendar);
-  CAADate(double JD, bool bGregorianCalendar);
+  CAADate() noexcept;
+  CAADate(long Year, long Month, double Day, bool bGregorianCalendar) noexcept;
+  CAADate(long Year, long Month, double Day, double Hour, double Minute, double Second, bool bGregorianCalendar) noexcept;
+  CAADate(double JD, bool bGregorianCalendar) noexcept;
 
 //Static Methods
-  static double          DateToJD(long Year, long Month, double Day, bool bGregorianCalendar);
-  static bool            IsLeap(long Year, bool bGregorianCalendar);
-  static void            DayOfYearToDayAndMonth(long DayOfYear, bool bLeap, long& DayOfMonth, long& Month);
-  static CAACalendarDate JulianToGregorian(long Year, long Month, long Day);
-  static CAACalendarDate GregorianToJulian(long Year, long Month, long Day);
-  static long            INT(double value);
-  static bool            AfterPapalReform(long Year, long Month, double Day);
-  static bool            AfterPapalReform(double JD);
-  static double          DayOfYear(double JD, long Year, bool bGregorianCalendar);
-  static long            DaysInMonth(long Month, bool bLeap);
+  static double DateToJD(long Year, long Month, double Day, bool bGregorianCalendar) noexcept;
+  static bool IsLeap(long Year, bool bGregorianCalendar) noexcept;
+  static void DayOfYearToDayAndMonth(long DayOfYear, bool bLeap, long& DayOfMonth, long& Month) noexcept;
+  static CAACalendarDate JulianToGregorian(long Year, long Month, long Day) noexcept;
+  static CAACalendarDate GregorianToJulian(long Year, long Month, long Day) noexcept;
+  static long INT(double value) noexcept;
+
+  constexpr static bool AfterPapalReform(long Year, long Month, double Day)
+  {
+    return ((Year > 1582) || ((Year == 1582) && (Month > 10)) || ((Year == 1582) && (Month == 10) && (Day >= 15)));
+  }
+
+  constexpr static bool AfterPapalReform(double JD)
+  {
+    return (JD >= 2299160.5);
+  }
+
+  static double DayOfYear(double JD, long Year, bool bGregorianCalendar) noexcept;
+  static long DaysInMonth(long Month, bool bLeap) noexcept;
 
 //Non Static methods
-  double      Julian() const { return m_dblJulian; };
-  operator    double() const { return m_dblJulian; };
-  long        Day() const;
-  long        Month() const;
-  long        Year() const;
-  long        Hour() const;
-  long        Minute() const;
-  double      Second() const;
-  void        Set(long Year, long Month, double Day, double Hour, double Minute, double Second, bool bGregorianCalendar);
-  void        Set(double JD, bool bGregorianCalendar);
-  void        SetInGregorianCalendar(bool bGregorianCalendar);
-  void        Get(long& Year, long& Month, long& Day, long& Hour, long& Minute, double& Second) const;
-  DAY_OF_WEEK DayOfWeek() const;
-  double      DayOfYear() const;
-  long        DaysInMonth() const;
-  long        DaysInYear() const;
-  bool        Leap() const;
-  bool        InGregorianCalendar() const { return m_bGregorianCalendar; };
-  double      FractionalYear() const;
+  [[nodiscard]] double Julian() const noexcept { return m_dblJulian; };
+  operator double() const noexcept { return m_dblJulian; };
+  [[nodiscard]] long Day() const noexcept;
+  [[nodiscard]] long Month() const noexcept;
+  [[nodiscard]] long Year() const noexcept;
+  [[nodiscard]] long Hour() const noexcept;
+  [[nodiscard]] long Minute() const noexcept;
+  [[nodiscard]] double Second() const noexcept;
+  void Set(long Year, long Month, double Day, double Hour, double Minute, double Second, bool bGregorianCalendar) noexcept;
+  void Set(double JD, bool bGregorianCalendar) noexcept;
+  void SetInGregorianCalendar(bool bGregorianCalendar) noexcept;
+  void Get(long& Year, long& Month, long& Day, long& Hour, long& Minute, double& Second) const noexcept;
+  [[nodiscard]] DOW DayOfWeek() const noexcept;
+  [[nodiscard]] double DayOfYear() const noexcept;
+  [[nodiscard]] long DaysInMonth() const noexcept;
+  [[nodiscard]] long DaysInYear() const noexcept;
+  [[nodiscard]] bool Leap() const noexcept;
+  [[nodiscard]] bool InGregorianCalendar() const noexcept { return m_bGregorianCalendar; };
+  [[nodiscard]] double FractionalYear() const noexcept;
 
 protected:
 //Member variables
-  double m_dblJulian;  //Julian Day number for this date
-  bool   m_bGregorianCalendar; //Is this date in the Gregorian calendar
+  double m_dblJulian; //Julian Day number for this date
+  bool m_bGregorianCalendar; //Is this date in the Gregorian calendar
 };
 
 

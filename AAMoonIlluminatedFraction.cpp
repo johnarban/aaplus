@@ -1,12 +1,13 @@
 /*
-Module : AAMOONILLUMINATEDFRACTION.CPP
+Module : AAMoonIlluminatedFraction.cpp
 Purpose: Implementation for the algorithms for the Moon's Elongation, Phase Angle and Illuminated Fraction
 Created: PJN / 29-12-2003
 History: PJN / 26-01-2007 1. Changed name of CAAMoonIlluminatedFraction::IluminatedFraction to 
                           CAAMoonIlluminatedFraction::IlluminatedFraction. Thanks to Ing. Taras Kapuszczak
                           for reporting this typo!.
+         PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
 
-Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -32,7 +33,7 @@ using namespace std;
 
 //////////////////// Implementation ///////////////////////////////////////////
 
-double CAAMoonIlluminatedFraction::GeocentricElongation(double ObjectAlpha, double ObjectDelta, double SunAlpha, double SunDelta)
+double CAAMoonIlluminatedFraction::GeocentricElongation(double ObjectAlpha, double ObjectDelta, double SunAlpha, double SunDelta) noexcept
 {
   //Convert the RA's to radians
   ObjectAlpha = CAACoordinateTransformation::DegreesToRadians(ObjectAlpha*15);
@@ -46,7 +47,7 @@ double CAAMoonIlluminatedFraction::GeocentricElongation(double ObjectAlpha, doub
   return CAACoordinateTransformation::RadiansToDegrees(acos(sin(SunDelta)*sin(ObjectDelta) + cos(SunDelta)*cos(ObjectDelta)*cos(SunAlpha - ObjectAlpha)));
 }
 
-double CAAMoonIlluminatedFraction::PhaseAngle(double GeocentricElongation, double EarthObjectDistance, double EarthSunDistance)
+double CAAMoonIlluminatedFraction::PhaseAngle(double GeocentricElongation, double EarthObjectDistance, double EarthSunDistance) noexcept
 {
   //Convert from degrees to radians
   GeocentricElongation = CAACoordinateTransformation::DegreesToRadians(GeocentricElongation);
@@ -55,7 +56,7 @@ double CAAMoonIlluminatedFraction::PhaseAngle(double GeocentricElongation, doubl
   return CAACoordinateTransformation::MapTo0To360Range(CAACoordinateTransformation::RadiansToDegrees(atan2(EarthSunDistance * sin(GeocentricElongation), EarthObjectDistance - EarthSunDistance*cos(GeocentricElongation))));
 }
 
-double CAAMoonIlluminatedFraction::IlluminatedFraction(double PhaseAngle)
+double CAAMoonIlluminatedFraction::IlluminatedFraction(double PhaseAngle) noexcept
 {
   //Convert from degrees to radians
   PhaseAngle = CAACoordinateTransformation::DegreesToRadians(PhaseAngle);
@@ -64,7 +65,7 @@ double CAAMoonIlluminatedFraction::IlluminatedFraction(double PhaseAngle)
   return (1 + cos(PhaseAngle)) / 2;
 }
 
-double CAAMoonIlluminatedFraction::PositionAngle(double Alpha0, double Delta0, double Alpha, double Delta)
+double CAAMoonIlluminatedFraction::PositionAngle(double Alpha0, double Delta0, double Alpha, double Delta) noexcept
 {
   //Convert to radians
   Alpha0 = CAACoordinateTransformation::HoursToRadians(Alpha0);

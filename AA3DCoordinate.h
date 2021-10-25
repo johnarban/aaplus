@@ -1,9 +1,9 @@
 /*
-Module : AA3DCOORDINATE.H
+Module : AA3DCoordinate.h
 Purpose: Implementation for the simple class to encapsulate a three dimensional coordinate
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -37,17 +37,10 @@ to maintain a single distribution point for the source code.
 class AAPLUS_EXT_CLASS CAA3DCoordinate
 {
 public:
-//Constructors / Destructors
-  CAA3DCoordinate() : X(0), 
-                      Y(0), 
-                      Z(0) 
-  {
-  };
-
-//member variables
-  double X;
-  double Y;
-  double Z;
+//Member variables
+  double X = 0;
+  double Y = 0;
+  double Z = 0;
 };
 
 

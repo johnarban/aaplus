@@ -1,9 +1,9 @@
 /*
-Module : AASATURNMOONS.H
-Purpose: Implementation for the algorithms which obtain the positions of Saturn
+Module : AASaturnMoons.h
+Purpose: Implementation for the algorithms which obtain the positions of the moons of Saturn
 Created: PJN / 09-01-2004
 
-Copyright (c) 2004 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2004 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -42,21 +42,12 @@ to maintain a single distribution point for the source code.
 class AAPLUS_EXT_CLASS CAASaturnMoonDetail
 {
 public:
-//Constructors / Destructors
-  CAASaturnMoonDetail() : bInTransit(false), 
-                          bInOccultation(false), 
-                          bInEclipse(false), 
-                          bInShadowTransit(false) 
-  {
-  };
-
-//Member variables
   CAA3DCoordinate TrueRectangularCoordinates;
   CAA3DCoordinate ApparentRectangularCoordinates;
-  bool            bInTransit;
-  bool            bInOccultation;
-  bool            bInEclipse;
-  bool            bInShadowTransit;
+  bool bInTransit = false;
+  bool bInOccultation = false;
+  bool bInEclipse = false;
+  bool bInShadowTransit = false;
 };
 
 class AAPLUS_EXT_CLASS CAASaturnMoonsDetails
@@ -77,13 +68,13 @@ class AAPLUS_EXT_CLASS CAASaturnMoons
 {
 public:
 //Static methods
-  static CAASaturnMoonsDetails Calculate(double JD, bool bHighPrecision);
+  static CAASaturnMoonsDetails Calculate(double JD, bool bHighPrecision) noexcept;
 
 protected:
-  static CAASaturnMoonsDetails CalculateHelper(double JD, double sunlongrad, double betarad, double R, bool bHighPrecision);
-  static void HelperSubroutine(double e, double lambdadash, double p, double a, double omega, double i, double c1, double s1, double& C, double& r, double& lambda, double& w);
-  static void Rotations(double X, double Y, double Z, double c1, double s1, double c2, double s2, double lambda0, double beta0, double& A4, double& B4, double& C4);
-  static void FillInPhenomenaDetails(CAASaturnMoonDetail& detail);
+  static CAASaturnMoonsDetails CalculateHelper(double JD, double sunlongrad, double betarad, double R, bool bHighPrecision) noexcept;
+  static void HelperSubroutine(double e, double lambdadash, double p, double a, double omega, double i, double c1, double s1, double& r, double& lambda, double& gamma, double& w) noexcept;
+  static void Rotations(double X, double Y, double Z, double c1, double s1, double c2, double s2, double lambda0, double beta0, double& A4, double& B4, double& C4) noexcept;
+  static void FillInPhenomenaDetails(CAASaturnMoonDetail& detail) noexcept;
 };
 
 

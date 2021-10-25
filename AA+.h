@@ -1,9 +1,9 @@
 /*
-Module : AA+.H
+Module : AA+.h
 Purpose: Main include file for AA+ framework
 Created: PJN / 30-1-2005
 
-Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -13,7 +13,7 @@ You are allowed to include the source code in any product (commercial, shareware
 when your product is released in binary form. You are allowed to modify the source code in any way you want 
 except you cannot modify the copyright details at the top of each module. If you want to distribute source 
 code with your application, then you are only allowed to distribute versions released by the author. This is 
-to maintain a single distribution point for the source code. 
+to maintain a single distribution point for the source code.
 
 */
 
@@ -49,11 +49,15 @@ to maintain a single distribution point for the source code.
 #include "AAEclipticalElements.h"
 #include "AAElementsPlanetaryOrbit.h"
 #include "AAElliptical.h"
-#ifndef AAPLUS_ELP2000_NO_HIGH_PRECISION
+#ifndef AAPLUS_NO_ELP2000
 #include "AAELP2000.h"
-#endif //#ifndef AAPLUS_ELP2000_NO_HIGH_PRECISION
+#endif //#ifndef AAPLUS_NO_ELP2000
+#ifndef AAPLUS_NO_ELPMPP02
+#include "AAELPMPP02.h"
+#endif //#ifndef AAPLUS_NO_ELPMPP02
 #include "AAEquationOfTime.h"
 #include "AAEquinoxesAndSolstices.h"
+#include "AAEquinoxesAndSolstices2.h"
 #include "AAFK5.h"
 #include "AAGalileanMoons.h"
 #include "AAGlobe.h"
@@ -67,9 +71,13 @@ to maintain a single distribution point for the source code.
 #include "AAMoon.h"
 #include "AAMoonIlluminatedFraction.h"
 #include "AAMoonMaxDeclinations.h"
+#include "AAMoonMaxDeclinations2.h"
 #include "AAMoonNodes.h"
+#include "AAMoonNodes2.h"
 #include "AAMoonPerigeeApogee.h"
+#include "AAMoonPerigeeApogee2.h"
 #include "AAMoonPhases.h"
+#include "AAMoonPhases2.h"
 #include "AAMoslemCalendar.h"
 #include "AANearParabolic.h"
 #include "AANeptune.h"
@@ -83,11 +91,14 @@ to maintain a single distribution point for the source code.
 #include "AAPhysicalMoon.h"
 #include "AAPhysicalSun.h"
 #include "AAPlanetaryPhenomena.h"
+#include "AAPlanetaryPhenomena2.h"
 #include "AAPlanetPerihelionAphelion.h"
+#include "AAPlanetPerihelionAphelion2.h"
 #include "AAPluto.h"
 #include "AAPrecession.h"
 #include "AARefraction.h"
 #include "AARiseTransitSet.h"
+#include "AARiseTransitSet2.h"
 #include "AASaturn.h"
 #include "AASaturnMoons.h"
 #include "AASaturnRings.h"
@@ -96,7 +107,10 @@ to maintain a single distribution point for the source code.
 #include "AASun.h"
 #include "AAUranus.h"
 #include "AAVenus.h"
-#ifndef AAPLUS_VSOP87_NO_HIGH_PRECISION
+#ifndef AAPLUS_NO_VSOP2013
+#include "AAVSOP2013.h"
+#endif //#ifndef AAPLUS_NO_VSOP2013
+#ifndef AAPLUS_NO_VSOP87
 #include "AAVSOP87.h"
 #include "AAVSOP87_EMB.h"
 #include "AAVSOP87_JUP.h"
@@ -148,6 +162,6 @@ to maintain a single distribution point for the source code.
 #include "AAVSOP87E_SUN.h"
 #include "AAVSOP87E_URA.h"
 #include "AAVSOP87E_VEN.h"
-#endif //#ifndef AAPLUS_VSOP87_NO_HIGH_PRECISION
+#endif //#ifndef AAPLUS_NO_VSOP87
 
 #endif //#ifndef __AAPLUS_H__

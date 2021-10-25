@@ -1,9 +1,9 @@
 /*
-Module : AAREFRACTION.H
-Purpose: Implementation for the algorithms which model Atmospheric Refraction
+Module : AARefraction.h
+Purpose: Implementation for the algorithms which model Atmospheric refraction
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -38,8 +38,8 @@ class AAPLUS_EXT_CLASS CAARefraction
 {
 public:
 //Static methods
-  static double RefractionFromApparent(double Altitude, double Pressure = 1010, double Temperature = 10);
-  static double RefractionFromTrue(double Altitude, double Pressure = 1010, double Temperature = 10);
+  static double RefractionFromApparent(double Altitude, double Pressure = 1010, double Temperature = 10) noexcept;
+  static double RefractionFromTrue(double Altitude, double Pressure = 1010, double Temperature = 10) noexcept;
 };
 
 

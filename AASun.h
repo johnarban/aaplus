@@ -1,9 +1,9 @@
 /*
-Module : AASUN.H
+Module : AASun.h
 Purpose: Implementation for the algorithms which obtain the position of the Sun
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -43,19 +43,20 @@ class AAPLUS_EXT_CLASS CAASun
 {
 public:
 //Static methods
-  static double GeometricEclipticLongitude(double JD, bool bHighPrecision);
-  static double GeometricEclipticLatitude(double JD, bool bHighPrecision);
-  static double GeometricEclipticLongitudeJ2000(double JD, bool bHighPrecision);
-  static double GeometricEclipticLatitudeJ2000(double JD, bool bHighPrecision);
-  static double GeometricFK5EclipticLongitude(double JD, bool bHighPrecision);
-  static double GeometricFK5EclipticLatitude(double JD, bool bHighPrecision);
-  static double ApparentEclipticLongitude(double JD, bool bHighPrecision);
-  static double ApparentEclipticLatitude(double JD, bool bHighPrecision);
-  static CAA3DCoordinate EquatorialRectangularCoordinatesMeanEquinox(double JD, bool bHighPrecision);
-  static CAA3DCoordinate EclipticRectangularCoordinatesJ2000(double JD, bool bHighPrecision);
-  static CAA3DCoordinate EquatorialRectangularCoordinatesJ2000(double JD, bool bHighPrecision);
-  static CAA3DCoordinate EquatorialRectangularCoordinatesB1950(double JD, bool bHighPrecision);
-  static CAA3DCoordinate EquatorialRectangularCoordinatesAnyEquinox(double JD, double JDEquinox, bool bHighPrecision);
+  static double GeometricEclipticLongitude(double JD, bool bHighPrecision) noexcept;
+  static double GeometricEclipticLatitude(double JD, bool bHighPrecision) noexcept;
+  static double GeometricEclipticLongitudeJ2000(double JD, bool bHighPrecision) noexcept;
+  static double GeometricEclipticLatitudeJ2000(double JD, bool bHighPrecision) noexcept;
+  static double GeometricFK5EclipticLongitude(double JD, bool bHighPrecision) noexcept;
+  static double GeometricFK5EclipticLatitude(double JD, bool bHighPrecision) noexcept;
+  static double ApparentEclipticLongitude(double JD, bool bHighPrecision) noexcept;
+  static double ApparentEclipticLatitude(double JD, bool bHighPrecision) noexcept;
+  static double VariationGeometricEclipticLongitude(double JD) noexcept;
+  static CAA3DCoordinate EquatorialRectangularCoordinatesMeanEquinox(double JD, bool bHighPrecision) noexcept;
+  static CAA3DCoordinate EclipticRectangularCoordinatesJ2000(double JD, bool bHighPrecision) noexcept;
+  static CAA3DCoordinate EquatorialRectangularCoordinatesJ2000(double JD, bool bHighPrecision) noexcept;
+  static CAA3DCoordinate EquatorialRectangularCoordinatesB1950(double JD, bool bHighPrecision) noexcept;
+  static CAA3DCoordinate EquatorialRectangularCoordinatesAnyEquinox(double JD, double JDEquinox, bool bHighPrecision) noexcept;
 };
 
 

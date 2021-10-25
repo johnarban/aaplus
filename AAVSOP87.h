@@ -2,9 +2,8 @@
 Module : AAVSOP87.h
 Purpose: Implementation for the algorithms for VSOP87
 Created: PJN / 29-08-2015
-History: PJN / 29-08-2015 1. Initial public release.
 
-Copyright (c) 2015 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2015 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -33,6 +32,11 @@ to maintain a single distribution point for the source code.
 #endif //#ifndef AAPLUS_EXT_CLASS
 
 
+////////////////////////////// Includes ///////////////////////////////////////
+
+#include <cstddef>
+
+
 ////////////////////////////// Classes ////////////////////////////////////////
 
 struct VSOP87Coefficient
@@ -45,15 +49,15 @@ struct VSOP87Coefficient
 struct VSOP87Coefficient2
 {
   const VSOP87Coefficient* pCoefficients;
-  int                      nCoefficientsSize;
+  size_t nCoefficientsSize;
 };
 
-class AAPLUS_EXT_CLASS CVSOP87
+class AAPLUS_EXT_CLASS CAAVSOP87
 {
 public:
 //Static methods
-  static double Calculate(double JD, const VSOP87Coefficient2* pTable, int nTableSize, bool bAngle);
-  static double Calculate_Dash(double JD, const VSOP87Coefficient2* pTable, int nTableSize);
+  static double Calculate(double JD, const VSOP87Coefficient2* pTable, size_t nTableSize, bool bAngle) noexcept;
+  static double Calculate_Dash(double JD, const VSOP87Coefficient2* pTable, size_t nTableSize) noexcept;
 };
 
 

@@ -1,9 +1,9 @@
 /*
-Module : AAPARALLACTIC.H
+Module : AAParallactic.h
 Purpose: Implementation for the algorithms which calculate various celestial globe angles
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -38,10 +38,10 @@ class AAPLUS_EXT_CLASS CAAParallactic
 {
 public:
 //Static methods
-  static double ParallacticAngle(double HourAngle, double Latitude, double delta);
-  static double EclipticLongitudeOnHorizon(double LocalSiderealTime, double ObliquityOfEcliptic, double Latitude);
-  static double AngleBetweenEclipticAndHorizon(double LocalSiderealTime, double ObliquityOfEcliptic, double Latitude);
-  static double AngleBetweenNorthCelestialPoleAndNorthPoleOfEcliptic(double Lambda, double Beta, double ObliquityOfEcliptic);
+  static double ParallacticAngle(double HourAngle, double Latitude, double delta) noexcept;
+  static double EclipticLongitudeOnHorizon(double LocalSiderealTime, double ObliquityOfEcliptic, double Latitude) noexcept;
+  static double AngleBetweenEclipticAndHorizon(double LocalSiderealTime, double ObliquityOfEcliptic, double Latitude) noexcept;
+  static double AngleBetweenNorthCelestialPoleAndNorthPoleOfEcliptic(double Lambda, double Beta, double ObliquityOfEcliptic) noexcept;
 };
 
 

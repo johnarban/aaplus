@@ -1,9 +1,9 @@
 /*
-Module : AAGLOBE.H
+Module : AAGlobe.h
 Purpose: Implementation for the algorithms for the Earth's Globe
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -38,11 +38,11 @@ class AAPLUS_EXT_CLASS CAAGlobe
 {
 public:
 //Static methods
-	static double RhoSinThetaPrime(double GeographicalLatitude, double Height);
-	static double RhoCosThetaPrime(double GeographicalLatitude, double Height);
-	static double RadiusOfParallelOfLatitude(double GeographicalLatitude);
-	static double RadiusOfCurvature(double GeographicalLatitude);
-	static double DistanceBetweenPoints(double GeographicalLatitude1, double GeographicalLongitude1, double GeographicalLatitude2, double GeographicalLongitude2);
+  static double RhoSinThetaPrime(double GeographicalLatitude, double Height) noexcept;
+  static double RhoCosThetaPrime(double GeographicalLatitude, double Height) noexcept;
+  static double RadiusOfParallelOfLatitude(double GeographicalLatitude) noexcept;
+  static double RadiusOfCurvature(double GeographicalLatitude) noexcept;
+  static double DistanceBetweenPoints(double GeographicalLatitude1, double GeographicalLongitude1, double GeographicalLatitude2, double GeographicalLongitude2) noexcept;
 };
 
 

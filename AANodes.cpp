@@ -1,10 +1,10 @@
 /*
-Module : AANODES.CPP
-Purpose: Implementation for the algorithms which calculate passage thro the nodes
+Module : AANodes.cpp
+Purpose: Implementation for the algorithms which calculate passage through the nodes
 Created: PJN / 29-12-2003
-History: None
+History: PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
 
-Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -30,14 +30,14 @@ using namespace std;
 
 ///////////////////////////// Implementation //////////////////////////////////
 
-CAANodeObjectDetails CAANodes::PassageThroAscendingNode(const CAAEllipticalObjectElements& elements)
+CAANodeObjectDetails CAANodes::PassageThroAscendingNode(const CAAEllipticalObjectElements& elements) noexcept
 {
   double v = CAACoordinateTransformation::MapTo0To360Range(-elements.w);
   v = CAACoordinateTransformation::DegreesToRadians(v);
-  double E = atan(sqrt((1 - elements.e) / (1 + elements.e)) * tan(v/2))*2;
+  const double E = atan(sqrt((1 - elements.e) / (1 + elements.e)) * tan(v/2))*2;
   double M = E - elements.e*sin(E);
   M = CAACoordinateTransformation::RadiansToDegrees(M);
-  double n = CAAElliptical::MeanMotionFromSemiMajorAxis(elements.a);
+  const double n = CAAElliptical::MeanMotionFromSemiMajorAxis(elements.a);
 
   CAANodeObjectDetails details;
   details.t = elements.T + M/n;
@@ -46,14 +46,14 @@ CAANodeObjectDetails CAANodes::PassageThroAscendingNode(const CAAEllipticalObjec
   return details;
 }
 
-CAANodeObjectDetails CAANodes::PassageThroDescendingNode(const CAAEllipticalObjectElements& elements)
+CAANodeObjectDetails CAANodes::PassageThroDescendingNode(const CAAEllipticalObjectElements& elements) noexcept
 {
   double v = CAACoordinateTransformation::MapTo0To360Range(180 - elements.w);
   v = CAACoordinateTransformation::DegreesToRadians(v);
-  double E = atan(sqrt((1 - elements.e) / (1 + elements.e)) * tan(v/2))*2;
+  const double E = atan(sqrt((1 - elements.e) / (1 + elements.e)) * tan(v/2))*2;
   double M = E - elements.e*sin(E);
   M = CAACoordinateTransformation::RadiansToDegrees(M);
-  double n = CAAElliptical::MeanMotionFromSemiMajorAxis(elements.a);
+  const double n = CAAElliptical::MeanMotionFromSemiMajorAxis(elements.a);
 
   CAANodeObjectDetails details;
   details.t = elements.T + M/n;
@@ -62,12 +62,12 @@ CAANodeObjectDetails CAANodes::PassageThroDescendingNode(const CAAEllipticalObje
   return details;
 }
 
-CAANodeObjectDetails CAANodes::PassageThroAscendingNode(const CAAParabolicObjectElements& elements)
+CAANodeObjectDetails CAANodes::PassageThroAscendingNode(const CAAParabolicObjectElements& elements) noexcept
 {
   double v = CAACoordinateTransformation::MapTo0To360Range(-elements.w);
   v = CAACoordinateTransformation::DegreesToRadians(v);
-  double s = tan(v / 2);
-  double s2 = s*s;
+  const double s = tan(v / 2);
+  const double s2 = s*s;
 
   CAANodeObjectDetails details;
   details.t = elements.T + 27.403895*(s2*s + 3*s)*elements.q*sqrt(elements.q);
@@ -76,13 +76,13 @@ CAANodeObjectDetails CAANodes::PassageThroAscendingNode(const CAAParabolicObject
   return details;
 }
 
-CAANodeObjectDetails CAANodes::PassageThroDescendingNode(const CAAParabolicObjectElements& elements)
+CAANodeObjectDetails CAANodes::PassageThroDescendingNode(const CAAParabolicObjectElements& elements) noexcept
 {
   double v = CAACoordinateTransformation::MapTo0To360Range(180 - elements.w);
   v = CAACoordinateTransformation::DegreesToRadians(v);
 
-  double s = tan(v / 2);
-  double s2 = s*s;
+  const double s = tan(v / 2);
+  const double s2 = s*s;
 
   CAANodeObjectDetails details;
   details.t = elements.T + 27.403895*(s2*s + 3*s)*elements.q*sqrt(elements.q);

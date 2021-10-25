@@ -1,13 +1,15 @@
 /*
-Module : AANUTATION.CPP
+Module : AANutation.cpp
 Purpose: Implementation for the algorithms for Nutation
 Created: PJN / 29-12-2003
 History: PJN / 10-05-2010 1. Removed the unused Delta parameter from the CAANutation::NutationInDeclination method.
                           Thanks to Thomas Meyer for reporting this issue.
          PJN / 18-03-2012 1. All global "g_*" tables are now const. Thanks to Roger Dahl for reporting this 
                           issue when compiling AA+ on ARM.
+         PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
+         PJN / 15-04-2020 1. Reworked C arrays to use std::array
 
-Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -28,10 +30,15 @@ to maintain a single distribution point for the source code.
 #include "AANutation.h"
 #include "AACoordinateTransformation.h"
 #include <cmath>
+#include <array>
 using namespace std;
 
 
 //////////////////////////// Macros / Defines /////////////////////////////////
+
+#ifdef _MSC_VER
+#pragma warning(disable : 26446 26482)
+#endif //#ifdef _MSC_VER
 
 struct NutationCoefficient
 {
@@ -39,15 +46,15 @@ struct NutationCoefficient
   int M;
   int Mprime;
   int F;
-  int omega; 
+  int omega;
   int sincoeff1;
   double sincoeff2;
   int coscoeff1;
   double coscoeff2;
 };
 
-const NutationCoefficient g_NutationCoefficients[] =
-{ 
+constexpr array<NutationCoefficient, 63> g_NutationCoefficients
+{ {
   {  0,  0,  0,  0,  1, -171996,  -174.2,  92025,     8.9    },
   { -2,  0,  0,  2,  2,  -13187,    -1.6,   5736,    -3.1    },
   {  0,  0,  0,  2,  2,   -2274,    -0.2,    977,    -0.5    },
@@ -110,124 +117,117 @@ const NutationCoefficient g_NutationCoefficients[] =
   {  0, -1,  1,  2,  2,     -3,        0,      0,       0    },
   {  2, -1, -1,  2,  2,     -3,        0,      0,       0    },
   {  0,  0,  3,  2,  2,     -3,        0,      0,       0    },
-  {  2, -1,  0,  2,  2,     -3,        0,      0,       0    },
-};
+  {  2, -1,  0,  2,  2,     -3,        0,      0,       0    }
+} };
 
 
 ///////////////////////////// Implementation //////////////////////////////////
 
-double CAANutation::NutationInLongitude(double JD)
+double CAANutation::NutationInLongitude(double JD) noexcept
 {
-  double T = (JD - 2451545) / 36525;
-  double Tsquared = T*T;
-  double Tcubed = Tsquared*T;
+  const double T = (JD - 2451545) / 36525;
+  const double Tsquared = T*T;
+  const double Tcubed = Tsquared*T;
 
-  double D = 297.85036 + 445267.111480*T - 0.0019142*Tsquared + Tcubed / 189474;
+  double D = 297.85036 + (445267.111480*T) - (0.0019142*Tsquared) + (Tcubed / 189474);
   D = CAACoordinateTransformation::MapTo0To360Range(D);
 
-  double M = 357.52772 + 35999.050340*T - 0.0001603*Tsquared - Tcubed / 300000;
+  double M = 357.52772 + (35999.050340*T) - (0.0001603*Tsquared) - (Tcubed / 300000);
   M = CAACoordinateTransformation::MapTo0To360Range(M);
 
-  double Mprime = 134.96298 + 477198.867398*T + 0.0086972*Tsquared + Tcubed / 56250;
+  double Mprime = 134.96298 + (477198.867398*T) + (0.0086972*Tsquared) + (Tcubed / 56250);
   Mprime = CAACoordinateTransformation::MapTo0To360Range(Mprime);
 
-  double F = 93.27191 + 483202.017538*T - 0.0036825*Tsquared + Tcubed / 327270;
+  double F = 93.27191 + (483202.017538*T) - (0.0036825*Tsquared) + (Tcubed / 327270);
   F = CAACoordinateTransformation::MapTo0To360Range(F);
 
-  double omega = 125.04452 - 1934.136261*T + 0.0020708*Tsquared + Tcubed / 450000;
+  double omega = 125.04452 - (1934.136261*T) + (0.0020708*Tsquared) + (Tcubed / 450000);
   omega = CAACoordinateTransformation::MapTo0To360Range(omega);
 
-  int nCoefficients = sizeof(g_NutationCoefficients) / sizeof(NutationCoefficient);
   double value = 0;
-  for (int i=0; i<nCoefficients; i++)
+  for (const auto& coeff : g_NutationCoefficients)
   {
-    double argument = g_NutationCoefficients[i].D * D + g_NutationCoefficients[i].M * M + 
-                      g_NutationCoefficients[i].Mprime * Mprime + g_NutationCoefficients[i].F * F + 
-                      g_NutationCoefficients[i].omega * omega;
-    double radargument = CAACoordinateTransformation::DegreesToRadians(argument);
-    value += (g_NutationCoefficients[i].sincoeff1 + g_NutationCoefficients[i].sincoeff2 * T) * sin(radargument) * 0.0001; 
+    const double argument = (coeff.D*D) + (coeff.M*M) + (coeff.Mprime*Mprime) + (coeff.F*F) + (coeff.omega*omega);
+    const double radargument = CAACoordinateTransformation::DegreesToRadians(argument);
+    value += (coeff.sincoeff1 + (coeff.sincoeff2*T)) * sin(radargument) * 0.0001;
   }
 
   return value;
 }
 
-double CAANutation::NutationInObliquity(double JD)
+double CAANutation::NutationInObliquity(double JD) noexcept
 {
-  double T = (JD - 2451545) / 36525;
-  double Tsquared = T*T;
-  double Tcubed = Tsquared*T;
+  const double T = (JD - 2451545) / 36525;
+  const double Tsquared = T*T;
+  const double Tcubed = Tsquared*T;
 
-  double D = 297.85036 + 445267.111480*T - 0.0019142*Tsquared + Tcubed / 189474;
+  double D = 297.85036 + (445267.111480*T) - (0.0019142*Tsquared) + (Tcubed / 189474);
   D = CAACoordinateTransformation::MapTo0To360Range(D);
 
-  double M = 357.52772 + 35999.050340*T - 0.0001603*Tsquared - Tcubed / 300000;
+  double M = 357.52772 + (35999.050340*T) - (0.0001603*Tsquared) - (Tcubed / 300000);
   M = CAACoordinateTransformation::MapTo0To360Range(M);
 
-  double Mprime = 134.96298 + 477198.867398*T + 0.0086972*Tsquared + Tcubed / 56250;
+  double Mprime = 134.96298 + (477198.867398*T) + (0.0086972*Tsquared) + (Tcubed / 56250);
   Mprime = CAACoordinateTransformation::MapTo0To360Range(Mprime);
 
-  double F = 93.27191 + 483202.017538*T - 0.0036825*Tsquared + Tcubed / 327270;
+  double F = 93.27191 + (483202.017538*T) - (0.0036825*Tsquared) + (Tcubed / 327270);
   F = CAACoordinateTransformation::MapTo0To360Range(F);
 
-  double omega = 125.04452 - 1934.136261*T + 0.0020708*Tsquared + Tcubed / 450000;
+  double omega = 125.04452 - (1934.136261*T) + (0.0020708*Tsquared) + (Tcubed / 450000);
   omega = CAACoordinateTransformation::MapTo0To360Range(omega);
 
-  int nCoefficients = sizeof(g_NutationCoefficients) / sizeof(NutationCoefficient);
   double value = 0;
-  for (int i=0; i<nCoefficients; i++)
+  for (const auto& coeff : g_NutationCoefficients)
   {
-    double argument = g_NutationCoefficients[i].D * D + g_NutationCoefficients[i].M * M + 
-                      g_NutationCoefficients[i].Mprime * Mprime + g_NutationCoefficients[i].F * F + 
-                      g_NutationCoefficients[i].omega * omega;
-    double radargument = CAACoordinateTransformation::DegreesToRadians(argument);
-    value += (g_NutationCoefficients[i].coscoeff1 + g_NutationCoefficients[i].coscoeff2 * T) * cos(radargument) * 0.0001; 
+    const double argument = (coeff.D*D) + (coeff.M*M) + (coeff.Mprime*Mprime) + (coeff.F*F) + (coeff.omega*omega);
+    const double radargument = CAACoordinateTransformation::DegreesToRadians(argument);
+    value += (coeff.coscoeff1 + (coeff.coscoeff2*T)) * cos(radargument) * 0.0001;
   }
 
   return value;
 }
 
-double CAANutation::MeanObliquityOfEcliptic(double JD)
+double CAANutation::MeanObliquityOfEcliptic(double JD) noexcept
 {
-  double U = (JD - 2451545) / 3652500;
-  double Usquared = U*U;
-  double Ucubed = Usquared*U;
-  double U4 = Ucubed*U;
-  double U5 = U4*U;
-  double U6= U5*U;
-  double U7 = U6*U;
-  double U8 = U7*U;
-  double U9 = U8*U;
-  double U10 = U9*U;
+  const double U = (JD - 2451545) / 3652500;
+  const double Usquared = U*U;
+  const double Ucubed = Usquared*U;
+  const double U4 = Ucubed*U;
+  const double U5 = U4*U;
+  const double U6= U5*U;
+  const double U7 = U6*U;
+  const double U8 = U7*U;
+  const double U9 = U8*U;
+  const double U10 = U9*U;
 
-
-  return CAACoordinateTransformation::DMSToDegrees(23, 26, 21.448) - CAACoordinateTransformation::DMSToDegrees(0, 0, 4680.93) * U
-                                                                   - CAACoordinateTransformation::DMSToDegrees(0, 0, 1.55) * Usquared
-                                                                   + CAACoordinateTransformation::DMSToDegrees(0, 0, 1999.25) * Ucubed
-                                                                   - CAACoordinateTransformation::DMSToDegrees(0, 0, 51.38) * U4
-                                                                   - CAACoordinateTransformation::DMSToDegrees(0, 0, 249.67) * U5
-                                                                   - CAACoordinateTransformation::DMSToDegrees(0, 0, 39.05) * U6 
-                                                                   + CAACoordinateTransformation::DMSToDegrees(0, 0, 7.12) * U7
-                                                                   + CAACoordinateTransformation::DMSToDegrees(0, 0, 27.87) * U8
-                                                                   + CAACoordinateTransformation::DMSToDegrees(0, 0, 5.79) * U9
-                                                                   + CAACoordinateTransformation::DMSToDegrees(0, 0, 2.45) * U10;
+  return CAACoordinateTransformation::DMSToDegrees(23, 26, 21.448) - (CAACoordinateTransformation::DMSToDegrees(0, 0, 4680.93) * U)
+                                                                   - (CAACoordinateTransformation::DMSToDegrees(0, 0, 1.55) * Usquared)
+                                                                   + (CAACoordinateTransformation::DMSToDegrees(0, 0, 1999.25) * Ucubed)
+                                                                   - (CAACoordinateTransformation::DMSToDegrees(0, 0, 51.38) * U4)
+                                                                   - (CAACoordinateTransformation::DMSToDegrees(0, 0, 249.67) * U5)
+                                                                   - (CAACoordinateTransformation::DMSToDegrees(0, 0, 39.05) * U6)
+                                                                   + (CAACoordinateTransformation::DMSToDegrees(0, 0, 7.12) * U7)
+                                                                   + (CAACoordinateTransformation::DMSToDegrees(0, 0, 27.87) * U8)
+                                                                   + (CAACoordinateTransformation::DMSToDegrees(0, 0, 5.79) * U9)
+                                                                   + (CAACoordinateTransformation::DMSToDegrees(0, 0, 2.45) * U10);
 }
 
-double CAANutation::TrueObliquityOfEcliptic(double JD)
+double CAANutation::TrueObliquityOfEcliptic(double JD) noexcept
 {
   return MeanObliquityOfEcliptic(JD) + CAACoordinateTransformation::DMSToDegrees(0, 0, NutationInObliquity(JD));
 }
 
-double CAANutation::NutationInRightAscension(double Alpha, double Delta, double Obliquity, double NutationInLongitude, double NutationInObliquity)
+double CAANutation::NutationInRightAscension(double Alpha, double Delta, double Obliquity, double NutationInLongitude, double NutationInObliquity) noexcept
 {
   //Convert to radians
   Alpha = CAACoordinateTransformation::HoursToRadians(Alpha);
   Delta = CAACoordinateTransformation::DegreesToRadians(Delta);
   Obliquity = CAACoordinateTransformation::DegreesToRadians(Obliquity);
 
-  return (cos(Obliquity) + sin(Obliquity) * sin(Alpha) * tan(Delta)) * NutationInLongitude - cos(Alpha)*tan(Delta)*NutationInObliquity; 
+  return ((cos(Obliquity) + (sin(Obliquity) * sin(Alpha) * tan(Delta))) * NutationInLongitude) - (cos(Alpha)*tan(Delta)*NutationInObliquity);
 }
 
-double CAANutation::NutationInDeclination(double Alpha, double Obliquity, double NutationInLongitude, double NutationInObliquity)
+double CAANutation::NutationInDeclination(double Alpha, double Obliquity, double NutationInLongitude, double NutationInObliquity) noexcept
 {
   //Convert to radians
   Alpha = CAACoordinateTransformation::HoursToRadians(Alpha);

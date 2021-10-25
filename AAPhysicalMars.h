@@ -1,9 +1,9 @@
 /*
-Module : AAPHYSICALMARS.H
+Module : AAPhysicalMars.h
 Purpose: Implementation for the algorithms which obtain the physical parameters of Mars
 Created: PJN / 04-01-2004
 
-Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -37,33 +37,22 @@ to maintain a single distribution point for the source code.
 class AAPLUS_EXT_CLASS CAAPhysicalMarsDetails
 {
 public:
-  CAAPhysicalMarsDetails() : DE(0), 
-                             DS(0), 
-                             w(0), 
-                             P(0),
-                             X(0), 
-                             k(0), 
-                             q(0), 
-                             d(0) 
-  {
-  };
-
 //Member variables
-  double DE;
-  double DS;
-  double w;
-  double P;
-  double X;
-  double k;
-  double q;
-  double d;
+  double DE = 0;
+  double DS = 0;
+  double w = 0;
+  double P = 0;
+  double X = 0;
+  double k = 0;
+  double q = 0;
+  double d = 0;
 };
 
 class AAPLUS_EXT_CLASS CAAPhysicalMars
 {
 public:
 //Static methods
-  static CAAPhysicalMarsDetails Calculate(double JD, bool bHighPrecision);
+  static CAAPhysicalMarsDetails Calculate(double JD, bool bHighPrecision) noexcept;
 };
 
 

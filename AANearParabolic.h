@@ -1,9 +1,9 @@
 /*
-Module : AANEARPARABOLIC.H
-Purpose: Implementation for the algorithms for a parabolic orbit
+Module : AANearParabolic.h
+Purpose: Implementation for the algorithms for a near parabolic orbit
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2016 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -42,70 +42,43 @@ to maintain a single distribution point for the source code.
 class AAPLUS_EXT_CLASS CAANearParabolicObjectElements
 {
 public:
-//Constructors / Destructors
-  CAANearParabolicObjectElements() : q(0), 
-                                     i(0), 
-                                     w(0), 
-                                     omega(0), 
-                                     JDEquinox(0), 
-                                     T(0), 
-                                     e(1.0) 
-  {
-  };
-
 //Member variables
-  double q; 
-  double i;
-  double w;
-  double omega;
-  double JDEquinox;
-  double T;
-  double e;
+  double q = 0;
+  double i = 0;
+  double w = 0;
+  double omega = 0;
+  double JDEquinox = 0;
+  double T = 0;
+  double e = 0;
 };
 
 class AAPLUS_EXT_CLASS CAANearParabolicObjectDetails
 {
 public:
-//Constructors / Destructors
-  CAANearParabolicObjectDetails() : HeliocentricEclipticLongitude(0), 
-                                    HeliocentricEclipticLatitude(0),
-                                    TrueGeocentricRA(0), 
-                                    TrueGeocentricDeclination(0),
-                                    TrueGeocentricDistance(0), 
-                                    TrueGeocentricLightTime(0), 
-                                    AstrometricGeocentricRA(0), 
-                                    AstrometricGeocentricDeclination(0), 
-                                    AstrometricGeocentricDistance(0), 
-                                    AstrometricGeocentricLightTime(0),
-                                    Elongation(0), 
-                                    PhaseAngle(0) 
-  {
-  };
-
 //Member variables
   CAA3DCoordinate HeliocentricRectangularEquatorial;
   CAA3DCoordinate HeliocentricRectangularEcliptical;
-  double HeliocentricEclipticLongitude; 
-  double HeliocentricEclipticLatitude;
-  double TrueGeocentricRA;
-  double TrueGeocentricDeclination;
-  double TrueGeocentricDistance;
-  double TrueGeocentricLightTime;
-  double AstrometricGeocentricRA;
-  double AstrometricGeocentricDeclination;
-  double AstrometricGeocentricDistance;
-  double AstrometricGeocentricLightTime;
-  double Elongation;
-  double PhaseAngle;
+  double HeliocentricEclipticLongitude = 0;
+  double HeliocentricEclipticLatitude = 0;
+  double TrueGeocentricRA = 0;
+  double TrueGeocentricDeclination = 0;
+  double TrueGeocentricDistance = 0;
+  double TrueGeocentricLightTime = 0;
+  double AstrometricGeocentricRA = 0;
+  double AstrometricGeocentricDeclination = 0;
+  double AstrometricGeocentricDistance = 0;
+  double AstrometricGeocentricLightTime = 0;
+  double Elongation = 0;
+  double PhaseAngle = 0;
 };
 
 class AAPLUS_EXT_CLASS CAANearParabolic
 {
 public:
 //Static methods
-  static CAANearParabolicObjectDetails Calculate(double JD, const CAANearParabolicObjectElements& elements, bool bHighPrecision);
-  static double cbrt(double x);
-  static void CalulateTrueAnnomalyAndRadius(double JD, const CAANearParabolicObjectElements& elements, double& v, double& r);
+  static CAANearParabolicObjectDetails Calculate(double JD, const CAANearParabolicObjectElements& elements, bool bHighPrecision) noexcept;
+  static double cbrt(double x) noexcept;
+  static void CalculateTrueAnnomalyAndRadius(double JD, const CAANearParabolicObjectElements& elements, double& v, double& r) noexcept;
 };
 
 
