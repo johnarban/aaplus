@@ -3,7 +3,7 @@ Module : AAElementsPlanetaryOrbit.h
 Purpose: Implementation for the algorithms to calculate the elements of the planetary orbits
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -18,7 +18,7 @@ to maintain a single distribution point for the source code.
 */
 
 
-/////////////////////// Macros / Defines //////////////////////////////////////
+//////////////////// Macros / Defines /////////////////////////////////////////
 
 #if _MSC_VER > 1000
 #pragma once
@@ -32,7 +32,7 @@ to maintain a single distribution point for the source code.
 #endif
 
 
-/////////////////////// Classes ///////////////////////////////////////////////
+//////////////////// Classes //////////////////////////////////////////////////
 
 class AAPLUS_EXT_CLASS CAAElementsPlanetaryOrbit
 {
@@ -50,11 +50,11 @@ public:
 #endif //#ifdef _MSC_VER
   static double MercuryEccentricity(double JD) noexcept
   {
-    const double T = (JD - 2451545.0) / 36525;
-    const double Tsquared = T * T;
-    const double Tcubed = Tsquared * T;
+    const double T{(JD - 2451545)/36525};
+    const double Tsquared{T*T};
+    const double Tcubed{Tsquared*T};
 
-    return 0.20563175 + 0.000020407*T - 0.0000000283*Tsquared - 0.00000000018*Tcubed;
+    return 0.20563175 + (0.000020407*T) - (0.0000000283*Tsquared) - (0.00000000018*Tcubed);
   }
 
   static double MercuryInclination(double JD) noexcept;
@@ -73,11 +73,11 @@ public:
 #endif //#ifdef _MSC_VER
   static double VenusEccentricity(double JD) noexcept
   {
-    const double T = (JD - 2451545.0) / 36525;
-    const double Tsquared = T * T;
-    const double Tcubed = Tsquared * T;
+    const double T{(JD - 2451545)/36525};
+    const double Tsquared{T*T};
+    const double Tcubed{Tsquared*T};
 
-    return 0.00677192 - 0.000047765*T + 0.0000000981*Tsquared + 0.00000000046*Tcubed;
+    return 0.00677192 - (0.000047765*T) + (0.0000000981*Tsquared) + (0.00000000046*Tcubed);
   }
 
   static double VenusInclination(double JD) noexcept;
@@ -96,11 +96,11 @@ public:
 #endif //#ifdef _MSC_VER
   static double EarthEccentricity(double JD) noexcept
   {
-    const double T = (JD - 2451545.0) / 36525;
-    const double Tsquared = T * T;
-    const double Tcubed = Tsquared * T;
+    const double T{(JD - 2451545)/36525};
+    const double Tsquared{T*T};
+    const double Tcubed{Tsquared*T};
 
-    return 0.01670863 - 0.000042037*T - 0.0000001267*Tsquared + 0.00000000014*Tcubed;
+    return 0.01670863 - (0.000042037*T) - (0.0000001267*Tsquared) + (0.00000000014*Tcubed);
   }
 
   constexpr static double EarthInclination(double /*JD*/) noexcept
@@ -122,11 +122,11 @@ public:
 #endif //#ifdef _MSC_VER
   static double MarsEccentricity(double JD) noexcept
   {
-    const double T = (JD - 2451545.0) / 36525;
-    const double Tsquared = T * T;
-    const double Tcubed = Tsquared * T;
+    const double T{(JD - 2451545)/36525};
+    const double Tsquared{T*T};
+    const double Tcubed{Tsquared*T};
 
-    return 0.09340065 + 0.000090484*T - 0.0000000806*Tsquared - 0.00000000025*Tcubed;
+    return 0.09340065 + (0.000090484*T) - (0.0000000806*Tsquared) - (0.00000000025*Tcubed);
   }
 
   static double MarsInclination(double JD) noexcept;
@@ -140,9 +140,9 @@ public:
 #endif //#ifdef _MSC_VER
   static double JupiterSemimajorAxis(double JD) noexcept
   {
-    const double T = (JD - 2451545.0) / 36525;
+    const double T{(JD - 2451545)/36525};
 
-    return 5.202603209 + 0.0000001913*T;
+    return 5.202603209 + (0.0000001913*T);
   }
 
 #ifdef _MSC_VER
@@ -150,11 +150,11 @@ public:
 #endif //#ifdef _MSC_VER
   static double JupiterEccentricity(double JD) noexcept
   {
-    const double T = (JD - 2451545.0) / 36525;
-    const double Tsquared = T * T;
-    const double Tcubed = Tsquared * T;
+    const double T{(JD - 2451545)/36525};
+    const double Tsquared{T*T};
+    const double Tcubed{Tsquared*T};
 
-    return 0.04849793 + 0.000163225*T - 0.0000004714*Tsquared - 0.00000000201*Tcubed;
+    return 0.04849793 + (0.000163225*T) - (0.0000004714*Tsquared) - (0.00000000201*Tcubed);
   }
 
   static double JupiterInclination(double JD) noexcept;
@@ -168,10 +168,10 @@ public:
 #endif //#ifdef _MSC_VER
   static double SaturnSemimajorAxis(double JD) noexcept
   {
-    const double T = (JD - 2451545.0) / 36525;
-    const double Tsquared = T * T;
+    const double T{(JD - 2451545)/36525};
+    const double Tsquared{T*T};
 
-    return 9.554909192 - 0.0000021390*T + 0.000000004*Tsquared;
+    return 9.554909192 - (0.0000021390*T) + (0.000000004*Tsquared);
   }
 
 #ifdef _MSC_VER
@@ -179,11 +179,11 @@ public:
 #endif //#ifdef _MSC_VER
   static double SaturnEccentricity(double JD) noexcept
   {
-    const double T = (JD - 2451545.0) / 36525;
-    const double Tsquared = T * T;
-    const double Tcubed = Tsquared * T;
+    const double T{(JD - 2451545)/36525};
+    const double Tsquared{T*T};
+    const double Tcubed{Tsquared*T};
 
-    return 0.05554814 - 0.0003446641*T - 0.0000006436*Tsquared + 0.00000000340*Tcubed;
+    return 0.05554814 - (0.0003446641*T) - (0.0000006436*Tsquared) + (0.00000000340*Tcubed);
   }
 
   static double SaturnInclination(double JD) noexcept;
@@ -197,10 +197,10 @@ public:
 #endif //#ifdef _MSC_VER
   static double UranusSemimajorAxis(double JD) noexcept
   {
-    const double T = (JD - 2451545.0) / 36525;
-    const double Tsquared = T * T;
+    const double T{(JD - 2451545)/36525};
+    const double Tsquared{T*T};
 
-    return 19.218446062 - 0.0000000372*T + 0.00000000098*Tsquared;
+    return 19.218446062 - (0.0000000372*T) + (0.00000000098*Tsquared);
   }
 
 #ifdef _MSC_VER
@@ -208,11 +208,11 @@ public:
 #endif //#ifdef _MSC_VER
   static double UranusEccentricity(double JD) noexcept
   {
-    const double T = (JD - 2451545.0) / 36525;
-    const double Tsquared = T * T;
-    const double Tcubed = Tsquared * T;
+    const double T{(JD - 2451545)/36525};
+    const double Tsquared{T*T};
+    const double Tcubed{Tsquared*T};
 
-    return 0.04638122 - 0.000027293*T + 0.0000000789*Tsquared + 0.00000000024*Tcubed;
+    return 0.04638122 - (0.000027293*T) + (0.0000000789*Tsquared) + (0.00000000024*Tcubed);
   }
 
   static double UranusInclination(double JD) noexcept;
@@ -226,10 +226,10 @@ public:
 #endif //#ifdef _MSC_VER
   static double NeptuneSemimajorAxis(double JD) noexcept
   {
-    const double T = (JD - 2451545.0) / 36525;
-    const double Tsquared = T * T;
+    const double T{(JD - 2451545)/36525};
+    const double Tsquared{T*T};
 
-    return 30.110386869 - 0.0000001663*T + 0.00000000069*Tsquared;
+    return 30.110386869 - (0.0000001663*T) + (0.00000000069*Tsquared);
   }
 
 #ifdef _MSC_VER
@@ -237,10 +237,10 @@ public:
 #endif //#ifdef _MSC_VER
   static double NeptuneEccentricity(double JD) noexcept
   {
-    const double T = (JD - 2451545.0) / 36525;
-    const double Tcubed = T * T*T;
+    const double T{(JD - 2451545)/36525};
+    const double Tcubed{T*T*T};
 
-    return 0.00945575 + 0.000006033*T - 0.00000000005*Tcubed;
+    return 0.00945575 + (0.000006033*T) - (0.00000000005*Tcubed);
   }
 
   static double NeptuneInclination(double JD) noexcept;
@@ -264,11 +264,11 @@ public:
 #endif //#ifdef _MSC_VER
   static double EarthInclinationJ2000(double JD) noexcept
   {
-    const double T = (JD - 2451545.0) / 36525;
-    const double Tsquared = T * T;
-    const double Tcubed = Tsquared * T;
+    const double T{(JD - 2451545)/36525};
+    const double Tsquared{T*T};
+    const double Tcubed{Tsquared*T};
 
-    return 0.0130548*T - 0.00000931*Tsquared - 0.000000034*Tcubed;
+    return (0.0130548*T) - (0.00000931*Tsquared) - (0.000000034*Tcubed);
   }
 
   static double EarthLongitudeAscendingNodeJ2000(double JD) noexcept;

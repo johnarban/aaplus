@@ -12,8 +12,10 @@ History: PJN / 30-07-2017 1. Initial public release.
                           to Bert Devlieghe for reporting this bug.
          PJN / 23-11-2020 1. Reworked CAAELPMPP02::EclipticLatitude & CAAELPMPP02::RadiusVector methods to use 
                           std::array::size instead of sizeof.
+         PJN / 21-06-2022 1. Updated all the code in AAELPMPP02.cpp to use C++ uniform initialization for all
+                          variable declarations.
 
-Copyright (c) 2017 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2017 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -28,7 +30,7 @@ to maintain a single distribution point for the source code.
 */
 
 
-/////////////////////////////// Includes //////////////////////////////////////
+//////////////////// Includes /////////////////////////////////////////////////
 
 #include "stdafx.h"
 #include "AAELPMPP02.h"
@@ -37,18 +39,16 @@ to maintain a single distribution point for the source code.
 #include "AADefines.h"
 #include <cmath>
 #include <cassert>
-#include <cstddef>
 #include <array>
-using namespace std;
 
 
-////////////////////////////// Macros / Defines ///////////////////////////////
+//////////////////// Macros / Defines /////////////////////////////////////////
 
 #ifdef _MSC_VER
 #pragma warning(disable : 26446 26481 26482 26485)
 #endif //#ifdef _MSC_VER
 
-constexpr array<array<double, 5>, 3> g_W_Nominal
+constexpr std::array<std::array<double, 5>, 3> g_W_Nominal
 { {
   { 3.8103440873402215,     //CAACoordinateTransformation::DegreesToRadians(218 + 18/60.0 + 59.95571/3600.0 - 0.0708/3600.0)
     8399.6847317739157,     //CAACoordinateTransformation::DegreesToRadians(1732559343.73604 / 3600.0),
@@ -72,7 +72,7 @@ constexpr array<array<double, 5>, 3> g_W_Nominal
   }
 } };
 
-constexpr array<array<double, 5>, 3> g_W_LLR
+constexpr std::array<std::array<double, 5>, 3> g_W_LLR
 { {
   {
     3.8103439203219081,
@@ -97,7 +97,7 @@ constexpr array<array<double, 5>, 3> g_W_LLR
   }
 } };
 
-constexpr array<array<double, 5>, 3> g_W_DE405
+constexpr std::array<std::array<double, 5>, 3> g_W_DE405
 { {
   {
     3.8103440908308803,
@@ -122,7 +122,7 @@ constexpr array<array<double, 5>, 3> g_W_DE405
   }
 } };
 
-constexpr array<array<double, 5>, 3> g_W_DE406
+constexpr std::array<std::array<double, 5>, 3> g_W_DE406
 { {
   {
     3.8103440908308803,
@@ -147,7 +147,7 @@ constexpr array<array<double, 5>, 3> g_W_DE406
   }
 } };
 
-constexpr array<double, 5> g_ZETA_Nominal
+constexpr std::array<double, 5> g_ZETA_Nominal
 { {
   3.8103440873402215,
   8399.7091120695241,
@@ -156,7 +156,7 @@ constexpr array<double, 5> g_ZETA_Nominal
  -1.5363745554361199e-10
 } };
 
-constexpr array<double, 5> g_ZETA_LLR
+constexpr std::array<double, 5> g_ZETA_LLR
 { {
   3.8103439203219081,
   8399.7091105030413,
@@ -165,7 +165,7 @@ constexpr array<double, 5> g_ZETA_LLR
  -1.5363745554361197e-10
 } };
 
-constexpr array<double, 5> g_ZETA_DE405
+constexpr std::array<double, 5> g_ZETA_DE405
 { {
   3.8103440908308803,
   8399.7091103675375,
@@ -174,7 +174,7 @@ constexpr array<double, 5> g_ZETA_DE405
  -1.5363745554361197e-10
 } };
 
-constexpr array<double, 5> g_ZETA_DE406
+constexpr std::array<double, 5> g_ZETA_DE406
 { {
   3.8103440908308803,
   8399.7091103675375,
@@ -183,7 +183,7 @@ constexpr array<double, 5> g_ZETA_DE406
  -2.0328237648922842e-10
 } };
 
-constexpr array<double, 5> g_EARTH_Nominal
+constexpr std::array<double, 5> g_EARTH_Nominal
 { {
   1.7534699468639550,     //CAACoordinateTransformation::DegreesToRadians(100 + 27/60.0 + 59.13885/3600.0),
   628.30758504554331,     //CAACoordinateTransformation::DegreesToRadians(129597742.293 / 3600.0),
@@ -192,7 +192,7 @@ constexpr array<double, 5> g_EARTH_Nominal
   7.2722052166430391e-13  //CAACoordinateTransformation::DegreesToRadians(0.00000015 / 3600.0)
 } };
 
-constexpr array<double, 5> g_EARTH_LLR
+constexpr std::array<double, 5> g_EARTH_LLR
 { {
   1.753469752356706,
   628.30758511545343,
@@ -201,7 +201,7 @@ constexpr array<double, 5> g_EARTH_LLR
   7.2722052166430391e-13
 } };
 
-constexpr array<double, 5> g_EARTH_DE405
+constexpr std::array<double, 5> g_EARTH_DE405
 { {
   1.7534699452640696,
   628.30758508103156,
@@ -210,9 +210,9 @@ constexpr array<double, 5> g_EARTH_DE405
   7.2722052166430391e-13
 } };
 
-constexpr const array<double, 5>& g_EARTH_DE406 = g_EARTH_DE405;
+constexpr const std::array<double, 5>& g_EARTH_DE406{g_EARTH_DE405};
 
-constexpr array<double, 5> g_PERI_Nominal
+constexpr std::array<double, 5> g_PERI_Nominal
 { {
   1.7965956117694057,     //CAACoordinateTransformation::DegreesToRadians(102 + 56/60.0 + 14.445766/3600.0),
   0.0056298669711442699,  //CAACoordinateTransformation::DegreesToRadians(1161.24342 / 3600.0),
@@ -221,7 +221,7 @@ constexpr array<double, 5> g_PERI_Nominal
   5.5166948773454099e-11  //CAACoordinateTransformation::DegreesToRadians(0.000011379 / 3600.0)
 } };
 
-constexpr array<double, 5> g_PERI_LLR
+constexpr std::array<double, 5> g_PERI_LLR
 { {
   1.7965954341045842,
   0.00562986697114427,
@@ -230,7 +230,7 @@ constexpr array<double, 5> g_PERI_LLR
   5.51669487734541e-11
 } };
 
-constexpr array<double, 5> g_PERI_DE405
+constexpr std::array<double, 5> g_PERI_DE405
 { {
   1.7965956331206,
   0.00562986697114427,
@@ -239,7 +239,7 @@ constexpr array<double, 5> g_PERI_DE405
   5.51669487734541e-11
 } };
 
-constexpr array<double, 5> g_PERI_DE406
+constexpr std::array<double, 5> g_PERI_DE406
 { {
   1.7965956331206,
   0.00562986697114427,
@@ -248,7 +248,7 @@ constexpr array<double, 5> g_PERI_DE406
   5.51669487734541e-11
 } };
 
-constexpr array<array<double, 2>, 8> g_P
+constexpr std::array<std::array<double, 2>, 8> g_P
 { {
   { 4.4026086342191189,  2608.7903141569259 }, //{ CAACoordinateTransformation::DegreesToRadians(252 + 15/60.0 + 3.216919/3600.0),  CAACoordinateTransformation::DegreesToRadians(538101628.68888 / 3600.0) },
   { 3.1761344571511088,  1021.3285547385308 }, //{ CAACoordinateTransformation::DegreesToRadians(181 + 58/60.0 + 44.758419/3600.0), CAACoordinateTransformation::DegreesToRadians(210664136.45777 / 3600.0) },
@@ -262,10 +262,10 @@ constexpr array<array<double, 2>, 8> g_P
 
 struct AAPLUS_EXT_CLASS ELPMPP02MainProblemNominalCoefficient
 {
-  array<int, 4> m_I;
+  std::array<int, 4> m_I;
 };
 
-constexpr array<ELPMPP02MainProblemNominalCoefficient, 1023> g_MAIN_S1
+constexpr std::array<ELPMPP02MainProblemNominalCoefficient, 1023> g_MAIN_S1
 { {
  {  0,  2,  0,  0 },
  {  0,  4,  0,  0 },
@@ -1292,7 +1292,7 @@ constexpr array<ELPMPP02MainProblemNominalCoefficient, 1023> g_MAIN_S1
  { 10,  0,  0,  0 }
 } };
 
-constexpr array<double, 1023> g_MAIN_S1_Nominal
+constexpr std::array<double, 1023> g_MAIN_S1_Nominal
 { {
     -411.60287,
        0.42034,
@@ -2319,7 +2319,7 @@ constexpr array<double, 1023> g_MAIN_S1_Nominal
        0.00002
 } };
 
-constexpr array<double, 1023> g_MAIN_S1_LLR
+constexpr std::array<double, 1023> g_MAIN_S1_LLR
 { {
    -4.1159573394034464e+002,
     4.2032545247910946e-001,
@@ -3346,7 +3346,7 @@ constexpr array<double, 1023> g_MAIN_S1_LLR
     2.0000000000000002e-005
 } };
 
-constexpr array<double, 1023> g_MAIN_S1_DE405
+constexpr std::array<double, 1023> g_MAIN_S1_DE405
 { {
    -4.1159574817515249e+002,
     4.2032548138143505e-001,
@@ -4373,7 +4373,7 @@ constexpr array<double, 1023> g_MAIN_S1_DE405
     2.0000000000000002e-005
 } };
 
-constexpr array<double, 1023> g_MAIN_S1_DE406
+constexpr std::array<double, 1023> g_MAIN_S1_DE406
 { {
    -4.1159574817515249e+002,
     4.2032548138143505e-001,
@@ -5400,7 +5400,7 @@ constexpr array<double, 1023> g_MAIN_S1_DE406
     2.0000000000000002e-005
 } };
 
-constexpr array<ELPMPP02MainProblemNominalCoefficient, 918> g_MAIN_S2
+constexpr std::array<ELPMPP02MainProblemNominalCoefficient, 918> g_MAIN_S2
 { {
  {  0,  1,  0,  0 },
  {  0,  3,  0,  0 },
@@ -6322,7 +6322,7 @@ constexpr array<ELPMPP02MainProblemNominalCoefficient, 918> g_MAIN_S2
  { 10, -1, -1,  0 }
 } };
 
-constexpr array<double, 918> g_MAIN_S2_Nominal
+constexpr std::array<double, 918> g_MAIN_S2_Nominal
 { {
    18461.40000,
       -6.29664,
@@ -7244,7 +7244,7 @@ constexpr array<double, 918> g_MAIN_S2_Nominal
        0.00002
 } };
 
-constexpr array<double, 918> g_MAIN_S2_LLR
+constexpr std::array<double, 918> g_MAIN_S2_LLR
 { {
     1.8461240060000968e+004,
    -6.2964772977841825e+000,
@@ -8166,7 +8166,7 @@ constexpr array<double, 918> g_MAIN_S2_LLR
     2.0000000000000002e-005
 } };
 
-constexpr array<double, 918> g_MAIN_S2_DE405
+constexpr std::array<double, 918> g_MAIN_S2_DE405
 { {
     1.8461240380000967e+004,
    -6.2964776186139018e+000,
@@ -9088,7 +9088,7 @@ constexpr array<double, 918> g_MAIN_S2_DE405
     2.0000000000000002e-005
 } };
 
-constexpr array<double, 918> g_MAIN_S2_DE406
+constexpr std::array<double, 918> g_MAIN_S2_DE406
 { {
     1.8461240380000967e+004,
    -6.2964776186139018e+000,
@@ -10010,7 +10010,7 @@ constexpr array<double, 918> g_MAIN_S2_DE406
     2.0000000000000002e-005
 } };
 
-constexpr array<ELPMPP02MainProblemNominalCoefficient, 704> g_MAIN_S3
+constexpr std::array<ELPMPP02MainProblemNominalCoefficient, 704> g_MAIN_S3
 { {
  {  0,  0,  0,  0 },
  {  0,  2,  0,  0 },
@@ -10718,7 +10718,7 @@ constexpr array<ELPMPP02MainProblemNominalCoefficient, 704> g_MAIN_S3
  { 10,  0, -1,  0 }
 } };
 
-constexpr array<double, 704> g_MAIN_S3_Nominal
+constexpr std::array<double, 704> g_MAIN_S3_Nominal
 { {
   385000.52719,
       -3.14837,
@@ -11426,7 +11426,7 @@ constexpr array<double, 704> g_MAIN_S3_Nominal
       -0.00003
 } };
 
-constexpr array<double, 704> g_MAIN_S3_LLR
+constexpr std::array<double, 704> g_MAIN_S3_LLR
 { {
     3.8500052903963596e+005,
    -3.1483019999591910e+000,
@@ -12134,7 +12134,7 @@ constexpr array<double, 704> g_MAIN_S3_LLR
    -2.9999999997311145e-005
 } };
 
-constexpr array<double, 704> g_MAIN_S3_DE405
+constexpr std::array<double, 704> g_MAIN_S3_DE405
 { {
     3.8500052903228404e+005,
    -3.1483021922752781e+000,
@@ -12842,7 +12842,7 @@ constexpr array<double, 704> g_MAIN_S3_DE405
    -2.9999999997633791e-005
 } };
 
-constexpr array<double, 704> g_MAIN_S3_DE406
+constexpr std::array<double, 704> g_MAIN_S3_DE406
 { {
     3.8500052903228404e+005,
    -3.1483021922752781e+000,
@@ -13554,10 +13554,10 @@ struct AAPLUS_EXT_CLASS ELPMPP02PertubationsCoefficient
 {
   double m_S;
   double m_C;
-  array<int, 13> m_I;
+  std::array<int, 13> m_I;
 };
 
-constexpr array<ELPMPP02PertubationsCoefficient, 11314> g_PERT_S1_1
+constexpr std::array<ELPMPP02PertubationsCoefficient, 11314> g_PERT_S1_1
 { {
  { -1.274921554086e+01,  6.368794709728e+00, {   0,   0,   1,   0,   0, -18,  16,   0,   0,   0,   0,   0,   0 } },
  { -7.062989999049e+00,  1.158760846981e-04, {   0,   1,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,  -1 } },
@@ -24875,7 +24875,7 @@ constexpr array<ELPMPP02PertubationsCoefficient, 11314> g_PERT_S1_1
  {  3.748640002468e-12, -1.224522926694e-08, {   0,   2,   1,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 } }
 } };
 
-constexpr array<ELPMPP02PertubationsCoefficient, 1199> g_PERT_S1_2
+constexpr std::array<ELPMPP02PertubationsCoefficient, 1199> g_PERT_S1_2
 { {
  {  1.676800000000e+00,  0.000000000000e+00, {   0,   0,   0,   1,   0,   0,   0,   0,   0,   0,   0,   0,   0 } },
  { -5.164200000000e-01,  0.000000000000e+00, {   2,   0,  -1,  -1,   0,   0,   0,   0,   0,   0,   0,   0,   0 } },
@@ -26078,7 +26078,7 @@ constexpr array<ELPMPP02PertubationsCoefficient, 1199> g_PERT_S1_2
  {  3.143949790900e-07, -1.021700431200e-07, {   1,  -1,  -1,   0,   0,   3,  -4,   0,   0,   0,   0,   0,   0 } }
 } };
 
-constexpr array<ELPMPP02PertubationsCoefficient, 219> g_PERT_S1_3
+constexpr std::array<ELPMPP02PertubationsCoefficient, 219> g_PERT_S1_3
 { {
  {  4.870000000000e-03,  0.000000000000e+00, {   0,   0,   0,   1,   0,   0,   0,   0,   0,   0,   0,   0,   0 } },
  {  2.089962898161e-03, -9.113098687827e-04, {   0,   0,   1,   0,   0, -18,  16,   0,   0,   0,   0,   0,   0 } },
@@ -26301,13 +26301,13 @@ constexpr array<ELPMPP02PertubationsCoefficient, 219> g_PERT_S1_3
  { -1.137844937680e-06, -3.170720510184e-08, {   2,   0,  -1,   0,   0,   0,  -7,  13,   0,   0,   0,   0,   0 } }
 } };
 
-constexpr array<ELPMPP02PertubationsCoefficient, 2> g_PERT_S1_4
+constexpr std::array<ELPMPP02PertubationsCoefficient, 2> g_PERT_S1_4
 { {
  { -5.460000981311e-06, -1.064920535165e-05, {   0,   0,   1,   0,   0, -18,  16,   0,   0,   0,   0,   0,   0 } },
  {  5.614435283874e-07, -1.595662150694e-06, {   0,   0,   0,   0,   0,   0,   0,   0,   2,  -5,   0,   0,   0 } }
 } };
 
-constexpr array<ELPMPP02PertubationsCoefficient, 6462> g_PERT_S2_1
+constexpr std::array<ELPMPP02PertubationsCoefficient, 6462> g_PERT_S2_1
 { {
  { -8.045039999382e+00, -9.969282987996e-05, {   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   1 } },
  {  1.756754655786e-01, -1.499956686934e+00, {   1,   0,   0,   0,   0,   0,   1,   0,   0,   0,   0,   0,   0 } },
@@ -32773,7 +32773,7 @@ constexpr array<ELPMPP02PertubationsCoefficient, 6462> g_PERT_S2_1
  { -1.118202600000e-08,  5.383257794154e-08, {   4,  -1,  -2,   0,   0,   1,  -1,   0,   0,   0,   0,   0,   0 } }
 } };
 
-constexpr array<ELPMPP02PertubationsCoefficient, 516> g_PERT_S2_2
+constexpr std::array<ELPMPP02PertubationsCoefficient, 516> g_PERT_S2_2
 { {
  { -7.430000000000e-02,  0.000000000000e+00, {   2,  -1,   0,  -1,   0,   0,   0,   0,   0,   0,   0,   0,   0 } },
  {  3.043000000000e-02,  0.000000000000e+00, {   2,  -1,   0,   1,   0,   0,   0,   0,   0,   0,   0,   0,   0 } },
@@ -33293,7 +33293,7 @@ constexpr array<ELPMPP02PertubationsCoefficient, 516> g_PERT_S2_2
  {  4.679111751830e-06, -8.837022513580e-07, {   1,   0,  -1,   0,   0,   3,  -4,   0,   0,   0,   0,   0,   0 } }
 } };
 
-constexpr array<ELPMPP02PertubationsCoefficient, 52> g_PERT_S2_3
+constexpr std::array<ELPMPP02PertubationsCoefficient, 52> g_PERT_S2_3
 { {
  { -2.200000000000e-04,  0.000000000000e+00, {   2,  -1,   0,  -1,   0,   0,   0,   0,   0,   0,   0,   0,   0 } },
  { -9.246507995485e-05, -4.031873652025e-05, {   0,   1,  -1,   0,   0,  18, -16,   0,   0,   0,   0,   0,   0 } },
@@ -33349,7 +33349,7 @@ constexpr array<ELPMPP02PertubationsCoefficient, 52> g_PERT_S2_3
  {  1.351587347086e-07,  3.310447607780e-07, {   1,   0,   0,   0,   0,   3,  -4,   0,   0,   0,   0,   0,   0 } }
 } };
 
-constexpr array<ELPMPP02PertubationsCoefficient, 12115> g_PERT_S3_1
+constexpr std::array<ELPMPP02PertubationsCoefficient, 12115> g_PERT_S3_1
 { {
  { -2.189679448352e-03,  1.058616729945e+00, {   2,   0,  -1,   0,   0,   0,   2,   0,  -2,   0,   0,   0,   0 } },
  {  3.253561194684e-01,  6.513087890330e-01, {   0,   0,   2,   0,   0, -18,  16,   0,   0,   0,   0,   0,   0 } },
@@ -45468,7 +45468,7 @@ constexpr array<ELPMPP02PertubationsCoefficient, 12115> g_PERT_S3_1
  {  9.239956849000e-08,  4.074291489000e-09, {   3,   1,  -1,   0,   0,   3,  -4,   0,   0,   0,   0,   0,   0 } }
 } };
 
-constexpr array<ELPMPP02PertubationsCoefficient, 1165> g_PERT_S3_2
+constexpr std::array<ELPMPP02PertubationsCoefficient, 1165> g_PERT_S3_2
 { {
  {  0.000000000000e+00,  5.139500000000e-01, {   2,   0,   0,  -1,   0,   0,   0,   0,   0,   0,   0,   0,   0 } },
  {  0.000000000000e+00,  3.824500000000e-01, {   2,   0,  -1,  -1,   0,   0,   0,   0,   0,   0,   0,   0,   0 } },
@@ -46637,7 +46637,7 @@ constexpr array<ELPMPP02PertubationsCoefficient, 1165> g_PERT_S3_2
  {  8.614585948400e-08,  2.494502697000e-07, {   1,  -1,  -1,   0,   0,   3,  -4,   0,   0,   0,   0,   0,   0 } }
 } };
 
-constexpr array<ELPMPP02PertubationsCoefficient, 210> g_PERT_S3_3
+constexpr std::array<ELPMPP02PertubationsCoefficient, 210> g_PERT_S3_3
 { {
  {  0.000000000000e+00,  1.490000000000e-03, {   2,   0,   0,  -1,   0,   0,   0,   0,   0,   0,   0,   0,   0 } },
  {  0.000000000000e+00,  1.110000000000e-03, {   2,   0,  -1,  -1,   0,   0,   0,   0,   0,   0,   0,   0,   0 } },
@@ -46851,7 +46851,7 @@ constexpr array<ELPMPP02PertubationsCoefficient, 210> g_PERT_S3_3
  { -4.407179819851e-09, -5.170781162590e-07, {   2,   0,   0,   0,   0,  -4,   6,   0,   0,   0,   0,   0,   0 } }
 } };
 
-constexpr array<ELPMPP02PertubationsCoefficient, 2> g_PERT_S3_4
+constexpr std::array<ELPMPP02PertubationsCoefficient, 2> g_PERT_S3_4
 { {
  { -5.458720424980e-07,  2.801517894073e-07, {   0,   0,   2,   0,   0, -18,  16,   0,   0,   0,   0,   0,   0 } },
  { -5.121329506146e-07, -2.627345838573e-07, {   0,   0,   0,   0,   0,  18, -16,   0,   0,   0,   0,   0,   0 } }
@@ -46863,7 +46863,7 @@ struct AAPLUS_EXT_CLASS ELPMPP02Pertubations
   size_t m_nTableSize;
 };
 
-constexpr array<ELPMPP02Pertubations, 4> g_PERT_S1
+constexpr std::array<ELPMPP02Pertubations, 4> g_PERT_S1
 { {
   { g_PERT_S1_1.data(), g_PERT_S1_1.size() },
   { g_PERT_S1_2.data(), g_PERT_S1_2.size() },
@@ -46871,14 +46871,14 @@ constexpr array<ELPMPP02Pertubations, 4> g_PERT_S1
   { g_PERT_S1_4.data(), g_PERT_S1_4.size() }
 } };
 
-constexpr array<ELPMPP02Pertubations, 3> g_PERT_S2
+constexpr std::array<ELPMPP02Pertubations, 3> g_PERT_S2
 { {
   { g_PERT_S2_1.data(), g_PERT_S2_1.size() },
   { g_PERT_S2_2.data(), g_PERT_S2_2.size() },
   { g_PERT_S2_3.data(), g_PERT_S2_3.size() }
 } };
 
-constexpr array<ELPMPP02Pertubations, 4> g_PERT_S3
+constexpr std::array<ELPMPP02Pertubations, 4> g_PERT_S3
 { {
   { g_PERT_S3_1.data(), g_PERT_S3_1.size() },
   { g_PERT_S3_2.data(), g_PERT_S3_2.size() },
@@ -46887,7 +46887,7 @@ constexpr array<ELPMPP02Pertubations, 4> g_PERT_S3
 } };
 
 
-////////////////////////////// Implementation /////////////////////////////////
+//////////////////// Implementation ///////////////////////////////////////////
 
 double CAAELPMPP02::EclipticLongitude(const double* pT, int nTSize, Correction correction, double* pDerivative) noexcept
 {
@@ -46897,11 +46897,11 @@ double CAAELPMPP02::EclipticLongitude(const double* pT, int nTSize, Correction c
   UNREFERENCED_PARAMETER(nTSize);
 
   //Work out the right data arrays to use
-  const array<array<double, 5>, 3>* g_pW = nullptr;
-  const array<double, 5>* g_pEARTH = nullptr;
-  const array<double, 5>* g_pPERI = nullptr;
-  const array<double, 5>* g_pZETA = nullptr;
-  const array<double, 1023>* g_pMAIN_S1_Coeff = nullptr;
+  const std::array<std::array<double, 5>, 3>* g_pW{nullptr};
+  const std::array<double, 5>* g_pEARTH{nullptr};
+  const std::array<double, 5>* g_pPERI{nullptr};
+  const std::array<double, 5>* g_pZETA{nullptr};
+  const std::array<double, 1023>* g_pMAIN_S1_Coeff{nullptr};
   switch (correction)
   {
     case Correction::Nominal:
@@ -46964,96 +46964,96 @@ double CAAELPMPP02::EclipticLongitude(const double* pT, int nTSize, Correction c
 #pragma warning(suppress: 26477)
   __analysis_assume(g_pMAIN_S1_Coeff);
 #endif
-  const array<array<double, 5>, 3>& g_W = *g_pW;
-  const array<double, 5>& g_EARTH = *g_pEARTH;
-  const array<double, 5>& g_PERI = *g_pPERI;
-  const array<double, 5>& g_ZETA = *g_pZETA;
-  const array<double, 1023>& g_MAIN_S1_Coeff = *g_pMAIN_S1_Coeff;
+  const std::array<std::array<double, 5>, 3>& g_W{*g_pW};
+  const std::array<double, 5>& g_EARTH{*g_pEARTH};
+  const std::array<double, 5>& g_PERI{*g_pPERI};
+  const std::array<double, 5>& g_ZETA{*g_pZETA};
+  const std::array<double, 1023>& g_MAIN_S1_Coeff{*g_pMAIN_S1_Coeff};
 
   //Setup the Delaunay array
-  array<array<double, 5>, 4> fDelaunay{};
-  for (int i=0; i<5; i++)
+  std::array<std::array<double, 5>, 4> fDelaunay{};
+  for (int i{0}; i<5; i++)
   {
     fDelaunay[0][i] = g_W[0][i]  - g_EARTH[i]; //D
-    fDelaunay[1][i] = g_W[0][i]  - g_W[2][i];  //F
-    fDelaunay[2][i] = g_W[0][i]  - g_W[1][i];  //l
-    fDelaunay[3][i] = g_EARTH[i] - g_PERI[i];  //l'
+    fDelaunay[1][i] = g_W[0][i]  - g_W[2][i]; //F
+    fDelaunay[2][i] = g_W[0][i]  - g_W[1][i]; //l
+    fDelaunay[3][i] = g_EARTH[i] - g_PERI[i]; //l'
   }
   fDelaunay[0][0] += CAACoordinateTransformation::PI();
 
   //What will be the return value from this method
-  double fResult = 0;
+  double fResult{0};
 
   //Set the output parameter to a default value if required
   if (pDerivative)
     *pDerivative = 0;
 
   //First the main problem
-  constexpr size_t nEndI = g_MAIN_S1.size();
-  for (size_t i=0; i<nEndI; i++)
+  constexpr size_t nEndI{g_MAIN_S1.size()};
+  for (size_t i{0}; i<nEndI; i++)
   {
-    array<double, 5> fFi{};
-    for (int a=0; a<5; a++)
+    std::array<double, 5> fFi{};
+    for (int a{0}; a<5; a++)
     {
-      for (int j=0; j<4; j++)
-        fFi[a] += g_MAIN_S1[i].m_I[j] * fDelaunay[j][a];
+      for (int j{0}; j<4; j++)
+        fFi[a] += (g_MAIN_S1[i].m_I[j]*fDelaunay[j][a]);
     }
-    double y = fFi[0];
-    double yp = 0;
-    for (int k=1; k<=4; k++)
+    double y{fFi[0]};
+    double yp{0};
+    for (int k{1}; k<=4; k++)
     {
-      y += fFi[k] * pT[k];
-      yp += k * fFi[k] * pT[k-1];
+      y += (fFi[k]*pT[k]);
+      yp += (k*fFi[k]*pT[k-1]);
     }
 #ifdef _MSC_VER
 #pragma warning(suppress : 26488)
 #endif //#ifdef _MSC_VER
-    fResult += (g_MAIN_S1_Coeff[i] * sin(y));
+    fResult += (g_MAIN_S1_Coeff[i]*sin(y));
     if (pDerivative)
 #ifdef _MSC_VER
 #pragma warning(suppress : 26488)
 #endif //#ifdef _MSC_VER
-      *pDerivative += (g_MAIN_S1_Coeff[i] * cos(y) * yp);
+      *pDerivative += (g_MAIN_S1_Coeff[i]*cos(y)*yp);
   }
 
   //Then the perturbations
-  constexpr size_t nEndk = g_PERT_S1.size();
+  constexpr size_t nEndk{g_PERT_S1.size()};
   for (size_t k=0; k<nEndk; k++)
   {
-    const size_t nEndP = g_PERT_S1[k].m_nTableSize;
-    for (size_t p=0; p<nEndP; p++)
+    const size_t nEndP{g_PERT_S1[k].m_nTableSize};
+    for (size_t p{0}; p<nEndP; p++)
     {
-      array<double, 5> fFi{};
+      std::array<double, 5> fFi{};
       fFi[0] = atan2(g_PERT_S1[k].m_pTable[p].m_C, g_PERT_S1[k].m_pTable[p].m_S);
       if (fFi[0] < 0)
-        fFi[0] += (CAACoordinateTransformation::PI() * 2);
-      for (int a=0; a<5; a++)
+        fFi[0] += (CAACoordinateTransformation::PI()*2);
+      for (int a{0}; a<5; a++)
       {
-        for (int i=0; i<4; i++)
-          fFi[a] += (g_PERT_S1[k].m_pTable[p].m_I[i] * fDelaunay[i][a]);
+        for (int i{0}; i<4; i++)
+          fFi[a] += (g_PERT_S1[k].m_pTable[p].m_I[i]*fDelaunay[i][a]);
         if (a < 2)
         {
-          for (size_t i=4; i<12; i++)
-            fFi[a] += (g_P[i-4][a] * g_PERT_S1[k].m_pTable[p].m_I[i]);
+          for (size_t i{4}; i<12; i++)
+            fFi[a] += (g_P[i-4][a]*g_PERT_S1[k].m_pTable[p].m_I[i]);
         }
-        fFi[a] += (g_PERT_S1[k].m_pTable[p].m_I[12] * g_ZETA[a]);
+        fFi[a] += (g_PERT_S1[k].m_pTable[p].m_I[12]*g_ZETA[a]);
       }
 
-      double y = fFi[0];
-      double yp = 0;
-      for (int i=1; i<=4; i++)
+      double y{fFi[0]};
+      double yp{0};
+      for (int i{1}; i<=4; i++)
       {
-        y += (fFi[i] * pT[i]);
-        yp += (i * fFi[i] * pT[i-1]);
+        y += (fFi[i]*pT[i]);
+        yp += (i*fFi[i]*pT[i-1]);
       }
-      double x = sqrt((g_PERT_S1[k].m_pTable[p].m_S * g_PERT_S1[k].m_pTable[p].m_S) + (g_PERT_S1[k].m_pTable[p].m_C * g_PERT_S1[k].m_pTable[p].m_C));
-      fResult += (x * pT[k] * sin(y));
+      double x{sqrt((g_PERT_S1[k].m_pTable[p].m_S*g_PERT_S1[k].m_pTable[p].m_S) + (g_PERT_S1[k].m_pTable[p].m_C*g_PERT_S1[k].m_pTable[p].m_C))};
+      fResult += (x*pT[k]*sin(y));
       if (pDerivative)
       {
         if (k == 0)
-          *pDerivative += (x * pT[k] * yp * cos(y));
+          *pDerivative += (x*pT[k]*yp*cos(y));
         else
-          *pDerivative += (((k * x * pT[k-1]) * sin(y)) + (x * pT[k] * yp * cos(y)));
+          *pDerivative += (((k*x*pT[k-1])*sin(y)) + (x*pT[k]*yp*cos(y)));
       }
     }
   }
@@ -47070,12 +47070,12 @@ double CAAELPMPP02::EclipticLongitude(const double* pT, int nTSize, Correction c
 double CAAELPMPP02::EclipticLongitude(double JD, Correction correction, double* pDerivative) noexcept
 {
   //Calculate Julian centuries array
-  array<double, 5> t;
+  std::array<double, 5> t;
   t[0] = 1;
-  t[1] = (JD - 2451545.0) / 36525.0;
-  t[2] = t[1] * t[1];
-  t[3] = t[2] * t[1];
-  t[4] = t[3] * t[1];
+  t[1] = (JD - 2451545)/36525;
+  t[2] = t[1]*t[1];
+  t[3] = t[2]*t[1];
+  t[4] = t[3]*t[1];
 
   //Delegate to the other version of the method
   return EclipticLongitude(t.data(), 5, correction, pDerivative);
@@ -47089,11 +47089,11 @@ double CAAELPMPP02::EclipticLatitude(const double* pT, int nTSize, Correction co
   UNREFERENCED_PARAMETER(nTSize);
 
   //Work out the right data arrays to use
-  const array<array<double, 5>, 3>* g_pW = nullptr;
-  const array<double, 5>* g_pEARTH = nullptr;
-  const array<double, 5>* g_pPERI = nullptr;
-  const array<double, 5>* g_pZETA = nullptr;
-  const array<double, 918>* g_pMAIN_S2_Coeff = nullptr;
+  const std::array<std::array<double, 5>, 3>* g_pW{nullptr};
+  const std::array<double, 5>* g_pEARTH{nullptr};
+  const std::array<double, 5>* g_pPERI{nullptr};
+  const std::array<double, 5>* g_pZETA{nullptr};
+  const std::array<double, 918>* g_pMAIN_S2_Coeff{nullptr};
   switch (correction)
   {
     case Correction::Nominal:
@@ -47156,115 +47156,115 @@ double CAAELPMPP02::EclipticLatitude(const double* pT, int nTSize, Correction co
 #pragma warning(suppress: 26477)
   __analysis_assume(g_pMAIN_S2_Coeff);
 #endif
-  const array<array<double, 5>, 3>& g_W = *g_pW;
-  const array<double, 5>& g_EARTH = *g_pEARTH;
-  const array<double, 5>& g_PERI = *g_pPERI;
-  const array<double, 5>& g_ZETA = *g_pZETA;
-  const array<double, 918>& g_MAIN_S2_Coeff = *g_pMAIN_S2_Coeff;
+  const std::array<std::array<double, 5>, 3>& g_W{*g_pW};
+  const std::array<double, 5>& g_EARTH{*g_pEARTH};
+  const std::array<double, 5>& g_PERI{*g_pPERI};
+  const std::array<double, 5>& g_ZETA{*g_pZETA};
+  const std::array<double, 918>& g_MAIN_S2_Coeff{*g_pMAIN_S2_Coeff};
 
   //Setup the Delaunay array
-  array<array<double, 5>, 4> fDelaunay{};
-  for (int i=0; i<5; i++)
+  std::array<std::array<double, 5>, 4> fDelaunay{};
+  for (int i{0}; i<5; i++)
   {
     fDelaunay[0][i] = g_W[0][i] - g_EARTH[i]; //D
-    fDelaunay[1][i] = g_W[0][i] - g_W[2][i];  //F
-    fDelaunay[2][i] = g_W[0][i] - g_W[1][i];  //l
+    fDelaunay[1][i] = g_W[0][i] - g_W[2][i]; //F
+    fDelaunay[2][i] = g_W[0][i] - g_W[1][i]; //l
     fDelaunay[3][i] = g_EARTH[i] - g_PERI[i]; //l'
   }
   fDelaunay[0][0] += CAACoordinateTransformation::PI();
 
   //What will be the return value from this method
-  double fResult = 0;
+  double fResult{0};
 
   //Set the output parameter to a default value if required
   if (pDerivative)
     *pDerivative = 0;
 
   //First the main problem
-  constexpr size_t nEndI = g_MAIN_S2.size();
-  for (size_t i=0; i<nEndI; i++)
+  constexpr size_t nEndI{g_MAIN_S2.size()};
+  for (size_t i{0}; i<nEndI; i++)
   {
-    array<double, 5> fFi{};
-    for (int a=0; a<5; a++)
+    std::array<double, 5> fFi{};
+    for (int a{0}; a<5; a++)
     {
-      for (int j=0; j<4; j++)
-        fFi[a] += (g_MAIN_S2[i].m_I[j] * fDelaunay[j][a]);
+      for (int j{0}; j<4; j++)
+        fFi[a] += (g_MAIN_S2[i].m_I[j]*fDelaunay[j][a]);
     }
-    double y = fFi[0];
-    double yp = 0;
-    for (int k=1; k<=4; k++)
+    double y{fFi[0]};
+    double yp{0};
+    for (int k{1}; k<=4; k++)
     {
-      y += (fFi[k] * pT[k]);
-      yp += (k * fFi[k] * pT[k-1]);
+      y += (fFi[k]*pT[k]);
+      yp += (k*fFi[k]*pT[k-1]);
     }
 #ifdef _MSC_VER
 #pragma warning(suppress : 26488)
 #endif //#ifdef _MSC_VER
-    fResult += (g_MAIN_S2_Coeff[i] * sin(y));
+    fResult += (g_MAIN_S2_Coeff[i]*sin(y));
     if (pDerivative)
 #ifdef _MSC_VER
 #pragma warning(suppress : 26488)
 #endif //#ifdef _MSC_VER
-      *pDerivative += (g_MAIN_S2_Coeff[i] * cos(y) * yp);
+      *pDerivative += (g_MAIN_S2_Coeff[i]*cos(y)*yp);
   }
 
   //Then the perturbations
-  constexpr size_t nEndk = g_PERT_S2.size();
-  for (size_t k=0; k<nEndk; k++)
+  constexpr size_t nEndk{g_PERT_S2.size()};
+  for (size_t k{0}; k<nEndk; k++)
   {
-    const size_t nEndP = g_PERT_S2[k].m_nTableSize;
-    for (size_t p=0; p<nEndP; p++)
+    const size_t nEndP{g_PERT_S2[k].m_nTableSize};
+    for (size_t p{0}; p<nEndP; p++)
     {
-      array<double, 5> fFi{};
+      std::array<double, 5> fFi{};
       fFi[0] = atan2(g_PERT_S2[k].m_pTable[p].m_C, g_PERT_S2[k].m_pTable[p].m_S);
       if (fFi[0] < 0)
-        fFi[0] += (CAACoordinateTransformation::PI() * 2);
-      for (int a=0; a<5; a++)
+        fFi[0] += (CAACoordinateTransformation::PI()*2);
+      for (int a{0}; a<5; a++)
       {
-        for (int i=0; i<4; i++)
-          fFi[a] += (g_PERT_S2[k].m_pTable[p].m_I[i] * fDelaunay[i][a]);
+        for (int i{0}; i<4; i++)
+          fFi[a] += (g_PERT_S2[k].m_pTable[p].m_I[i]*fDelaunay[i][a]);
         if (a < 2)
         {
-          for (size_t i=4; i<12; i++)
-            fFi[a] += (g_P[i-4][a] * g_PERT_S2[k].m_pTable[p].m_I[i]);
+          for (size_t i{4}; i<12; i++)
+            fFi[a] += (g_P[i-4][a]*g_PERT_S2[k].m_pTable[p].m_I[i]);
         }
-        fFi[a] += (g_PERT_S2[k].m_pTable[p].m_I[12] * g_ZETA[a]);
+        fFi[a] += (g_PERT_S2[k].m_pTable[p].m_I[12]*g_ZETA[a]);
       }
 
-      double y = fFi[0];
-      double yp = 0;
-      for (int i=1; i<=4; i++)
+      double y{fFi[0]};
+      double yp{0};
+      for (int i{1}; i<=4; i++)
       {
-        y += (fFi[i] * pT[i]);
-        yp += (i * fFi[i] * pT[i-1]);
+        y += (fFi[i]*pT[i]);
+        yp += (i*fFi[i]*pT[i-1]);
       }
-      double x = sqrt((g_PERT_S2[k].m_pTable[p].m_S * g_PERT_S2[k].m_pTable[p].m_S) + (g_PERT_S2[k].m_pTable[p].m_C * g_PERT_S2[k].m_pTable[p].m_C));
-      fResult += (x * pT[k] * sin(y));
+      double x{sqrt((g_PERT_S2[k].m_pTable[p].m_S*g_PERT_S2[k].m_pTable[p].m_S) + (g_PERT_S2[k].m_pTable[p].m_C*g_PERT_S2[k].m_pTable[p].m_C))};
+      fResult += (x*pT[k]*sin(y));
       if (pDerivative)
       {
         if (k == 0)
-          *pDerivative += (x * pT[k] * yp * cos(y));
+          *pDerivative += (x*pT[k]*yp*cos(y));
         else
-          *pDerivative += (((k * x * pT[k-1]) * sin(y)) + (x * pT[k] * yp * cos(y)));
+          *pDerivative += (((k*x*pT[k-1])*sin(y)) + (x*pT[k]*yp*cos(y)));
       }
     }
   }
 
   fResult = CAACoordinateTransformation::MapToMinus90To90Range(fResult/3600.0);
   if (pDerivative)
-    *pDerivative = *pDerivative/(3600.0 * 36525.0);
+    *pDerivative = *pDerivative/(3600.0*36525.0);
   return fResult;
 }
 
 double CAAELPMPP02::EclipticLatitude(double JD, Correction correction, double* pDerivative) noexcept
 {
   //Calculate Julian centuries array
-  array<double, 5> t;
+  std::array<double, 5> t;
   t[0] = 1;
-  t[1] = (JD - 2451545.0) / 36525.0;
-  t[2] = t[1] * t[1];
-  t[3] = t[2] * t[1];
-  t[4] = t[3] * t[1];
+  t[1] = (JD - 2451545)/36525;
+  t[2] = t[1]*t[1];
+  t[3] = t[2]*t[1];
+  t[4] = t[3]*t[1];
 
   //Delegate to the other version of this method
   return EclipticLatitude(t.data(), 5, correction, pDerivative);
@@ -47278,11 +47278,11 @@ double CAAELPMPP02::RadiusVector(const double* pT, int nTSize, Correction correc
   UNREFERENCED_PARAMETER(nTSize);
 
   //Work out the right data arrays to use
-  const array<array<double, 5>, 3>* g_pW = nullptr;
-  const array<double, 5>* g_pEARTH = nullptr;
-  const array<double, 5>* g_pPERI = nullptr;
-  const array<double, 5>* g_pZETA = nullptr;
-  const array<double, 704>* g_pMAIN_S3_Coeff = nullptr;
+  const std::array<std::array<double, 5>, 3>* g_pW{nullptr};
+  const std::array<double, 5>* g_pEARTH{nullptr};
+  const std::array<double, 5>* g_pPERI{nullptr};
+  const std::array<double, 5>* g_pZETA{nullptr};
+  const std::array<double, 704>* g_pMAIN_S3_Coeff{nullptr};
   switch (correction)
   {
     case Correction::Nominal:
@@ -47345,15 +47345,15 @@ double CAAELPMPP02::RadiusVector(const double* pT, int nTSize, Correction correc
 #pragma warning(suppress: 26477)
   __analysis_assume(g_pMAIN_S3_Coeff);
 #endif
-  const array<array<double, 5>, 3>& g_W = *g_pW;
-  const array<double, 5>& g_EARTH = *g_pEARTH;
-  const array<double, 5>& g_PERI = *g_pPERI;
-  const array<double, 5>& g_ZETA = *g_pZETA;
-  const array<double, 704>& g_MAIN_S3_Coeff = *g_pMAIN_S3_Coeff;
+  const std::array<std::array<double, 5>, 3>& g_W{*g_pW};
+  const std::array<double, 5>& g_EARTH{*g_pEARTH};
+  const std::array<double, 5>& g_PERI{*g_pPERI};
+  const std::array<double, 5>& g_ZETA{*g_pZETA};
+  const std::array<double, 704>& g_MAIN_S3_Coeff{*g_pMAIN_S3_Coeff};
 
   //Setup the Delaunay array
-  array<array<double, 5>, 4> fDelaunay{};
-  for (int i=0; i<5; i++)
+  std::array<std::array<double, 5>, 4> fDelaunay{};
+  for (int i{0}; i<5; i++)
   {
     fDelaunay[0][i] = g_W[0][i] - g_EARTH[i]; //D
     fDelaunay[1][i] = g_W[0][i] - g_W[2][i];  //F
@@ -47363,78 +47363,78 @@ double CAAELPMPP02::RadiusVector(const double* pT, int nTSize, Correction correc
   fDelaunay[0][0] += CAACoordinateTransformation::PI();
 
   //What will be the return value from this method
-  double fResult = 0;
+  double fResult{0};
 
   //Set the output parameter to a default value if required
   if (pDerivative)
     *pDerivative = 0;
 
   //First the main problem
-  constexpr size_t nEndI = g_MAIN_S3.size();
-  for (size_t i=0; i<nEndI; i++)
+  constexpr size_t nEndI{g_MAIN_S3.size()};
+  for (size_t i{0}; i<nEndI; i++)
   {
-    array<double, 5> fFi{};
-    for (int a=0; a<5; a++)
+    std::array<double, 5> fFi{};
+    for (int a{0}; a<5; a++)
     {
-      for (int j=0; j<4; j++)
-        fFi[a] += (g_MAIN_S3[i].m_I[j] * fDelaunay[j][a]);
+      for (int j{0}; j<4; j++)
+        fFi[a] += (g_MAIN_S3[i].m_I[j]*fDelaunay[j][a]);
     }
-    double y = fFi[0];
-    double yp = 0;
-    for (int k=1; k<=4; k++)
+    double y{fFi[0]};
+    double yp{0};
+    for (int k{1}; k<=4; k++)
     {
-      y += (fFi[k] * pT[k]);
-      yp += (k * fFi[k] * pT[k-1]);
+      y += (fFi[k]*pT[k]);
+      yp += (k*fFi[k]*pT[k-1]);
     }
 #ifdef _MSC_VER
 #pragma warning(suppress : 26488)
 #endif //#ifdef _MSC_VER
-    fResult += (g_MAIN_S3_Coeff[i] * cos(y));
+    fResult += (g_MAIN_S3_Coeff[i]*cos(y));
     if (pDerivative)
 #ifdef _MSC_VER
 #pragma warning(suppress : 26488)
 #endif //#ifdef _MSC_VER
-      *pDerivative -= (g_MAIN_S3_Coeff[i] * sin(y) * yp);
+      *pDerivative -= (g_MAIN_S3_Coeff[i]*sin(y)*yp);
   }
 
   //Then the perturbations
-  constexpr size_t nEndk = g_PERT_S3.size();
-  for (size_t k=0; k<nEndk; k++)
+  constexpr size_t nEndk{g_PERT_S3.size()};
+  for (size_t k{0}; k<nEndk; k++)
   {
-    const size_t nEndP = g_PERT_S3[k].m_nTableSize;
-    for (size_t p=0; p<nEndP; p++)
+    const size_t nEndP{g_PERT_S3[k].m_nTableSize};
+    for (size_t p{0}; p<nEndP; p++)
     {
-      array<double, 5> fFi{};
+      std::array<double, 5> fFi{};
       fFi[0] = atan2(g_PERT_S3[k].m_pTable[p].m_C, g_PERT_S3[k].m_pTable[p].m_S);
       if (fFi[0] < 0)
-        fFi[0] += (CAACoordinateTransformation::PI() * 2);
-      for (int a=0; a<5; a++)
+        fFi[0] += (CAACoordinateTransformation::PI()*2);
+      for (int a{0}; a<5; a++)
       {
-        for (int i=0; i<4; i++)
-          fFi[a] += (g_PERT_S3[k].m_pTable[p].m_I[i] * fDelaunay[i][a]);
+        for (int i{0}; i<4; i++)
+          fFi[a] += (g_PERT_S3[k].m_pTable[p].m_I[i]*fDelaunay[i][a]);
         if (a < 2)
         {
-          for (size_t i=4; i<12; i++)
-            fFi[a] += (g_P[i-4][a] * g_PERT_S3[k].m_pTable[p].m_I[i]);
+          for (size_t i{4}; i<12; i++)
+            fFi[a] += (g_P[i-4][a]*g_PERT_S3[k].m_pTable[p].m_I[i]);
         }
-        fFi[a] += (g_PERT_S3[k].m_pTable[p].m_I[12] * g_ZETA[a]);
+        fFi[a] += (g_PERT_S3[k].m_pTable[p].m_I[12]*g_ZETA[a]);
       }
 
-      double y = fFi[0];
-      double yp = 0;
-      for (int i=1; i<=4; i++)
+      double y{fFi[0]};
+      double yp{0};
+      for (int i{1}; i<=4; i++)
       {
-        y += (fFi[i] * pT[i]);
-        yp += (i * fFi[i] * pT[i-1]);
+        y += (fFi[i]*pT[i]);
+        yp += (i*fFi[i]*pT[i-1]);
       }
-      double x = sqrt((g_PERT_S3[k].m_pTable[p].m_S * g_PERT_S3[k].m_pTable[p].m_S) + (g_PERT_S3[k].m_pTable[p].m_C * g_PERT_S3[k].m_pTable[p].m_C));
-      fResult += (x * pT[k] * sin(y));
+      double x{sqrt((g_PERT_S3[k].m_pTable[p].m_S*g_PERT_S3[k].m_pTable[p].m_S) + (g_PERT_S3[k].m_pTable[p].m_C*g_PERT_S3[k].m_pTable[p].m_C))};
+      fResult += (x*pT[k]*sin(y));
       if (pDerivative)
       {
         if (k == 0)
-          *pDerivative += (x * pT[k] * yp * cos(y));
+          *pDerivative += (x*pT[k]*yp*cos(y));
         else
-          *pDerivative += (((k * x * pT[k-1]) * sin(y)) + (x * pT[k] * yp * cos(y)));
+          *pDerivative += (((k*x*pT[k-1])*sin(y)) + (x*pT[k]*yp*cos(y)));
       }
     }
   }
@@ -47449,12 +47449,12 @@ double CAAELPMPP02::RadiusVector(const double* pT, int nTSize, Correction correc
 double CAAELPMPP02::RadiusVector(double JD, Correction correction, double* pDerivative) noexcept
 {
   //Calculate Julian centuries array
-  array<double, 5> t;
+  std::array<double, 5> t;
   t[0] = 1;
-  t[1] = (JD - 2451545.0) / 36525.0;
-  t[2] = t[1] * t[1];
-  t[3] = t[2] * t[1];
-  t[4] = t[3] * t[1];
+  t[1] = (JD - 2451545)/36525;
+  t[2] = t[1]*t[1];
+  t[3] = t[2]*t[1];
+  t[4] = t[3]*t[1];
 
   //Delegate to the other version of this method
   return RadiusVector(t.data(), 5, correction, pDerivative);
@@ -47462,25 +47462,25 @@ double CAAELPMPP02::RadiusVector(double JD, Correction correction, double* pDeri
 
 CAA3DCoordinate CAAELPMPP02::EclipticRectangularCoordinates(const double* pT, int nTSize, Correction correction, CAA3DCoordinate* pDerivative) noexcept
 {
-  double fLongitudeDerivative = 0;
-  double fLongitude = EclipticLongitude(pT, nTSize, correction, &fLongitudeDerivative);
+  double fLongitudeDerivative{0};
+  double fLongitude{EclipticLongitude(pT, nTSize, correction, &fLongitudeDerivative)};
   fLongitudeDerivative *= 36525.0;
-  double fLatitudeDerivative = 0;
-  double fLatitude = EclipticLatitude(pT, nTSize, correction, &fLatitudeDerivative);
+  double fLatitudeDerivative{0};
+  double fLatitude{EclipticLatitude(pT, nTSize, correction, &fLatitudeDerivative)};
   fLatitudeDerivative *= 36525.0;
-  double fRadiusDerivative = 0;
-  const double fRadius = RadiusVector(pT, nTSize, correction, &fRadiusDerivative);
+  double fRadiusDerivative{0};
+  const double fRadius{RadiusVector(pT, nTSize, correction, &fRadiusDerivative)};
   fRadiusDerivative *= 36525.0;
   fLongitude = CAACoordinateTransformation::DegreesToRadians(fLongitude);
   fLongitudeDerivative = CAACoordinateTransformation::DegreesToRadians(fLongitudeDerivative);
   fLatitude = CAACoordinateTransformation::DegreesToRadians(fLatitude);
   fLatitudeDerivative = CAACoordinateTransformation::DegreesToRadians(fLatitudeDerivative);
-  const double fCosLong = cos(fLongitude);
-  const double fSinLong = sin(fLongitude);
-  const double fCosLat = cos(fLatitude);
-  const double fSinLat = sin(fLatitude);
-  const double fRCosLat = fRadius * fCosLat;
-  const double fRSinLat = fRadius * fSinLat;
+  const double fCosLong{cos(fLongitude)};
+  const double fSinLong{sin(fLongitude)};
+  const double fCosLat{cos(fLatitude)};
+  const double fSinLat{sin(fLatitude)};
+  const double fRCosLat{fRadius*fCosLat};
+  const double fRSinLat{fRadius*fSinLat};
   CAA3DCoordinate value;
   value.X = fRCosLat * fCosLong;
   value.Y = fRCosLat * fSinLong;
@@ -47488,9 +47488,9 @@ CAA3DCoordinate CAAELPMPP02::EclipticRectangularCoordinates(const double* pT, in
 
   if (pDerivative)
   {
-    pDerivative->X = ((((fRadiusDerivative*fCosLat) - (fLatitudeDerivative*fRSinLat))*fCosLong) - (fLongitudeDerivative*value.Y)) / 36525.0;
-    pDerivative->Y = ((((fRadiusDerivative*fCosLat) - (fLatitudeDerivative*fRSinLat))*fSinLong) + (fLongitudeDerivative*value.X)) / 36525.0;
-    pDerivative->Z = ((fRadiusDerivative*fSinLat) + (fLatitudeDerivative*fRCosLat)) / 36525.0;
+    pDerivative->X = ((((fRadiusDerivative*fCosLat) - (fLatitudeDerivative*fRSinLat))*fCosLong) - (fLongitudeDerivative*value.Y))/36525.0;
+    pDerivative->Y = ((((fRadiusDerivative*fCosLat) - (fLatitudeDerivative*fRSinLat))*fSinLong) + (fLongitudeDerivative*value.X))/36525.0;
+    pDerivative->Z = ((fRadiusDerivative*fSinLat) + (fLatitudeDerivative*fRCosLat))/36525.0;
   }
 
   return value;
@@ -47499,12 +47499,12 @@ CAA3DCoordinate CAAELPMPP02::EclipticRectangularCoordinates(const double* pT, in
 CAA3DCoordinate CAAELPMPP02::EclipticRectangularCoordinates(double JD, Correction correction, CAA3DCoordinate* pDerivative) noexcept
 {
   //Calculate Julian centuries array
-  array<double, 5> t;
+  std::array<double, 5> t;
   t[0] = 1;
-  t[1] = (JD - 2451545.0) / 36525.0;
-  t[2] = t[1] * t[1];
-  t[3] = t[2] * t[1];
-  t[4] = t[3] * t[1];
+  t[1] = (JD - 2451545)/36525;
+  t[2] = t[1]*t[1];
+  t[3] = t[2]*t[1];
+  t[4] = t[3]*t[1];
 
   //Delegate to the other version of this method
   return EclipticRectangularCoordinates(t.data(), 5, correction, pDerivative);
@@ -47520,7 +47520,7 @@ CAA3DCoordinate CAAELPMPP02::EclipticRectangularCoordinatesJ2000(const double* p
   __analysis_assume(pT);
 #endif
 
-  static constexpr array<double, 5> LaskarsP
+  static constexpr std::array<double, 5> LaskarsP
   { {
     1.0180391e-5,
     4.7020439e-7,
@@ -47529,7 +47529,7 @@ CAA3DCoordinate CAAELPMPP02::EclipticRectangularCoordinatesJ2000(const double* p
     4.63486e-15
   } };
 
-  static constexpr array<double, 5> LaskarsQ
+  static constexpr std::array<double, 5> LaskarsQ
   { {
    -1.13469002e-4,
     1.2372674e-7,
@@ -47539,38 +47539,38 @@ CAA3DCoordinate CAAELPMPP02::EclipticRectangularCoordinatesJ2000(const double* p
   } };
 
   CAA3DCoordinate EclipticDerivative;
-  const CAA3DCoordinate Ecliptic = EclipticRectangularCoordinates(pT, nTSize, correction, &EclipticDerivative);
+  const CAA3DCoordinate Ecliptic{EclipticRectangularCoordinates(pT, nTSize, correction, &EclipticDerivative)};
   EclipticDerivative.X *= 36525.0;
   EclipticDerivative.Y *= 36525.0;
   EclipticDerivative.Z *= 36525.0;
-  const double fP = (LaskarsP[0] + (LaskarsP[1]*pT[1]) + (LaskarsP[2]*pT[2]) + (LaskarsP[3]*pT[3]) + (LaskarsP[4]*pT[4])) * pT[1];
-  const double fQ = (LaskarsQ[0] + (LaskarsQ[1]*pT[1]) + (LaskarsQ[2]*pT[2]) + (LaskarsQ[3]*pT[3]) + (LaskarsQ[4]*pT[4])) * pT[1];
-  const double fTwoP = 2*fP;
-  const double fP2 = fP*fP;
-  const double fQ2 = fQ*fQ;
-  const double fOneMinus2P2 = 1 - (2*fP2);
-  const double fOneMinus2Q2 = 1 - (2*fQ2);
-  const double fTwoPQ = fTwoP*fQ;
-  const double fTwosqrt1MinusPart = 2*sqrt(1 - fP2 - fQ2);
-  const double fPTwosqrt1MinusPart = fP*fTwosqrt1MinusPart;
-  const double fQTwosqrt1MinusPart = fQ*fTwosqrt1MinusPart;
+  const double fP{(LaskarsP[0] + (LaskarsP[1]*pT[1]) + (LaskarsP[2]*pT[2]) + (LaskarsP[3]*pT[3]) + (LaskarsP[4]*pT[4])) * pT[1]};
+  const double fQ{(LaskarsQ[0] + (LaskarsQ[1]*pT[1]) + (LaskarsQ[2]*pT[2]) + (LaskarsQ[3]*pT[3]) + (LaskarsQ[4]*pT[4])) * pT[1]};
+  const double fTwoP{2*fP};
+  const double fP2{fP*fP};
+  const double fQ2{fQ*fQ};
+  const double fOneMinus2P2{1 - (2*fP2)};
+  const double fOneMinus2Q2{1 - (2*fQ2)};
+  const double fTwoPQ{fTwoP*fQ};
+  const double fTwosqrt1MinusPart{2*sqrt(1 - fP2 - fQ2)};
+  const double fPTwosqrt1MinusPart{fP*fTwosqrt1MinusPart};
+  const double fQTwosqrt1MinusPart{fQ*fTwosqrt1MinusPart};
   CAA3DCoordinate J2000;
   J2000.X = (fOneMinus2P2*Ecliptic.X) + (fTwoPQ*Ecliptic.Y) + (fPTwosqrt1MinusPart*Ecliptic.Z);
   J2000.Y = (fTwoPQ*Ecliptic.X) + (fOneMinus2Q2*Ecliptic.Y) - (fQTwosqrt1MinusPart*Ecliptic.Z);
   J2000.Z = (-fPTwosqrt1MinusPart*Ecliptic.X) + (fQTwosqrt1MinusPart*Ecliptic.Y) + ((fOneMinus2P2 + fOneMinus2Q2 - 1)*Ecliptic.Z);
   if (pDerivative)
   {
-    const double fPp = LaskarsP[0] + (2*LaskarsP[1] + 3*LaskarsP[2]*pT[1] + 4*LaskarsP[3]*pT[2] + 5*LaskarsP[3]*pT[4]) * pT[1];
-    const double fQp = LaskarsQ[0] + (2*LaskarsQ[1] + 3*LaskarsQ[2]*pT[1] + 4*LaskarsQ[3]*pT[2] + 5*LaskarsQ[3]*pT[4]) * pT[1];
-    const double fMinus4PPp = -4*fP*fPp;
-    const double fMinus4QQp = -4*fQ*fQp;
-    const double fTwoPpQpQp = 2*((fPp*fQ) + (fP*fQp));
-    const double fK1 = (fMinus4PPp + fMinus4QQp) / fTwosqrt1MinusPart;
-    const double fK2 = (fPp*fTwosqrt1MinusPart) + (fP*fK1);
-    const double fK3 = (fQp*fTwosqrt1MinusPart) + (fQ*fK1);
-    pDerivative->X = ((fOneMinus2P2*EclipticDerivative.X) + (fTwoPQ*EclipticDerivative.Y) + (fPTwosqrt1MinusPart*EclipticDerivative.Z) + (fMinus4PPp*Ecliptic.X) + (fTwoPpQpQp*Ecliptic.Y) + (fK2*Ecliptic.Z)) / 36525.0;
-    pDerivative->Y = ((fTwoPQ*EclipticDerivative.X) + (fOneMinus2Q2*EclipticDerivative.Y) - (fQTwosqrt1MinusPart*EclipticDerivative.Z) + (fTwoPpQpQp*Ecliptic.X) + (fMinus4QQp*Ecliptic.Y) - (fK3*Ecliptic.Z)) / 36525.0;
-    pDerivative->Z = ((-fPTwosqrt1MinusPart*EclipticDerivative.X) + (fQTwosqrt1MinusPart*EclipticDerivative.Y) + ((fOneMinus2P2 + fOneMinus2Q2 - 1)*EclipticDerivative.Z) - (fK2*Ecliptic.X) + (fK3*Ecliptic.Y) + ((fMinus4PPp + fMinus4QQp)*Ecliptic.Z)) / 36525.0;
+    const double fPp{LaskarsP[0] + ((2*LaskarsP[1]) + (3*LaskarsP[2]*pT[1]) + (4*LaskarsP[3]*pT[2]) + (5*LaskarsP[3]*pT[4]))*pT[1]};
+    const double fQp{LaskarsQ[0] + ((2*LaskarsQ[1]) + (3*LaskarsQ[2]*pT[1]) + (4*LaskarsQ[3]*pT[2]) + (5*LaskarsQ[3]*pT[4]))*pT[1]};
+    const double fMinus4PPp{-4*fP*fPp};
+    const double fMinus4QQp{-4*fQ*fQp};
+    const double fTwoPpQpQp{2*((fPp*fQ) + (fP*fQp))};
+    const double fK1{(fMinus4PPp + fMinus4QQp)/fTwosqrt1MinusPart};
+    const double fK2{(fPp*fTwosqrt1MinusPart) + (fP*fK1)};
+    const double fK3{(fQp*fTwosqrt1MinusPart) + (fQ*fK1)};
+    pDerivative->X = ((fOneMinus2P2*EclipticDerivative.X) + (fTwoPQ*EclipticDerivative.Y) + (fPTwosqrt1MinusPart*EclipticDerivative.Z) + (fMinus4PPp*Ecliptic.X) + (fTwoPpQpQp*Ecliptic.Y) + (fK2*Ecliptic.Z))/36525.0;
+    pDerivative->Y = ((fTwoPQ*EclipticDerivative.X) + (fOneMinus2Q2*EclipticDerivative.Y) - (fQTwosqrt1MinusPart*EclipticDerivative.Z) + (fTwoPpQpQp*Ecliptic.X) + (fMinus4QQp*Ecliptic.Y) - (fK3*Ecliptic.Z))/36525.0;
+    pDerivative->Z = ((-fPTwosqrt1MinusPart*EclipticDerivative.X) + (fQTwosqrt1MinusPart*EclipticDerivative.Y) + ((fOneMinus2P2 + fOneMinus2Q2 - 1)*EclipticDerivative.Z) - (fK2*Ecliptic.X) + (fK3*Ecliptic.Y) + ((fMinus4PPp + fMinus4QQp)*Ecliptic.Z))/36525.0;
   }
   return J2000;
 }
@@ -47578,12 +47578,12 @@ CAA3DCoordinate CAAELPMPP02::EclipticRectangularCoordinatesJ2000(const double* p
 CAA3DCoordinate CAAELPMPP02::EclipticRectangularCoordinatesJ2000(double JD, Correction correction, CAA3DCoordinate* pDerivative) noexcept
 {
   //Calculate Julian centuries array
-  array<double, 5> t;
+  std::array<double, 5> t;
   t[0] = 1;
-  t[1] = (JD - 2451545.0) / 36525.0;
-  t[2] = t[1] * t[1];
-  t[3] = t[2] * t[1];
-  t[4] = t[3] * t[1];
+  t[1] = (JD - 2451545)/36525;
+  t[2] = t[1]*t[1];
+  t[3] = t[2]*t[1];
+  t[4] = t[3]*t[1];
 
   //Delegate to the other version of this method
   return EclipticRectangularCoordinatesJ2000(t.data(), 5, correction, pDerivative);

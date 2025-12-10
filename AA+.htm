@@ -2,7 +2,7 @@
 
 <head>
 <meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
-<title>AA+ v2.37</title>
+<title>AA+ v2.56</title>
 <link href="./naughter.css" rel="stylesheet" type="text/css">
 <style type="text/css">
 .auto-style1 {
@@ -13,7 +13,7 @@
 
 <body>
 
-<h2>AA+ v2.37</h2>
+<h2>AA+ v2.56</h2>
 <p>Welcome to <b>AA+</b>, a collection of freeware C++ classes which provide 
 an implementation of the algorithms as presented in the book &quot;Astronomical 
 Algorithms&quot; (2nd Edition) by Jean Meeus.</p>
@@ -72,8 +72,8 @@ of Jupiter and Saturn as well as many other algorithms presented in the book.</p
 	<li>You can optionally pare back the modules which you do not want to include 
 	until you arrive at a minimum set for your requirements.</li>
 	<li>To see the classes in action, have a look at the code in the main function 
-	in the module &quot;aatest.cpp&quot;. </li>
-	<li>The download includes a VC 2019 project and has been tested on VC 2019 on Windows 10 and GCC on Ubuntu.</li>
+	in the module &quot;AATest.cpp&quot;. </li>
+	<li>The download includes a VC 2022 project and has been tested on VC 2022 on Windows 10 and GCC on Ubuntu.</li>
 </ul>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
@@ -92,6 +92,393 @@ of Jupiter and Saturn as well as many other algorithms presented in the book.</p
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <h2><a name="History"></a>History</h2>
+<p><b>v2.56 (25 July 2024)</b></p>
+<ul>
+	<li>Updated the g_DeltaTValues lookup table to use observed DeltaT 
+	values to 18 July 2024 and predicted values to 26 July 2025 from
+	<a href="https://cddis.nasa.gov/archive/products/iers/finals2000A.all">
+	https://cddis.nasa.gov/archive/products/iers/finals2000A.all</a>. </li>
+	<li>Fixed an edge case bug in all the CalculateX functions of 
+	CAARiseTransitSet2 where the main loop iterates from StartJD by StepInterval 
+	until JD &lt; EndJD. That means that events happening closer than StepInterval 
+	to EndJD get lost because the step where we can catch it is outside of 
+	StartJD...EndJD interval. Now the code iterates from StartJD by StepInterval 
+	until JD &lt; (EndJD+StepInterval). Thanks to Alexander Vasenin for reporting 
+	this issue.</li>
+	<li>Fixed an edge case bug in the Calculate function of 
+	CAAEquinoxesAndSolstices2 where the main loop iterates from StartJD by 
+	StepInterval until JD &lt; EndJD. That means that events happening closer than 
+	StepInterval to EndJD get lost because the step where we can catch it is 
+	outside of StartJD...EndJD interval. Now the code iterates from StartJD by 
+	StepInterval until JD &lt; (EndJD+StepInterval+StepInterval). Thanks to 
+	Alexander Vasenin for reporting this issue.</li>
+	<li>Fixed an edge case bug in the Calculate function of 
+	CAAPlanetPerihelionAphelion2 where the main loop iterates from StartJD by 
+	StepInterval until JD &lt; EndJD. That means that events happening closer than 
+	StepInterval to EndJD get lost because the step where we can catch it is 
+	outside of StartJD...EndJD interval. Now the code iterates from StartJD by 
+	StepInterval until JD &lt; (EndJD+StepInterval+StepInterval). Thanks to 
+	Alexander Vasenin for reporting this issue. </li>
+	<li>Fixed an edge case bug in the Calculate function of 
+	CAAMoonPerigeeApogee2 where the main loop iterates from StartJD by 
+	StepInterval until JD &lt; EndJD. That means that events happening closer than 
+	StepInterval to EndJD get lost because the step where we can catch it is 
+	outside of StartJD...EndJD interval. Now the code iterates from StartJD by 
+	StepInterval until JD &lt; (EndJD+StepInterval+StepInterval). Thanks to 
+	Alexander Vasenin for reporting this issue.</li>
+	<li>Fixed an edge case bug in the Calculate function of 
+	CAAMoonMaxDeclinations2 where the main loop iterates from StartJD by 
+	StepInterval until JD &lt; EndJD. That means that events happening closer than 
+	StepInterval to EndJD get lost because the step where we can catch it is 
+	outside of StartJD...EndJD interval. Now the code iterates from StartJD by 
+	StepInterval until JD &lt; (EndJD+StepInterval+StepInterval). Thanks to 
+	Alexander Vasenin for reporting this issue.</li>
+	<li>Fixed an edge case bug in all the Calculate function of CAAMoonPhases2 
+	where the main loop iterates from StartJD by StepInterval until JD &lt; EndJD. 
+	That means that events happening closer than StepInterval to EndJD get lost 
+	because the step where we can catch it is outside of StartJD...EndJD 
+	interval. Now the code iterates from StartJD by StepInterval until JD &lt; 
+	(EndJD+StepInterval). Thanks to Alexander Vasenin for reporting this issue.</li>
+	<li>Fixed an edge case bug in all the Calculate function of CAAMoonNodes2 
+	where the main loop iterates from StartJD by StepInterval until JD &lt; EndJD. 
+	That means that events happening closer than StepInterval to EndJD get lost 
+	because the step where we can catch it is outside of StartJD...EndJD 
+	interval. Now the code iterates from StartJD by StepInterval until JD &lt; 
+	(EndJD+StepInterval). Thanks to Alexander Vasenin for reporting this issue. </li>
+	<li>Fixed an edge case bug in all the Calculate function of 
+	CAAPlanetaryPhenomena2 where the main loop iterates from StartJD by 
+	StepInterval until JD &lt; EndJD. That means that events happening closer than 
+	StepInterval to EndJD get lost because the step where we can catch it is 
+	outside of StartJD...EndJD interval. Now the code iterates from StartJD by 
+	StepInterval until JD &lt; (EndJD+StepInterval+StepInterval). Thanks to 
+	Alexander Vasenin for reporting this issue.</li>
+</ul>
+<p><b>v2.55 (29 April 2024)</b></p>
+<ul>
+	<li>Fixed a number of compilation issues in AADynamicalTime.cpp, AAELP2000.h, 
+	AAVSOP2013.cpp and AAVSOP87.h when compiling with GCC. Thanks to Andrew 
+	Roberts for reporting this issue.</li>
+</ul>
+<p><b>v2.54 (26 April 2024)</b></p>
+<ul>
+	<li>Updated copyright details.</li>
+	<li>Updated the g_DeltaTValues lookup table to use observed DeltaT values to 
+	25 April 2024 and predicted values to 03 May 2025 from 
+	<a href="https://cddis.nasa.gov/archive/products/iers/finals2000A.all">https://cddis.nasa.gov/archive/products/iers/finals2000A.all</a>. </li>
+</ul>
+<p><b>v2.53 (7 October 2023)</b></p>
+<ul>
+	<li>Updated the g_DeltaTValues lookup table to use observed DeltaT values to 
+	05 October 2023 and predicted values to 12 October 2024 from
+	<a href="https://cddis.nasa.gov/archive/products/iers/finals2000A.all">
+	https://cddis.nasa.gov/archive/products/iers/finals2000A.all</a>. </li>
+</ul>
+<p><b>v2.52 (12 July 2023)</b></p>
+<ul>
+	<li>Updated AAParallax.cpp to use a more accurate value of the Solar 
+	Parallax constant of 8.794148&quot; instead of 8.794&quot;. This newer value was 
+	adopted in 1977 by the IAU. Thanks to &quot;Pavel&quot; for reporting this issue. </li>
+	<li>Fixed another bug in the calculation of the return value in the 
+	CAAPhysicalMoon::AltitudeOfSun method. Thanks to &quot;Pavel&quot; for reporting this 
+	issue. </li>
+</ul>
+<p><b>v2.51 (11 July 2023)</b></p>
+<ul>
+	<li>Updated CAADiameters::GeocentricMoonSemidiameter method to use the more rigorous 
+	formula on page 390 as presented in Meeus's book. Also updated the &quot;k&quot; 
+	constant used in this method from 0.272481 to the more modern value of k = 
+	0.2725076. Please see section &quot;1.9 Mean Lunar Radius&quot; of 
+	<a href="https://umbra.nascom.nasa.gov/eclipse/20060329/text/chapter_1.html">https://umbra.nascom.nasa.gov/eclipse/20060329/text/chapter_1.html</a> for the 
+	reason why the new value was adopted in 1982. Thanks to &quot;Pavel&quot; for 
+	reporting this issue. </li>
+	<li>Fixed a bug in CAAPhysicalMoon::AltitudeOfSun method. Thanks to &quot;Pavel&quot; 
+	for reporting this issue.</li>
+	<li>Improved the k value in the 
+	CAADiameters::ApparentSaturnPolarSemidiameterA method. Thanks to &quot;Pavel&quot; for 
+	reporting this issue. </li>
+	<li>Improved the k value in the 
+	CAADiameters::ApparentSaturnPolarSemidiameterB method. Thanks to &quot;Pavel&quot; for 
+	reporting this issue. </li>
+	<li>Updated the g_DeltaTValues lookup table to use observed DeltaT values 
+	to 06 July 2023 and predicted values to 13 July 2024 from 
+	<a href="https://cddis.nasa.gov/archive/products/iers/finals2000A.all">https://cddis.nasa.gov/archive/products/iers/finals2000A.all</a>. </li>
+</ul>
+<p><b>v2.50 (16 April 2023)</b></p>
+<ul>
+	<li>Renamed CAAELP2000::MeanLongitudeOfPerilhelionOfEarthMoonBarycentre to 
+	CAAELP2000::MeanLongitudeOfPerihelionOfEarthMoonBarycentre.</li>
+	<li>Fixed a bug in CAAPrecession::AdjustPositionUsingMotionInSpace in the 
+	calculation of the DeltaX, DeltaY &amp; DeltaZ variables. This issue was 
+	introduced in July 2022 when C++ uniform initialization for all variable 
+	declarations was introduced. Thanks to &quot;Pavel&quot; for reporting this issue.</li>
+	<li>Updated the g_DeltaTValues lookup table to use observed DeltaT values to 
+	13 April 2023 and predicted values to 20 April 2024 from
+	<a href="https://cddis.nasa.gov/archive/products/iers/finals2000A.all">
+	https://cddis.nasa.gov/archive/products/iers/finals2000A.all</a>.</li>
+</ul>
+<p><b>v2.49 (29 January 2023)</b></p>
+<ul>
+	<li>Updated copyright details. </li>
+	<li>Updated the g_DeltaTValues lookup table 
+	to use observed DeltaT values to 26 January 2023 and predicted values to 3 
+	February 2024 from 
+	<a href="https://cddis.nasa.gov/archive/products/iers/finals2000A.all">https://cddis.nasa.gov/archive/products/iers/finals2000A.all</a>. </li>
+	<li>Renamed CAANearParabolic::CalculateTrueAnnomalyAndRadius to 
+	CAANearParabolic::CalculateTrueAnomalyAndRadius. </li>
+</ul>
+<p><b>v2.48 (23 December 2022)</b></p>
+<ul>
+	<li>Updated the g_DeltaTValues lookup table to use observed DeltaT values to 
+	22 December 2022 and predicted values to 30 December 2023 from
+	<a href="https://cddis.nasa.gov/archive/products/iers/finals2000A.all">
+	https://cddis.nasa.gov/archive/products/iers/finals2000A.all</a>. </li>
+</ul>
+<p><b>2.47 (13 November 2022)</b></p>
+<ul>
+	<li>Updated the g_DeltaTValues lookup table to use observed DeltaT values to 
+	10 November 2022 and predicted values to 18 November 2023 from
+	<a href="https://cddis.nasa.gov/archive/products/iers/finals2000A.all">
+	https://cddis.nasa.gov/archive/products/iers/finals2000A.all</a>. </li>
+</ul>
+<p><b>v2.46 (1 October 2022)</b></p>
+<ul>
+	<li>Updated the CAAElliptical::Calculate method which takes a Object 
+	parameter to return the following additional values: 
+	TrueGeocentricRectangularEcliptical, TrueHeliocentricEclipticalLongitude, 
+	TrueHeliocentricEclipticalLatitude, TrueHeliocentricDistance, 
+	TrueGeocentricEclipticalLongitude, TrueGeocentricEclipticalLatitude, 
+	TrueGeocentricDistance, TrueLightTime, TrueGeocentricRA &amp; 
+	TrueGeocentricDeclination. </li>
+	<li>Renamed CAAEllipticalPlanetaryDetails::ApparentGeocentricLongitude to 
+	ApparentGeocentricEclipticalLongitude.</li>
+	<li>Renamed CAAEllipticalPlanetaryDetails::ApparentGeocentricLatitude to 
+	ApparentGeocentricEclipticalLatitude.</li>
+	<li>Fixed an issue in CAAElliptical::Calculate method which takes a Object 
+	parameter when the Object parameter is the Sun and the code is attempting to 
+	calculate the apparent position of the Sun.</li>
+	<li>Added support to CAAPlanetaryPhenomena2::Calculate for MinimumDistance 
+	and MaximumDistance event types. The demo application has been updated to 
+	show the closest approach of Jupiter on 7th October 1963 UT at 3.952 AU, the 
+	closest approach of 26th September 2022 UTC at 3.952 AU and the closest 
+	approach of 6th October 2129 UT at 3.948 AU.</li>
+	<li>Updated the g_DeltaTValues lookup table to use observed DeltaT values to 
+	29 September 2022 and predicted values to 7 October 2023 from
+	<a href="https://cddis.nasa.gov/archive/products/iers/finals2000A.all">
+	https://cddis.nasa.gov/archive/products/iers/finals2000A.all</a>. </li>
+</ul>
+<p><b>v2.45 (28 August 2022)</b></p>
+<ul>
+	<li>Fixed an issue in CAAElliptical::MinorPlanetMagnitude where brackets 
+	were missing. Thanks to &quot;Pavel&quot; for reporting this issue.</li>
+	<li>Updated the g_DeltaTValues lookup table to use observed DeltaT values to 
+	25 August 2022 and predicted values to 2 September 2023 from
+	<a href="https://cddis.nasa.gov/archive/products/iers/finals2000A.all">
+	https://cddis.nasa.gov/archive/products/iers/finals2000A.all</a>. </li>
+</ul>
+<p><b>v2.44 (14 July 2022)</b></p>
+<ul>
+	<li>Updated all the code in AAAberration.cpp to use C++ uniform 
+	initialization for all variable declarations.</li>
+	<li>Updated all the code in AAAngularSeparation.cpp to use C++ uniform 
+	initialization for all variable declarations.</li>
+	<li>Updated all the code in AABinaryStar.cpp to use C++ uniform 
+	initialization for all variable declarations.</li>
+	<li>Updated all the code in AACoordinateTransformation.cpp to use C++ uniform 
+	initialization for all variable declarations.</li>
+	<li>Updated all the code in AADiameters.cpp to use C++ uniform 
+	initialization for all variable declarations.</li>
+	<li>Updated all the code in AADynamicalTime.cpp to use C++ uniform 
+	initialization for all variable declarations.</li>
+	<li>Updated the g_DeltaTValues lookup table to use observed DeltaT values to 
+	07 July 2022 and predicted values to 15 July 2023 from
+	<a href="https://cddis.nasa.gov/archive/products/iers/finals2000A.all">
+	https://cddis.nasa.gov/archive/products/iers/finals2000A.all</a>. </li>
+	<li>Updated all the code in AAEarth.cpp to use C++ uniform 
+	initialization for all variable declarations.</li>
+	<li>Updated all the code in AAEaster.h to use C++ uniform initialization for 
+	all variable declarations.</li>
+	<li>Updated all the code in AAEclipses.cpp to use C++ uniform 
+	initialization for all variable declarations.</li>
+	<li>Updated all the code in AAEclipticalElements.cpp to use C++ uniform 
+	initialization for all variable declarations.</li>
+	<li>Updated all the code in AAElliptical.cpp to use C++ uniform 
+	initialization for all variable declarations.</li>
+	<li>Updated all the code in AAELP2000.cpp to use C++ uniform 
+	initialization for all variable declarations.</li>
+	<li>Updated all the code in AAELPMPP02.cpp to use C++ uniform 
+	initialization for all variable declarations.</li>
+	<li>Updated all the code in AAEquationOfTime.cpp to use C++ uniform 
+	initialization for all variable declarations.</li>
+	<li>Updated all the code in AAEquinosesAndSolstices.cpp to use C++ uniform 
+	initialization for all variable declarations.</li>
+	<li>Updated all the code in AAEquinosesAndSolstices2.cpp to use C++ uniform 
+	initialization for all variable declarations.</li>
+	<li>Updated all the code in AAFK5.cpp to use C++ uniform 
+	initialization for all variable declarations.</li>
+	<li>Updated all the code in AAGalileanMoons.cpp to use C++ uniform 
+	initialization for all variable declarations.</li>
+	<li>Updated all the code in AAGlobe.cpp to use C++ uniform 
+	initialization for all variable declarations.</li>
+	<li>Updated all the code in AAIlluminatedFraction.cpp to use C++ uniform 
+	initialization for all variable declarations.</li>
+	<li>Updated all the code in AAInterpolate.cpp to use C++ uniform 
+	initialization for all variable declarations.</li>
+	<li>Updated various functions in the CAAInterpolate class to allow the 
+	epsilon value used to terminate iteration loops to be specified.</li>
+	<li>Updated all the code in AAJewishCalendar.cpp to use C++ uniform 
+	initialization for all variable declarations.</li>
+	<li>Updated all the code in AAJupiter.cpp to use C++ uniform initialization 
+	for all variable declarations.</li>
+	<li>Updated all the code in AAKepler.cpp to use C++ uniform initialization 
+	for all variable declarations. </li>
+	<li>Updated all the code in AAMars.cpp to use C++ uniform initialization for 
+	all variable declarations.</li>
+	<li>Updated all the code in AAMercury.cpp to use C++ uniform initialization 
+	for all variable declarations.</li>
+	<li>Updated all the code in AAMoon.cpp to use C++ uniform initialization for 
+	all variable declarations.</li>
+	<li>Updated all the code in AAMoonIlluminatedFraction.cpp to use C++ uniform 
+	initialization for all variable declarations.</li>
+	<li>Updated all the code in AAMoonMaxDeclinations.cpp to use C++ uniform 
+	initialization for all variable declarations.</li>
+	<li>Updated all the code in AAMoonMaxDeclinations2.cpp to use C++ uniform 
+	initialization for all variable declarations.</li>
+	<li>Updated all the code in AAMoonNodes.cpp to use C++ uniform 
+	initialization for all variable declarations.</li>
+	<li>Updated all the code in AAMoonNodes2.cpp to use C++ uniform 
+	initialization for all variable declarations.</li>
+	<li>Updated all the code in AAMoonPerigeeApogee.cpp to use C++ uniform 
+	initialization for all variable declarations.</li>
+	<li>Updated all the code in AAMoonPerigeeApogee2.cpp to use C++ uniform 
+	initialization for all variable declarations.</li>
+	<li>Updated all the code in AAMoonPhases.cpp to use C++ uniform 
+	initialization for all variable declarations.</li>
+	<li>Updated all the code in AAMoonPhases2.cpp to use C++ uniform 
+	initialization for all variable declarations.</li>
+	<li>Updated all the code in AAMoslemCalendar.cpp to use C++ uniform 
+	initialization for all variable declarations.</li>
+	<li>Updated all the code in AANearParabolic.cpp to use C++ uniform 
+	initialization for all variable declarations.</li>
+	<li>Updated all the code in AANeptune.cpp to use C++ uniform initialization 
+	for all variable declarations.</li>
+	<li>Updated all the code in AANodes.cpp to use C++ uniform initialization 
+	for all variable declarations.</li>
+	<li>Updated all the code in AANutation.cpp to use C++ uniform initialization 
+	for all variable declarations.</li>
+	<li>Updated all the code in AAParabolic.cpp to use C++ uniform 
+	initialization for all variable declarations.</li>
+	<li>Updated methods in the CAAParabolic class to allow the epsilon value 
+	used to terminate iteration loops to be specified.</li>
+	<li>Updated all the code in AAParallactic.cpp to use C++ uniform 
+	initialization for all variable declarations.</li>
+	<li>Updated all the code in AAParallax.cpp to use C++ uniform initialization 
+	for all variable declarations.</li>
+	<li>Updated all the code in AAPhysicalJupiter.cpp to use C++ uniform 
+	initialization for all variable declarations.</li>
+	<li>Updated all the code in AAPhysicalMars.cpp to use C++ uniform 
+	initialization for all variable declarations.</li>
+	<li>Updated all the code in AAPhysicalMoon.cpp to use C++ uniform 
+	initialization for all variable declarations.</li>
+	<li>Updated all the code in AAPhysicalSun.cpp to use C++ uniform 
+	initialization for all variable declarations.</li>
+	<li>Updated all the code in AAPlanetaryPhenomena.cpp to use C++ uniform 
+	initialization for all variable declarations.</li>
+	<li>Fixed a transcription error in the lookup tables 
+	AAPlanetaryPhenomena.cpp used to calculate the Station 1 values for Mars.</li>
+	<li>Updated all the code in AAPlanetaryPhenomena2.cpp to use C++ uniform 
+	initialization for all variable declarations.</li>
+	<li>Updated all the code in AAPlanetPerihelionAphelion.cpp to use C++ 
+	uniform initialization for all variable declarations.</li>
+	<li>Updated all the code in AAPlanetPerihelionAphelion2.cpp to use C++ 
+	uniform initialization for all variable declarations.</li>
+	<li>Updated all the code in AAPluto.cpp to use C++ uniform initialization 
+	for all variable declarations.</li>
+	<li>Updated all the code in AAPrecession.cpp to use C++ uniform 
+	initialization for all variable declarations.</li>
+	<li>Updated all the code in AARefraction.cpp to use C++ uniform 
+	initialization for all variable declarations.</li>
+	<li>Updated all the code in AARiseTransitSet.cpp to use C++ uniform 
+	initialization for all variable declarations.</li>
+	<li>Updated all the code in AARiseTransitSet2.cpp to use C++ uniform 
+	initialization for all variable declarations.</li>
+	<li>Updated all the code in AASaturn.cpp to use C++ uniform initialization 
+	for all variable declarations.</li>
+	<li>Updated all the code in AASaturnMoons.cpp to use C++ uniform 
+	initialization for all variable declarations.</li>
+	<li>Updated all the code in AAUranus.cpp to use C++ uniform initialization 
+	for all variable declarations. </li>
+	<li>Updated all the code in AASaturnRings.cpp to use C++ uniform 
+	initialization for all variable declarations.</li>
+	<li>Updated all the code in AASidereal.cpp to use C++ uniform initialization 
+	for all variable declarations.</li>
+	<li>Updated all the code in AAStellarMagnitudes.cpp to use C++ uniform 
+	initialization for all variable declarations.</li>
+	<li>Updated all the code in AASun.cpp to use C++ uniform initialization for 
+	all variable declarations.</li>
+	<li>Updated all the code in AATest.cpp to use C++ uniform initialization 
+	for all variable declarations.</li>
+	<li>Updated all the code in AAVenus.cpp to use C++ uniform initialization 
+	for all variable declarations.</li>
+	<li>Updated all the code in AAVSOP87.cpp to use C++ uniform initialization 
+	for all variable declarations.</li>
+	<li>Updated all the code in AAVSOP2013.cpp to use C++ uniform initialization 
+	for all variable declarations.</li>
+</ul>
+<p><b>v2.43 (27 March 2022)</b></p>
+<ul>
+	<li>Fixed an issue in CAADate::DayOfWeek for dates which are close to or 
+	prior to the julian day epoch. Thanks to &quot;znight&quot; for reporting this issue. </li>
+	<li>Updated all the code in the CAADate class to use C++ uniform 
+	initialization for all variable declarations. </li>
+</ul>
+<p><b>v2.42 (20 March 2022)</b></p>
+<ul>
+	<li>Updated the g_DeltaTValues lookup table to use observed DeltaT values to 
+	17 March 2022 and predicted values to 25 March 2023 from
+	<a href="https://cddis.nasa.gov/archive/products/iers/finals2000A.all">
+	https://cddis.nasa.gov/archive/products/iers/finals2000A.all</a> and long 
+	term predicted values to 1 January 2032 from
+	<a href="https://cddis.nasa.gov/archive/products/iers/deltat.preds">
+	https://cddis.nasa.gov/archive/products/iers/deltat.preds</a>. </li>
+</ul>
+<p><b>v2.41 (24 January 2022)</b></p>
+<ul>
+	<li>Updated copyright details. </li>
+	<li>Updated the g_DeltaTValues lookup table to use observed DeltaT values to 
+	20 January 2022 and predicted values to 28 January 2023 from
+	<a href="https://cddis.nasa.gov/archive/products/iers/finals2000A.all">
+	https://cddis.nasa.gov/archive/products/iers/finals2000A.all</a>. </li>
+</ul>
+<p><b>v2.40 (22 December 2021)</b></p>
+<ul>
+	<li>Updated the g_DeltaTValues lookup table to use observed DeltaT values to 
+	16 December 2021 and predicted values to 24 December 2022 from 
+	<a href="https://cddis.nasa.gov/archive/products/iers/finals2000A.all">https://cddis.nasa.gov/archive/products/iers/finals2000A.all</a>. </li>
+</ul>
+<p><b>v2.39 (22 November 2021)</b></p>
+<ul>
+	<li>Reworked the CAABinaryStar::Calculate method to use the method as 
+	detailed in chapter 7 in the book &quot;Observing and Measuring Visual Double 
+	Stars&quot;. This helps fix issues detected with the algorithms as presented in 
+	Chapter 57 of Meeus's book. These issues were detected when developing a 
+	program to provide a simple animation of a sample binary star system. The 
+	observed bug was causing the orbits to not be calculated as projected 
+	ellipses when the inclination value (i) approached 90 degrees. </li>
+	<li>Updated CAABinaryStarDetails class to include rectangular 
+	coordinates as well as the existing polar coordinates. </li>
+	<li>Made some minor optimizations to the CAAKepler::Calculate method.</li>
+</ul>
+<p><b>v2.38 (6 November 2021)</b></p>
+<ul>
+	<li>Fix a minor layout problem in the g_MoonCoefficients3 lookup table in 
+	AAMoon.cpp. Thanks to Jud McCranie for reporting this issue.</li>
+	<li>Fixed a bug in CAAPhysicalMoon::CalculateOpticalLibration where the 
+	value of the variable &quot;W&quot; was being calculated incorrectly. Thanks to Don 
+	Cross for reporting this issue.</li>
+	<li>Updated the g_DeltaTValues lookup table to use observed DeltaT values to 
+	4 November 2021 and predicted values to 12 November 2022 from 
+	<a href="https://cddis.nasa.gov/archive/products/iers/finals2000A.all">https://cddis.nasa.gov/archive/products/iers/finals2000A.all</a>. </li>
+</ul>
 <p><b>v2.37 (24 October 2021)</b></p>
 <ul>
 	<li>Updated various classes to use C++ 11 in-class member initialization. </li>
@@ -366,7 +753,7 @@ of Jupiter and Saturn as well as many other algorithms presented in the book.</p
 	<a href="ftp://cddis.gsfc.nasa.gov/pub/products/iers/deltat.data">
 	ftp://cddis.gsfc.nasa.gov/pub/products/iers/deltat.data</a> to 1st February 
 	2020</li>
-	<li>Updated the code to use take advantage of range based for loops and 
+	<li>Updated the code to take advantage of range based for loops and 
 	std::array. Please note that these changes means that the code will no 
 	longer compile on VC 2017 due to its limited supported for large constexpr 
 	arrays.</li>
@@ -1575,7 +1962,7 @@ of Jupiter and Saturn as well as many other algorithms presented in the book.</p
 	This also means that all occurrences of TRUE and FALSE are replaced with true 
 	and false respectively. Thanks to Mika Heiskanen for reporting this issue.
 	</li>
-	<li>cmath header file is now used rather than math.h. Also if now does not use 
+	<li>cmath header file is now used rather than math.h. Also it now does not use 
 	the #pragma message text based on a define which is MS C specific. Again thanks 
 	to Mika Heiskanen for reporting this issue. </li>
 	<li>Now uses asssert instead of the MFC specific ASSERT. Again thanks to Mika 
@@ -1947,22 +2334,26 @@ This refers to Chapter 57 in the book.</p>
 <p><b><a name="CAABinaryStar_Calculate"></a>CAABinaryStar::Calculate</b></p>
 <p><b>static CAABinaryStarDetails Calculate(double </b><i>t</i><b>, double </b>
 <i>P</i><b>, double </b><i>T</i><b>, double </b><i>e</i><b>, double </b><i>a</i><b>, 
-double </b><i>i</i><b>, double </b><i>omega</i><b>, double </b>w<b>)</b></p>
+double </b><i>i</i><b>, double </b><i>omega</i><b>, double </b><i>w</i><b>)</b></p>
 <p><b>Return Value</b></p>
 <p>A class containing</p>
-<p><i>r</i> The radius vector of the component in arc seconds of a degree.</p>
-<p><i>Theta</i> The apparent position angle in degrees.</p>
-<p><i>Rho</i> The angular separation between the two components arc seconds of a 
+<p><i>r</i> The radius vector of the secondary star in arc seconds of a degree.</p>
+<p><i>Theta</i> The apparent position angle of the secondary star in degrees.</p>
+<p><i>Rho</i> The angular separation between the two stars in arc seconds of a 
 degree.</p>
+<p><i>x</i> The x cartesian coordinate value of the secondary star in arc 
+seconds of a degree.</p>
+<p><i>y</i> The y cartesian coordinate value of the secondary star in arc 
+seconds of a degree.</p>
 <p><b>Parameters</b></p>
-<p><i>t</i> The time given in years and decimals to perform the calculation for</p>
+<p><i>t</i> The time given in years and decimals to perform the calculation for.</p>
 <p>P The period of revolution expressed in mean solar years.</p>
 <p><i>T</i> The time of periastron passage given in years and decimals.</p>
 <p><i>e</i> Eccentricity of the true orbit.</p>
 <p>a The semi major axis expressed in seconds of a degree.</p>
 <p><i>i</i> The inclination of the plane of the true orbit in degrees to the plane 
 at right angles to the line of sight.</p>
-<p><i>omega</i> The position angle of the ascending node in degrees</p>
+<p><i>omega</i> The position angle of the ascending node in degrees.</p>
 <p><i>w</i> The longitude of the periastron in degrees.</p>
 <p>&nbsp;</p>
 <p><b><a name="CAABinaryStar_ApparentEccentricity"></a>CAABinaryStar::ApparentEccentricty</b></p>
@@ -2753,7 +3144,7 @@ although technically leap seconds are only relevant to the UTC timescale.</p>
 <p>&nbsp;</p>
 <p><b><a name="CAADynamicalTime_SetUserDefinedDeltaT"></a>CAADynamicalTime::SetUserDefinedDeltaT</b></p>
 <p><b>static CAADynamicalTime::DELTAT_PROC SetUserDefinedDeltaT (DELTAT_PROC </b>
-<em>pProc</em><b>)</b></p>
+<i>pProc</i><b>)</b></p>
 <p><b>Return Value</b></p>
 <p>The previous DeltaT function in use. If the CAADynamicalTime::DeltaT method 
 was using its own lookup tables and polynomials prior to calling this method, 
@@ -2835,7 +3226,7 @@ This refers to Chapter 32 and parts of Chapter 26 and 47 in the book</p>
 <p><a href="#CAAEarth_EclipticLongitudeJ2000">EclipticLongitudeJ2000</a></p>
 <p><a href="#CAAEarth_EclipticLatitudeJ2000">EclipticLatitudeJ2000</a></p>
 <p><a href="#CAAEarth_Eccentricity">Eccentricity</a></p>
-<p><a href="#CAAEarth_SunMeanAnomaly">SunMeanAnnomaly</a></p>
+<p><a href="#CAAEarth_SunMeanAnomaly">SunMeanAnomaly</a></p>
 <p>&nbsp;</p>
 <p><b><a name="CAAEarth_EclipticLongitude"></a>CAAEarth::EclipticLongitude</b></p>
 <p><b>static double EclipticLongitude(double </b><i>JD</i><b>, 
@@ -3764,9 +4155,9 @@ orbit. This refers to Chapter 33 in the book.</p>
 </b>object<b>, bool </b><i>bHighPrecision</i><b>)</b></p>
 <p><b>Return Value</b></p>
 <p>A class containing</p>
-<p><i>ApparentGeocentricLongitude</i> The apparent geocentric ecliptical longitude 
+<p><i>ApparentGeocentricEclipticalLongitude</i> The apparent geocentric ecliptical longitude 
 in degrees of the object.</p>
-<p><i>ApparentGeocentricLatitude</i> The apparent geocentric ecliptical latitude 
+<p><i>ApparentGeocentricEclipticalLatitude</i> The apparent geocentric ecliptical latitude 
 in degrees of the object.</p>
 <p><i>ApparentGeocentricDistance</i> The apparent distance in astronomical units 
 between the object and the Earth.</p>
@@ -3774,6 +4165,25 @@ between the object and the Earth.</p>
 <p><i>ApparentGeocentricRA</i> The apparent right ascension of the planet as an 
 hour angle.</p>
 <p><i>ApparentGeocentricDeclination</i> The apparent declination of the planet in 
+degrees.</p>
+<p><i>TrueGeocentricRectangularEcliptical</i> True 3D rectangular geocentric 
+ecliptical coordinates of the object.</p>
+<p><i>TrueHeliocentricEclipticalLongitude</i> True heliocentric ecliptical 
+longitude in degrees of the object.</p>
+<p><i>TrueHeliocentricEclipticalLatitude</i> True heliocentric ecliptical 
+latitude in degrees of the object.</p>
+<p><i>TrueHeliocentricDistance</i> The true distance in astronomical units 
+between the object and the Sun.</p>
+<p><i>TrueGeocentricEclipticalLongitude</i> The true geocentric ecliptical longitude 
+in degrees of the object.</p>
+<p><i>TrueGeocentricEclipticalLatitude</i> The true geocentric ecliptical 
+latitude in degrees of the object</p>
+<p><i>TrueGeocentricDistance</i> The true distance in astronomical units 
+between the object and the Earth.</p>
+<p><i>TrueLightTime</i> The true light travel time in days.</p>
+<p><i>TrueGeocentricRA</i> The true right ascension of the planet as an 
+hour angle.</p>
+<p><i>TrueGeocentricDeclination</i> The true declination of the planet in 
 degrees.</p>
 <p><b>Parameters</b></p>
 <p><i>JD</i> The date in Dynamical time to calculate for.</p>
@@ -4205,15 +4615,15 @@ the truncated version as provided in Meeus's book.</p>
 <p><b><a name="CAAEquinoxesAndSolstices2_Calculate"></a>
 CAAEquinoxesAndSolstices2::Calculate</b></p>
 <p><b>static std::vector&lt;CAAEquinoxesAndSolsticestDetails2&gt; Calculate(double
-</b><em>StartJD</em>, <b>double</b> <em>EndJD</em>, <b>double</b>
-<em>StepInterval</em> <b>= 0.007</b>, <b>bool</b> <em>
-bHighPrecision</em> <b>= false)</b></p>
+</b><i>StartJD</i>, <b>double</b> <i>EndJD</i>, <b>double</b>
+<i>StepInterval</i> <b>= 0.007</b>, <b>bool</b> <i>
+bHighPrecision</i> <b>= false)</b></p>
 <p><b>Return Value</b></p>
 <p>A standard C++ array containing a class which itself contains:</p>
-<p><em>type</em> An enum class instance which represents the type of event 
+<p><i>type</i> An enum class instance which represents the type of event 
 found. This can be NorthwardEquinox, NorthernSolstice, SouthwardEquinox or 
 SouthernSolstice.</p>
-<p><em>JD</em> The date in Dynamical time on which the event occurs.</p>
+<p><i>JD</i> The date in Dynamical time on which the event occurs.</p>
 <p><i>Declination</i> Valid only for NorthernSolstice or SouthernSolstice events, this will be the 
 apparent declination of the Sun.</p>
 <p><b>Parameters</b></p>
@@ -4221,10 +4631,10 @@ apparent declination of the Sun.</p>
 date when you want to start the calculation for.</p>
 <p><i>EndJD </i>The Julian Day corresponding to the Dynamical Time for the 
 date when you want to end the calculation for.</p>
-<p><em>StepInterval</em> The step interval in fractions of days to do the 
+<p><i>StepInterval</i> The step interval in fractions of days to do the 
 calculation for. The default value of 0.007 corresponds to roughly 10 minutes 
 which is a reasonable tradeoff between performance and accuracy.</p>
-<p><em>bHighPrecision</em> If true then use the full VSOP87 theory instead of 
+<p><i>bHighPrecision</i> If true then use the full VSOP87 theory instead of 
 the truncated version as provided in Meeus's book.</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
@@ -4704,7 +5114,7 @@ of values are provided.</p>
 </b><i>Y3</i><b>, double&amp; <i>nm</i>)</b></p>
 <p><b>static double Extremum(double </b><i>Y1</i><b>, double </b><i>Y2</i><b>, double
 </b><i>Y3</i><b>, double </b><i>Y4</i><b>, double </b><i>Y5</i><b>, double&amp;
-</b><i>nm</i><b>)</b></p>
+</b><i>nm</i>,<b> double </b><i>epsilon</i><b> = 1e-12)</b></p>
 <p><b>Return Value</b></p>
 <p>The extreme Y value.</p>
 <p><b>Parameters</b></p>
@@ -4713,6 +5123,7 @@ of values are provided.</p>
 <p><i>Y3 </i>The third Y value to interpolate from.</p>
 <p><i>Y4 </i>The fourth Y value to interpolate from.</p>
 <p><i>Y5 </i>The fifth Y value to interpolate from.</p>
+<p>epsilon The value used to terminate iteration loops inside the method.</p>
 <p><i>nm </i>Upon return will contain the corresponding value of the argument X 
 where the extremum is reached.</p>
 <p><b>Remarks</b></p>
@@ -4720,9 +5131,10 @@ where the extremum is reached.</p>
 <p>&nbsp;</p>
 <p><b><a name="CAAInterpolate_Zero"></a>CAAInterpolate::Zero</b></p>
 <p><b>static double Zero(double </b><i>Y1</i><b>, double </b><i>Y2</i><b>, double
-</b><i>Y3</i><b>)</b></p>
+</b><i>Y3</i><b>, double </b><i>epsilon</i><b> = 1e-12)</b></p>
 <p><b>static double Zero(double </b><i>Y1</i><b>, double </b><i>Y2</i><b>, double
-</b><i>Y3</i><b>, double </b><i>Y4</i><b>, double </b><i>Y5</i><b>)</b></p>
+</b><i>Y3</i><b>, double </b><i>Y4</i><b>, double </b><i>Y5</i>,<b> double </b>
+<i>epsilon</i><b> = 1e-12)</b></p>
 <p><b>Return Value</b></p>
 <p>The value of the argument X for which the function y becomes zero.</p>
 <p><b>Parameters</b></p>
@@ -4731,15 +5143,17 @@ where the extremum is reached.</p>
 <p><i>Y3 </i>The third Y value to interpolate from.</p>
 <p><i>Y4 </i>The fourth Y value to interpolate from.</p>
 <p><i>Y5 </i>The fifth Y value to interpolate from.</p>
+<p>epsilon The value used to terminate iteration loops inside the methods.</p>
 <p><b>Remarks</b></p>
 <p>Finds where a function reaches zero when the function is &quot;almost a straight 
 line&quot;.</p>
 <p>&nbsp;</p>
 <p><b><a name="CAAInterpolate_Zero2"></a>CAAInterpolate::Zero2</b></p>
 <p><b>static double Zero2(double </b><i>Y1</i><b>, double </b><i>Y2</i><b>, double
-</b><i>Y3</i><b>)</b></p>
+</b><i>Y3</i><b>, double </b><i>epsilon</i><b> = 1e-12)</b></p>
 <p><b>static double Zero2(double </b><i>Y1</i><b>, double </b><i>Y2</i><b>, double
-</b><i>Y3</i><b>, double </b><i>Y4</i><b>, double </b><i>Y5</i><b>)</b></p>
+</b><i>Y3</i><b>, double </b><i>Y4</i><b>, double </b><i>Y5</i>,<b> double </b>
+<i>epsilon</i><b> = 1e-12)</b></p>
 <p><b>Return Value</b></p>
 <p>The value of the argument X for which the function y becomes zero.</p>
 <p><b>Parameters</b></p>
@@ -4748,6 +5162,7 @@ line&quot;.</p>
 <p><i>Y3 </i>The third Y value to interpolate from.</p>
 <p><i>Y4 </i>The fourth Y value to interpolate from.</p>
 <p><i>Y5 </i>The fifth Y value to interpolate from.</p>
+<p>epsilon The value used to terminate iteration loops inside the methods.</p>
 <p><b>Remarks</b></p>
 <p>Finds where a function reaches zero when the curvature of the function is important.</p>
 <p>&nbsp;</p>
@@ -4948,7 +5363,7 @@ refers to Chapter 47 in the book.</p>
 <p><a href="#CAAMoon_EclipticLongitude">EclipticLongitude</a></p>
 <p><a href="#CAAMoon_EclipticLatitude">EclipticLatitude</a></p>
 <p><a href="#CAAMoon_RadiusVector">RadiusVector</a></p>
-<p><a href="#CAAMoon_MeanAnomaly">MeanAnnomaly</a></p>
+<p><a href="#CAAMoon_MeanAnomaly">MeanAnomaly</a></p>
 <p><a href="#CAAMoon_MeanElongation">MeanElongation</a></p>
 <p><a href="#CAAMoon_MeanLongitude">MeanLongitude</a></p>
 <p><a href="#CAAMoon_MeanLongitudeAscendingNode">MeanLongitudeAscendingNode</a></p>
@@ -5178,26 +5593,26 @@ be an integer value. Any other value of K will give meaningless values.</p>
 <p>&nbsp;</p>
 <p><b><a name="CAAMoonMaxDeclinations_Calculate"></a>CAAMoonMaxDeclinations2::Calculate</b></p>
 <p><b>static std::vector&lt;CAAMoonMaxDeclinationsDetails2&gt; Calculate(double
-</b><em>StartJD</em>, <b>double</b> <em>EndJD</em>, <b>double</b>
-<em>StepInterval</em> <b>= 0.007</b>, <b>Algorithm </b><em>
-algorithm</em> <b>= Algorithm::MeeusTruncated)</b></p>
+</b><i>StartJD</i>, <b>double</b> <i>EndJD</i>, <b>double</b>
+<i>StepInterval</i> <b>= 0.007</b>, <b>Algorithm </b><i>
+algorithm</i> <b>= Algorithm::MeeusTruncated)</b></p>
 <p><b>Return Value</b></p>
 <p>A standard C++ array containing a class which itself contains:</p>
-<p><em>type</em> An enum class instance which represents the type of event 
+<p><i>type</i> An enum class instance which represents the type of event 
 found. This can be MaxNorthernDeclination or MaxSourthernDeclination.</p>
-<p><em>JD</em> The date in Dynamical time on which the event occurs.</p>
+<p><i>JD</i> The date in Dynamical time on which the event occurs.</p>
 <p><i>Declination</i> this will be the 
 maximum geocentric declination of the Moon at time JD.</p>
-<p><em>RA</em> this will be the Right Ascension of the Moon at time JD</p>
+<p><i>RA</i> this will be the Right Ascension of the Moon at time JD</p>
 <p><b>Parameters</b></p>
 <p><i>StartJD </i>The Julian Day corresponding to the Dynamical Time for the 
 date when you want to start the calculation for.</p>
 <p><i>EndJD </i>The Julian Day corresponding to the Dynamical Time for the 
 date when you want to end the calculation for.</p>
-<p><em>StepInterval</em> The step interval in fractions of days to do the 
+<p><i>StepInterval</i> The step interval in fractions of days to do the 
 calculation for. The default value of 0.007 corresponds to roughly 10 minutes 
 which is a reasonable tradeoff between performance and accuracy.</p>
-<p><em>Algorithm </em>An enum class representing the algorithm to use for the calculation. Can be 
+<p><i>Algorithm </i>An enum class representing the algorithm to use for the calculation. Can be 
 MeeusTruncated which represents the truncated ELP2000 algorithm presented in the 
 book, ELP2000 which uses the full ELP2000 algorithm, ELPMPP02Nominal which uses 
 the ELPMPP02 Nominal fit, ELPMPP02LLR which uses the ELPMPP02 Lunar Laser 
@@ -5244,23 +5659,23 @@ give meaningless values.</p>
 <p>&nbsp;</p>
 <p><b><a name="CAAMoonNodes2_Calculate"></a>CAAMoonNodes2::Calculate</b></p>
 <p><b>static std::vector&lt;CAAMoonNodesDetails2&gt; Calculate(double
-</b><em>StartJD</em>, <b>double</b> <em>EndJD</em>, <b>double</b>
-<em>StepInterval</em> <b>= 0.007</b>, <b>Algorithm </b><em>
-algorithm</em> <b>= Algorithm::MeeusTruncated)</b></p>
+</b><i>StartJD</i>, <b>double</b> <i>EndJD</i>, <b>double</b>
+<i>StepInterval</i> <b>= 0.007</b>, <b>Algorithm </b><i>
+algorithm</i> <b>= Algorithm::MeeusTruncated)</b></p>
 <p><b>Return Value</b></p>
 <p>A standard C++ array containing a class which itself contains:</p>
-<p><em>type</em> An enum class instance which represents the type of event 
+<p><i>type</i> An enum class instance which represents the type of event 
 found. This can be Ascending or Descending.</p>
-<p><em>JD</em> The date in Dynamical time on which the event occurs.</p>
+<p><i>JD</i> The date in Dynamical time on which the event occurs.</p>
 <p><b>Parameters</b></p>
 <p><i>StartJD </i>The Julian Day corresponding to the Dynamical Time for the 
 date when you want to start the calculation for.</p>
 <p><i>EndJD </i>The Julian Day corresponding to the Dynamical Time for the 
 date when you want to end the calculation for.</p>
-<p><em>StepInterval</em> The step interval in fractions of days to do the 
+<p><i>StepInterval</i> The step interval in fractions of days to do the 
 calculation for. The default value of 0.007 corresponds to roughly 10 minutes 
 which is a reasonable tradeoff between performance and accuracy.</p>
-<p><em>Algorithm </em>An enum class representing the algorithm to use for the calculation. Can be 
+<p><i>Algorithm </i>An enum class representing the algorithm to use for the calculation. Can be 
 MeeusTruncated which represents the truncated ELP2000 algorithm presented in the 
 book, ELP2000 which uses the full ELP2000 algorithm, ELPMPP02Nominal which uses 
 the ELPMPP02 Nominal fit, ELPMPP02LLR which uses the ELPMPP02 Lunar Laser 
@@ -5352,14 +5767,14 @@ be an integer value + 0.5. Any other value of K will give meaningless values.</p
 <p>&nbsp;</p>
 <p><b><a name="CAAMoonPerigeeApogee2_Calculate"></a>CAAMoonPerigeeApogee2::Calculate</b></p>
 <p><b>static std::vector&lt;CAAMoonPerigeeApogeeDetails2&gt; Calculate(double
-</b><em>StartJD</em>, <b>double</b> <em>EndJD</em>, <b>double</b>
-<em>StepInterval</em> <b>= 0.007</b>, <b>Algorithm </b><em>
-algorithm</em> <b>= Algorithm::MeeusTruncated)</b></p>
+</b><i>StartJD</i>, <b>double</b> <i>EndJD</i>, <b>double</b>
+<i>StepInterval</i> <b>= 0.007</b>, <b>Algorithm </b><i>
+algorithm</i> <b>= Algorithm::MeeusTruncated)</b></p>
 <p><b>Return Value</b></p>
 <p>A standard C++ array containing a class which itself contains:</p>
-<p><em>type</em> An enum class instance which represents the type of event 
+<p><i>type</i> An enum class instance which represents the type of event 
 found. This can be Perigee or Apogee.</p>
-<p><em>JD</em> The date in Dynamical time on which the event occurs.</p>
+<p><i>JD</i> The date in Dynamical time on which the event occurs.</p>
 <p><i>Value</i> this will be the 
 distance of the Moon in Kilometers at time JD.</p>
 <p><b>Parameters</b></p>
@@ -5367,10 +5782,10 @@ distance of the Moon in Kilometers at time JD.</p>
 date when you want to start the calculation for.</p>
 <p><i>EndJD </i>The Julian Day corresponding to the Dynamical Time for the 
 date when you want to end the calculation for.</p>
-<p><em>StepInterval</em> The step interval in fractions of days to do the 
+<p><i>StepInterval</i> The step interval in fractions of days to do the 
 calculation for. The default value of 0.007 corresponds to roughly 10 minutes 
 which is a reasonable tradeoff between performance and accuracy.</p>
-<p><em>Algorithm </em>An enum class representing the algorithm to use for the calculation. Can be 
+<p><i>Algorithm </i>An enum class representing the algorithm to use for the calculation. Can be 
 MeeusTruncated which represents the truncated ELP2000 algorithm presented in the 
 book, ELP2000 which uses the full ELP2000 algorithm, ELPMPP02Nominal which uses 
 the ELPMPP02 Nominal fit, ELPMPP02LLR which uses the ELPMPP02 Lunar Laser 
@@ -5429,23 +5844,23 @@ value + 0.75 fr Last Quarter. Any other value of K will give meaningless values.
 <p>&nbsp;</p>
 <p><b><a name="CAAMoonPhases2_Calculate"></a>CAAMoonPhases2::Calculate</b></p>
 <p><b>static std::vector&lt;CAAMoonPhasesDetails2&gt; Calculate(double
-</b><em>StartJD</em>, <b>double</b> <em>EndJD</em>, <b>double</b>
-<em>StepInterval</em> <b>= 0.007</b>, <b>Algorithm </b><em>
-algorithm</em> <b>= Algorithm::MeeusTruncated)</b></p>
+</b><i>StartJD</i>, <b>double</b> <i>EndJD</i>, <b>double</b>
+<i>StepInterval</i> <b>= 0.007</b>, <b>Algorithm </b><i>
+algorithm</i> <b>= Algorithm::MeeusTruncated)</b></p>
 <p><b>Return Value</b></p>
 <p>A standard C++ array containing a class which itself contains:</p>
-<p><em>type</em> An enum class instance which represents the type of event 
+<p><i>type</i> An enum class instance which represents the type of event 
 found. This can be NewMoon, FirstQuarter, FullMoon or LastQuarter</p>
-<p><em>JD</em> The date in Dynamical time on which the event occurs.</p>
+<p><i>JD</i> The date in Dynamical time on which the event occurs.</p>
 <p><b>Parameters</b></p>
 <p><i>StartJD </i>The Julian Day corresponding to the Dynamical Time for the 
 date when you want to start the calculation for.</p>
 <p><i>EndJD </i>The Julian Day corresponding to the Dynamical Time for the 
 date when you want to end the calculation for.</p>
-<p><em>StepInterval</em> The step interval in fractions of days to do the 
+<p><i>StepInterval</i> The step interval in fractions of days to do the 
 calculation for. The default value of 0.007 corresponds to roughly 10 minutes 
 which is a reasonable tradeoff between performance and accuracy.</p>
-<p><em>Algorithm </em>An enum class representing the algorithm to use for the calculation. Can be 
+<p><i>Algorithm </i>An enum class representing the algorithm to use for the calculation. Can be 
 MeeusTruncated which represents the truncated ELP2000 algorithm presented in the 
 book, ELP2000 which uses the full ELP2000 algorithm, ELPMPP02Nominal which uses 
 the ELPMPP02 Nominal fit, ELPMPP02LLR which uses the ELPMPP02 Lunar Laser 
@@ -5768,7 +6183,7 @@ orbit. This refers to Chapter 34 in the book.</p>
 <p><b><a name="CAAParabolic_Calculate"></a>CAAParabolic::Calculate</b></p>
 <p><b>static CAAParabolicObjectDetails Calculate(double </b><i>JD</i><b>, const 
 CAAParabolicObjectElements&amp; </b><i>elements, </i><b>bool</b><i> 
-bHighPrecision</i><b>)</b></p>
+bHighPrecision</i><b>, double </b><i>epsilon</i> = <b>0.000001)</b></p>
 <p><b>Return Value</b></p>
 <p>A class containing</p>
 <p><i>HeliocentricRectangularEquatorial</i> 3D rectangular heliocentric equatorial 
@@ -5809,13 +6224,17 @@ for.</p>
 <p>T The Julian date of the time of passage in perihelion.</p>
 <p><i>bHighPrecision</i> If true then use the full VSOP87 theory instead of 
 the truncated version as provided in Meeus's book.</p>
+<p><i>epsilon</i> The epsilon value passed to the
+<a href="#CAAParabolic_CalculateBarkers">CalculateBarkers</a> method. </p>
 <p>&nbsp;</p>
 <p><b><a name="CAAParabolic_CalculateBarkers"></a>CAAParabolic::CalculateBarkers</b></p>
-<p><b>static double CalculateBarkers(</b><b>double </b><i>W</i><b>)</b></p>
+<p><b>static double CalculateBarkers(</b><b>double </b><i>W<b>, double </b><i>
+epsilon</i></i> = <b>0.000001)</b></p>
 <p><b>Return Value</b></p>
 <p>The solution to Barkers equation as described in algorithm 34.3 on page 241.</p>
 <p><b>Parameters</b></p>
 <p><i>W</i> The value W as described in algorithm 34.1 on page 241.</p>
+<p><i>epsilon</i> The value used to terminate iteration loops inside the method.</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p><b><a name="CAAParallactic"></a>CAAParallactic</b></p>
@@ -6231,12 +6650,12 @@ otherwise false implies western elongation.</p>
 <p>&nbsp;</p>
 <p><b><a name="CAAPlanetPhenomenaDetails2_Calculate"></a>CAAPlanetaryPhenomena2::Calculate</b></p>
 <p><b>static std::vector&lt;CAAPlanetaryPhenomenaDetails2&gt; Calculate(double
-</b><em>StartJD</em>, <b>double</b> <em>EndJD</em>, <b>Object </b><em>object</em>,<b> double</b>
-<em>StepInterval</em> <b>= 0.007</b>, <b>bool </b><em>
-bHighPrecision</em> <b>= false)</b></p>
+</b><i>StartJD</i>, <b>double</b> <i>EndJD</i>, <b>Object </b><i>object</i>,<b> double</b>
+<i>StepInterval</i> <b>= 0.007</b>, <b>bool </b><i>
+bHighPrecision</i> <b>= false)</b></p>
 <p><b>Return Value</b></p>
 <p>A standard C++ array containing a class which itself contains:</p>
-<p><em>type</em> An enum class instance which represents the type of event 
+<p><i>type</i> An enum class instance which represents the type of event 
 found. This can be InferiorConjunctionInEclipticLongitude, 
 InferiorConjunctionInRA, InferiorConjunctionInAngularDistance, 
 SuperiorConjunctionInEclipticLongitude, SuperiorConjunctionInRA, 
@@ -6248,10 +6667,10 @@ OppositionInEclipticLongitude, OppositionInRA, OppositionInAngularDistance, Conj
 ConjunctionInRA, ConjunctionInAngularDistance, Station1InEclipticLongitude, Station1InRA, Station2InEclipticLongitude, 
 Station2InRA, WesternQuadratureInEclipticLongitude, WesternQuadratureInRA, WesternQuadratureInAngularDistance, 
 EasternQuadratureInEclipticLongitude, EasternQuadratureInRA or EasternQuadratureInAngularDistance.</p>
-<p><em>JD</em> The date in Dynamical time on which the event occurs.</p>
+<p><i>JD</i> The date in Dynamical time on which the event occurs.</p>
 <p><i>Value1</i> this will contain different values depending on the value in 
 &quot;type&quot;. </p>
-<p><em>Value2</em> A second value which will contain different values depending 
+<p><i>Value2</i> A second value which will contain different values depending 
 on the value in &quot;type&quot;.</p>
 <p><b>Parameters</b></p>
 <p><i>StartJD </i>The Julian Day corresponding to the Dynamical Time for the 
@@ -6261,19 +6680,19 @@ date when you want to end the calculation for.</p>
 <p>Object The object type you want to calculate for. This is an enum class of 
 type Object inside the CAAPlanetaryPhenomenaDetails2 class and can be MERCURY, 
 VENUS, MARS, JUPITER, SATURN, URANUS or NEPTUNE.</p>
-<p><em>StepInterval</em> The step interval in fractions of days to do the 
+<p><i>StepInterval</i> The step interval in fractions of days to do the 
 calculation for. The default value of 0.007 corresponds to roughly 10 minutes 
 which is a reasonable tradeoff between performance and accuracy.</p>
-<p><em>bHighPrecision</em> If true then use the full VSOP87 theory instead of 
+<p><i>bHighPrecision</i> If true then use the full VSOP87 theory instead of 
 the truncated version as provided in Meeus's book.</p>
 <p><b>Notes</b></p>
 <p>The definition of the &quot;Type&quot;, its meaning, and the meaning of &quot;Value&quot; in the CAAPlanetPhenomenaDetails2 
 struct are as follows:</p>
 <table width="1400">
 	<tr>
-		<td width="236"><em>Type</em></td>
-		<td><em>Meaning</em></td>
-		<td><em>Value</em></td>
+		<td width="236"><i>Type</i></td>
+		<td><i>Meaning</i></td>
+		<td><i>Value</i></td>
 	</tr>
 	<tr>
 		<td width="236">InferiorConjunctionInEclipticLongitude</td>
@@ -6482,10 +6901,20 @@ struct are as follows:</p>
 	</tr>
 	<tr>
 		<td width="236">EasternQuadratureInAngularDistance</td>
-		<td>The instant when the objects's apparent elongation from the Sun is 
+		<td>The instant when the object's apparent elongation from the Sun is 
 		90 degrees and the object is to the east of the Sun and is visible in 
 		the evening sky. This can only occur for Mars to Neptune.</td>
 		<td>By definition the value 90.</td>
+	</tr>
+	<tr>
+		<td width="236">MinimumDistance</td>
+		<td>The instance when the object is closest to the Earth.</td>
+		<td>The geocentric distance to the object in AU.</td>
+	</tr>
+	<tr>
+		<td width="236">MaximumDistance</td>
+		<td>The instance when the object is farthest away from the Earth.</td>
+		<td>The geocentric distance to the object in AU.</td>
 	</tr>
 </table>
 <p>&nbsp;</p>
@@ -6727,14 +7156,14 @@ Aphelion. Any other value of K will give meaningless values.</p>
 <p>&nbsp;</p>
 <p><b><a name="CAAPlanetPerihelionAphelion2_Calculate"></a>CAAPlanetPerihelionAphelion2::Calculate</b></p>
 <p><b>static std::vector&lt;CAAPlanetPerihelionAphelionDetails2&gt; Calculate(double
-</b><em>StartJD</em>, <b>double</b> <em>EndJD</em>, <b>Object </b><em>object</em>,<b> double</b>
-<em>StepInterval</em> <b>= 0.007</b>, <b>bool </b><em>
-bHighPrecision</em> <b>= false)</b></p>
+</b><i>StartJD</i>, <b>double</b> <i>EndJD</i>, <b>Object </b><i>object</i>,<b> double</b>
+<i>StepInterval</i> <b>= 0.007</b>, <b>bool </b><i>
+bHighPrecision</i> <b>= false)</b></p>
 <p><b>Return Value</b></p>
 <p>A standard C++ array containing a class which itself contains:</p>
-<p><em>type</em> An enum class instance which represents the type of event 
+<p><i>type</i> An enum class instance which represents the type of event 
 found. This can be Perihelion or Aphelion.</p>
-<p><em>JD</em> The date in Dynamical time on which the event occurs.</p>
+<p><i>JD</i> The date in Dynamical time on which the event occurs.</p>
 <p><i>Value</i> this will be the 
 distance of the object in AU at time JD.</p>
 <p><b>Parameters</b></p>
@@ -6745,10 +7174,10 @@ date when you want to end the calculation for.</p>
 <p>Object The object type you want to calculate for. This is an enum class of 
 type Object inside the CAAPlanetPerihelionAphelionDetails2 class and can be MERCURY, 
 VENUS, EARTH, MARS, JUPITER, SATURN, URANUS, NEPTUNE or PLUTO.</p>
-<p><em>StepInterval</em> The step interval in fractions of days to do the 
+<p><i>StepInterval</i> The step interval in fractions of days to do the 
 calculation for. The default value of 0.007 corresponds to roughly 10 minutes 
 which is a reasonable tradeoff between performance and accuracy.</p>
-<p><em>bHighPrecision</em> If true then use the full VSOP87 theory instead of 
+<p><i>bHighPrecision</i> If true then use the full VSOP87 theory instead of 
 the truncated version as provided in Meeus's book.</p>
 <p><b>Notes</b></p>
 <p>As mentioned in Meeus's book on page 271, care should be taken for the case 
@@ -7101,19 +7530,19 @@ rise and set events occur.</p>
 <p>&nbsp;</p>
 <p><b><a name="CAARiseTransitSet2_Calculate"></a>CAARiseTransitSet2::Calculate</b></p>
 <p><b>static std::vector&lt;CAARiseTransitSetDetails2&gt; Calculate(double
-</b><em>StartJD</em>, <b>double</b> <em>EndJD</em>, <b>
-Object</b> <em>object</em>, <b>double</b> <em>Longitude</em>, 
-<b>double</b> <em>Latitude</em>, <b>double</b> <em>h0</em>,
+</b><i>StartJD</i>, <b>double</b> <i>EndJD</i>, <b>
+Object</b> <i>object</i>, <b>double</b> <i>Longitude</i>, 
+<b>double</b> <i>Latitude</i>, <b>double</b> <i>h0</i>,
 <b>double</b>
-<em>StepInterval</em> <b>= 0.007</b>, <b>bool</b> <em>
-bHighPrecision</em> <b>= false)</b></p>
+<i>StepInterval</i> <b>= 0.007</b>, <b>bool</b> <i>
+bHighPrecision</i> <b>= false)</b></p>
 <p><b>Return Value</b></p>
 <p>A standard C++ array containing a class which itself contains:</p>
-<p><em>type</em> An enum class instance which represents the type of event 
+<p><i>type</i> An enum class instance which represents the type of event 
 found. This can be Rise, Set, SouthernTransit, NorthernTransit, 
 CivilDusk, NauticalDusk, AstronomicalDusk, 
 AstronomicalDawn, NauticalDawn or CivilDawn.</p>
-<p><em>JD</em> The date in Dynamical time on which the event occurs.</p>
+<p><i>JD</i> The date in Dynamical time on which the event occurs.</p>
 <p><i>Bearing</i> Valid only for Rise, Set or Twilight events, this will be the 
 <span lang="x-none"></span>azimuth location of the event in degrees west of south.</p>
 <p><i>GeometricAltitude</i> Valid only for SourthernTransit or NorthernTransit 
@@ -7153,11 +7582,11 @@ also do not want to account for variable temperature and pressure). For the moon
 you could use: double H0 = -0.825 - 
 CAACoordinateTransformation::RadiansToDegrees(acos(6371008 / (6371008 + 
 Height))).</p>
-<p><em>StepInterval</em> The step interval in fractions of days to do the 
+<p><i>StepInterval</i> The step interval in fractions of days to do the 
 calculation for. The default value of 0.007 corresponds to roughly 10 minutes 
 which is a reasonable tradeoff between performance and accuracy for calculating 
 rise / transit and set times.</p>
-<p><em>bHighPrecision</em> If true then use the full VSOP87 theory instead of 
+<p><i>bHighPrecision</i> If true then use the full VSOP87 theory instead of 
 the truncated version as provided in Meeus's book. This parameter is not used if 
 you specify Moon for the &quot;object&quot; parameter. This parameter is only used when 
 calculating events for the Sun or planets. This method always uses the truncated 
@@ -7196,17 +7625,17 @@ parameter.</p>
 <p>&nbsp;</p>
 <p><b><a name="CAARiseTransitSet2_CalculateMoon"></a>CAARiseTransitSet2::CalculateMoon</b></p>
 <p><b>static std::vector&lt;CAARiseTransitSetDetails2&gt; CalculateMoon(double
-</b><em>StartJD</em>, <b>double</b> <em>EndJD</em>, <b>double</b>
-<em>Longitude</em>, <b>double</b> <em>Latitude</em>, <b>double </b>
-<em>RefractionAtHorizon</em>
-<b>= -0.5667, double</b> <em>StepInterval</em>
-<b>= 0.007, MoonAlgorithm </b><em>
-algorithm</em><b> = MoonAlgorithm::MeeusTruncated)</b></p>
+</b><i>StartJD</i>, <b>double</b> <i>EndJD</i>, <b>double</b>
+<i>Longitude</i>, <b>double</b> <i>Latitude</i>, <b>double </b>
+<i>RefractionAtHorizon</i>
+<b>= -0.5667, double</b> <i>StepInterval</i>
+<b>= 0.007, MoonAlgorithm </b><i>
+algorithm</i><b> = MoonAlgorithm::MeeusTruncated)</b></p>
 <p><b>Return Value</b></p>
 <p>A standard C++ array containing a class which itself contains:</p>
-<p><em>type</em> An enum class instance which represents the type of event 
+<p><i>type</i> An enum class instance which represents the type of event 
 found. This can be Rise, Set, SouthernTransit or NorthernTransit.</p>
-<p><em>JD</em> The date in Dynamical time on which the event occurs.</p>
+<p><i>JD</i> The date in Dynamical time on which the event occurs.</p>
 <p><i>Bearing</i> Valid only for Rise or Set events, this will be the 
 <span lang="x-none"></span>azimuth location of the event in degrees west of south.</p>
 <p><i>GeometricAltitude</i> Valid only for SourthernTransit or NorthernTransit 
@@ -7224,7 +7653,7 @@ date when you want to end the calculation for.</p>
 <p><i>Longitude </i>The geographic longitude of the observer in degrees 
 (Positive west, negative east from Greenwich).</p>
 <p><i>Latitude</i> The geographic latitude of the observer in degrees.</p>
-<p><em>RefractionAtHorizon</em> The amount of refraction in degrees to use at 
+<p><i>RefractionAtHorizon</i> The amount of refraction in degrees to use at 
 the horizon. The default value of -0.5667 corresponds to the standard &quot;altitude&quot; 
 value for a star as used in the <a href="#CAARiseTransitSet2_Calculate">Calculate</a> method. If you would like to take atmospheric pressure 
 &amp; temperature into 
@@ -7236,11 +7665,11 @@ formulae: double RefractionAtHorizon = -0.5667 -
 CAACoordinateTransformation::RadiansToDegrees(acos(6371008 / (6371008 + 
 Height))) where Height is the altitude above sea-level in meters (assuming you 
 also do not want to account for variable temperature and pressure).</p>
-<p><em>StepInterval</em> The step interval in fractions of days to do the 
+<p><i>StepInterval</i> The step interval in fractions of days to do the 
 calculation for. The default value of 0.007 corresponds to roughly 10 minutes 
 which is a reasonable tradeoff between performance and accuracy for calculating 
 rise / transit and set times.</p>
-<p><em>Algorithm </em>An enum class representing the algorithm to use for the calculation. Can be 
+<p><i>Algorithm </i>An enum class representing the algorithm to use for the calculation. Can be 
 MeeusTruncated which represents the truncated ELP2000 algorithm presented in the 
 book, ELP2000 which uses the full ELP2000 algorithm, ELPMPP02Nominal which uses 
 the ELPMPP02 Nominal fit, ELPMPP02LLR which uses the ELPMPP02 Lunar Laser 
@@ -7259,16 +7688,16 @@ the theory to use to calculate the position of the Moon.</p>
 <p>&nbsp;</p>
 <p><b><a name="CAARiseTransitSet2_CalculateStationary"></a>CAARiseTransitSet2::CalculateStationary</b></p>
 <p><b>static std::vector&lt;CAARiseTransitSetDetails2&gt; CalculateMoon(double
-</b><em>StartJD</em>, <b>double</b> <em>EndJD</em>, <b>double
-</b><em>Alpha</em><b>, double </b><em>Delta</em><b>, double</b>
-<em>Longitude</em>, <b>double</b> <em>Latitude</em>, <b>double
-</b><em>h0<b> </b></em><b>= -0.5667<em>, </em>double</b>
-<em>StepInterval</em> <b>= 0.007)</b></p>
+</b><i>StartJD</i>, <b>double</b> <i>EndJD</i>, <b>double
+</b><i>Alpha</i><b>, double </b><i>Delta</i><b>, double</b>
+<i>Longitude</i>, <b>double</b> <i>Latitude</i>, <b>double
+</b><i>h0<b> </b></i><b>= -0.5667<i>, </i>double</b>
+<i>StepInterval</i> <b>= 0.007)</b></p>
 <p><b>Return Value</b></p>
 <p>A standard C++ array containing a class which itself contains:</p>
-<p><em>type</em> An enum class instance which represents the type of event 
+<p><i>type</i> An enum class instance which represents the type of event 
 found. This can be Rise, Set, SouthernTransit or NorthernTransit.</p>
-<p><em>JD</em> The date in Dynamical time on which the event occurs.</p>
+<p><i>JD</i> The date in Dynamical time on which the event occurs.</p>
 <p><i>Bearing</i> Valid only for Rise or Set events, this will be the 
 <span lang="x-none"></span>azimuth location of the event in degrees west of south.</p>
 <p><i>GeometricAltitude</i> Valid only for SourthernTransit or NorthernTransit 
@@ -7296,11 +7725,11 @@ account for the amount of refraction to use for this parameter, you can use the
 <a href="#CAARefraction">CAARefraction</a> class to calculate a custom value. If 
 you would like to take the altitude of the observer into account for calculating 
 rise and sets (such as an observer flying in a plane), then you could use the 
-formulae: double h0<em><b> </b></em>= -0.5667 - 
+formulae: double h0<i><b> </b></i>= -0.5667 - 
 CAACoordinateTransformation::RadiansToDegrees(acos(6371008 / (6371008 + 
 Height))) where Height is the altitude above sea-level in meters (assuming you 
 also do not want to account for variable temperature and pressure).</p>
-<p><em>StepInterval</em> The step interval in fractions of days to do the 
+<p><i>StepInterval</i> The step interval in fractions of days to do the 
 calculation for. The default value of 0.007 corresponds to roughly 10 minutes 
 which is a reasonable tradeoff between performance and accuracy for calculating 
 rise / transit and set times.</p>
@@ -7748,8 +8177,8 @@ simulations of our solar system as a whole.</p>
 <p><a href="#CAAVSOP2013_Ecliptical2Equatorial">Ecliptic2Equatorial</a></p>
 <p>&nbsp;</p>
 <p><b><a name="CAAVSOP2013_SetBinaryFilesDirectory"></a>CAAVSOP2013::SetBinaryFilesDirectory</b></p>
-<p><b>void SetBinaryFilesDirectory(const std::filesystem::path::value_type* </b><em>
-pszBinaryFilesDirectory</em><b>)</b></p>
+<p><b>void SetBinaryFilesDirectory(const std::filesystem::path::value_type* </b><i>
+pszBinaryFilesDirectory</i><b>)</b></p>
 <p><b>Parameters</b></p>
 <p><i>pszBinaryFilesDirectory</i> The file system directory where the VSOP2013 
 binary files are located specified as a C style string pointer.</p>
@@ -7781,7 +8210,7 @@ files range in size from 9MB for Pluto up to 28 MB for Saturn. The
 CAAVSOP2013ElementsFile class provides methods to read the original VSOP2013 
 text elements files and write the binary elements files used by CAAVSOP2013. 
 These elements binary files will need to be shipped with your application if you 
-are using <a href="#CAAVSOP2013_CalculateOrbit">CAAVSOP2013::Calculat<span class="auto-style2">eOrbit</span></a>. 
+are using <a href="#CAAVSOP2013_CalculateOrbit">CAAVSOP2013::CalculateOrbit</a>. 
 Please note that the binary files used by CAAVSOP2013 are not the same layout as 
 the binary files mentioned in the VSOP2013 theory itself. The default location 
 for the binary files directory is &quot;.&quot; or the current working directory for the 
@@ -7834,7 +8263,7 @@ CAAVSOP2013Exception will be thrown by this method.</p>
 <p>&nbsp;</p>
 <p><b><a name="CAAVSOP2013_CalculateOrbit"></a>CAAVSOP2013::CalculateOrbit</b></p>
 <p><b>CAAVSOP2013Orbit CalculateOrbit(Planet </b><i>planet</i><b>, double </b>
-<em>JD</em><b>)</b></p>
+<i>JD</i><b>)</b></p>
 <p><b>Return Value</b></p>
 <p>A class containing</p>
 <p><i>a</i> The semi-major axis or the orbit in astronomical units.</p>
@@ -7850,7 +8279,7 @@ omega is the longitude of the ascending node.</p>
 theory. This is defined as q = sin(i/2) sin omega where i is the inclination and 
 omega is the longitude of the ascending node.</p>
 <p><b>Parameters</b></p>
-<p><em>planet</em> An enum specifying which object the calculation 
+<p><i>planet</i> An enum specifying which object the calculation 
 is to be carried out for.</p>
 <p><i>JD</i> The date in Dynamical time to calculate for.</p>
 <p><b>Remarks</b></p>
@@ -7869,11 +8298,11 @@ will be thrown by this method.</p>
 <p>&nbsp;</p>
 <p><b><a name="CAAVSOP2013_CalculateMeanMotion"></a>CAAVSOP2013::CalculateMeanMotion</b></p>
 <p><b>static double CalculateMeanMotion(Planet </b><i>planet</i><b>, double </b>
-<em>a</em><b>)</b></p>
+<i>a</i><b>)</b></p>
 <p><b>Return Value</b></p>
 <p>the mean motion of the specified planet in radians per day.</p>
 <p><b>Parameters</b></p>
-<p><em>planet</em> An enum specifying which object the calculation 
+<p><i>planet</i> An enum specifying which object the calculation 
 is to be carried out for.</p>
 <p><i>a</i> The semi-major axis of the orbit in astronomical units.</p>
 <p><b>Remarks</b></p>
@@ -7881,7 +8310,7 @@ is to be carried out for.</p>
 CAAVSOP2013::OrbitToElements</a> method.</p>
 <p>&nbsp;</p>
 <p><b><a name="CAAVSOP2013_OrbitToElements"></a>CAAVSOP2013::OrbitToElements</b></p>
-<p><b>static CAAEllipticalObjectElements OrbitToElements(double </b><em>JD</em><b>, Planet </b><i>planet</i><b>, 
+<p><b>static CAAEllipticalObjectElements OrbitToElements(double </b><i>JD</i><b>, Planet </b><i>planet</i><b>, 
 const CAAVSOP2013Orbit&amp;
 </b><i>orbit</i><b>)</b></p>
 <p><b>Return Value</b></p>
@@ -7889,9 +8318,9 @@ const CAAVSOP2013Orbit&amp;
 CAAEllipticalObjectElements class instance.</p>
 <p><b>Parameters</b></p>
 <p><i>JD</i> The date in Dynamical time to calculate for.</p>
-<p><em>planet</em> An enum specifying which object the calculation 
+<p><i>planet</i> An enum specifying which object the calculation 
 is to be carried out for.</p>
-<p><em>orbit</em> A CAAVSOP2013Orbit instance as returned from
+<p><i>orbit</i> A CAAVSOP2013Orbit instance as returned from
 <a href="#CAAVSOP2013_CalculateOrbit">CAAVSOP2013::CalculateOrbit</a>.</p>
 <p><b>Remarks</b></p>
 <p>This method allows you to convert an orbit as defined in the VSOP2013 theory 
@@ -7900,7 +8329,7 @@ CAAEliptical</a> class.</p>
 <p>&nbsp;</p>
 <p><b><a name="CAAVSOP2013_Ecliptical2Equatorial"></a>CAAVSOP2013::Ecliptical2Equatorial</b></p>
 <p><b>static CAAVSOP2013Position Ecliptical2Equatorial(const 
-CAAVSOP2013Position&amp; </b><em>value</em><b>)</b></p>
+CAAVSOP2013Position&amp; </b><i>value</i><b>)</b></p>
 <p><b>Return Value</b></p>
 <p>Returns the rectangular equatorial coordinates in a CAAVSOP2013Position class containing:</p>
 <p><i>X</i> The heliocentric equatorial X rectangular coordinate of the object 
@@ -10763,7 +11192,8 @@ ftp://cdsarc.u-strasbg.fr/pub/cats/VI/81/</a> for further details.</p>
 	purchase from
 	<a href="http://www.amazon.com/exec/obidos/tg/detail/-/0943396611/103-5742735-0567011">
 	Amazon</a> or directly from the publishers
-	<a href="http://www.willbell.com/math/mc1.htm">Willman-Bell</a></li>
+	<a href="https://shopatsky.com/products/astronomical-algorithms-2nd-edition">
+	Sky &amp; Telescope formerly Willman-Bell</a>.</li>
 	<li>The Near Parabolic class &quot;CAANearParabolic&quot; is based upon the 
 	worked examples which Paul Schlyter has provided at
 	<a href="http://stjarnhimlen.se/comp/tutorial.html#16">http://stjarnhimlen.se/comp/tutorial.html#16</a></li>
@@ -10808,7 +11238,7 @@ Algorithms&quot;.</p>
 <p>&nbsp;</p>
 <h2><a name="Contact"></a>Contacting the Author</h2>
 <p>PJ Naughter<br>Email: <a href="mailto:pjna@naughter.com">pjna@naughter.com</a><br>
-Web: <a href="http://www.naughter.com">http://www.naughter.com</a><br>24 October 2021</p>
+Web: <a href="http://www.naughter.com">http://www.naughter.com</a><br>25 July 2024</p>
 
 </body>
 

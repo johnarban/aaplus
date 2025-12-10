@@ -3,7 +3,7 @@ Module : AAELPMPP02.h
 Purpose: Implementation for the algorithms for ELP/MPP02
 Created: PJN / 30-07-2017
 
-Copyright (c) 2017 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2017 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -18,7 +18,7 @@ to maintain a single distribution point for the source code.
 */
 
 
-/////////////////////// Macros / Defines //////////////////////////////////////
+//////////////////// Macros / Defines /////////////////////////////////////////
 
 #if _MSC_VER > 1000
 #pragma once
@@ -32,13 +32,12 @@ to maintain a single distribution point for the source code.
 #endif
 
 
-/////////////////////// Includes //////////////////////////////////////////////
+//////////////////// Includes /////////////////////////////////////////////////
 
-#include "AA2DCoordinate.h"
 #include "AA3DCoordinate.h"
 
 
-////////////////////////////// Classes ////////////////////////////////////////
+//////////////////// Classes //////////////////////////////////////////////////
 
 class AAPLUS_EXT_CLASS CAAELPMPP02
 {

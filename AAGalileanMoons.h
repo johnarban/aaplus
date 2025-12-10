@@ -3,7 +3,7 @@ Module : AAGalileanMoons.h
 Purpose: Implementation for the algorithms which obtain the positions of the 4 great moons of Jupiter
 Created: PJN / 06-01-2004
 
-Copyright (c) 2003 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -13,12 +13,12 @@ You are allowed to include the source code in any product (commercial, shareware
 when your product is released in binary form. You are allowed to modify the source code in any way you want 
 except you cannot modify the copyright details at the top of each module. If you want to distribute source 
 code with your application, then you are only allowed to distribute versions released by the author. This is 
-to maintain a single distribution point for the source code. 
+to maintain a single distribution point for the source code.
 
 */
 
 
-/////////////////////// Macros / Defines //////////////////////////////////////
+//////////////////// Macros / Defines /////////////////////////////////////////
 
 #if _MSC_VER > 1000
 #pragma once
@@ -32,28 +32,28 @@ to maintain a single distribution point for the source code.
 #endif //#ifndef AAPLUS_EXT_CLASS
 
 
-/////////////////////// Includes //////////////////////////////////////////////
+//////////////////// Includes /////////////////////////////////////////////////
 
 #include "AA3DCoordinate.h"
 
 
-/////////////////////// Classes ///////////////////////////////////////////////
+//////////////////// Classes //////////////////////////////////////////////////
 
 class AAPLUS_EXT_CLASS CAAGalileanMoonDetail
 {
 public:
 //Member variables
-  double MeanLongitude = 0;
-  double TrueLongitude = 0;
-  double TropicalLongitude = 0;
-  double EquatorialLatitude = 0;
-  double r = 0;
+  double MeanLongitude{0};
+  double TrueLongitude{0};
+  double TropicalLongitude{0};
+  double EquatorialLatitude{0};
+  double r{0};
   CAA3DCoordinate TrueRectangularCoordinates;
   CAA3DCoordinate ApparentRectangularCoordinates;
-  bool bInTransit = false;
-  bool bInOccultation = false;
-  bool bInEclipse = false;
-  bool bInShadowTransit = false;
+  bool bInTransit{false};
+  bool bInOccultation{false};
+  bool bInEclipse{false};
+  bool bInShadowTransit{false};
 };
 
 class AAPLUS_EXT_CLASS CAAGalileanMoonsDetails

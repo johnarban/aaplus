@@ -3,7 +3,7 @@ Module : AAMoonPerigeeApogee.h
 Purpose: Implementation for the algorithms which obtain the dates of Lunar Apogee and Perigee
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -18,7 +18,7 @@ to maintain a single distribution point for the source code.
 */
 
 
-/////////////////////// Macros / Defines //////////////////////////////////////
+//////////////////// Macros / Defines /////////////////////////////////////////
 
 #if _MSC_VER > 1000
 #pragma once
@@ -32,7 +32,7 @@ to maintain a single distribution point for the source code.
 #endif //#ifndef AAPLUS_EXT_CLASS
 
 
-/////////////////////// Classes ///////////////////////////////////////////////
+//////////////////// Classes //////////////////////////////////////////////////
 
 class AAPLUS_EXT_CLASS CAAMoonPerigeeApogee
 {
@@ -49,12 +49,12 @@ public:
   static double MeanPerigee(double k) noexcept
   {
     //convert from K to T
-    const double T = k / 1325.55;
-    const double Tsquared = T * T;
-    const double Tcubed = Tsquared * T;
-    const double T4 = Tcubed * T;
+    const double T{k/1325.55};
+    const double Tsquared{T*T};
+    const double Tcubed{Tsquared*T};
+    const double T4{Tcubed*T};
 
-    return 2451534.6698 + 27.55454989*k - 0.0006691*Tsquared - 0.000001098*Tcubed + 0.0000000052*T4;
+    return 2451534.6698 + (27.55454989*k) - (0.0006691*Tsquared) - (0.000001098*Tcubed) + (0.0000000052*T4);
   }
 
   static double MeanApogee(double k) noexcept

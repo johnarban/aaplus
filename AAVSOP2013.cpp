@@ -2,8 +2,10 @@
 Module : AAVSOP2013.cpp
 Purpose: Implementation for the algorithms for VSOP2013
 Created: PJN / 01-08-2021
+History: PJN / 12-06-2022 1. Updated all the code in AAVSOP2013.cpp to use C++ uniform initialization for all
+                          variable declarations.
 
-Copyright (c) 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2021 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -18,7 +20,7 @@ to maintain a single distribution point for the source code.
 */
 
 
-/////////////////////// Includes //////////////////////////////////////////////
+//////////////////// Includes /////////////////////////////////////////////////
 
 #include "stdafx.h"
 #include "AAVSOP2013.h"
@@ -37,7 +39,7 @@ to maintain a single distribution point for the source code.
 #include <cassert>
 
 
-/////////////////////// Implementation ////////////////////////////////////////
+//////////////////// Implementation ///////////////////////////////////////////
 
 bool CAAVSOP2013EphemeridesFile::ReadTextFile(const std::filesystem::path::value_type* pszFilename)
 {
@@ -49,7 +51,7 @@ bool CAAVSOP2013EphemeridesFile::ReadTextFile(const std::filesystem::path::value
   std::string sLine;
   if (!std::getline(file, sLine))
     return false;
-  const int nIdentificationIndex = std::atoi(sLine.c_str());
+  const int nIdentificationIndex{std::atoi(sLine.c_str())};
   if (nIdentificationIndex != IDENTIFICATION_INDEX)
     return false;
   if (!std::getline(file, sLine))
@@ -60,17 +62,17 @@ bool CAAVSOP2013EphemeridesFile::ReadTextFile(const std::filesystem::path::value
   m_fEndJD = std::stod(sLine);
   if (!std::getline(file, sLine))
     return false;
-  const double fSizeBasicInterval = std::stod(sLine);
+  const double fSizeBasicInterval{std::stod(sLine)};
   if (fSizeBasicInterval != SIZE_BASIC_INTERVAL)
     return false;
   if (!std::getline(file, sLine))
     return false;
-  const int nChebyshevTables = std::atoi(sLine.c_str());
+  const int nChebyshevTables{std::atoi(sLine.c_str())};
   if (nChebyshevTables != CHEBYSHEV_TABLES)
     return false;
   if (!std::getline(file, sLine))
     return false;
-  const int nCoefficientsPerTable = std::atoi(sLine.c_str());
+  const int nCoefficientsPerTable{std::atoi(sLine.c_str())};
   if (nCoefficientsPerTable != COEFFICIENTS_PER_TABLE)
     return false;
   if (!std::getline(file, sLine))
@@ -108,11 +110,11 @@ bool CAAVSOP2013EphemeridesFile::ReadTextFile(const std::filesystem::path::value
   //Now read in all the tables
   m_ChebyshevTables.clear();
   m_ChebyshevTables.reserve(CHEBYSHEV_TABLES);
-  for (int i=0; i<nChebyshevTables; i++)
+  for (int i{0}; i<nChebyshevTables; i++)
   {
     if (!std::getline(file, sLine))
       return false;
-    std::array<double, COEFFICIENTS_PER_TABLE + 2> table;
+    std::array<double, COEFFICIENTS_PER_TABLE + 2> table{};
 #ifdef _MSC_VER
     if (sscanf_s(sLine.c_str(), "%lf %lf",
 #else
@@ -125,8 +127,8 @@ bool CAAVSOP2013EphemeridesFile::ReadTextFile(const std::filesystem::path::value
 #endif //#ifdef _MSC_VER
 
     //Read in all 978 coefficients in the table as 6 coefficients per line for a total of 163 lines
-    int nArrayIndex = 2;
-    for (int j=0; j<163; j++)
+    int nArrayIndex{2};
+    for (int j{0}; j<163; j++)
     {
       if (!std::getline(file, sLine))
         return false;
@@ -194,17 +196,17 @@ struct AAPLUS_EXT_CLASS CVSOP2013FILEDeleter
 
 
 //A function which writes out an int32_t to a FILE* in big endian format
-size_t fwrite_int32_t(int32_t nValue, FILE* f) noexcept
+static size_t fwrite_int32_t(int32_t nValue, FILE* f) noexcept
 {
-  const uint32_t nTemp = htonl(nValue);
+  const uint32_t nTemp{htonl(nValue)};
   return fwrite(&nTemp, sizeof(nTemp), 1, f);
 }
 
 
 //A function to convert a big endian uint32_t to a host endian int32_t
-inline int32_t convert_read_int32_t(const uint32_t& nValue) noexcept
+static inline int32_t convert_read_int32_t(const uint32_t& nValue) noexcept
 {
-  const uint32_t nTemp = ntohl(nValue);
+  const uint32_t nTemp{ntohl(nValue)};
   if (nTemp > INT32_MAX)
 #ifdef _MSC_VER
 #pragma warning(suppress : 26472)
@@ -216,10 +218,10 @@ inline int32_t convert_read_int32_t(const uint32_t& nValue) noexcept
 
 
 //A function which reads in an int32_t from a FILE* in big endian format
-size_t fread_int32_t(int32_t& nValue, FILE* f) noexcept
+static size_t fread_int32_t(int32_t& nValue, FILE* f) noexcept
 {
-  uint32_t nTemp = 0;
-  const auto nRead = fread(&nTemp, sizeof(nTemp), 1, f);
+  uint32_t nTemp{0};
+  const auto nRead{fread(&nTemp, sizeof(nTemp), 1, f)};
   if (nRead != 1)
     return nRead;
   nValue = convert_read_int32_t(nTemp);
@@ -232,7 +234,7 @@ size_t fread_int32_t(int32_t& nValue, FILE* f) noexcept
 //by this method in calls to ReadBinaryFile.
 bool CAAVSOP2013EphemeridesFile::WriteBinaryFile(const std::filesystem::path::value_type* pszFilename) noexcept
 {
-  FILE* f = nullptr;
+  FILE* f{nullptr};
 #ifdef _MSC_VER
   if (_wfopen_s(&f, pszFilename, L"wb") != 0)
 #else
@@ -240,8 +242,8 @@ bool CAAVSOP2013EphemeridesFile::WriteBinaryFile(const std::filesystem::path::va
   if (f == nullptr)
 #endif //#ifdef _MSC_VER
     return false;
-  std::unique_ptr<FILE, CVSOP2013FILEDeleter> file(f);
-  constexpr uint8_t nVersionInfo = 1;
+  std::unique_ptr<FILE, CVSOP2013FILEDeleter> file{f};
+  constexpr uint8_t nVersionInfo{1};
 #ifdef _MSC_VER
 #pragma warning(suppress : 6387)
 #endif //#ifdef _MSC_VER
@@ -274,7 +276,7 @@ bool CAAVSOP2013EphemeridesFile::WriteBinaryFile(const std::filesystem::path::va
 //by the WriteBinaryFile method.
 bool CAAVSOP2013EphemeridesFile::ReadBinaryFile(const std::filesystem::path::value_type* pszFilename)
 {
-  FILE* f = nullptr;
+  FILE* f{nullptr};
 #ifdef _MSC_VER
   if (_wfopen_s(&f, pszFilename, L"rb") != 0)
 #else
@@ -282,8 +284,8 @@ bool CAAVSOP2013EphemeridesFile::ReadBinaryFile(const std::filesystem::path::val
   if (f == nullptr)
 #endif //#ifdef _MSC_VER
     return false;
-  std::unique_ptr<FILE, CVSOP2013FILEDeleter> file(f);
-  uint8_t nVersionInfo = 0;
+  std::unique_ptr<FILE, CVSOP2013FILEDeleter> file{f};
+  uint8_t nVersionInfo{0};
 #ifdef _MSC_VER
 #pragma warning(suppress : 6387)
 #endif //#ifdef _MSC_VER
@@ -305,21 +307,21 @@ bool CAAVSOP2013EphemeridesFile::ReadBinaryFile(const std::filesystem::path::val
   std::array<uint32_t, 9> coeffs{};
   if (fread(coeffs.data(), sizeof(int32_t), 9, f) != 9)
     return false;
-  for (int i=0; i<9; i++)
+  for (int i{0}; i<9; i++)
 #ifdef _MSC_VER
 #pragma warning(suppress : 26446 26482)
 #endif //#ifdef _MSC_VER
     m_FirstCoefficientRank[i] = convert_read_int32_t(coeffs[i]);
   if (fread(coeffs.data(), sizeof(int32_t), 9, f) != 9)
     return false;
-  for (int i=0; i<9; i++)
+  for (int i{0}; i<9; i++)
 #ifdef _MSC_VER
 #pragma warning(suppress : 26446 26482)
 #endif //#ifdef _MSC_VER
     m_CoefficientsPerCoordinate[i] = convert_read_int32_t(coeffs[i]);
   if (fread(coeffs.data(), sizeof(int32_t), 9, f) != 9)
     return false;
-  for (int i=0; i<9; i++)
+  for (int i{0}; i<9; i++)
 #ifdef _MSC_VER
 #pragma warning(suppress : 26446 26482)
 #endif //#ifdef _MSC_VER
@@ -331,7 +333,7 @@ bool CAAVSOP2013EphemeridesFile::ReadBinaryFile(const std::filesystem::path::val
 
 bool CAAVSOP2013ElementsFile::ReadTextFile(const std::filesystem::path::value_type* pszFilename)
 {
-  std::ifstream file(pszFilename);
+  std::ifstream file{pszFilename};
   if (!file)
     return false;
 
@@ -341,7 +343,7 @@ bool CAAVSOP2013ElementsFile::ReadTextFile(const std::filesystem::path::value_ty
     return false;
   m_AllSeries.clear();
   m_AllSeries.reserve(80); //80 is the maximum size for the series array for the VSOP2013 elements files (for Jupiter and Saturn)
-  bool bMoreSeries = true;
+  bool bMoreSeries{true};
   while (bMoreSeries)
   {
     //Read in the header
@@ -352,7 +354,7 @@ bool CAAVSOP2013ElementsFile::ReadTextFile(const std::filesystem::path::value_ty
 #ifdef _MSC_VER
 #pragma warning(disable : 26446)
 #endif //#ifdef _MSC_VER
-    int nt = 0;
+    int nt{0};
 #ifdef _MSC_VER
     if (sscanf_s(sLine.c_str(), "%" SCNu8 "%" SCNu8 "%" SCNu8 "%d",
 #else
@@ -367,7 +369,7 @@ bool CAAVSOP2013ElementsFile::ReadTextFile(const std::filesystem::path::value_ty
 
     //Read in all the terms
     series.m_Terms.reserve(nt);
-    for (int i=0; i<nt; i++)
+    for (int i{0}; i<nt; i++)
     {
       if (!std::getline(file, sLine))
         return false;
@@ -377,7 +379,7 @@ bool CAAVSOP2013ElementsFile::ReadTextFile(const std::filesystem::path::value_ty
       if (sLine[112] != ' ')
         return false;
       sLine[112] = 'E';
-      int nRank = 0;
+      int nRank{0};
       CAAVSOP2013ElementsTerm term;
 #ifdef _MSC_VER
       if (sscanf_s(sLine.c_str(), "%" SCNd32 " %" SCNd32 " %" SCNd32 " %" SCNd32 " %" SCNd32 " %" SCNd32 " %" SCNd32 " %" SCNd32 " %" SCNd32 " %" SCNd32 " %" SCNd32 " %" SCNd32 " %" SCNd32 " %" SCNd32 " %" SCNd32 " %" SCNd32 " %" SCNd32 " %" SCNd32 " %lf %lf",
@@ -405,7 +407,7 @@ bool CAAVSOP2013ElementsFile::ReadTextFile(const std::filesystem::path::value_ty
 //Use only binary files generated by this method in calls to ReadBinaryFile.
 bool CAAVSOP2013ElementsFile::WriteBinaryFile(const std::filesystem::path::value_type* pszFilename) noexcept
 {
-  FILE* f = nullptr;
+  FILE* f{nullptr};
 #ifdef _MSC_VER
   if (_wfopen_s(&f, pszFilename, L"wb") != 0)
 #else
@@ -413,8 +415,8 @@ bool CAAVSOP2013ElementsFile::WriteBinaryFile(const std::filesystem::path::value
   if (f == nullptr)
 #endif //#ifdef _MSC_VER
     return false;
-  std::unique_ptr<FILE, CVSOP2013FILEDeleter> file(f);
-  constexpr uint8_t nVersionInfo = 1;
+  std::unique_ptr<FILE, CVSOP2013FILEDeleter> file{f};
+  constexpr uint8_t nVersionInfo{1};
 #ifdef _MSC_VER
 #pragma warning(suppress : 6387)
 #endif //#ifdef _MSC_VER
@@ -423,7 +425,7 @@ bool CAAVSOP2013ElementsFile::WriteBinaryFile(const std::filesystem::path::value
 #ifdef _MSC_VER
 #pragma warning(suppress : 26472)
 #endif //#ifdef _MSC_VER
-  const auto nSeries = static_cast<int32_t>(m_AllSeries.size());
+  const auto nSeries{static_cast<int32_t>(m_AllSeries.size())};
   if (fwrite_int32_t(nSeries, f) != 1)
     return false;
   for (const auto& series : m_AllSeries)
@@ -437,7 +439,7 @@ bool CAAVSOP2013ElementsFile::WriteBinaryFile(const std::filesystem::path::value
 #ifdef _MSC_VER
 #pragma warning(suppress : 26472)
 #endif //#ifdef _MSC_VER
-    const auto nTerms = static_cast<int32_t>(series.m_Terms.size());
+    const auto nTerms{static_cast<int32_t>(series.m_Terms.size())};
     if (fwrite_int32_t(nTerms, f) != 1)
       return false;
     for (const auto& term : series.m_Terms)
@@ -459,7 +461,7 @@ bool CAAVSOP2013ElementsFile::WriteBinaryFile(const std::filesystem::path::value
 //Use only binary files generated by the WriteBinaryFile method.
 bool CAAVSOP2013ElementsFile::ReadBinaryFile(const std::filesystem::path::value_type* pszFilename)
 {
-  FILE* f = nullptr;
+  FILE* f{nullptr};
 #ifdef _MSC_VER
   if (_wfopen_s(&f, pszFilename, L"rb") != 0)
 #else
@@ -467,8 +469,8 @@ bool CAAVSOP2013ElementsFile::ReadBinaryFile(const std::filesystem::path::value_
   if (f == nullptr)
 #endif //#ifdef _MSC_VER
     return false;
-  std::unique_ptr<FILE, CVSOP2013FILEDeleter> file(f);
-  uint8_t nVersionInfo = 0;
+  std::unique_ptr<FILE, CVSOP2013FILEDeleter> file{f};
+  uint8_t nVersionInfo{0};
 #ifdef _MSC_VER
 #pragma warning(suppress : 6387)
 #endif //#ifdef _MSC_VER
@@ -476,31 +478,31 @@ bool CAAVSOP2013ElementsFile::ReadBinaryFile(const std::filesystem::path::value_
     return false;
   if (nVersionInfo != 1)
     return false;
-  int32_t nSeries = 0;
+  int32_t nSeries{0};
   if (fread_int32_t(nSeries, f) != 1)
     return false;
   m_AllSeries.clear();
   m_AllSeries.resize(nSeries);
-  for (int32_t i=0; i<nSeries; i++)
+  for (int32_t i{0}; i<nSeries; i++)
   {
-    CAAVSOP2013ElementsSeries& series = m_AllSeries[i];
+    CAAVSOP2013ElementsSeries& series{m_AllSeries[i]};
     std::array<uint8_t, 3> tVals{};
     if (fread(&tVals, sizeof(uint8_t), 3, f) != 3)
       return false;
     series.m_ip = tVals[0];
     series.m_iv = tVals[1];
     series.m_it = tVals[2];
-    int32_t nTerms = 0;
+    int32_t nTerms{0};
     if (fread_int32_t(nTerms, f) != 1)
       return false;
     series.m_Terms.resize(nTerms);
-    for (int32_t j=0; j<nTerms; j++)
+    for (int32_t j{0}; j<nTerms; j++)
     {
-      CAAVSOP2013ElementsTerm& term = series.m_Terms[j];
+      CAAVSOP2013ElementsTerm& term{series.m_Terms[j]};
       std::array<uint32_t, 17> tiphis{};
       if (fread(&tiphis, sizeof(uint32_t), 17, f) != 17)
         return false;
-      for (int k=0; k<17; k++)
+      for (int k{0}; k<17; k++)
 #ifdef _MSC_VER
 #pragma warning(suppress : 26482)
 #endif //#ifdef _MSC_VER
@@ -530,56 +532,56 @@ CAAVSOP2013Position CAAVSOP2013::Calculate(Planet planet, double JD)
 {
   //Validate the planet parameter
   if ((planet < Planet::MERCURY) || (planet > Planet::PLUTO))
-    throw CAAVSOP2013Exception(CAAVSOP2013Exception::REASON::PLANET_IS_INVALID);
+    throw CAAVSOP2013Exception{CAAVSOP2013Exception::REASON::PLANET_IS_INVALID};
 
   //Check the extreme date range
   if ((JD < 77294.5) || (JD > 3364718.5))
-    throw CAAVSOP2013Exception(CAAVSOP2013Exception::REASON::DATE_IS_INVALID);
+    throw CAAVSOP2013Exception{CAAVSOP2013Exception::REASON::DATE_IS_INVALID};
 
   //Handle the special case for Pluto outside of the time interval for the VSOP2013.p2000 file
   if ((planet == Planet::PLUTO) && ((JD < 2268910.5) || (JD > 2816814.5)))
-    throw CAAVSOP2013Exception(CAAVSOP2013Exception::REASON::DATE_IS_INVALID);
+    throw CAAVSOP2013Exception{CAAVSOP2013Exception::REASON::DATE_IS_INVALID};
 
   //Find the index in the m_Files table from the JD parameter
-  const auto iter = std::upper_bound(m_DateRange.cbegin(), m_DateRange.cend(), JD);
+  const auto iter{std::upper_bound(m_DateRange.cbegin(), m_DateRange.cend(), JD)};
   assert(iter != m_DateRange.cend());
-  const size_t nIndex = std::distance(m_DateRange.cbegin(), iter) - 1;
+  const size_t nIndex{iter - m_DateRange.cbegin() - size_t{1}};
 
   //Load up the data into the appropriate file class instance from the appropriate binary file if necessary
 #ifdef _MSC_VER
 #pragma warning(suppress : 26446 26482)
 #endif //#ifdef _MSC_VER
-  auto& file = m_EphemerideFiles[nIndex];
+  auto& file{m_EphemerideFiles[nIndex]};
   if (file.m_ChebyshevTables.size() == 0)
   {
-    std::filesystem::path p(m_pszBinaryFilesDirectory);
+    std::filesystem::path p{m_pszBinaryFilesDirectory};
 #ifdef _MSC_VER
 #pragma warning(suppress : 26446 26482)
 #endif //#ifdef _MSC_VER
     p.append(m_EphemeridesFilenames[nIndex]);
     if (!file.ReadBinaryFile(p.c_str()))
-      throw CAAVSOP2013Exception(CAAVSOP2013Exception::REASON::COULD_NOT_LOAD_BINARY_FILE);
+      throw CAAVSOP2013Exception{CAAVSOP2013Exception::REASON::COULD_NOT_LOAD_BINARY_FILE};
   }
 
-  const int iper = static_cast<int>((JD - file.m_fStartJD) / CAAVSOP2013EphemeridesFile::SIZE_BASIC_INTERVAL); //Calculate 32 day index
+  const int iper{static_cast<int>((JD - file.m_fStartJD)/CAAVSOP2013EphemeridesFile::SIZE_BASIC_INTERVAL)}; //Calculate 32 day index
   assert((iper >= 0) && (iper < static_cast<int>(file.m_ChebyshevTables.size())));
 #ifdef _MSC_VER
 #pragma warning(disable : 26446 26482)
 #endif //#ifdef _MSC_VER
-  const auto& aperiod = file.m_ChebyshevTables[iper]; //Get table containing JD
-  const auto iad = file.m_FirstCoefficientRank[static_cast<int>(planet)] - 1; //Initial term of the planet (index into m_Coefficients)
-  const auto ncf = file.m_CoefficientsPerCoordinate[static_cast<int>(planet)]; //Number of Chebyshev coefficients
-  const auto nsi = file.m_SubIntervals[static_cast<int>(planet)]; //Some delta divider
-  const double delta2 = CAAVSOP2013EphemeridesFile::SIZE_BASIC_INTERVAL / nsi;
-  auto ik = static_cast<int32_t>((JD - aperiod[0]) / delta2);
+  const auto& aperiod{file.m_ChebyshevTables[iper]}; //Get table containing JD
+  const auto iad{file.m_FirstCoefficientRank[static_cast<int>(planet)] - 1}; //Initial term of the planet (index into m_Coefficients)
+  const auto ncf{file.m_CoefficientsPerCoordinate[static_cast<int>(planet)]}; //Number of Chebyshev coefficients
+  const auto nsi{file.m_SubIntervals[static_cast<int>(planet)]}; //Some delta divider
+  const auto delta2{static_cast<double>(CAAVSOP2013EphemeridesFile::SIZE_BASIC_INTERVAL/nsi)};
+  auto ik{static_cast<int32_t>((JD - aperiod[0])/delta2)};
   if (ik == nsi)
     --ik;
 #ifdef _MSC_VER
 #pragma warning(suppress : 26472)
 #endif //#ifdef _MSC_VER
-  const size_t iloc = iad + (6 * static_cast<size_t>(ncf) * ik);
-  const double dj0 = aperiod[0] + (ik * delta2);
-  const double x = 2.0 * (JD - dj0) / delta2 - 1.0;
+  const size_t iloc{iad + (6*static_cast<size_t>(ncf)*ik)};
+  const double dj0{aperiod[0] + (ik*delta2)};
+  const double x{(2.0*(JD - dj0)/delta2) - 1.0};
 
   //Build Chebyshev terms
   std::array<double, 20> tn{};
@@ -588,26 +590,26 @@ CAAVSOP2013Position CAAVSOP2013::Calculate(Planet planet, double JD)
 #ifdef _MSC_VER
 #pragma warning(suppress : 26472)
 #endif //#ifdef _MSC_VER
-  for (size_t i=2; i<static_cast<size_t>(ncf); i++)
-    tn[i] = 2.0*x*tn[i - 1] - tn[i - 2];
+  for (size_t i{2}; i<static_cast<size_t>(ncf); i++)
+    tn[i] = (2.0*x*tn[i - 1]) - tn[i - 2];
 
   //Calculate planet position and speed
   std::array<double, 6> r{};
-  for (int i=0; i<6; i++)
+  for (int i{0}; i<6; i++)
   {
 #ifdef _MSC_VER
 #pragma warning(suppress : 26472)
 #endif //#ifdef _MSC_VER
-    for (size_t j=0; j<static_cast<size_t>(ncf); j++)
+    for (size_t j{0}; j<static_cast<size_t>(ncf); j++)
     {
-      const size_t jp = ncf - j - 1; //index into tn, working backwards
+      const size_t jp{ncf - j - 1}; //index into tn, working backwards
       assert((jp >= 0) && (jp < tn.size()));
 #ifdef _MSC_VER
 #pragma warning(suppress : 26472)
 #endif //#ifdef _MSC_VER
-      const size_t jt = iloc + (static_cast<size_t>(ncf) * i) + jp + 2; //Index into coefficients
+      const size_t jt{iloc + (static_cast<size_t>(ncf)*i) + jp + 2}; //Index into coefficients
       assert((jt >= 2) && (jt < aperiod.size()));
-      r[i] += (tn[jp] * aperiod[jt]);
+      r[i] += (tn[jp]*aperiod[jt]);
     }
   }
   CAAVSOP2013Position position;
@@ -627,7 +629,7 @@ CAAVSOP2013Orbit CAAVSOP2013::CalculateOrbit(Planet planet, double JD)
 {
   //Validate the planet parameter
   if ((planet < Planet::MERCURY) || (planet > Planet::PLUTO))
-    throw CAAVSOP2013Exception(CAAVSOP2013Exception::REASON::PLANET_IS_INVALID);
+    throw CAAVSOP2013Exception{CAAVSOP2013Exception::REASON::PLANET_IS_INVALID};
 
   //Calculate the T values
   std::array<double, 21> T{};
@@ -635,42 +637,42 @@ CAAVSOP2013Orbit CAAVSOP2013::CalculateOrbit(Planet planet, double JD)
 #pragma warning(disable : 26446 26482)
 #endif //#ifdef _MSC_VER
   T[0] = 1;
-  T[1] = (JD - 2451545.0) / 365250.0;
-  for (size_t i = 2; i < 21; i++)
-    T[i] = T[1] * T[i - 1];
+  T[1] = (JD - 2451545)/365250;
+  for (size_t i{2}; i<21; i++)
+    T[i] = T[1]*T[i - 1];
 
   //Calculate the lambda values
   std::array<double, 17> lambdas{};
   CalculateLambdas(T[1], lambdas);
 
   //Load up the data into the appropriate file class instance from the appropriate binary file if necessary
-  auto& file = m_ElementsFiles[static_cast<int>(planet)];
+  auto& file{m_ElementsFiles[static_cast<int>(planet)]};
   if (file.m_AllSeries.size() == 0)
   {
-    std::filesystem::path p(m_pszBinaryFilesDirectory);
+    std::filesystem::path p{m_pszBinaryFilesDirectory};
     p.append(m_ElementsFilenames[static_cast<int>(planet)]);
     if (!file.ReadBinaryFile(p.c_str()))
-      throw CAAVSOP2013Exception(CAAVSOP2013Exception::REASON::COULD_NOT_LOAD_BINARY_FILE);
+      throw CAAVSOP2013Exception{CAAVSOP2013Exception::REASON::COULD_NOT_LOAD_BINARY_FILE};
   }
 
   //Calculate the element values
   std::array<double, 6> r{};
   for (const auto& serie : file.m_AllSeries)
   {
-    double fSum = 0;
+    double fSum{0};
     for (const auto& term : serie.m_Terms)
     {
-      double fPhi = 0;
-      for (int i=0; i<17; i++)
+      double fPhi{0};
+      for (int i{0}; i<17; i++)
       {
         if (term.m_iphi[i])
-          fPhi += (term.m_iphi[i] * lambdas[i]);
+          fPhi += (term.m_iphi[i]*lambdas[i]);
       }
-      fSum += (term.m_fS * sin(fPhi) + term.m_fC * cos(fPhi));
+      fSum += ((term.m_fS*sin(fPhi)) + (term.m_fC*cos(fPhi)));
     }
     assert(serie.m_it < 21);
     fSum *= T[serie.m_it];
-    r[serie.m_iv - 1] += fSum;
+    r[static_cast<size_t>(serie.m_iv) - 1] += fSum;
   }
 
   CAAVSOP2013Orbit orbit;
@@ -691,23 +693,23 @@ void CAAVSOP2013::CalculateLambdas(double T, std::array<double, 17>& lambdas) no
 #ifdef _MSC_VER
 #pragma warning(disable : 26446)
 #endif //#ifdef _MSC_VER
-  lambdas[0] = 4.402608631669 + (26087.90314068555 * T); //Mercury
-  lambdas[1] = 3.176134461576 + (10213.28554743445 * T); //Venus
-  lambdas[2] = 1.753470369433 + (6283.075850353215 * T); //Earth - Moon
-  lambdas[3] = 6.203500014141 + (3340.612434145457 * T); //Mars
-  lambdas[4] = 4.091360003050 + (1731.170452721855 * T); //Vesta
-  lambdas[5] = 1.713740719173 + (1704.450855027201 * T); //Iris
-  lambdas[6] = 5.598641292287 + (1428.948917844273 * T); //Bamberga
-  lambdas[7] = 2.805136360408 + (1364.756513629990 * T); //Ceres
-  lambdas[8] = 2.326989734620 + (1361.923207632842 * T); //Pallas
-  lambdas[9] = 0.599546107035 + (529.6909615623250 * T); //Jupiter
-  lambdas[10] = 0.874018510107 + (213.2990861084880 * T); //Saturn
-  lambdas[11] = 5.481225395663 + (74.78165903077800 * T); //Uranus
-  lambdas[12] = 5.311897933164 + (38.13297222612500 * T); //Neptune
-  lambdas[13] = 0.3595362285049309 * T; //µ Pluto
-  lambdas[14] = 5.198466400630 + (77713.7714481804 * T); //D Moon
-  lambdas[15] = 1.627905136020 + (84334.6615717837 * T); //F Moon
-  lambdas[16] = 2.355555638750 + (83286.9142477147 * T); //l Moon
+  lambdas[0] = 4.402608631669 + (26087.90314068555*T); //Mercury
+  lambdas[1] = 3.176134461576 + (10213.28554743445*T); //Venus
+  lambdas[2] = 1.753470369433 + (6283.075850353215*T); //Earth - Moon
+  lambdas[3] = 6.203500014141 + (3340.612434145457*T); //Mars
+  lambdas[4] = 4.091360003050 + (1731.170452721855*T); //Vesta
+  lambdas[5] = 1.713740719173 + (1704.450855027201*T); //Iris
+  lambdas[6] = 5.598641292287 + (1428.948917844273*T); //Bamberga
+  lambdas[7] = 2.805136360408 + (1364.756513629990*T); //Ceres
+  lambdas[8] = 2.326989734620 + (1361.923207632842*T); //Pallas
+  lambdas[9] = 0.599546107035 + (529.6909615623250*T); //Jupiter
+  lambdas[10] = 0.874018510107 + (213.2990861084880*T); //Saturn
+  lambdas[11] = 5.481225395663 + (74.78165903077800*T); //Uranus
+  lambdas[12] = 5.311897933164 + (38.13297222612500*T); //Neptune
+  lambdas[13] = 0.3595362285049309*T; //µ Pluto
+  lambdas[14] = 5.198466400630 + (77713.7714481804*T); //D Moon
+  lambdas[15] = 1.627905136020 + (84334.6615717837*T); //F Moon
+  lambdas[16] = 2.355555638750 + (83286.9142477147*T); //l Moon
 #ifdef _MSC_VER
 #pragma warning(default : 26446)
 #endif //#ifdef _MSC_VER
@@ -717,9 +719,9 @@ double CAAVSOP2013::CalculateMeanMotion(Planet planet, double a)
 {
   //Validate the planet parameter
   if ((planet < Planet::MERCURY) || (planet > Planet::PLUTO))
-    throw CAAVSOP2013Exception(CAAVSOP2013Exception::REASON::PLANET_IS_INVALID);
+    throw CAAVSOP2013Exception{CAAVSOP2013Exception::REASON::PLANET_IS_INVALID};
 
-  constexpr double gmsol = 2.9591220836841438269E-04;
+  constexpr double gmsol{2.9591220836841438269E-04};
   static constexpr std::array<double, 9> gmp
   { {
      4.9125474514508118699E-11,
@@ -735,42 +737,42 @@ double CAAVSOP2013::CalculateMeanMotion(Planet planet, double a)
 #ifdef _MSC_VER
 #pragma warning(suppress : 26446 26482)
 #endif //#ifdef _MSC_VER
-  return CAACoordinateTransformation::RadiansToDegrees(sqrt(gmp[static_cast<int>(planet)] + gmsol) / pow(a, 1.5));
+  return CAACoordinateTransformation::RadiansToDegrees(sqrt(gmp[static_cast<int>(planet)] + gmsol)/pow(a, 1.5));
 }
 
 CAAEllipticalObjectElements CAAVSOP2013::OrbitToElements(double JD, CAAVSOP2013::Planet planet, const CAAVSOP2013Orbit& orbit)
 {
   CAAEllipticalObjectElements elements;
   elements.a = orbit.a;
-  elements.e = sqrt((orbit.k * orbit.k) + (orbit.h * orbit.h));
-  elements.i = CAACoordinateTransformation::RadiansToDegrees(2.0 * asin(sqrt((orbit.q * orbit.q) + (orbit.p * orbit.p))));
-  const double w = atan2(orbit.h, orbit.k); //here w is longitude of perihelion
+  elements.e = sqrt((orbit.k*orbit.k) + (orbit.h*orbit.h));
+  elements.i = CAACoordinateTransformation::RadiansToDegrees(2.0*asin(sqrt((orbit.q*orbit.q) + (orbit.p*orbit.p))));
+  const double w{atan2(orbit.h, orbit.k)}; //here w is longitude of perihelion
   elements.omega = atan2(orbit.p, orbit.q);
   elements.w = CAACoordinateTransformation::RadiansToDegrees(CAACoordinateTransformation::MapTo0To2PIRange(w - elements.omega)); //argument of perihelion = longitude of perihelion - longitude of ascending node
   elements.omega = CAACoordinateTransformation::RadiansToDegrees(elements.omega);
   elements.JDEquinox = JD;
-  const double MeanMotion = CalculateMeanMotion(planet, orbit.a);
-  elements.T = JD - CAACoordinateTransformation::RadiansToDegrees(orbit.lambda/MeanMotion) + CAACoordinateTransformation::RadiansToDegrees(w / MeanMotion);
+  const double MeanMotion{CalculateMeanMotion(planet, orbit.a)};
+  elements.T = JD - CAACoordinateTransformation::RadiansToDegrees(orbit.lambda/MeanMotion) + CAACoordinateTransformation::RadiansToDegrees(w/MeanMotion);
   return elements;
 }
 
 CAAVSOP2013Position CAAVSOP2013::Ecliptic2Equatorial(const CAAVSOP2013Position& value) noexcept
 {
-  constexpr double coeff11 = 0.99999999999996836;
-  constexpr double coeff12 = 2.3076633339445195e-07;
-  constexpr double coeff13 = -1.0004940139786859e-07;
-  constexpr double coeff21 = -2.5152133775962465e-07;
-  constexpr double coeff22 = 0.91748213272857493;
-  constexpr double coeff23 = -0.39777699295429642;
-  constexpr double coeff32 = 0.39777699295430902;
-  constexpr double coeff33 = 0.91748213272860391;
+  constexpr double coeff11{0.99999999999996836};
+  constexpr double coeff12{2.3076633339445195e-07};
+  constexpr double coeff13{-1.0004940139786859e-07};
+  constexpr double coeff21{-2.5152133775962465e-07};
+  constexpr double coeff22{0.91748213272857493};
+  constexpr double coeff23{-0.39777699295429642};
+  constexpr double coeff32{0.39777699295430902};
+  constexpr double coeff33{0.91748213272860391};
 
   CAAVSOP2013Position Equatorial;
-  Equatorial.X = (coeff11 * value.X) + (coeff12 * value.Y) + (coeff13 * value.Z);
-  Equatorial.Y = (coeff21 * value.X) + (coeff22 * value.Y) + (coeff23 * value.Z);
-  Equatorial.Z = (coeff32 * value.Y) + (coeff33 * value.Z);
-  Equatorial.X_DASH = (coeff11 * value.X_DASH) + (coeff12 * value.Y_DASH) + (coeff13 * value.Z_DASH);
-  Equatorial.Y_DASH = (coeff21 * value.X_DASH) + (coeff22 * value.Y_DASH) + (coeff23 * value.Z_DASH);
-  Equatorial.Z_DASH = (coeff32 * value.Y_DASH) + (coeff33 * value.Z_DASH);
+  Equatorial.X = (coeff11*value.X) + (coeff12*value.Y) + (coeff13*value.Z);
+  Equatorial.Y = (coeff21*value.X) + (coeff22*value.Y) + (coeff23*value.Z);
+  Equatorial.Z = (coeff32*value.Y) + (coeff33*value.Z);
+  Equatorial.X_DASH = (coeff11*value.X_DASH) + (coeff12*value.Y_DASH) + (coeff13*value.Z_DASH);
+  Equatorial.Y_DASH = (coeff21*value.X_DASH) + (coeff22*value.Y_DASH) + (coeff23*value.Z_DASH);
+  Equatorial.Z_DASH = (coeff32*value.Y_DASH) + (coeff33*value.Z_DASH);
   return Equatorial;
 }

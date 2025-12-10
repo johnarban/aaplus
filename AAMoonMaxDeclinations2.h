@@ -3,7 +3,7 @@ Module : AAMoonMaxDeclinations2.h
 Purpose: Implementation for the algorithms to calculate the dates and values for maximum declination of the Moon (revised version)
 Created: PJN / 22-10-2019
 
-Copyright (c) 2019 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2019 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -18,7 +18,7 @@ to maintain a single distribution point for the source code.
 */
 
 
-/////////////////////// Macros / Defines //////////////////////////////////////
+//////////////////// Macros / Defines /////////////////////////////////////////
 
 #if _MSC_VER > 1000
 #pragma once
@@ -32,13 +32,12 @@ to maintain a single distribution point for the source code.
 #endif //#ifndef AAPLUS_EXT_CLASS
 
 
-/////////////////////// Includes //////////////////////////////////////////////
+//////////////////// Includes /////////////////////////////////////////////////
 
-#include "AA2DCoordinate.h"
 #include <vector>
 
 
-/////////////////////// Classes ///////////////////////////////////////////////
+//////////////////// Classes //////////////////////////////////////////////////
 
 class AAPLUS_EXT_CLASS CAAMoonMaxDeclinationsDetails2
 {
@@ -52,10 +51,10 @@ public:
   };
 
 //Member variables
-  Type type = Type::NotDefined; //The type of the event which has occurred
-  double JD = 0; //When the event occurred in TT
-  double Declination = 0; //The actual max declination value in degrees
-  double RA = 0; //The Right ascension at the time of the event
+  Type type{Type::NotDefined}; //The type of the event which has occurred
+  double JD{0}; //When the event occurred in TT
+  double Declination{0}; //The actual max declination value in degrees
+  double RA{0}; //The Right ascension at the time of the event
 };
 
 class AAPLUS_EXT_CLASS CAAMoonMaxDeclinations2
@@ -83,4 +82,4 @@ public:
 };
 
 
-#endif //#ifndef __AARISETRANSITSET2_H__
+#endif //#ifndef __AAMOONMAXDECLINATIONS2_H_

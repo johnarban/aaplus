@@ -3,7 +3,7 @@ Module : AAEquinoxesAndSoltices2.h
 Purpose: Implementation for the algorithms to calculate the dates of the Equinoxes and Solstices (revised version)
 Created: PJN / 28-09-2019
 
-Copyright (c) 2019 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2019 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -13,12 +13,12 @@ You are allowed to include the source code in any product (commercial, shareware
 when your product is released in binary form. You are allowed to modify the source code in any way you want 
 except you cannot modify the copyright details at the top of each module. If you want to distribute source 
 code with your application, then you are only allowed to distribute versions released by the author. This is 
-to maintain a single distribution point for the source code. 
+to maintain a single distribution point for the source code.
 
 */
 
 
-/////////////////////// Macros / Defines //////////////////////////////////////
+//////////////////// Macros / Defines /////////////////////////////////////////
 
 #if _MSC_VER > 1000
 #pragma once
@@ -32,13 +32,12 @@ to maintain a single distribution point for the source code.
 #endif //#ifndef AAPLUS_EXT_CLASS
 
 
-/////////////////////// Includes //////////////////////////////////////////////
+//////////////////// Includes /////////////////////////////////////////////////
 
-#include "AA2DCoordinate.h"
 #include <vector>
 
 
-/////////////////////// Classes ///////////////////////////////////////////////
+//////////////////// Classes //////////////////////////////////////////////////
 
 class AAPLUS_EXT_CLASS CAAEquinoxSolsticeDetails2
 {
@@ -54,9 +53,9 @@ public:
   };
 
 //Member variables
-  Type type = Type::NotDefined; //The type of the event which has occurred
-  double JD = 0; //When the event occurred in TT
-  double Declination = 0; //Applicable for solstices only, the apparent declination of the Sun
+  Type type{Type::NotDefined}; //The type of the event which has occurred
+  double JD{0}; //When the event occurred in TT
+  double Declination{0}; //Applicable for solstices only, the apparent declination of the Sun
 };
 
 class AAPLUS_EXT_CLASS CAAEquinoxesAndSolstices2

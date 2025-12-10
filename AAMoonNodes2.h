@@ -3,7 +3,7 @@ Module : AAMoonNodes2.h
 Purpose: Implementation for the algorithms which obtain the dates when the Moon passes thro its nodes (revised version)
 Created: PJN / 16-11-2019
 
-Copyright (c) 2019 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2019 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -18,7 +18,7 @@ to maintain a single distribution point for the source code.
 */
 
 
-/////////////////////// Macros / Defines //////////////////////////////////////
+//////////////////// Macros / Defines /////////////////////////////////////////
 
 #if _MSC_VER > 1000
 #pragma once
@@ -32,12 +32,12 @@ to maintain a single distribution point for the source code.
 #endif //#ifndef AAPLUS_EXT_CLASS
 
 
-/////////////////////// Includes //////////////////////////////////////////////
+//////////////////// Includes /////////////////////////////////////////////////
 
 #include <vector>
 
 
-/////////////////////// Classes ///////////////////////////////////////////////
+//////////////////// Classes //////////////////////////////////////////////////
 
 class AAPLUS_EXT_CLASS CAAMoonNodesDetails2
 {
@@ -51,8 +51,8 @@ public:
   };
 
 //Member variables
-  Type type = Type::NotDefined; //The type of the event which has occurred
-  double JD = 0; //When the event occurred in TT
+  Type type{Type::NotDefined}; //The type of the event which has occurred
+  double JD{0}; //When the event occurred in TT
 };
 
 class AAPLUS_EXT_CLASS CAAMoonNodes2

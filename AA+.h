@@ -3,7 +3,7 @@ Module : AA+.h
 Purpose: Main include file for AA+ framework
 Created: PJN / 30-1-2005
 
-Copyright (c) 2003 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -18,11 +18,17 @@ to maintain a single distribution point for the source code.
 */
 
 
-/////////////////////////////// Macros / Defines //////////////////////////////
+//////////////////// Macros / Defines /////////////////////////////////////////
 
 #if _MSC_VER > 1000
 #pragma once
 #endif //#if _MSC_VER > 1000
+
+#ifdef _MSC_VER
+#if _MSVC_LANG < 201703
+#error AA++ requires a minimum C++ language standard of /std:c++17
+#endif //#if _MSVC_LANG < 201703
+#endif //#ifdef _MSC_VER
 
 #ifndef __AAPLUS_H__
 #define __AAPLUS_H__
@@ -32,7 +38,7 @@ to maintain a single distribution point for the source code.
 #endif //#ifndef AAPLUS_EXT_CLASS
 
 
-/////////////////////////////// Includes //////////////////////////////////////
+//////////////////// Includes /////////////////////////////////////////////////
 
 #include "AA2DCoordinate.h"
 #include "AA3DCoordinate.h"

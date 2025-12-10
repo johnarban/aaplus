@@ -3,8 +3,15 @@ Module : AAMoonNodes2.cpp
 Purpose: Implementation for the algorithms which obtain the dates for the phases of the Moon (revised version)
 Created: PJN / 01-01-2020
 History: PJN / 01-01-2020 1. Initial implementation
+         PJN / 29-06-2022 1. Updated all the code in AAMoonPhases.cpp to use C++ uniform initialization for all
+                          variable declarations.
+         PJN / 24-07-2024 1. Fixed an edge case bug in all the Calculate function of CAAMoonPhases2 where the main loop
+                          iterates from StartJD by StepInterval until JD < EndJD. That means that events happening closer than
+                          StepInterval to EndJD get lost because the step where we can catch it is outside of StartJD...EndJD
+                          interval. Now the code iterates from StartJD by StepInterval until JD < (EndJD+StepInterval). Thanks
+                          to Alexander Vasenin for reporting this issue.
 
-Copyright (c) 2020 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2020 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -14,12 +21,12 @@ You are allowed to include the source code in any product (commercial, shareware
 when your product is released in binary form. You are allowed to modify the source code in any way you want 
 except you cannot modify the copyright details at the top of each module. If you want to distribute source 
 code with your application, then you are only allowed to distribute versions released by the author. This is 
-to maintain a single distribution point for the source code. 
+to maintain a single distribution point for the source code.
 
 */
 
 
-//////////////////////////// Includes /////////////////////////////////////////
+//////////////////// Includes /////////////////////////////////////////////////
 
 #include "stdafx.h"
 #include "AAMoonPhases2.h"
@@ -34,22 +41,22 @@ to maintain a single distribution point for the source code.
 #endif //#ifndef AAPLUS_NO_ELPMPP02
 #include "AACoordinateTransformation.h"
 #include <cassert>
-using namespace std;
 
 
-//////////////////////////// Implementation ///////////////////////////////////
+//////////////////// Implementation ///////////////////////////////////////////
 
-vector<CAAMoonPhasesDetails2> CAAMoonPhases2::Calculate(double StartJD, double EndJD, double StepInterval, Algorithm algorithm)
+std::vector<CAAMoonPhasesDetails2> CAAMoonPhases2::Calculate(double StartJD, double EndJD, double StepInterval, Algorithm algorithm)
 {
   //What will be the return value
-  vector<CAAMoonPhasesDetails2> events;
+  std::vector<CAAMoonPhasesDetails2> events;
 
-  double JD = StartJD;
-  double LastJD0 = 0;
-  double LastExcessApparentGeocentricLongitude = -360;
-  while (JD < EndJD)
+  double JD{StartJD};
+  double LastJD0{0};
+  double LastExcessApparentGeocentricLongitude{-360};
+  const double localEndJD{EndJD + StepInterval}; //Make sure we do not miss any possible events near to EndJD
+  while (JD < localEndJD)
   {
-    double ExcessApparentGeocentricLongitude = 0;
+    double ExcessApparentGeocentricLongitude{0};
     switch (algorithm)
     {
       case Algorithm::MeeusTruncated:
@@ -104,33 +111,37 @@ vector<CAAMoonPhasesDetails2> CAAMoonPhases2::Calculate(double StartJD, double E
       {
         CAAMoonPhasesDetails2 event;
         event.type = CAAMoonPhasesDetails2::Type::NewMoon;
-        const double fraction = (360 - LastExcessApparentGeocentricLongitude) / (ExcessApparentGeocentricLongitude + (360 - LastExcessApparentGeocentricLongitude));
-        event.JD = LastJD0 + (fraction * StepInterval);
-        events.push_back(event);
+        const double fraction{(360 - LastExcessApparentGeocentricLongitude)/(ExcessApparentGeocentricLongitude + (360 - LastExcessApparentGeocentricLongitude))};
+        event.JD = LastJD0 + (fraction*StepInterval);
+        if (event.JD < EndJD)
+          events.push_back(event);
       }
       if ((LastExcessApparentGeocentricLongitude < 90) && (ExcessApparentGeocentricLongitude >= 90))
       {
         CAAMoonPhasesDetails2 event;
         event.type = CAAMoonPhasesDetails2::Type::FirstQuarter;
-        const double fraction = (90 - LastExcessApparentGeocentricLongitude) / (ExcessApparentGeocentricLongitude - LastExcessApparentGeocentricLongitude);
-        event.JD = LastJD0 + (fraction * StepInterval);
-        events.push_back(event);
+        const double fraction{(90 - LastExcessApparentGeocentricLongitude)/(ExcessApparentGeocentricLongitude - LastExcessApparentGeocentricLongitude)};
+        event.JD = LastJD0 + (fraction*StepInterval);
+        if (event.JD < EndJD)
+          events.push_back(event);
       }
       else if ((LastExcessApparentGeocentricLongitude < 180) && (ExcessApparentGeocentricLongitude >= 180))
       {
         CAAMoonPhasesDetails2 event;
         event.type = CAAMoonPhasesDetails2::Type::FullMoon;
-        const double fraction = (180 - LastExcessApparentGeocentricLongitude) / (ExcessApparentGeocentricLongitude - LastExcessApparentGeocentricLongitude);
-        event.JD = LastJD0 + (fraction * StepInterval);
-        events.push_back(event);
+        const double fraction{(180 - LastExcessApparentGeocentricLongitude)/(ExcessApparentGeocentricLongitude - LastExcessApparentGeocentricLongitude)};
+        event.JD = LastJD0 + (fraction*StepInterval);
+        if (event.JD < EndJD)
+          events.push_back(event);
       }
       else if ((LastExcessApparentGeocentricLongitude < 270) && (ExcessApparentGeocentricLongitude >= 270))
       {
         CAAMoonPhasesDetails2 event;
         event.type = CAAMoonPhasesDetails2::Type::LastQuarter;
-        const double fraction = (270 - LastExcessApparentGeocentricLongitude) / (ExcessApparentGeocentricLongitude - LastExcessApparentGeocentricLongitude);
-        event.JD = LastJD0 + (fraction * StepInterval);
-        events.push_back(event);
+        const double fraction{(270 - LastExcessApparentGeocentricLongitude)/(ExcessApparentGeocentricLongitude - LastExcessApparentGeocentricLongitude)};
+        event.JD = LastJD0 + (fraction*StepInterval);
+        if (event.JD < EndJD)
+          events.push_back(event);
       }
     }
 

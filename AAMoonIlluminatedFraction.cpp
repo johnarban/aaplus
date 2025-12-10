@@ -6,8 +6,10 @@ History: PJN / 26-01-2007 1. Changed name of CAAMoonIlluminatedFraction::Ilumina
                           CAAMoonIlluminatedFraction::IlluminatedFraction. Thanks to Ing. Taras Kapuszczak
                           for reporting this typo!.
          PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
+         PJN / 27-06-2022 1. Updated all the code in AAMoonIlluminatedFraction.cpp to use C++ uniform initialization 
+                          for all variable declarations.
 
-Copyright (c) 2003 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -17,7 +19,7 @@ You are allowed to include the source code in any product (commercial, shareware
 when your product is released in binary form. You are allowed to modify the source code in any way you want 
 except you cannot modify the copyright details at the top of each module. If you want to distribute source 
 code with your application, then you are only allowed to distribute versions released by the author. This is 
-to maintain a single distribution point for the source code. 
+to maintain a single distribution point for the source code.
 
 */
 
@@ -28,7 +30,6 @@ to maintain a single distribution point for the source code.
 #include "AAMoonIlluminatedFraction.h"
 #include "AACoordinateTransformation.h"
 #include <cmath>
-using namespace std;
 
 
 //////////////////// Implementation ///////////////////////////////////////////
@@ -44,7 +45,7 @@ double CAAMoonIlluminatedFraction::GeocentricElongation(double ObjectAlpha, doub
   SunDelta = CAACoordinateTransformation::DegreesToRadians(SunDelta);
 
   //Return the result
-  return CAACoordinateTransformation::RadiansToDegrees(acos(sin(SunDelta)*sin(ObjectDelta) + cos(SunDelta)*cos(ObjectDelta)*cos(SunAlpha - ObjectAlpha)));
+  return CAACoordinateTransformation::RadiansToDegrees(acos((sin(SunDelta)*sin(ObjectDelta)) + (cos(SunDelta)*cos(ObjectDelta)*cos(SunAlpha - ObjectAlpha))));
 }
 
 double CAAMoonIlluminatedFraction::PhaseAngle(double GeocentricElongation, double EarthObjectDistance, double EarthSunDistance) noexcept
@@ -53,7 +54,7 @@ double CAAMoonIlluminatedFraction::PhaseAngle(double GeocentricElongation, doubl
   GeocentricElongation = CAACoordinateTransformation::DegreesToRadians(GeocentricElongation);
 
   //Return the result
-  return CAACoordinateTransformation::MapTo0To360Range(CAACoordinateTransformation::RadiansToDegrees(atan2(EarthSunDistance * sin(GeocentricElongation), EarthObjectDistance - EarthSunDistance*cos(GeocentricElongation))));
+  return CAACoordinateTransformation::MapTo0To360Range(CAACoordinateTransformation::RadiansToDegrees(atan2(EarthSunDistance*sin(GeocentricElongation), EarthObjectDistance - (EarthSunDistance*cos(GeocentricElongation)))));
 }
 
 double CAAMoonIlluminatedFraction::IlluminatedFraction(double PhaseAngle) noexcept
@@ -62,7 +63,7 @@ double CAAMoonIlluminatedFraction::IlluminatedFraction(double PhaseAngle) noexce
   PhaseAngle = CAACoordinateTransformation::DegreesToRadians(PhaseAngle);
 
   //Return the result
-  return (1 + cos(PhaseAngle)) / 2;
+  return (1 + cos(PhaseAngle))/2;
 }
 
 double CAAMoonIlluminatedFraction::PositionAngle(double Alpha0, double Delta0, double Alpha, double Delta) noexcept
@@ -73,5 +74,5 @@ double CAAMoonIlluminatedFraction::PositionAngle(double Alpha0, double Delta0, d
   Delta0 = CAACoordinateTransformation::DegreesToRadians(Delta0);
   Delta = CAACoordinateTransformation::DegreesToRadians(Delta);
 
-  return CAACoordinateTransformation::MapTo0To360Range(CAACoordinateTransformation::RadiansToDegrees(atan2(cos(Delta0)*sin(Alpha0 - Alpha), sin(Delta0)*cos(Delta) - cos(Delta0)*sin(Delta)*cos(Alpha0 - Alpha))));
+  return CAACoordinateTransformation::MapTo0To360Range(CAACoordinateTransformation::RadiansToDegrees(atan2(cos(Delta0)*sin(Alpha0 - Alpha), (sin(Delta0)*cos(Delta)) - (cos(Delta0)*sin(Delta)*cos(Alpha0 - Alpha)))));
 }

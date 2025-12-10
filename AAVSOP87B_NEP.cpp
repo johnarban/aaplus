@@ -5,7 +5,7 @@ Created: PJN / 13-09-2015
 History: PJN / 13-09-2015 1. Initial public release.
          PJN / 22-04-2020 1. Reworked C arrays to use std::array.
 
-Copyright (c) 2015 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2015 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -20,23 +20,21 @@ to maintain a single distribution point for the source code.
 */
 
 
-/////////////////////////////// Includes //////////////////////////////////////
+//////////////////// Includes /////////////////////////////////////////////////
 
 #include "stdafx.h"
 #include "AAVSOP87.h"
 #include "AAVSOP87B_NEP.h"
-#include <cmath>
 #include <array>
-using namespace std;
 
 
-////////////////////////////// Macros / Defines ///////////////////////////////
+//////////////////// Macros / Defines /////////////////////////////////////////
 
 #ifdef _MSC_VER
 #pragma warning(disable : 26485)
 #endif //#ifdef _MSC_VER
 
-constexpr array<VSOP87Coefficient, 539> g_VSOP87B_L0_NEPTUNE
+constexpr std::array<VSOP87Coefficient, 539> g_VSOP87B_L0_NEPTUNE
 { {
   {        5.31188633046,        0.00000000000,        0.00000000000 },
   {        0.01798475530,        2.90101273890,       38.13303563780 },
@@ -579,7 +577,7 @@ constexpr array<VSOP87Coefficient, 539> g_VSOP87B_L0_NEPTUNE
   {        0.00000000084,        3.30910046360,       40.84134862350 }
 } };
 
-constexpr array<VSOP87Coefficient, 224> g_VSOP87B_L1_NEPTUNE
+constexpr std::array<VSOP87Coefficient, 224> g_VSOP87B_L1_NEPTUNE
 { {
   {       38.13303563957,        0.00000000000,        0.00000000000 },
   {        0.00016604172,        4.86323329249,        1.48447270830 },
@@ -807,7 +805,7 @@ constexpr array<VSOP87Coefficient, 224> g_VSOP87B_L1_NEPTUNE
   {        0.00000000097,        1.10874938473,     1371.58101415180 }
 } };
 
-constexpr array<VSOP87Coefficient, 59> g_VSOP87B_L2_NEPTUNE
+constexpr std::array<VSOP87Coefficient, 59> g_VSOP87B_L2_NEPTUNE
 { {
   {        0.00000286136,        1.18985661922,       38.13303563780 },
   {        0.00000295650,        1.85520880574,        1.48447270830 },
@@ -870,7 +868,7 @@ constexpr array<VSOP87Coefficient, 59> g_VSOP87B_L2_NEPTUNE
   {        0.00000000079,        2.04262119026,      274.06604832480 }
 } };
 
-constexpr array<VSOP87Coefficient, 18> g_VSOP87B_L3_NEPTUNE
+constexpr std::array<VSOP87Coefficient, 18> g_VSOP87B_L3_NEPTUNE
 { {
   {        0.00000012472,        6.04427218715,        1.48447270830 },
   {        0.00000011257,        6.11436681584,       38.13303563780 },
@@ -892,7 +890,7 @@ constexpr array<VSOP87Coefficient, 18> g_VSOP87B_L3_NEPTUNE
   {        0.00000000085,        4.34146183645,      433.71173787680 }
 } };
 
-constexpr array<VSOP87Coefficient, 172> g_VSOP87B_B0_NEPTUNE
+constexpr std::array<VSOP87Coefficient, 172> g_VSOP87B_B0_NEPTUNE
 { {
   {        0.03088622933,        1.44104372644,       38.13303563780 },
   {        0.00027780087,        5.91271884599,       76.26607127560 },
@@ -1068,7 +1066,7 @@ constexpr array<VSOP87Coefficient, 172> g_VSOP87B_B0_NEPTUNE
   {        0.00000000071,        1.51961975694,      488.58898404020 }
 } };
 
-constexpr array<VSOP87Coefficient, 49> g_VSOP87B_B1_NEPTUNE
+constexpr std::array<VSOP87Coefficient, 49> g_VSOP87B_B1_NEPTUNE
 { {
   {        0.00005150897,        2.14270496419,       38.13303563780 },
   {        0.00000258298,        5.46539598920,       76.26607127560 },
@@ -1121,7 +1119,7 @@ constexpr array<VSOP87Coefficient, 49> g_VSOP87B_B1_NEPTUNE
   {        0.00000000082,        3.63263716103,      491.55792945680 }
 } };
 
-constexpr array<VSOP87Coefficient, 13> g_VSOP87B_B2_NEPTUNE
+constexpr std::array<VSOP87Coefficient, 13> g_VSOP87B_B2_NEPTUNE
 { {
   {        0.00000042058,        1.91480759314,       38.13303563780 },
   {        0.00000004359,        4.77459417163,       39.61750834610 },
@@ -1138,13 +1136,13 @@ constexpr array<VSOP87Coefficient, 13> g_VSOP87B_B2_NEPTUNE
   {        0.00000000080,        0.01151271706,      144.14657116320 }
 } };
 
-constexpr array<VSOP87Coefficient, 2> g_VSOP87B_B3_NEPTUNE
+constexpr std::array<VSOP87Coefficient, 2> g_VSOP87B_B3_NEPTUNE
 { {
   {        0.00000004131,        3.06928911462,       38.13303563780 },
   {        0.00000000143,        4.00453590187,       36.64856292950 }
 } };
 
-constexpr array<VSOP87Coefficient, 596> g_VSOP87B_R0_NEPTUNE
+constexpr std::array<VSOP87Coefficient, 596> g_VSOP87B_R0_NEPTUNE
 { {
   {       30.07013205828,        0.00000000000,        0.00000000000 },
   {        0.27062259632,        1.32999459377,       38.13303563780 },
@@ -1744,7 +1742,7 @@ constexpr array<VSOP87Coefficient, 596> g_VSOP87B_R0_NEPTUNE
   {        0.00000003011,        1.03494557852,       21.97952594320 }
 } };
 
-constexpr array<VSOP87Coefficient, 251> g_VSOP87B_R1_NEPTUNE
+constexpr std::array<VSOP87Coefficient, 251> g_VSOP87B_R1_NEPTUNE
 { {
   {        0.00236338618,        0.70497954792,       38.13303563780 },
   {        0.00013220034,        3.32014387930,        1.48447270830 },
@@ -1999,7 +1997,7 @@ constexpr array<VSOP87Coefficient, 251> g_VSOP87B_R1_NEPTUNE
   {        0.00000002621,        1.74442251671,       35.21227433100 }
 } };
 
-constexpr array<VSOP87Coefficient, 71> g_VSOP87B_R2_NEPTUNE
+constexpr std::array<VSOP87Coefficient, 71> g_VSOP87B_R2_NEPTUNE
 { {
   {        0.00004247776,        5.89911844921,       38.13303563780 },
   {        0.00000217404,        0.34589546713,        1.48447270830 },
@@ -2074,7 +2072,7 @@ constexpr array<VSOP87Coefficient, 71> g_VSOP87B_R2_NEPTUNE
   {        0.00000002480,        4.59623030219,      693.55069220000 }
 } };
 
-constexpr array<VSOP87Coefficient, 23> g_VSOP87B_R3_NEPTUNE
+constexpr std::array<VSOP87Coefficient, 23> g_VSOP87B_R3_NEPTUNE
 { {
   {        0.00000166556,        4.55393495836,       38.13303563780 },
   {        0.00000022380,        3.94830879358,      168.05251279940 },
@@ -2101,7 +2099,7 @@ constexpr array<VSOP87Coefficient, 23> g_VSOP87B_R3_NEPTUNE
   {        0.00000002278,        3.66579603119,      497.18700374930 }
 } };
 
-constexpr array<VSOP87Coefficient, 7> g_VSOP87B_R4_NEPTUNE
+constexpr std::array<VSOP87Coefficient, 7> g_VSOP87B_R4_NEPTUNE
 { {
   {        0.00000004227,        2.40375758563,      477.33083545520 },
   {        0.00000004333,        0.10459484545,      395.57870223900 },
@@ -2112,7 +2110,7 @@ constexpr array<VSOP87Coefficient, 7> g_VSOP87B_R4_NEPTUNE
   {        0.00000002295,        5.67776133184,      168.05251279940 }
 } };
 
-constexpr array<VSOP87Coefficient2, 4> g_VSOP87B_L_NEPTUNE
+constexpr std::array<VSOP87Coefficient2, 4> g_VSOP87B_L_NEPTUNE
 { {
   { g_VSOP87B_L0_NEPTUNE.data(), g_VSOP87B_L0_NEPTUNE.size() },
   { g_VSOP87B_L1_NEPTUNE.data(), g_VSOP87B_L1_NEPTUNE.size() },
@@ -2120,7 +2118,7 @@ constexpr array<VSOP87Coefficient2, 4> g_VSOP87B_L_NEPTUNE
   { g_VSOP87B_L3_NEPTUNE.data(), g_VSOP87B_L3_NEPTUNE.size() }
 } };
 
-constexpr array<VSOP87Coefficient2, 4> g_VSOP87B_B_NEPTUNE
+constexpr std::array<VSOP87Coefficient2, 4> g_VSOP87B_B_NEPTUNE
 { {
   { g_VSOP87B_B0_NEPTUNE.data(), g_VSOP87B_B0_NEPTUNE.size() },
   { g_VSOP87B_B1_NEPTUNE.data(), g_VSOP87B_B1_NEPTUNE.size() },
@@ -2128,7 +2126,7 @@ constexpr array<VSOP87Coefficient2, 4> g_VSOP87B_B_NEPTUNE
   { g_VSOP87B_B3_NEPTUNE.data(), g_VSOP87B_B3_NEPTUNE.size() }
 } };
 
-constexpr array<VSOP87Coefficient2, 5> g_VSOP87B_R_NEPTUNE
+constexpr std::array<VSOP87Coefficient2, 5> g_VSOP87B_R_NEPTUNE
 { {
   { g_VSOP87B_R0_NEPTUNE.data(), g_VSOP87B_R0_NEPTUNE.size() },
   { g_VSOP87B_R1_NEPTUNE.data(), g_VSOP87B_R1_NEPTUNE.size() },
@@ -2138,7 +2136,7 @@ constexpr array<VSOP87Coefficient2, 5> g_VSOP87B_R_NEPTUNE
 } };
 
 
-////////////////////////////// Implementation /////////////////////////////////
+//////////////////// Implementation ///////////////////////////////////////////
 
 double CAAVSOP87B_Neptune::L(double JD) noexcept
 {

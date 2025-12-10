@@ -5,7 +5,7 @@ Created: PJN / 13-09-2015
 History: PJN / 13-09-2015 1. Initial public release.
          PJN / 22-04-2020 1. Reworked C arrays to use std::array.
 
-Copyright (c) 2015 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2015 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -20,23 +20,21 @@ to maintain a single distribution point for the source code.
 */
 
 
-/////////////////////////////// Includes //////////////////////////////////////
+//////////////////// Includes /////////////////////////////////////////////////
 
 #include "stdafx.h"
 #include "AAVSOP87.h"
 #include "AAVSOP87B_JUP.h"
-#include <cmath>
 #include <array>
-using namespace std;
 
 
-////////////////////////////// Macros / Defines ///////////////////////////////
+//////////////////// Macros / Defines /////////////////////////////////////////
 
 #ifdef _MSC_VER
 #pragma warning(disable : 26485)
 #endif //#ifdef _MSC_VER
 
-constexpr array<VSOP87Coefficient, 860> g_VSOP87B_L0_JUPITER
+constexpr std::array<VSOP87Coefficient, 860> g_VSOP87B_L0_JUPITER
 { {
   {        0.59954691494,        0.00000000000,        0.00000000000 },
   {        0.09695898719,        5.06191793158,      529.69096509460 },
@@ -900,7 +898,7 @@ constexpr array<VSOP87Coefficient, 860> g_VSOP87B_L0_JUPITER
   {        0.00000000081,        5.76205552882,      617.80588578620 }
 } };
 
-constexpr array<VSOP87Coefficient, 426> g_VSOP87B_L1_JUPITER
+constexpr std::array<VSOP87Coefficient, 426> g_VSOP87B_L1_JUPITER
 { {
   {      529.69096508814,        0.00000000000,        0.00000000000 },
   {        0.00489503243,        4.22082939470,      529.69096509460 },
@@ -1330,7 +1328,7 @@ constexpr array<VSOP87Coefficient, 426> g_VSOP87B_L1_JUPITER
   {        0.00000000085,        5.88100684593,      234.63973644040 }
 } };
 
-constexpr array<VSOP87Coefficient, 225> g_VSOP87B_L2_JUPITER
+constexpr std::array<VSOP87Coefficient, 225> g_VSOP87B_L2_JUPITER
 { {
   {        0.00047233601,        4.32148536482,        7.11354700080 },
   {        0.00030649436,        2.92977788700,      529.69096509460 },
@@ -1559,7 +1557,7 @@ constexpr array<VSOP87Coefficient, 225> g_VSOP87B_L2_JUPITER
   {        0.00000000083,        0.25202430423,     2644.52267220990 }
 } };
 
-constexpr array<VSOP87Coefficient, 120> g_VSOP87B_L3_JUPITER
+constexpr std::array<VSOP87Coefficient, 120> g_VSOP87B_L3_JUPITER
 { {
   {        0.00006501673,        2.59862923650,        7.11354700080 },
   {        0.00001355012,        1.34692775915,      529.69096509460 },
@@ -1683,7 +1681,7 @@ constexpr array<VSOP87Coefficient, 120> g_VSOP87B_L3_JUPITER
   {        0.00000000079,        3.80336766578,     1603.29998928540 }
 } };
 
-constexpr array<VSOP87Coefficient, 48> g_VSOP87B_L4_JUPITER
+constexpr std::array<VSOP87Coefficient, 48> g_VSOP87B_L4_JUPITER
 { {
   {        0.00000669505,        0.85280378158,        7.11354700080 },
   {        0.00000099965,        0.74243651986,       14.22709400160 },
@@ -1735,7 +1733,7 @@ constexpr array<VSOP87Coefficient, 48> g_VSOP87B_L4_JUPITER
   {        0.00000000077,        3.29690316802,     1368.66025284500 }
 } };
 
-constexpr array<VSOP87Coefficient, 11> g_VSOP87B_L5_JUPITER
+constexpr std::array<VSOP87Coefficient, 11> g_VSOP87B_L5_JUPITER
 { {
   {        0.00000049639,        5.25769924770,        7.11354700080 },
   {        0.00000015775,        5.24859620238,       14.22709400160 },
@@ -1750,7 +1748,7 @@ constexpr array<VSOP87Coefficient, 11> g_VSOP87B_L5_JUPITER
   {        0.00000000079,        6.16619004945,      529.69096509460 }
 } };
 
-constexpr array<VSOP87Coefficient, 249> g_VSOP87B_B0_JUPITER
+constexpr std::array<VSOP87Coefficient, 249> g_VSOP87B_B0_JUPITER
 { {
   {        0.02268615702,        3.55852606721,      529.69096509460 },
   {        0.00109971634,        3.90809347197,     1059.38193018920 },
@@ -2003,7 +2001,7 @@ constexpr array<VSOP87Coefficient, 249> g_VSOP87B_B0_JUPITER
   {        0.00000000095,        1.66457947000,     1151.42900414390 }
 } };
 
-constexpr array<VSOP87Coefficient, 120> g_VSOP87B_B1_JUPITER
+constexpr std::array<VSOP87Coefficient, 120> g_VSOP87B_B1_JUPITER
 { {
   {        0.00078203446,        1.52377859742,      529.69096509460 },
   {        0.00007789905,        2.59734071843,     1059.38193018920 },
@@ -2127,7 +2125,7 @@ constexpr array<VSOP87Coefficient, 120> g_VSOP87B_B1_JUPITER
   {        0.00000000087,        4.53831014475,     1148.24761040620 }
 } };
 
-constexpr array<VSOP87Coefficient, 82> g_VSOP87B_B2_JUPITER
+constexpr std::array<VSOP87Coefficient, 82> g_VSOP87B_B2_JUPITER
 { {
   {        0.00005498320,        3.01596270062,      529.69096509460 },
   {        0.00000602076,        3.13358939436,      536.80451209540 },
@@ -2213,7 +2211,7 @@ constexpr array<VSOP87Coefficient, 82> g_VSOP87B_B2_JUPITER
   {        0.00000000077,        3.87925580596,     1603.29998928540 }
 } };
 
-constexpr array<VSOP87Coefficient, 33> g_VSOP87B_B3_JUPITER
+constexpr std::array<VSOP87Coefficient, 33> g_VSOP87B_B3_JUPITER
 { {
   {        0.00000185332,        4.79276761490,      529.69096509460 },
   {        0.00000085668,        1.40023038638,      536.80451209540 },
@@ -2250,7 +2248,7 @@ constexpr array<VSOP87Coefficient, 33> g_VSOP87B_B3_JUPITER
   {        0.00000000082,        5.02874146441,      956.28915597060 }
 } };
 
-constexpr array<VSOP87Coefficient, 13> g_VSOP87B_B4_JUPITER
+constexpr std::array<VSOP87Coefficient, 13> g_VSOP87B_B4_JUPITER
 { {
   {        0.00000008963,        5.93887232380,      536.80451209540 },
   {        0.00000005280,        4.80778878768,      522.57741809380 },
@@ -2267,14 +2265,14 @@ constexpr array<VSOP87Coefficient, 13> g_VSOP87B_B4_JUPITER
   {        0.00000000077,        3.58780641570,     1045.15483618760 }
 } };
 
-constexpr array<VSOP87Coefficient, 3> g_VSOP87B_B5_JUPITER
+constexpr std::array<VSOP87Coefficient, 3> g_VSOP87B_B5_JUPITER
 { {
   {        0.00000000662,        4.10413626462,      536.80451209540 },
   {        0.00000000431,        0.82614663721,      522.57741809380 },
   {        0.00000000208,        0.05498457769,      515.46387109300 }
 } };
 
-constexpr array<VSOP87Coefficient, 727> g_VSOP87B_R0_JUPITER
+constexpr std::array<VSOP87Coefficient, 727> g_VSOP87B_R0_JUPITER
 { {
   {        5.20887429326,        0.00000000000,        0.00000000000 },
   {        0.25209327119,        3.49108639871,      529.69096509460 },
@@ -3005,7 +3003,7 @@ constexpr array<VSOP87Coefficient, 727> g_VSOP87B_R0_JUPITER
   {        0.00000000511,        5.53118344106,     1128.53445446400 }
 } };
 
-constexpr array<VSOP87Coefficient, 371> g_VSOP87B_R1_JUPITER
+constexpr std::array<VSOP87Coefficient, 371> g_VSOP87B_R1_JUPITER
 { {
   {        0.01271801520,        2.64937512894,      529.69096509460 },
   {        0.00061661816,        3.00076460387,     1059.38193018920 },
@@ -3380,7 +3378,7 @@ constexpr array<VSOP87Coefficient, 371> g_VSOP87B_R1_JUPITER
   {        0.00000000392,        1.86519119748,      885.43971066640 }
 } };
 
-constexpr array<VSOP87Coefficient, 186> g_VSOP87B_R2_JUPITER
+constexpr std::array<VSOP87Coefficient, 186> g_VSOP87B_R2_JUPITER
 { {
   {        0.00079644957,        1.35865949884,      529.69096509460 },
   {        0.00008251645,        5.77774460400,      522.57741809380 },
@@ -3570,7 +3568,7 @@ constexpr array<VSOP87Coefficient, 186> g_VSOP87B_R2_JUPITER
   {        0.00000000370,        6.04174787347,     1670.82502850000 }
 } };
 
-constexpr array<VSOP87Coefficient, 97> g_VSOP87B_R3_JUPITER
+constexpr std::array<VSOP87Coefficient, 97> g_VSOP87B_R3_JUPITER
 { {
   {        0.00003519277,        6.05800355513,      529.69096509460 },
   {        0.00001073281,        1.67319166156,      536.80451209540 },
@@ -3671,7 +3669,7 @@ constexpr array<VSOP87Coefficient, 97> g_VSOP87B_R3_JUPITER
   {        0.00000000395,        2.34556406839,      295.05122865420 }
 } };
 
-constexpr array<VSOP87Coefficient, 45> g_VSOP87B_R4_JUPITER
+constexpr std::array<VSOP87Coefficient, 45> g_VSOP87B_R4_JUPITER
 { {
   {        0.00000128623,        0.08347608895,      536.80451209540 },
   {        0.00000113458,        4.24818938180,      529.69096509460 },
@@ -3720,7 +3718,7 @@ constexpr array<VSOP87Coefficient, 45> g_VSOP87B_R4_JUPITER
   {        0.00000000462,        0.40130574859,      433.71173787680 }
 } };
 
-constexpr array<VSOP87Coefficient, 9> g_VSOP87B_R5_JUPITER
+constexpr std::array<VSOP87Coefficient, 9> g_VSOP87B_R5_JUPITER
 { {
   {        0.00000011193,        4.74280611863,      536.80451209540 },
   {        0.00000004288,        5.90497787277,      522.57741809380 },
@@ -3733,7 +3731,7 @@ constexpr array<VSOP87Coefficient, 9> g_VSOP87B_R5_JUPITER
   {        0.00000001033,        4.50671820436,      529.69096509460 }
 } };
 
-constexpr array<VSOP87Coefficient2, 6> g_VSOP87B_L_JUPITER
+constexpr std::array<VSOP87Coefficient2, 6> g_VSOP87B_L_JUPITER
 { {
   { g_VSOP87B_L0_JUPITER.data(), g_VSOP87B_L0_JUPITER.size() },
   { g_VSOP87B_L1_JUPITER.data(), g_VSOP87B_L1_JUPITER.size() },
@@ -3743,7 +3741,7 @@ constexpr array<VSOP87Coefficient2, 6> g_VSOP87B_L_JUPITER
   { g_VSOP87B_L5_JUPITER.data(), g_VSOP87B_L5_JUPITER.size() }
 } };
 
-constexpr array<VSOP87Coefficient2, 6> g_VSOP87B_B_JUPITER
+constexpr std::array<VSOP87Coefficient2, 6> g_VSOP87B_B_JUPITER
 { {
   { g_VSOP87B_B0_JUPITER.data(), g_VSOP87B_B0_JUPITER.size() },
   { g_VSOP87B_B1_JUPITER.data(), g_VSOP87B_B1_JUPITER.size() },
@@ -3753,7 +3751,7 @@ constexpr array<VSOP87Coefficient2, 6> g_VSOP87B_B_JUPITER
   { g_VSOP87B_B5_JUPITER.data(), g_VSOP87B_B5_JUPITER.size() }
 } };
 
-constexpr array<VSOP87Coefficient2, 6> g_VSOP87B_R_JUPITER
+constexpr std::array<VSOP87Coefficient2, 6> g_VSOP87B_R_JUPITER
 { {
   { g_VSOP87B_R0_JUPITER.data(), g_VSOP87B_R0_JUPITER.size() },
   { g_VSOP87B_R1_JUPITER.data(), g_VSOP87B_R1_JUPITER.size() },
@@ -3764,7 +3762,7 @@ constexpr array<VSOP87Coefficient2, 6> g_VSOP87B_R_JUPITER
 } };
 
 
-////////////////////////////// Implementation /////////////////////////////////
+//////////////////// Implementation ///////////////////////////////////////////
 
 double CAAVSOP87B_Jupiter::L(double JD) noexcept
 {

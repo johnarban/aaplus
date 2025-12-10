@@ -37,8 +37,10 @@ History: PJN / 15-10-2004 1. bValid variable is now correctly set in CAARiseTran
          PJN / 24-07-2018 1. Fixed a GCC warning in the CAARiseTransitSetDetails constructor. Thanks to Todd Carnes 
                           for reporting this issue.
          PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
+         PJN / 06-07-2022 1. Updated all the code in AARiseTransitSet.cpp to use C++ uniform initialization for
+                          all variable declarations.
 
-Copyright (c) 2003 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -48,12 +50,12 @@ You are allowed to include the source code in any product (commercial, shareware
 when your product is released in binary form. You are allowed to modify the source code in any way you want 
 except you cannot modify the copyright details at the top of each module. If you want to distribute source 
 code with your application, then you are only allowed to distribute versions released by the author. This is 
-to maintain a single distribution point for the source code. 
+to maintain a single distribution point for the source code.
 
 */
 
 
-///////////////////////////// Includes ////////////////////////////////////////
+//////////////////// Includes /////////////////////////////////////////////////
 
 #include "stdafx.h"
 #include "AARiseTransitSet.h"
@@ -62,10 +64,9 @@ to maintain a single distribution point for the source code.
 #include "AADynamicalTime.h"
 #include "AAInterpolate.h"
 #include <cmath>
-using namespace std;
 
 
-///////////////////////////// Implementation //////////////////////////////////
+//////////////////// Implementation ///////////////////////////////////////////
 
 void CAARiseTransitSet::ConstraintM(double& M) noexcept
 {
@@ -78,7 +79,7 @@ void CAARiseTransitSet::ConstraintM(double& M) noexcept
 double CAARiseTransitSet::CalculateTransit(double Alpha2, double theta0, double Longitude) noexcept
 {
   //Calculate and ensure the M0 is in the range 0 to +1
-  double M0 = (Alpha2*15 + Longitude - theta0) / 360; 
+  double M0{((Alpha2*15) + Longitude - theta0)/360};
   ConstraintM(M0);
 
   return M0;
@@ -95,7 +96,7 @@ void CAARiseTransitSet::CalculateRiseSet(double M0, double cosH0, CAARiseTransit
     details.bSetValid = true;
     details.bTransitAboveHorizon = true;
 
-    double H0 = acos(cosH0);
+    double H0{acos(cosH0)};
     H0 = CAACoordinateTransformation::RadiansToDegrees(H0);
 
     //Calculate and ensure the M1 and M2 is in the range 0 to +1
@@ -111,7 +112,7 @@ void CAARiseTransitSet::CalculateRiseSet(double M0, double cosH0, CAARiseTransit
 
 void CAARiseTransitSet::CorrectRAValuesForInterpolation(double& Alpha1, double& Alpha2, double& Alpha3) noexcept
 {
-  //Ensure the RA values are corrected for interpolation. Due to important Remark 2 by Meeus on Interopolation of RA values
+  //Ensure the RA values are corrected for interpolation. Due to important Remark 2 by Meeus on Interpolation of RA values
   Alpha1 = CAACoordinateTransformation::MapTo0To24Range(Alpha1);
   Alpha2 = CAACoordinateTransformation::MapTo0To24Range(Alpha2);
   Alpha3 = CAACoordinateTransformation::MapTo0To24Range(Alpha3);
@@ -147,23 +148,19 @@ void CAARiseTransitSet::CorrectRAValuesForInterpolation(double& Alpha1, double& 
 
 void CAARiseTransitSet::CalculateRiseHelper(CAARiseTransitSetDetails& details, double theta0, double deltaT, double Alpha1, double Delta1, double Alpha2, double Delta2, double Alpha3, double Delta3, double Longitude, double Latitude, double LatitudeRad, double h0, double& M1) noexcept
 {
-  for (int i=0; i<2; i++)
+  for (int i{0}; i<2; i++)
   {
     //Calculate the details of rising
     if (details.bRiseValid)
     {
-      double theta1 = theta0 + 360.985647*M1;
+      double theta1{theta0 + (360.985647*M1)};
       theta1 = CAACoordinateTransformation::MapTo0To360Range(theta1);
-
-      const double n = M1 + deltaT/86400;
-
-      const double Alpha = CAAInterpolate::Interpolate(n, Alpha1, Alpha2, Alpha3);
-      const double Delta = CAAInterpolate::Interpolate(n, Delta1, Delta2, Delta3);
-
-      const double H = theta1 - Longitude - Alpha*15;
-      const CAA2DCoordinate Horizontal = CAACoordinateTransformation::Equatorial2Horizontal(H/15, Delta, Latitude);
-
-      double DeltaM = (Horizontal.Y - h0) / (360*cos(CAACoordinateTransformation::DegreesToRadians(Delta))*cos(LatitudeRad)*sin(CAACoordinateTransformation::DegreesToRadians(H)));
+      const double n{M1 + (deltaT/86400)};
+      const double Alpha{CAAInterpolate::Interpolate(n, Alpha1, Alpha2, Alpha3)};
+      const double Delta{CAAInterpolate::Interpolate(n, Delta1, Delta2, Delta3)};
+      const double H{theta1 - Longitude - (Alpha*15)};
+      const CAA2DCoordinate Horizontal{CAACoordinateTransformation::Equatorial2Horizontal(H/15, Delta, Latitude)};
+      double DeltaM{(Horizontal.Y - h0)/(360*cos(CAACoordinateTransformation::DegreesToRadians(Delta))*cos(LatitudeRad)*sin(CAACoordinateTransformation::DegreesToRadians(H)))};
       M1 += DeltaM;
 
       if ((M1 < 0) || (M1 >= 1))
@@ -174,23 +171,19 @@ void CAARiseTransitSet::CalculateRiseHelper(CAARiseTransitSetDetails& details, d
 
 void CAARiseTransitSet::CalculateSetHelper(CAARiseTransitSetDetails& details, double theta0, double deltaT, double Alpha1, double Delta1, double Alpha2, double Delta2, double Alpha3, double Delta3, double Longitude, double Latitude, double LatitudeRad, double h0, double& M2) noexcept
 {
-  for (int i=0; i<2; i++)
+  for (int i{0}; i<2; i++)
   {
     //Calculate the details of setting
     if (details.bSetValid)
     {
-      double theta1 = theta0 + 360.985647*M2;
+      double theta1{theta0 + (360.985647*M2)};
       theta1 = CAACoordinateTransformation::MapTo0To360Range(theta1);
-
-      const double n = M2 + deltaT/86400;
-
-      const double Alpha = CAAInterpolate::Interpolate(n, Alpha1, Alpha2, Alpha3);
-      const double Delta = CAAInterpolate::Interpolate(n, Delta1, Delta2, Delta3);
-
-      const double H = theta1 - Longitude - Alpha*15;
-      const CAA2DCoordinate Horizontal = CAACoordinateTransformation::Equatorial2Horizontal(H/15, Delta, Latitude);
-
-      double DeltaM = (Horizontal.Y - h0) / (360*cos(CAACoordinateTransformation::DegreesToRadians(Delta))*cos(LatitudeRad)*sin(CAACoordinateTransformation::DegreesToRadians(H)));
+      const double n{M2 + (deltaT/86400)};
+      const double Alpha{CAAInterpolate::Interpolate(n, Alpha1, Alpha2, Alpha3)};
+      const double Delta{CAAInterpolate::Interpolate(n, Delta1, Delta2, Delta3)};
+      const double H{theta1 - Longitude - (Alpha*15)};
+      const CAA2DCoordinate Horizontal{CAACoordinateTransformation::Equatorial2Horizontal(H/15, Delta, Latitude)};
+      double DeltaM{(Horizontal.Y - h0)/(360*cos(CAACoordinateTransformation::DegreesToRadians(Delta))*cos(LatitudeRad)*sin(CAACoordinateTransformation::DegreesToRadians(H)))};
       M2 += DeltaM;
 
       if ((M2 < 0) || (M2 >= 1))
@@ -201,27 +194,24 @@ void CAARiseTransitSet::CalculateSetHelper(CAARiseTransitSetDetails& details, do
 
 void CAARiseTransitSet::CalculateTransitHelper(CAARiseTransitSetDetails& details, double theta0, double deltaT, double Alpha1, double Alpha2, double Alpha3, double Longitude, double& M0) noexcept
 {
-  for (int i=0; i<2; i++)
+  for (int i{0}; i<2; i++)
   {
     //Calculate the details of transit
     if (details.bTransitValid)
     {
-      double theta1 = theta0 + 360.985647*M0;
+      double theta1{theta0 + (360.985647*M0)};
       theta1 = CAACoordinateTransformation::MapTo0To360Range(theta1);
-
-      const double n = M0 + deltaT / 86400;
-
-      const double Alpha = CAAInterpolate::Interpolate(n, Alpha1, Alpha2, Alpha3);
-
-      double H = theta1 - Longitude - Alpha * 15;
+      const double n{M0 + (deltaT/86400)};
+      const double Alpha{CAAInterpolate::Interpolate(n, Alpha1, Alpha2, Alpha3)};
+      double H{theta1 - Longitude - (Alpha*15)};
       H = CAACoordinateTransformation::MapTo0To360Range(H);
       if (H > 180)
         H -= 360;
 
-      double DeltaM = -H / 360;
+      double DeltaM{-H/360};
       M0 += DeltaM;
 
-      if (M0 < 0 || M0 >= 1)
+      if ((M0 < 0) || (M0 >= 1))
         details.bTransitValid = false;
     }
   }
@@ -237,31 +227,31 @@ CAARiseTransitSetDetails CAARiseTransitSet::Calculate(double JD, double Alpha1, 
   details.bTransitAboveHorizon = false;
 
   //Calculate the sidereal time
-  double theta0 = CAASidereal::ApparentGreenwichSiderealTime(JD);
+  double theta0{CAASidereal::ApparentGreenwichSiderealTime(JD)};
   theta0 *= 15; //Express it as degrees
 
   //Calculate deltat
-  const double deltaT = CAADynamicalTime::DeltaT(JD);
+  const double deltaT{CAADynamicalTime::DeltaT(JD)};
 
   //Convert values to radians
-  const double Delta2Rad = CAACoordinateTransformation::DegreesToRadians(Delta2);
-  const double LatitudeRad = CAACoordinateTransformation::DegreesToRadians(Latitude);
+  const double Delta2Rad{CAACoordinateTransformation::DegreesToRadians(Delta2)};
+  const double LatitudeRad{CAACoordinateTransformation::DegreesToRadians(Latitude)};
 
   //Convert the standard latitude to radians
-  const double h0Rad = CAACoordinateTransformation::DegreesToRadians(h0);
+  const double h0Rad{CAACoordinateTransformation::DegreesToRadians(h0)};
 
   //Calculate cosH0
-  const double cosH0 = (sin(h0Rad) - sin(LatitudeRad)*sin(Delta2Rad)) / (cos(LatitudeRad) * cos(Delta2Rad));
+  const double cosH0{(sin(h0Rad) - sin(LatitudeRad)*sin(Delta2Rad))/(cos(LatitudeRad)*cos(Delta2Rad))};
 
   //Calculate M0
-  double M0 = CalculateTransit(Alpha2, theta0, Longitude);
+  double M0{CalculateTransit(Alpha2, theta0, Longitude)};
 
   //Calculate M1 & M2
-  double M1 = 0;
-  double M2 = 0;
+  double M1{0};
+  double M2{0};
   CalculateRiseSet(M0, cosH0, details, M1, M2);
 
-  //Ensure the RA values are corrected for interpolation. Due to important Remark 2 by Meeus on Interopolation of RA values
+  //Ensure the RA values are corrected for interpolation. Due to important Remark 2 by Meeus on Interpolation of RA values
   CorrectRAValuesForInterpolation(Alpha1, Alpha2, Alpha3);
 
   //Do the main work
@@ -269,9 +259,9 @@ CAARiseTransitSetDetails CAARiseTransitSet::Calculate(double JD, double Alpha1, 
   CalculateRiseHelper(details, theta0, deltaT, Alpha1, Delta1, Alpha2, Delta2, Alpha3, Delta3, Longitude, Latitude, LatitudeRad, h0, M1);
   CalculateSetHelper(details, theta0, deltaT, Alpha1, Delta1, Alpha2, Delta2, Alpha3, Delta3, Longitude, Latitude, LatitudeRad, h0, M2);
 
-  details.Rise = details.bRiseValid ? (M1 * 24) : 0.0;
-  details.Set = details.bSetValid ? (M2 * 24) : 0.0;
-  details.Transit = details.bTransitValid ? (M0 * 24) : 0.0;
+  details.Rise = details.bRiseValid ? (M1 * 24) : 0;
+  details.Set = details.bSetValid ? (M2 * 24) : 0;
+  details.Transit = details.bTransitValid ? (M0 * 24) : 0;
 
   return details;
 }

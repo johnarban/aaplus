@@ -3,8 +3,15 @@ Module : AAMoonMaxDeclinations2.cpp
 Purpose: Implementation for the algorithms to calculate the dates and values for maximum declination of the Moon (revised version)
 Created: PJN / 22-10-2009
 History: PJN / 22-10-2019 1. Initial implementation
+         PJN / 27-06-2022 1. Updated all the code in AAMoonMaxDeclinations2.cpp to use C++ uniform initialization
+                          for all variable declarations.
+         PJN / 24-07-2024 1. Fixed an edge case bug in the Calculate function of CAAMoonMaxDeclinations2 where the main loop
+                          iterates from StartJD by StepInterval until JD < EndJD. That means that events happening closer than
+                          StepInterval to EndJD get lost because the step where we can catch it is outside of StartJD...EndJD
+                          interval. Now the code iterates from StartJD by StepInterval until JD <
+                          (EndJD+StepInterval+StepInterval). Thanks to Alexander Vasenin for reporting this issue.
 
-Copyright (c) 2019 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2019 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -14,12 +21,12 @@ You are allowed to include the source code in any product (commercial, shareware
 when your product is released in binary form. You are allowed to modify the source code in any way you want 
 except you cannot modify the copyright details at the top of each module. If you want to distribute source 
 code with your application, then you are only allowed to distribute versions released by the author. This is 
-to maintain a single distribution point for the source code. 
+to maintain a single distribution point for the source code.
 
 */
 
 
-///////////////////////////// Includes ////////////////////////////////////////
+//////////////////// Includes /////////////////////////////////////////////////
 
 #include "stdafx.h"
 #include "AAMoonMaxDeclinations2.h"
@@ -36,25 +43,25 @@ to maintain a single distribution point for the source code.
 #include "AAPrecession.h"
 #include "AARiseTransitSet.h"
 #include <cassert>
-using namespace std;
 
 
-///////////////////////////// Implementation //////////////////////////////////
+//////////////////// Implementation ///////////////////////////////////////////
 
-vector<CAAMoonMaxDeclinationsDetails2> CAAMoonMaxDeclinations2::Calculate(double StartJD, double EndJD, double StepInterval, Algorithm algorithm)
+std::vector<CAAMoonMaxDeclinationsDetails2> CAAMoonMaxDeclinations2::Calculate(double StartJD, double EndJD, double StepInterval, Algorithm algorithm)
 {
   //What will be the return value
-  vector<CAAMoonMaxDeclinationsDetails2> events;
+  std::vector<CAAMoonMaxDeclinationsDetails2> events;
 
-  double JD = StartJD;
-  double LastLatitude0 = -90;
-  double LastLatitude1 = -90;
-  double LastRA0 = 0;
-  double LastRA1 = 0;
-  while (JD < EndJD)
+  double JD{StartJD};
+  double LastLatitude0{-90};
+  double LastLatitude1{-90};
+  double LastRA0{0};
+  double LastRA1{0};
+  const double localEndJD{EndJD + StepInterval + StepInterval}; //Make sure we do not miss any possible events near to EndJD
+  while (JD < localEndJD)
   {
-    double MoonLong = 0;
-    double MoonLat = 0;
+    double MoonLong{0};
+    double MoonLat{0};
     switch (algorithm)
     {
       case Algorithm::MeeusTruncated:
@@ -103,7 +110,7 @@ vector<CAAMoonMaxDeclinationsDetails2> CAAMoonMaxDeclinations2::Calculate(double
         break;
       }
     }
-    CAA2DCoordinate Equatorial = CAACoordinateTransformation::Ecliptic2Equatorial(MoonLong, MoonLat, CAANutation::TrueObliquityOfEcliptic(JD));
+    CAA2DCoordinate Equatorial{CAACoordinateTransformation::Ecliptic2Equatorial(MoonLong, MoonLat, CAANutation::TrueObliquityOfEcliptic(JD))};
 
     //Precess the coordinates if required
     if (algorithm != Algorithm::MeeusTruncated)
@@ -111,29 +118,31 @@ vector<CAAMoonMaxDeclinationsDetails2> CAAMoonMaxDeclinations2::Calculate(double
 
     if ((LastLatitude0 != -90) && (LastLatitude1 != -90))
     {
-      double tempRA = Equatorial.X;
-      double tempLastRA1 = LastRA1;
-      double tempLastRA0 = LastRA0;
+      double tempRA{Equatorial.X};
+      double tempLastRA1{LastRA1};
+      double tempLastRA0{LastRA0};
       CAARiseTransitSet::CorrectRAValuesForInterpolation(tempLastRA1, tempLastRA0, tempRA);
       if ((LastLatitude0 > Equatorial.Y) && (LastLatitude0 > LastLatitude1))
       {
         CAAMoonMaxDeclinationsDetails2 event;
         event.type = CAAMoonMaxDeclinationsDetails2::Type::MaxNorthernDeclination;
-        double fraction = 0;
+        double fraction{0};
         event.Declination = CAAInterpolate::Extremum(LastLatitude1, LastLatitude0, Equatorial.Y, fraction);
         event.RA = CAACoordinateTransformation::MapTo0To24Range(CAAInterpolate::Interpolate(fraction, tempLastRA1, tempLastRA0, tempRA));
-        event.JD = JD - StepInterval + (fraction * StepInterval);
-        events.push_back(event);
+        event.JD = JD - StepInterval + (fraction*StepInterval);
+        if (event.JD < EndJD)
+          events.push_back(event);
       }
       else if ((LastLatitude0 < Equatorial.Y) && (LastLatitude0 < LastLatitude1))
       {
         CAAMoonMaxDeclinationsDetails2 event;
         event.type = CAAMoonMaxDeclinationsDetails2::Type::MaxSouthernDeclination;
-        double fraction = 0;
+        double fraction{0};
         event.Declination = CAAInterpolate::Extremum(LastLatitude1, LastLatitude0, Equatorial.Y, fraction);
         event.RA = CAACoordinateTransformation::MapTo0To24Range(CAAInterpolate::Interpolate(fraction, tempLastRA1, tempLastRA0, tempRA));
-        event.JD = JD - StepInterval + (fraction * StepInterval);
-        events.push_back(event);
+        event.JD = JD - StepInterval + (fraction*StepInterval);
+        if (event.JD < EndJD)
+          events.push_back(event);
       }
     }
 

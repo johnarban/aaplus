@@ -3,7 +3,7 @@ Module : AAMoonMaxDeclinations.h
 Purpose: Implementation for the algorithms which obtain the dates and values for maximum declination of the Moon
 Created: PJN / 13-01-2004
 
-Copyright (c) 2004 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2004 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -18,7 +18,7 @@ to maintain a single distribution point for the source code.
 */
 
 
-/////////////////////// Macros / Defines //////////////////////////////////////
+//////////////////// Macros / Defines /////////////////////////////////////////
 
 #if _MSC_VER > 1000
 #pragma once
@@ -32,7 +32,7 @@ to maintain a single distribution point for the source code.
 #endif //#ifndef AAPLUS_EXT_CLASS
 
 
-////////////////////// Classes ////////////////////////////////////////////////
+//////////////////// Classes //////////////////////////////////////////////////
 
 class AAPLUS_EXT_CLASS CAAMoonMaxDeclinations
 {
@@ -49,12 +49,12 @@ public:
   static double MeanGreatestDeclination(double k, bool bNortherly) noexcept
   {
     //convert from K to T
-    const double T = k / 1336.86;
-    const double T2 = T * T;
-    const double T3 = T2 * T;
+    const double T{k/1336.86};
+    const double T2{T*T};
+    const double T3{T2*T};
 
-    const double value = bNortherly ? 2451562.5897 : 2451548.9289;
-    return value + 27.321582247*k + 0.000119804*T2 - 0.000000141*T3;
+    const double value{bNortherly ? 2451562.5897 : 2451548.9289};
+    return value + (27.321582247*k) + (0.000119804*T2) - (0.000000141*T3);
   }
 
 #ifdef _MSC_VER
@@ -63,8 +63,8 @@ public:
   static double MeanGreatestDeclinationValue(double k) noexcept
   {
     //convert from K to T
-    const double T = k / 1336.86;
-    return 23.6961 - 0.013004*T;
+    const double T{k/1336.86};
+    return 23.6961 - (0.013004*T);
   }
 
   static double TrueGreatestDeclination(double k, bool bNortherly) noexcept;

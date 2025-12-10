@@ -3,7 +3,7 @@ Module : AARiseTransitSet2.h
 Purpose: Implementation for the algorithms which obtain the Rise, Transit and Set times (revised version)
 Created: PJN / 29-12-2003
 
-Copyright (c) 2019 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2019 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -13,12 +13,12 @@ You are allowed to include the source code in any product (commercial, shareware
 when your product is released in binary form. You are allowed to modify the source code in any way you want 
 except you cannot modify the copyright details at the top of each module. If you want to distribute source 
 code with your application, then you are only allowed to distribute versions released by the author. This is 
-to maintain a single distribution point for the source code. 
+to maintain a single distribution point for the source code.
 
 */
 
 
-/////////////////////// Macros / Defines //////////////////////////////////////
+//////////////////// Macros / Defines /////////////////////////////////////////
 
 #if _MSC_VER > 1000
 #pragma once
@@ -32,13 +32,13 @@ to maintain a single distribution point for the source code.
 #endif //#ifndef AAPLUS_EXT_CLASS
 
 
-/////////////////////// Includes //////////////////////////////////////////////
+//////////////////// Includes /////////////////////////////////////////////////
 
 #include "AA2DCoordinate.h"
 #include <vector>
 
 
-/////////////////////// Classes ///////////////////////////////////////////////
+//////////////////// Classes //////////////////////////////////////////////////
 
 class AAPLUS_EXT_CLASS CAARiseTransitSetDetails2
 {
@@ -60,11 +60,11 @@ public:
   };
 
 //Member variables
-  Type type = Type::NotDefined; //The type of the event which has occurred
-  double JD = 0; //When the event occurred in TT
-  double Bearing = 0; //Applicable for rise or sets only, this will be the bearing (degrees west of south) of the event
-  double GeometricAltitude = false; //For transits only, this will contain the geometric altitude in degrees of the center of the object not including correction for refraction
-  bool bAboveHorizon = false; //For transits only, this will be true if the transit is visible
+  Type type{Type::NotDefined}; //The type of the event which has occurred
+  double JD{0}; //When the event occurred in TT
+  double Bearing{0}; //Applicable for rise or sets only, this will be the bearing (degrees west of south) of the event
+  double GeometricAltitude{false}; //For transits only, this will contain the geometric altitude in degrees of the center of the object not including correction for refraction
+  bool bAboveHorizon{false}; //For transits only, this will be true if the transit is visible
 };
 
 class AAPLUS_EXT_CLASS CAARiseTransitSet2
@@ -109,7 +109,7 @@ public:
 protected:
   static void AddEvents(std::vector<CAARiseTransitSetDetails2>& events, double LastAltitudeForDetectingRiseSet, double AltitudeForDetectingRiseSet,
                         double LastAltitudeForInterpolation, double h0, const CAA2DCoordinate& Horizontal, double LastJD, double StepInterval, double LastBearing,
-                        Object object, double LastAltitudeForDetectingTwilight, double AltitudeForTwilight);
+                        Object object, double LastAltitudeForDetectingTwilight, double AltitudeForTwilight, double EndJD);
 };
 
 

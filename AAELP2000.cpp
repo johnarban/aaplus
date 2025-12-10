@@ -23,8 +23,12 @@ History: PJN / 31-12-2015 1. Initial public release.
                           CAAELP2000::MeanHeliocentricMeanLongitudeEarthMoonBarycentre.
                           6. Renamed CAAELP2000::EarthMoonBarycentreMeanLongitudeOfPerihelion to 
                           CAAELP2000::MeanLongitudeOfPerilhelionOfEarthMoonBarycentre
+         PJN / 20-06-2022 1. Updated all the code in AAELP2000.cpp to use C++ uniform initialization for all
+                          variable declarations.
+         PJN / 26-02-2023 1. Renamed CAAELP2000::MeanLongitudeOfPerilhelionOfEarthMoonBarycentre to
+                          CAAELP2000::MeanLongitudeOfPerihelionOfEarthMoonBarycentre.
 
-Copyright (c) 2015 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2015 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -39,7 +43,7 @@ to maintain a single distribution point for the source code.
 */
 
 
-/////////////////////////////// Includes //////////////////////////////////////
+//////////////////// Includes /////////////////////////////////////////////////
 
 #include "stdafx.h"
 #include "AAELP2000.h"
@@ -49,21 +53,20 @@ to maintain a single distribution point for the source code.
 #include <cmath>
 #include <cassert>
 #include <array>
-using namespace std;
 
 
-////////////////////////////// Macros / Defines ///////////////////////////////
+//////////////////// Macros / Defines /////////////////////////////////////////
 
 #ifdef _MSC_VER
 #pragma warning(disable : 26446 26481 26485)
 #endif //#ifdef _MSC_VER
 
 //Lunar constants
-constexpr double AM = .074801329518;
-constexpr double DTASM = 0.022921886117733679; //ALFA * 2.0 / (AM * 3.0) where ALFA .002571881335
+constexpr double g_AM{0.074801329518};
+constexpr double g_DTASM{0.022921886117733679}; //ALFA * 2.0 / (AM * 3.0) where ALFA .002571881335
 
 //Lunar arguments
-constexpr array<double, 15> g_W
+constexpr std::array<double, 15> g_W
 { {
   3.8103444305883079,      //CAACoordinateTransformation::DegreesToRadians(218 + 18/60.0 + 59.95571/3600.0),
   1.4547885323225087,      //CAACoordinateTransformation::DegreesToRadians(83 + 21/60.0 + 11.67475/3600.0),
@@ -82,7 +85,7 @@ constexpr array<double, 15> g_W
   -1.7385418604587960e-10  //-0.00003586"
 } };
 
-constexpr array<double, 5> g_EARTH
+constexpr std::array<double, 5> g_EARTH
 { {
   1.7534703431506580,     //CAACoordinateTransformation::DegreesToRadians(100 + 27/60.0 + 59.22059/3600.0)
   628.30758496215537,     //129597742.2758"
@@ -91,7 +94,7 @@ constexpr array<double, 5> g_EARTH
   7.2722052166430391e-13  //0.00000015"
 } };
 
-constexpr array<double, 5> g_PERI
+constexpr std::array<double, 5> g_PERI
 { {
   1.7965955233587829,      //CAACoordinateTransformation::DegreesToRadians(102 + 56/60.0 + 14.42753/3600.0),
   0.0056297936673156855,   //1161.2283"
@@ -101,7 +104,7 @@ constexpr array<double, 5> g_PERI
 } };
 
 //Planetary arguments
-constexpr array<array<double, 2>, 8> g_P
+constexpr std::array<std::array<double, 2>, 8> g_P
 { {
   { 4.4026088424029615,  2608.7903141574106 }, //CAACoordinateTransformation::DegreesToRadians(252 + 15/60.0 + 3.25986/3600.0),   538101628.68898"
   { 3.1761466969075944,  1021.3285546211089 }, //CAACoordinateTransformation::DegreesToRadians(181 + 58/60.0 + 47.28305/3600.0),  210664136.43355"
@@ -114,20 +117,20 @@ constexpr array<array<double, 2>, 8> g_P
 } };
 
 //Corrections of the constants (fit to DE200/LE200)
-constexpr double g_DELNU = 3.2093561586235289e-10;  //0.55604" / g_W[3]
-constexpr double g_DELE  = 8.6733167550495987e-8;   //0.01789"
-constexpr double g_DELG  = -3.9105071518295170e-7;  //-0.08066"
-constexpr double g_DELNP = -3.7078095034525493e-11; //-0.06424" / g_W[3]
-constexpr double g_DELEP = -6.2439153990097128e-7;  //-0.12879"
+constexpr double g_DELNU{3.2093561586235289e-10}; //0.55604" / g_W[3]
+constexpr double g_DELE{8.6733167550495987e-8}; //0.01789"
+constexpr double g_DELG{-3.9105071518295170e-7}; //-0.08066"
+constexpr double g_DELNP{-3.7078095034525493e-11}; //-0.06424" / g_W[3]
+constexpr double g_DELEP{-6.2439153990097128e-7}; //-0.12879"
 
-constexpr array<double, 2> g_ZETA
+constexpr std::array<double, 2> g_ZETA
 { {
   3.8103444305883079, //g_W[0]
   8399.7091135222672  //g_W[3] + 5029.0966"
 } };
 
 //The main ELP2000-82b tables
-constexpr array<ELP2000MainProblemCoefficient, 1023> g_ELP1
+constexpr std::array<ELP2000MainProblemCoefficient, 1023> g_ELP1
 { {
  { {  0,  0,  0,  2 },   -411.60287, {    168.48, -18433.81,   -121.62,      0.40,     -0.18,      0.00 } },
  { {  0,  0,  0,  4 },      0.42034, {     -0.39,     37.65,      0.57,      0.00,      0.00,      0.00 } },
@@ -1154,7 +1157,7 @@ constexpr array<ELP2000MainProblemCoefficient, 1023> g_ELP1
  { { 10,  0,  0,  0 },      0.00002, {      0.00,      0.00,      0.00,      0.00,      0.00,      0.00 } }
 } };
 
-constexpr array<ELP2000MainProblemCoefficient, 918> g_ELP2
+constexpr std::array<ELP2000MainProblemCoefficient, 918> g_ELP2
 { {
  { {  0,  0,  0,  1 },  18461.40000, {      0.00, 412529.61,      0.00,      0.00,      0.00,      0.00 } },
  { {  0,  0,  0,  3 },     -6.29664, {      7.68,   -422.65,    -13.21,      0.02,     -0.02,      0.00 } },
@@ -2074,9 +2077,9 @@ constexpr array<ELP2000MainProblemCoefficient, 918> g_ELP2
  { { 10,  0, -2, -1 },      0.00003, {      0.00,      0.00,      0.00,      0.00,      0.00,      0.00 } },
  { { 10,  0, -2,  1 },      0.00002, {      0.00,      0.00,      0.00,      0.00,      0.00,      0.00 } },
  { { 10,  0, -1, -1 },      0.00002, {      0.00,      0.00,      0.00,      0.00,      0.00,      0.00 } }
-}  };
+} };
 
-constexpr array<ELP2000MainProblemCoefficient, 704> g_ELP3
+constexpr std::array<ELP2000MainProblemCoefficient, 704> g_ELP3
 { {
  { {  0,  0,  0,  0 }, 385000.52719, {  -7992.63,    -11.06,  21578.08,     -4.53,     11.39,     -0.06 } },
  { {  0,  0,  0,  2 },     -3.14837, {   -204.48,   -138.94,    159.64,     -0.39,      0.12,      0.00 } },
@@ -2784,7 +2787,7 @@ constexpr array<ELP2000MainProblemCoefficient, 704> g_ELP3
  { { 10,  0, -1,  0 },     -0.00003, {      0.00,      0.00,      0.00,      0.00,      0.00,      0.00 } }
 } };
 
-constexpr array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 347> g_ELP4
+constexpr std::array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 347> g_ELP4
 { {
  {  0, {  0,  0,  0,  1 },    270.00000,   0.00003,     0.075 },
  {  0, {  0,  0,  0,  2 },      0.00000,   0.00037,     0.037 },
@@ -3135,7 +3138,7 @@ constexpr array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 3
  {  2, {  4,  0, -1, -2 },    180.00000,   0.00001,     0.028 }
 } };
 
-constexpr array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 316> g_ELP5
+constexpr std::array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 316> g_ELP5
 { {
  {  0, {  0,  0,  0,  3 },      0.00000,   0.00003,     0.025 },
  {  0, {  0,  0,  1, -3 },    180.00000,   0.00021,     0.037 },
@@ -3455,7 +3458,7 @@ constexpr array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 3
  {  2, {  4,  0, -1, -1 },      0.00000,   0.00001,     0.020 }
 } };
 
-constexpr array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 237> g_ELP6
+constexpr std::array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 237> g_ELP6
 { {
  {  0, {  0,  0,  0,  0 },     90.00000,   0.04301, 99999.999 },
  {  0, {  0,  0,  0,  1 },    180.00000,   0.00003,     0.075 },
@@ -3696,7 +3699,7 @@ constexpr array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 2
  {  2, {  2,  0,  1, -2 },     90.00000,   0.00005,     0.026 }
 } };
 
-constexpr array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 14> g_ELP7
+constexpr std::array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 14> g_ELP7
 { {
  {  1, { -2,  0,  0, -1 },    180.00000,   0.00003,     0.040 },
  {  1, { -2,  0,  0,  1 },    180.00000,   0.00002,     0.487 },
@@ -3714,7 +3717,7 @@ constexpr array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 1
  {  2, {  0,  0,  0, -2 },      0.00000,   0.00004,     9.307 }
 } };
 
-constexpr array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 11> g_ELP8
+constexpr std::array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 11> g_ELP8
 { {
  {  1, { -2,  0,  0,  0 },    180.00000,   0.00012,     0.088 },
  {  1, { -2,  0,  1,  0 },    180.00000,   0.00003,     0.530 },
@@ -3729,7 +3732,7 @@ constexpr array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 1
  {  2, {  0,  0,  0, -1 },    180.00000,   0.00009,     0.075 }
 } };
 
-constexpr array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 8> g_ELP9
+constexpr std::array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 8> g_ELP9
 { {
  {  0, {  0,  0,  0,  0 },    270.00000,   0.00004, 99999.999 },
  {  1, { -2,  0,  0, -1 },    270.00000,   0.00004,     0.040 },
@@ -3741,7 +3744,7 @@ constexpr array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 8
  {  1, {  2,  0,  0, -1 },     90.00000,   0.00004,     0.041 }
 } };
 
-constexpr array<ELP2000PlanetPertCoefficient, 14328> g_ELP10
+constexpr std::array<ELP2000PlanetPertCoefficient, 14328> g_ELP10
 { {
  { {   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   2 },    359.99831,   0.00020,     0.037 },
  { {   0,   0,   0,   0,   0,   0,   0,   0,   0,   1,  -2 },    359.98254,   0.00007,     0.074 },
@@ -18073,7 +18076,7 @@ constexpr array<ELP2000PlanetPertCoefficient, 14328> g_ELP10
  { {  17,   0, -22,   0,   0,   0,   0,   0,  -5,   1,   0 },    332.53824,   0.00002,   411.722 }
 } };
 
-constexpr array<ELP2000PlanetPertCoefficient, 5233> g_ELP11
+constexpr std::array<ELP2000PlanetPertCoefficient, 5233> g_ELP11
 { {
  { {   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   1 },    179.93197,   0.00068,     0.075 },
  { {   0,   0,   0,   0,   0,   0,   0,   0,   0,   1,  -1 },    359.92861,   0.00007,     5.997 },
@@ -23310,7 +23313,7 @@ constexpr array<ELP2000PlanetPertCoefficient, 5233> g_ELP11
  { {   7,   0,  -4,   0,   0,   0,   0,   0,  -2,   0,   1 },    138.00381,   0.00001,     0.073 }
 } };
 
-constexpr array<ELP2000PlanetPertCoefficient, 6631> g_ELP12
+constexpr std::array<ELP2000PlanetPertCoefficient, 6631> g_ELP12
 { {
  { {   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },     90.00000,   0.02045, 99999.999 },
  { {   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   2 },    270.01562,   0.00037,     0.037 },
@@ -29945,7 +29948,7 @@ constexpr array<ELP2000PlanetPertCoefficient, 6631> g_ELP12
  { {   5,   0,  -7,   0,   0,   0,   0,   0,   0,   0,   0 },     52.90780,   0.00003,     0.073 }
 } };
 
-constexpr array<ELP2000PlanetPertCoefficient, 4384> g_ELP13
+constexpr std::array<ELP2000PlanetPertCoefficient, 4384> g_ELP13
 { {
  { {   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },    270.00000,   0.00011, 99999.999 },
  { {   0,   0,   0,   0,   0,   0,   0,   0,   0,   1,   0 },    277.11719,   0.00002,     0.075 },
@@ -34333,7 +34336,7 @@ constexpr array<ELP2000PlanetPertCoefficient, 4384> g_ELP13
  { {  13,   0, -16,   0,   0,   0,   0,   0,  -2,  -1,   0 },    214.04379,   0.00001,    62.252 }
 } };
 
-constexpr array<ELP2000PlanetPertCoefficient, 833> g_ELP14
+constexpr std::array<ELP2000PlanetPertCoefficient, 833> g_ELP14
 { {
  { {   0,   0,   0,   0,   0,   0,   0,   0,   1,   0,   0 },     73.43578,   0.00010,     0.081 },
  { {   0,   0,   0,   0,   0,   0,   0,   0,   2,   0,  -1 },    277.11719,   0.00005,     0.088 },
@@ -35170,7 +35173,7 @@ constexpr array<ELP2000PlanetPertCoefficient, 833> g_ELP14
  { {   3,   0,  -1,   0,   0,   0,   0,   0,  -2,   1,   1 },    218.71494,   0.00001,     0.075 }
 } };
 
-constexpr array<ELP2000PlanetPertCoefficient, 1715> g_ELP15
+constexpr std::array<ELP2000PlanetPertCoefficient, 1715> g_ELP15
 { {
  { {   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },     90.00000,   0.00003, 99999.999 },
  { {   0,   0,   0,   0,   0,   0,   0,   0,   2,  -3,   0 },    277.41835,   0.00002,     0.067 },
@@ -36889,7 +36892,7 @@ constexpr array<ELP2000PlanetPertCoefficient, 1715> g_ELP15
  { {   3,   0,  -1,   0,   0,   0,   0,   0,  -2,   0,   0 },     63.34872,   0.00005,     0.075 }
 } };
 
-constexpr array<ELP2000PlanetPertCoefficient, 170> g_ELP16
+constexpr std::array<ELP2000PlanetPertCoefficient, 170> g_ELP16
 { {
  { {   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   2 },    180.00031,   0.00002,     0.037 },
  { {   0,   0,   0,   0,   0,   0,   0,   0,   0,   1,  -2 },    359.99968,   0.00012,     0.074 },
@@ -37063,7 +37066,7 @@ constexpr array<ELP2000PlanetPertCoefficient, 170> g_ELP16
  { {   0,   8, -13,   0,   0,   0,   0,   2,   0,   0,   0 },    234.68643,   0.00001,     0.040 }
 } };
 
-constexpr array<ELP2000PlanetPertCoefficient, 150> g_ELP17
+constexpr std::array<ELP2000PlanetPertCoefficient, 150> g_ELP17
 { {
  { {   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   1 },      0.00002,   0.00068,     0.075 },
  { {   0,   0,   0,   0,   0,   0,   0,   0,   0,   1,  -1 },    180.00000,   0.00041,     5.997 },
@@ -37217,7 +37220,7 @@ constexpr array<ELP2000PlanetPertCoefficient, 150> g_ELP17
  { {   0,   0,   1,   0,   0,   0,   0,   5,   0,   1,   0 },    275.13228,   0.00002,     0.013 }
 } };
 
-constexpr array<ELP2000PlanetPertCoefficient, 114> g_ELP18
+constexpr std::array<ELP2000PlanetPertCoefficient, 114> g_ELP18
 { {
  { {   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },    270.00000,   0.02702, 99999.999 },
  { {   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   2 },    270.00030,   0.00004,     0.037 },
@@ -37335,7 +37338,7 @@ constexpr array<ELP2000PlanetPertCoefficient, 114> g_ELP18
  { {   0,   8, -13,   0,   0,   0,   0,   2,   0,   0,   0 },    144.68611,   0.00003,     0.040 }
 } };
 
-constexpr array<ELP2000PlanetPertCoefficient, 226> g_ELP19
+constexpr std::array<ELP2000PlanetPertCoefficient, 226> g_ELP19
 { {
  { {   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   2 },    180.00000,   0.00002,     0.037 },
  { {   0,   0,   0,   0,   0,   0,   0,   0,   0,   1,  -2 },      0.00000,   0.00011,     0.074 },
@@ -37565,7 +37568,7 @@ constexpr array<ELP2000PlanetPertCoefficient, 226> g_ELP19
  { {   0,   0,   1,   0,   0,   0,   0,   3,   0,   0,  -1 },    194.81311,   0.00005,     0.041 }
 } };
 
-constexpr array<ELP2000PlanetPertCoefficient, 188> g_ELP20
+constexpr std::array<ELP2000PlanetPertCoefficient, 188> g_ELP20
 { {
  { {   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   1 },      0.00000,   0.00007,     0.075 },
  { {   0,   0,   0,   0,   0,   0,   0,   0,   0,   1,  -1 },      0.00000,   0.00008,     5.997 },
@@ -37757,7 +37760,7 @@ constexpr array<ELP2000PlanetPertCoefficient, 188> g_ELP20
  { {   0,   0,   1,   0,   0,   0,   0,   3,   0,   0,   0 },     14.81311,   0.00007,     0.026 }
 } };
 
-constexpr array<ELP2000PlanetPertCoefficient, 169> g_ELP21
+constexpr std::array<ELP2000PlanetPertCoefficient, 169> g_ELP21
 { {
  { {   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 },    270.00000,   0.00149, 99999.999 },
  { {   0,   0,   0,   0,   0,   0,   0,   0,   0,   1,  -2 },     90.00000,   0.00010,     0.074 },
@@ -37930,26 +37933,26 @@ constexpr array<ELP2000PlanetPertCoefficient, 169> g_ELP21
  { {   0,   0,   1,   0,   0,   0,   0,   3,   0,   0,  -1 },    104.81311,   0.00004,     0.041 }
 } };
 
-constexpr array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 3> g_ELP22
+constexpr std::array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 3> g_ELP22
 { {
  {  0, {  1,  1, -1, -1 },    192.93665,   0.00004,     0.075 },
  {  0, {  1,  1,  0, -1 },    192.93665,   0.00082,    18.600 },
  {  0, {  1,  1,  1, -1 },    192.93665,   0.00004,     0.076 }
 } };
 
-constexpr array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 2> g_ELP23
+constexpr std::array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 2> g_ELP23
 { {
  {  0, {  1,  1,  0, -2 },    192.93663,   0.00004,     0.074 },
  {  0, {  1,  1,  0,  0 },    192.93664,   0.00004,     0.075 }
 } };
 
-constexpr array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 2> g_ELP24
+constexpr std::array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 2> g_ELP24
 { {
  {  0, {  1,  1, -1, -1 },    282.93665,   0.00004,     0.075 },
  {  0, {  1,  1,  1, -1 },    102.93665,   0.00004,     0.076 }
 } };
 
-constexpr array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 6> g_ELP25
+constexpr std::array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 6> g_ELP25
 { {
  {  0, {  0,  0,  1,  0 },      0.00000,   0.00058,     0.075 },
  {  0, {  0,  0,  2,  0 },      0.00000,   0.00004,     0.038 },
@@ -37959,7 +37962,7 @@ constexpr array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 6
  {  0, {  2,  0,  1,  0 },      0.00000,   0.00001,     0.026 }
 } };
 
-constexpr array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 4> g_ELP26
+constexpr std::array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 4> g_ELP26
 { {
  {  0, {  0,  0,  0,  1 },    180.00000,   0.00005,     0.075 },
  {  0, {  0,  0,  1, -1 },      0.00000,   0.00003,     5.997 },
@@ -37967,7 +37970,7 @@ constexpr array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 4
  {  0, {  2,  0,  0, -1 },      0.00000,   0.00001,     0.088 }
 } };
 
-constexpr array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 5> g_ELP27
+constexpr std::array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 5> g_ELP27
 { {
  {  0, {  0,  0,  0,  0 },     90.00000,   0.00356, 99999.999 },
  {  0, {  0,  0,  1,  0 },    270.00000,   0.00072,     0.075 },
@@ -37976,7 +37979,7 @@ constexpr array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 5
  {  0, {  2,  0,  0,  0 },    270.00000,   0.00013,     0.040 }
 } };
 
-constexpr array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 20> g_ELP28
+constexpr std::array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 20> g_ELP28
 { {
  {  0, {  0,  0,  0,  1 },    303.96185,   0.00004,     0.075 },
  {  0, {  0,  0,  1, -1 },    259.88393,   0.00016,     5.997 },
@@ -38000,7 +38003,7 @@ constexpr array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 2
  {  0, {  2,  1,  0,  0 },    359.99965,   0.00002,     0.039 }
 } };
 
-constexpr array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 12> g_ELP29
+constexpr std::array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 12> g_ELP29
 { {
  {  0, {  0,  0,  1, -1 },      0.02199,   0.00003,     5.997 },
  {  0, {  0,  0,  1,  0 },    245.99067,   0.00001,     0.075 },
@@ -38016,7 +38019,7 @@ constexpr array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 1
  {  0, {  2,  0,  0, -1 },    179.99478,   0.00005,     0.088 }
 } };
 
-constexpr array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 14> g_ELP30
+constexpr std::array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 14> g_ELP30
 { {
  {  0, {  0,  0,  0,  0 },     90.00000,   0.00130, 99999.999 },
  {  0, {  0,  0,  0,  1 },    213.95720,   0.00003,     0.075 },
@@ -38034,7 +38037,7 @@ constexpr array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 1
  {  0, {  2,  1,  0,  0 },    269.99982,   0.00003,     0.039 }
 } };
 
-constexpr array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 11> g_ELP31
+constexpr std::array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 11> g_ELP31
 { {
  {  0, {  0,  1, -1,  0 },    179.93473,   0.00006,     0.082 },
  {  0, {  0,  1,  0,  0 },    179.98532,   0.00081,     1.000 },
@@ -38049,7 +38052,7 @@ constexpr array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 1
  {  0, {  4,  0, -1,  0 },    180.00035,   0.00001,     0.028 }
 } };
 
-constexpr array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 4> g_ELP32
+constexpr std::array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 4> g_ELP32
 { {
  {  0, {  0,  1,  0, -1 },    179.99803,   0.00004,     0.081 },
  {  0, {  0,  1,  0,  1 },    179.99798,   0.00004,     0.069 },
@@ -38057,7 +38060,7 @@ constexpr array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 4
  {  0, {  2,  0,  0,  1 },    180.00026,   0.00002,     0.026 }
 } };
 
-constexpr array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 10> g_ELP33
+constexpr std::array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 10> g_ELP33
 { {
  {  0, {  0,  0,  0,  0 },    270.00000,   0.00828, 99999.999 },
  {  0, {  0,  0,  1,  0 },     89.99994,   0.00043,     0.075 },
@@ -38071,7 +38074,7 @@ constexpr array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 1
  {  0, {  2,  0,  1,  0 },     90.00010,   0.00008,     0.026 }
 } };
 
-constexpr array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 28> g_ELP34
+constexpr std::array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 28> g_ELP34
 { {
  {  0, {  0,  1, -2,  0 },      0.00000,   0.00007,     0.039 },
  {  0, {  0,  1, -1,  0 },      0.00000,   0.00108,     0.082 },
@@ -38103,7 +38106,7 @@ constexpr array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 2
  {  0, {  4, -1,  0,  0 },    180.00000,   0.00001,     0.021 }
 } };
 
-constexpr array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 13> g_ELP35
+constexpr std::array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 13> g_ELP35
 { {
  {  0, {  0,  1, -1, -1 },      0.00000,   0.00005,     0.039 },
  {  0, {  0,  1, -1,  1 },      0.00000,   0.00004,     0.857 },
@@ -38120,7 +38123,7 @@ constexpr array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 1
  {  0, {  2,  1,  0, -1 },      0.00000,   0.00009,     0.081 }
 } };
 
-constexpr array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 19> g_ELP36
+constexpr std::array<ELP2000EarthTidalMoonRelativisticSolarEccentricityCoefficient, 19> g_ELP36
 { {
  {  0, {  0,  1, -2,  0 },     90.00000,   0.00005,     0.039 },
  {  0, {  0,  1, -1,  0 },     90.00000,   0.00095,     0.082 },
@@ -38156,21 +38159,21 @@ double CAAELP2000::MoonMeanMeanLongitude(const double* pT, int nTSize) noexcept 
   __analysis_assume(pT);
 #endif
 
-  double fValue = g_W[0] + g_W[3] * pT[1];
+  double fValue{g_W[0] + (g_W[3]*pT[1])};
   if (nTSize == 5)
-    fValue += g_W[6] * pT[2] + g_W[9] * pT[3] + g_W[12] * pT[4];
+    fValue += ((g_W[6]*pT[2]) + (g_W[9]*pT[3]) + (g_W[12]*pT[4]));
   return fValue;
 }
 
 double CAAELP2000::MoonMeanMeanLongitude(double JD) noexcept //Aka W1
 {
   //Calculate Julian centuries
-  array<double, 5> t;
+  std::array<double, 5> t;
   t[0] = 1;
-  t[1] = (JD - 2451545.0) / 36525.0;
-  t[2] = t[1] * t[1];
-  t[3] = t[2] * t[1];
-  t[4] = t[3] * t[1];
+  t[1] = (JD - 2451545)/36525;
+  t[2] = t[1]*t[1];
+  t[3] = t[2]*t[1];
+  t[4] = t[3]*t[1];
 
   return MoonMeanMeanLongitude(t.data(), 5);
 }
@@ -38185,21 +38188,21 @@ double CAAELP2000::MeanLongitudeLunarPerigee(const double* pT, int nTSize) noexc
   __analysis_assume(pT);
 #endif
 
-  double fValue = g_W[1] + g_W[4] * pT[1];
+  double fValue{g_W[1] + (g_W[4]*pT[1])};
   if (nTSize == 5)
-    fValue += g_W[7] * pT[2] + g_W[10] * pT[3] + g_W[13] * pT[4];
+    fValue += ((g_W[7]*pT[2]) + (g_W[10]*pT[3]) + (g_W[13]*pT[4]));
   return fValue;
 }
 
 double CAAELP2000::MeanLongitudeLunarPerigee(double JD) noexcept //Aka W2
 {
   //Calculate Julian centuries
-  array<double, 5> t;
+  std::array<double, 5> t;
   t[0] = 1;
-  t[1] = (JD - 2451545.0) / 36525.0;
-  t[2] = t[1] * t[1];
-  t[3] = t[2] * t[1];
-  t[4] = t[3] * t[1];
+  t[1] = (JD - 2451545)/36525;
+  t[2] = t[1]*t[1];
+  t[3] = t[2]*t[1];
+  t[4] = t[3]*t[1];
 
   return MeanLongitudeLunarPerigee(t.data(), 5);
 }
@@ -38214,21 +38217,21 @@ double CAAELP2000::MeanLongitudeLunarAscendingNode(const double* pT, int nTSize)
   __analysis_assume(pT);
 #endif
 
-  double fValue = g_W[2] + g_W[5] * pT[1];
+  double fValue{g_W[2] + (g_W[5]*pT[1])};
   if (nTSize == 5)
-    fValue += g_W[8] * pT[2] + g_W[11] * pT[3] + g_W[14] * pT[4];
+    fValue += ((g_W[8]*pT[2]) + (g_W[11]*pT[3]) + (g_W[14]*pT[4]));
   return fValue;
 }
 
 double CAAELP2000::MeanLongitudeLunarAscendingNode(double JD) noexcept //Aka W3
 {
   //Calculate Julian centuries
-  array<double, 5> t;
+  std::array<double, 5> t;
   t[0] = 1;
-  t[1] = (JD - 2451545.0) / 36525.0;
-  t[2] = t[1] * t[1];
-  t[3] = t[2] * t[1];
-  t[4] = t[3] * t[1];
+  t[1] = (JD - 2451545)/36525;
+  t[2] = t[1]*t[1];
+  t[3] = t[2]*t[1];
+  t[4] = t[3]*t[1];
 
   return MeanLongitudeLunarAscendingNode(t.data(), 5);
 }
@@ -38243,26 +38246,26 @@ double CAAELP2000::MeanHeliocentricMeanLongitudeEarthMoonBarycentre(const double
   __analysis_assume(pT);
 #endif
 
-  double fValue = g_EARTH[0] + g_EARTH[1] * pT[1];
+  double fValue{g_EARTH[0] + (g_EARTH[1]*pT[1])};
   if (nTSize == 5)
-    fValue += g_EARTH[2] * pT[2] + g_EARTH[3] * pT[3] + g_EARTH[4] * pT[4];
+    fValue += ((g_EARTH[2]*pT[2]) + (g_EARTH[3]*pT[3]) + (g_EARTH[4]*pT[4]));
   return fValue;
 }
 
 double CAAELP2000::MeanHeliocentricMeanLongitudeEarthMoonBarycentre(double JD) noexcept //Aka T
 {
   //Calculate Julian centuries
-  array<double, 5> t;
+  std::array<double, 5> t;
   t[0] = 1;
-  t[1] = (JD - 2451545.0) / 36525.0;
-  t[2] = t[1] * t[1];
-  t[3] = t[2] * t[1];
-  t[4] = t[3] * t[1];
+  t[1] = (JD - 2451545)/36525;
+  t[2] = t[1]*t[1];
+  t[3] = t[2]*t[1];
+  t[4] = t[3]*t[1];
 
   return MeanHeliocentricMeanLongitudeEarthMoonBarycentre(t.data(), 5);
 }
 
-double CAAELP2000::MeanLongitudeOfPerilhelionOfEarthMoonBarycentre(const double* pT, int nTSize) noexcept //Aka Omega'
+double CAAELP2000::MeanLongitudeOfPerihelionOfEarthMoonBarycentre(const double* pT, int nTSize) noexcept //Aka Omega'
 {
   //Validate our parameters
   assert(pT);
@@ -38272,24 +38275,23 @@ double CAAELP2000::MeanLongitudeOfPerilhelionOfEarthMoonBarycentre(const double*
   __analysis_assume(pT);
 #endif
 
-  double fValue = g_PERI[0] + g_PERI[1] * pT[1];
+  double fValue{g_PERI[0] + (g_PERI[1]*pT[1])};
   if (nTSize == 5)
-    fValue += g_PERI[2] * pT[2] + g_PERI[3] * pT[3];
-
+    fValue += ((g_PERI[2]*pT[2]) + (g_PERI[3]*pT[3]));
   return fValue;
 }
 
-double CAAELP2000::MeanLongitudeOfPerilhelionOfEarthMoonBarycentre(double JD) noexcept //Aka Omega'
+double CAAELP2000::MeanLongitudeOfPerihelionOfEarthMoonBarycentre(double JD) noexcept //Aka Omega'
 {
   //Calculate Julian centuries
-  array<double, 5> t;
+  std::array<double, 5> t;
   t[0] = 1;
-  t[1] = (JD - 2451545.0) / 36525.0;
-  t[2] = t[1] * t[1];
-  t[3] = t[2] * t[1];
-  t[4] = t[3] * t[1];
+  t[1] = (JD - 2451545)/36525;
+  t[2] = t[1]*t[1];
+  t[3] = t[2]*t[1];
+  t[4] = t[3]*t[1];
 
-  return MeanLongitudeOfPerilhelionOfEarthMoonBarycentre(t.data(), 5);
+  return MeanLongitudeOfPerihelionOfEarthMoonBarycentre(t.data(), 5);
 }
 
 double CAAELP2000::MoonMeanSolarElongation(const double* pT, int nTSize) noexcept //Aka D
@@ -38301,12 +38303,12 @@ double CAAELP2000::MoonMeanSolarElongation(const double* pT, int nTSize) noexcep
 double CAAELP2000::MoonMeanSolarElongation(double JD) noexcept //Aka D
 {
   //Calculate Julian centuries
-  array<double, 5> t;
+  std::array<double, 5> t;
   t[0] = 1;
-  t[1] = (JD - 2451545.0) / 36525.0;
-  t[2] = t[1] * t[1];
-  t[3] = t[2] * t[1];
-  t[4] = t[3] * t[1];
+  t[1] = (JD - 2451545)/36525;
+  t[2] = t[1]*t[1];
+  t[3] = t[2]*t[1];
+  t[4] = t[3]*t[1];
 
   return MoonMeanSolarElongation(t.data(), 5);
 }
@@ -38314,18 +38316,18 @@ double CAAELP2000::MoonMeanSolarElongation(double JD) noexcept //Aka D
 double CAAELP2000::SunMeanAnomaly(const double* pT, int nTSize) noexcept //Aka l'
 {
   //Implement l' in terms of T and Omega'
-  return MeanHeliocentricMeanLongitudeEarthMoonBarycentre(pT, nTSize) - MeanLongitudeOfPerilhelionOfEarthMoonBarycentre(pT, nTSize);
+  return MeanHeliocentricMeanLongitudeEarthMoonBarycentre(pT, nTSize) - MeanLongitudeOfPerihelionOfEarthMoonBarycentre(pT, nTSize);
 }
 
 double CAAELP2000::SunMeanAnomaly(double JD) noexcept //Aka l'
 {
   //Calculate Julian centuries
-  array<double, 5> t;
+  std::array<double, 5> t;
   t[0] = 1;
-  t[1] = (JD - 2451545.0) / 36525.0;
-  t[2] = t[1] * t[1];
-  t[3] = t[2] * t[1];
-  t[4] = t[3] * t[1];
+  t[1] = (JD - 2451545)/36525;
+  t[2] = t[1]*t[1];
+  t[3] = t[2]*t[1];
+  t[4] = t[3]*t[1];
 
   return SunMeanAnomaly(t.data(), 5);
 }
@@ -38339,12 +38341,12 @@ double CAAELP2000::MoonMeanAnomaly(const double* pT, int nTSize) noexcept //Aka 
 double CAAELP2000::MoonMeanAnomaly(double JD) noexcept //Aka l
 {
   //Calculate Julian centuries
-  array<double, 5> t;
+  std::array<double, 5> t;
   t[0] = 1;
-  t[1] = (JD - 2451545.0) / 36525.0;
-  t[2] = t[1] * t[1];
-  t[3] = t[2] * t[1];
-  t[4] = t[3] * t[1];
+  t[1] = (JD - 2451545)/36525;
+  t[2] = t[1]*t[1];
+  t[3] = t[2]*t[1];
+  t[4] = t[3]*t[1];
 
   return MoonMeanAnomaly(t.data(), 5);
 }
@@ -38358,49 +38360,49 @@ double CAAELP2000::MoonMeanArgumentOfLatitude(const double* pT, int nTSize) noex
 double CAAELP2000::MoonMeanArgumentOfLatitude(double JD) noexcept //Aka F
 {
   //Calculate Julian centuries
-  array<double, 5> t;
+  std::array<double, 5> t;
   t[0] = 1;
-  t[1] = (JD - 2451545.0) / 36525.0;
-  t[2] = t[1] * t[1];
-  t[3] = t[2] * t[1];
-  t[4] = t[3] * t[1];
+  t[1] = (JD - 2451545)/36525;
+  t[2] = t[1]*t[1];
+  t[3] = t[2]*t[1];
+  t[4] = t[3]*t[1];
 
   return MoonMeanArgumentOfLatitude(t.data(), 5);
 }
 
 double CAAELP2000::MercuryMeanLongitude(double T) noexcept
 {
-  return g_P[0][0] + g_P[0][1]*T;
+  return g_P[0][0] + (g_P[0][1]*T);
 }
 
 double CAAELP2000::VenusMeanLongitude(double T) noexcept
 {
-  return g_P[1][0] + g_P[1][1]*T;
+  return g_P[1][0] + (g_P[1][1]*T);
 }
 
 double CAAELP2000::MarsMeanLongitude(double T) noexcept
 {
-  return g_P[3][0] + g_P[3][1]*T;
+  return g_P[3][0] + (g_P[3][1]*T);
 }
 
 double CAAELP2000::JupiterMeanLongitude(double T) noexcept
 {
-  return g_P[4][0] + g_P[4][1]*T;
+  return g_P[4][0] + (g_P[4][1]*T);
 }
 
 double CAAELP2000::SaturnMeanLongitude(double T) noexcept
 {
-  return g_P[5][0] + g_P[5][1]*T;
+  return g_P[5][0] + (g_P[5][1]*T);
 }
 
 double CAAELP2000::UranusMeanLongitude(double T) noexcept
 {
-  return g_P[6][0] + g_P[6][1]*T;
+  return g_P[6][0] + (g_P[6][1]*T);
 }
 
 double CAAELP2000::NeptuneMeanLongitude(double T) noexcept
 {
-  return g_P[7][0] + g_P[7][1]*T;
+  return g_P[7][0] + (g_P[7][1]*T);
 }
 
 //Handle the main problem calculation (Longitude & Latitude)
@@ -38415,15 +38417,15 @@ double CAAELP2000::Accumulate(const ELP2000MainProblemCoefficient* pCoefficients
 #endif
 
   //What will be the return value from this function
-  double fResult = 0;
+  double fResult{0};
 
   //Accumulate the result
-  for (size_t j=0; j<nCoefficients; j++)
+  for (size_t j{0}; j<nCoefficients; j++)
   {
-    const double tgv = pCoefficients[j].m_B[0] + (DTASM * pCoefficients[j].m_B[4]);
-    const double x = pCoefficients[j].m_A + (tgv * (g_DELNP - AM * g_DELNU)) + (pCoefficients[j].m_B[1] * g_DELG) + (pCoefficients[j].m_B[2] * g_DELE) + (pCoefficients[j].m_B[3] * g_DELEP);
-    const double y = (fD * pCoefficients[j].m_I[0]) + (fldash * pCoefficients[j].m_I[1]) + (fl * pCoefficients[j].m_I[2]) + (fF * pCoefficients[j].m_I[3]);
-    fResult += (x * sin(y));
+    const double tgv{pCoefficients[j].m_B[0] + (g_DTASM*pCoefficients[j].m_B[4])};
+    const double x{pCoefficients[j].m_A + (tgv*(g_DELNP - (g_AM*g_DELNU))) + (pCoefficients[j].m_B[1]*g_DELG) + (pCoefficients[j].m_B[2]*g_DELE) + (pCoefficients[j].m_B[3]*g_DELEP)};
+    const double y{(fD*pCoefficients[j].m_I[0]) + (fldash*pCoefficients[j].m_I[1]) + (fl*pCoefficients[j].m_I[2]) + (fF*pCoefficients[j].m_I[3])};
+    fResult += (x*sin(y));
   }
 
   return fResult;
@@ -38440,17 +38442,17 @@ double CAAELP2000::Accumulate_2(const ELP2000MainProblemCoefficient* pCoefficien
 #endif
 
   //What will be the return value from this function
-  double fResult = 0;
+  double fResult{0};
 
   //Accumulate the result
-  for (size_t j=0; j<nCoefficients; j++)
+  for (size_t j{0}; j<nCoefficients; j++)
   {
-    const double tgv = pCoefficients[j].m_B[0] + (DTASM * pCoefficients[j].m_B[4]);
-    double A = pCoefficients[j].m_A;
-    A -= (A * 2.0 * g_DELNU / 3.0);
-    const double x = A + (tgv * (g_DELNP - AM * g_DELNU)) + (pCoefficients[j].m_B[1] * g_DELG) + (pCoefficients[j].m_B[2] * g_DELE) + (pCoefficients[j].m_B[3] * g_DELEP);
-    const double y = (fD * pCoefficients[j].m_I[0]) + (fldash * pCoefficients[j].m_I[1]) + (fl * pCoefficients[j].m_I[2]) + (fF * pCoefficients[j].m_I[3]);
-    fResult += (x * cos(y));
+    const double tgv{pCoefficients[j].m_B[0] + (g_DTASM*pCoefficients[j].m_B[4])};
+    double A{pCoefficients[j].m_A};
+    A -= (A*2.0*g_DELNU/3.0);
+    const double x{A + (tgv * (g_DELNP - (g_AM * g_DELNU))) + (pCoefficients[j].m_B[1]*g_DELG) + (pCoefficients[j].m_B[2]*g_DELE) + (pCoefficients[j].m_B[3]*g_DELEP)};
+    const double y{(fD*pCoefficients[j].m_I[0]) + (fldash*pCoefficients[j].m_I[1]) + (fl*pCoefficients[j].m_I[2]) + (fF*pCoefficients[j].m_I[3])};
+    fResult += (x*cos(y));
   }
 
   return fResult;
@@ -38474,20 +38476,20 @@ double CAAELP2000::Accumulate(const double* pT, int nTSize, const ELP2000EarthTi
 #endif
 
   //What will be the return value from this function
-  double fResult = 0;
+  double fResult{0};
 
   //Accumulate the result
-  for (size_t j=0; j<nCoefficients; j++)
+  for (size_t j{0}; j<nCoefficients; j++)
   {
     if (bI1isZero)
       assert(pCoefficients[j].m_IZ == 0);
 
-    double y = (fD * pCoefficients[j].m_I[0]) + (fldash * pCoefficients[j].m_I[1]) +
-               (fl * pCoefficients[j].m_I[2]) + (fF * pCoefficients[j].m_I[3]) +
-               CAACoordinateTransformation::DegreesToRadians(pCoefficients[j].m_O);
+    double y{(fD*pCoefficients[j].m_I[0]) + (fldash*pCoefficients[j].m_I[1]) +
+             (fl*pCoefficients[j].m_I[2]) + (fF*pCoefficients[j].m_I[3]) +
+             CAACoordinateTransformation::DegreesToRadians(pCoefficients[j].m_O)};
     if (!bI1isZero)
-      y += (pCoefficients[j].m_IZ * g_ZETA[0] * pT[0]) + (pCoefficients[j].m_IZ * g_ZETA[1] * pT[1]);
-    fResult += (pCoefficients[j].m_A * sin(y));
+      y += (pCoefficients[j].m_IZ*g_ZETA[0]*pT[0]) + (pCoefficients[j].m_IZ*g_ZETA[1]*pT[1]);
+    fResult += (pCoefficients[j].m_A*sin(y));
   }
 
   return fResult;
@@ -38510,20 +38512,20 @@ double CAAELP2000::Accumulate_2(const double* pT, int nTSize, const ELP2000Earth
 #endif
 
   //What will be the return value from this function
-  double fResult = 0;
+  double fResult{0};
 
   //Accumulate the result
-  for (size_t j=0; j<nCoefficients; j++)
+  for (size_t j{0}; j<nCoefficients; j++)
   {
     if (bI1isZero)
       assert(pCoefficients[j].m_IZ == 0);
 
-    double y = (fD * pCoefficients[j].m_I[0]) + (fldash * pCoefficients[j].m_I[1]) +
-               (fl * pCoefficients[j].m_I[2]) + (fF * pCoefficients[j].m_I[3]) +
-               CAACoordinateTransformation::DegreesToRadians(pCoefficients[j].m_O);
+    double y{(fD*pCoefficients[j].m_I[0]) + (fldash*pCoefficients[j].m_I[1]) +
+             (fl*pCoefficients[j].m_I[2]) + (fF*pCoefficients[j].m_I[3]) +
+             CAACoordinateTransformation::DegreesToRadians(pCoefficients[j].m_O)};
     if (!bI1isZero)
-      y += (pCoefficients[j].m_IZ * g_ZETA[0] * pT[0]) + (pCoefficients[j].m_IZ * g_ZETA[1] * pT[1]);
-    fResult += pCoefficients[j].m_A * pT[1] * sin(y);
+      y += (pCoefficients[j].m_IZ*g_ZETA[0]*pT[0]) + (pCoefficients[j].m_IZ*g_ZETA[1]*pT[1]);
+    fResult += (pCoefficients[j].m_A*pT[1]*sin(y));
   }
 
   return fResult;
@@ -38541,24 +38543,24 @@ double CAAELP2000::AccumulateTable1(const ELP2000PlanetPertCoefficient* pCoeffic
 #endif
 
   //What will be the return value from this function
-  double fResult = 0;
+  double fResult{0};
 
   //Accumulate the result
-  for (size_t j=0; j<nCoefficients; j++)
+  for (size_t j{0}; j<nCoefficients; j++)
   {
-    const double y = (fMe * pCoefficients[j].m_ip[0]) +
-                     (fV * pCoefficients[j].m_ip[1]) +
-                     (fT * pCoefficients[j].m_ip[2]) +
-                     (fMa * pCoefficients[j].m_ip[3]) +
-                     (fJ * pCoefficients[j].m_ip[4]) +
-                     (fS * pCoefficients[j].m_ip[5]) +
-                     (fU * pCoefficients[j].m_ip[6]) +
-                     (fN * pCoefficients[j].m_ip[7]) +
-                     (fD * pCoefficients[j].m_ip[8]) +
-                     (fl * pCoefficients[j].m_ip[9]) +
-                     (fF * pCoefficients[j].m_ip[10]) +
-                     CAACoordinateTransformation::DegreesToRadians(pCoefficients[j].m_theta);
-    fResult += (pCoefficients[j].m_O * sin(y));
+    const double y{(fMe*pCoefficients[j].m_ip[0]) +
+                   (fV*pCoefficients[j].m_ip[1]) +
+                   (fT*pCoefficients[j].m_ip[2]) +
+                   (fMa*pCoefficients[j].m_ip[3]) +
+                   (fJ*pCoefficients[j].m_ip[4]) +
+                   (fS*pCoefficients[j].m_ip[5]) +
+                   (fU*pCoefficients[j].m_ip[6]) +
+                   (fN*pCoefficients[j].m_ip[7]) +
+                   (fD*pCoefficients[j].m_ip[8]) +
+                   (fl*pCoefficients[j].m_ip[9]) +
+                   (fF*pCoefficients[j].m_ip[10]) +
+                   CAACoordinateTransformation::DegreesToRadians(pCoefficients[j].m_theta)};
+    fResult += (pCoefficients[j].m_O*sin(y));
   }
 
   return fResult;
@@ -38581,24 +38583,24 @@ double CAAELP2000::AccumulateTable1_2(const double* pT, int nTSize, const ELP200
 #endif
 
   //What will be the return value from this function
-  double fResult = 0;
+  double fResult{0};
 
   //Accumulate the result
-  for (size_t j=0; j<nCoefficients; j++)
+  for (size_t j{0}; j<nCoefficients; j++)
   {
-    const double y = (fMe * pCoefficients[j].m_ip[0]) +
-                     (fV * pCoefficients[j].m_ip[1]) +
-                     (fT * pCoefficients[j].m_ip[2]) +
-                     (fMa * pCoefficients[j].m_ip[3]) +
-                     (fJ * pCoefficients[j].m_ip[4]) +
-                     (fS * pCoefficients[j].m_ip[5]) +
-                     (fU * pCoefficients[j].m_ip[6]) +
-                     (fN * pCoefficients[j].m_ip[7]) +
-                     (fD * pCoefficients[j].m_ip[8]) +
-                     (fl * pCoefficients[j].m_ip[9]) +
-                     (fF * pCoefficients[j].m_ip[10]) +
-                     CAACoordinateTransformation::DegreesToRadians(pCoefficients[j].m_theta);
-    fResult += (pCoefficients[j].m_O * pT[1] * sin(y));
+    const double y{(fMe*pCoefficients[j].m_ip[0]) +
+                   (fV*pCoefficients[j].m_ip[1]) +
+                   (fT*pCoefficients[j].m_ip[2]) +
+                   (fMa*pCoefficients[j].m_ip[3]) +
+                   (fJ*pCoefficients[j].m_ip[4]) +
+                   (fS*pCoefficients[j].m_ip[5]) +
+                   (fU*pCoefficients[j].m_ip[6]) +
+                   (fN*pCoefficients[j].m_ip[7]) +
+                   (fD*pCoefficients[j].m_ip[8]) +
+                   (fl*pCoefficients[j].m_ip[9]) +
+                   (fF*pCoefficients[j].m_ip[10]) +
+                   CAACoordinateTransformation::DegreesToRadians(pCoefficients[j].m_theta)};
+    fResult += (pCoefficients[j].m_O*pT[1]*sin(y));
   }
 
   return fResult;
@@ -38616,24 +38618,24 @@ double CAAELP2000::AccumulateTable2(const ELP2000PlanetPertCoefficient* pCoeffic
 #endif
 
   //What will be the return value from this function
-  double fResult = 0;
+  double fResult{0};
 
   //Accumulate the result
-  for (size_t j=0; j<nCoefficients; j++)
+  for (size_t j{0}; j<nCoefficients; j++)
   {
-    const double y = (fMe * pCoefficients[j].m_ip[0]) +
-                     (fV * pCoefficients[j].m_ip[1]) +
-                     (fT * pCoefficients[j].m_ip[2]) +
-                     (fMa * pCoefficients[j].m_ip[3]) +
-                     (fJ * pCoefficients[j].m_ip[4]) +
-                     (fS * pCoefficients[j].m_ip[5]) +
-                     (fU * pCoefficients[j].m_ip[6]) +
-                     (fD * pCoefficients[j].m_ip[7]) +
-                     (fldash * pCoefficients[j].m_ip[8]) +
-                     (fl * pCoefficients[j].m_ip[9]) +
-                     (fF * pCoefficients[j].m_ip[10]) +
-                     CAACoordinateTransformation::DegreesToRadians(pCoefficients[j].m_theta);
-    fResult += (pCoefficients[j].m_O * sin(y));
+    const double y{(fMe*pCoefficients[j].m_ip[0]) +
+                   (fV*pCoefficients[j].m_ip[1]) +
+                   (fT*pCoefficients[j].m_ip[2]) +
+                   (fMa*pCoefficients[j].m_ip[3]) +
+                   (fJ*pCoefficients[j].m_ip[4]) +
+                   (fS*pCoefficients[j].m_ip[5]) +
+                   (fU*pCoefficients[j].m_ip[6]) +
+                   (fD*pCoefficients[j].m_ip[7]) +
+                   (fldash*pCoefficients[j].m_ip[8]) +
+                   (fl*pCoefficients[j].m_ip[9]) +
+                   (fF*pCoefficients[j].m_ip[10]) +
+                   CAACoordinateTransformation::DegreesToRadians(pCoefficients[j].m_theta)};
+    fResult += (pCoefficients[j].m_O*sin(y));
   }
 
   return fResult;
@@ -38656,24 +38658,24 @@ double CAAELP2000::AccumulateTable2_2(const double* pT, int nTSize, const ELP200
 #endif
 
   //What will be the return value from this function
-  double fResult = 0;
+  double fResult{0};
 
   //Accumulate the result
-  for (size_t j=0; j<nCoefficients; j++)
+  for (size_t j{0}; j<nCoefficients; j++)
   {
-    const double y = (fMe * pCoefficients[j].m_ip[0]) +
-                     (fV * pCoefficients[j].m_ip[1]) +
-                     (fT * pCoefficients[j].m_ip[2]) +
-                     (fMa * pCoefficients[j].m_ip[3]) +
-                     (fJ * pCoefficients[j].m_ip[4]) +
-                     (fS * pCoefficients[j].m_ip[5]) +
-                     (fU * pCoefficients[j].m_ip[6]) +
-                     (fD * pCoefficients[j].m_ip[7]) +
-                     (fldash * pCoefficients[j].m_ip[8]) +
-                     (fl * pCoefficients[j].m_ip[9]) +
-                     (fF * pCoefficients[j].m_ip[10]) +
-                     CAACoordinateTransformation::DegreesToRadians(pCoefficients[j].m_theta);
-    fResult += pCoefficients[j].m_O * pT[1] * sin(y);
+    const double y{(fMe*pCoefficients[j].m_ip[0]) +
+                   (fV*pCoefficients[j].m_ip[1]) +
+                   (fT*pCoefficients[j].m_ip[2]) +
+                   (fMa*pCoefficients[j].m_ip[3]) +
+                   (fJ*pCoefficients[j].m_ip[4]) +
+                   (fS*pCoefficients[j].m_ip[5]) +
+                   (fU*pCoefficients[j].m_ip[6]) +
+                   (fD*pCoefficients[j].m_ip[7]) +
+                   (fldash*pCoefficients[j].m_ip[8]) +
+                   (fl*pCoefficients[j].m_ip[9]) +
+                   (fF*pCoefficients[j].m_ip[10]) +
+                   CAACoordinateTransformation::DegreesToRadians(pCoefficients[j].m_theta)};
+    fResult += (pCoefficients[j].m_O*pT[1]*sin(y));
   }
 
   return fResult;
@@ -38696,18 +38698,18 @@ double CAAELP2000::Accumulate_3(const double* pT, int nTSize, const ELP2000Earth
 #endif
 
   //What will be the return value from this function
-  double fResult = 0;
+  double fResult{0};
 
-  for (size_t j=0; j<nCoefficients; j++)
+  for (size_t j{0}; j<nCoefficients; j++)
   {
     assert(pCoefficients[j].m_IZ == 0);
 
-    const double y = (fD * pCoefficients[j].m_I[0]) +
-                     (fldash * pCoefficients[j].m_I[1]) +
-                     (fl * pCoefficients[j].m_I[2]) +
-                     (fF * pCoefficients[j].m_I[3]) +
-                     CAACoordinateTransformation::DegreesToRadians(pCoefficients[j].m_O);
-    fResult += (pCoefficients[j].m_A * pT[2] * sin(y));
+    const double y{(fD*pCoefficients[j].m_I[0]) +
+                   (fldash*pCoefficients[j].m_I[1]) +
+                   (fl*pCoefficients[j].m_I[2]) +
+                   (fF*pCoefficients[j].m_I[3]) +
+                   CAACoordinateTransformation::DegreesToRadians(pCoefficients[j].m_O)};
+    fResult += (pCoefficients[j].m_A*pT[2]*sin(y));
   }
 
   return fResult;
@@ -38719,54 +38721,54 @@ double CAAELP2000::Accumulate_3(const double* pT, int nTSize, const ELP2000Earth
 double CAAELP2000::EclipticLongitude(const double* pT, int nTSize) noexcept
 {
   //Validate our parameters
-  assert(pT != nullptr);
+  assert(pT);
   assert(nTSize >= 2);
 
   //Compute the delaney arguments for the specified time
-  const double fD = MoonMeanSolarElongation(pT, nTSize);
-  const double fldash = SunMeanAnomaly(pT, nTSize);
-  const double fl = MoonMeanAnomaly(pT, nTSize);
-  const double fF = MoonMeanArgumentOfLatitude(pT, nTSize);
-  const double fD2 = MoonMeanSolarElongation(pT, 2);
-  const double fldash2 = SunMeanAnomaly(pT, 2);
-  const double fl2 = MoonMeanAnomaly(pT, 2);
-  const double fF2 = MoonMeanArgumentOfLatitude(pT, 2);
+  const double fD{MoonMeanSolarElongation(pT, nTSize)};
+  const double fldash{SunMeanAnomaly(pT, nTSize)};
+  const double fl{MoonMeanAnomaly(pT, nTSize)};
+  const double fF{MoonMeanArgumentOfLatitude(pT, nTSize)};
+  const double fD2{MoonMeanSolarElongation(pT, 2)};
+  const double fldash2{SunMeanAnomaly(pT, 2)};
+  const double fl2{MoonMeanAnomaly(pT, 2)};
+  const double fF2{MoonMeanArgumentOfLatitude(pT, 2)};
 
   //Compute the planet mean longitudes for the specified time
-  const double fMe = MercuryMeanLongitude(pT[1]);
-  const double fV = VenusMeanLongitude(pT[1]);
-  const double fT = MeanHeliocentricMeanLongitudeEarthMoonBarycentre(pT, 2);
-  const double fMa = MarsMeanLongitude(pT[1]);
-  const double fJ = JupiterMeanLongitude(pT[1]);
-  const double fS = SaturnMeanLongitude(pT[1]);
-  const double fU = UranusMeanLongitude(pT[1]);
-  const double fN = NeptuneMeanLongitude(pT[1]);
+  const double fMe{MercuryMeanLongitude(pT[1])};
+  const double fV{VenusMeanLongitude(pT[1])};
+  const double fT{MeanHeliocentricMeanLongitudeEarthMoonBarycentre(pT, 2)};
+  const double fMa{MarsMeanLongitude(pT[1])};
+  const double fJ{JupiterMeanLongitude(pT[1])};
+  const double fS{SaturnMeanLongitude(pT[1])};
+  const double fU{UranusMeanLongitude(pT[1])};
+  const double fN{NeptuneMeanLongitude(pT[1])};
 
   //Calculate the Longitude
-  const double A = Accumulate(g_ELP1.data(), g_ELP1.size(), fD, fldash, fl, fF) +
-                   Accumulate(pT, nTSize, g_ELP4.data(), g_ELP4.size(), fD2, fldash2, fl2, fF2, false) +
-                   Accumulate_2(pT, nTSize, g_ELP7.data(), g_ELP7.size(), fD2, fldash2, fl2, fF2, false) +
-                   AccumulateTable1(g_ELP10.data(), g_ELP10.size(), fD2, fl2, fF2, fMe, fV, fT, fMa, fJ, fS, fU, fN) +
-                   AccumulateTable1_2(pT, nTSize, g_ELP13.data(), g_ELP13.size(), fD2, fl2, fF2, fMe, fV, fT, fMa, fJ, fS, fU, fN) +
-                   AccumulateTable2(g_ELP16.data(), g_ELP16.size(), fD2, fldash2, fl2, fF2, fMe, fV, fT, fMa, fJ, fS, fU) +
-                   AccumulateTable2_2(pT, nTSize, g_ELP19.data(), g_ELP19.size(), fD2, fldash2, fl2, fF2, fMe, fV, fT, fMa, fJ, fS, fU) +
-                   Accumulate(pT, nTSize, g_ELP22.data(), g_ELP22.size(), fD2, fldash2, fl2, fF2, true) +
-                   Accumulate_2(pT, nTSize, g_ELP25.data(), g_ELP25.size(), fD2, fldash2, fl2, fF2, true) +
-                   Accumulate(pT, nTSize, g_ELP28.data(), g_ELP28.size(), fD2, fldash2, fl2, fF2, true) +
-                   Accumulate(pT, nTSize, g_ELP31.data(), g_ELP31.size(), fD2, fldash2, fl2, fF2, true) +
-                   Accumulate_3(pT, nTSize, g_ELP34.data(), g_ELP34.size(), fD2, fldash2, fl2, fF2);
-  return CAACoordinateTransformation::MapTo0To360Range(A/3600.0 + CAACoordinateTransformation::RadiansToDegrees(MoonMeanMeanLongitude(pT, nTSize)));
+  const double A{Accumulate(g_ELP1.data(), g_ELP1.size(), fD, fldash, fl, fF) +
+                 Accumulate(pT, nTSize, g_ELP4.data(), g_ELP4.size(), fD2, fldash2, fl2, fF2, false) +
+                 Accumulate_2(pT, nTSize, g_ELP7.data(), g_ELP7.size(), fD2, fldash2, fl2, fF2, false) +
+                 AccumulateTable1(g_ELP10.data(), g_ELP10.size(), fD2, fl2, fF2, fMe, fV, fT, fMa, fJ, fS, fU, fN) +
+                 AccumulateTable1_2(pT, nTSize, g_ELP13.data(), g_ELP13.size(), fD2, fl2, fF2, fMe, fV, fT, fMa, fJ, fS, fU, fN) +
+                 AccumulateTable2(g_ELP16.data(), g_ELP16.size(), fD2, fldash2, fl2, fF2, fMe, fV, fT, fMa, fJ, fS, fU) +
+                 AccumulateTable2_2(pT, nTSize, g_ELP19.data(), g_ELP19.size(), fD2, fldash2, fl2, fF2, fMe, fV, fT, fMa, fJ, fS, fU) +
+                 Accumulate(pT, nTSize, g_ELP22.data(), g_ELP22.size(), fD2, fldash2, fl2, fF2, true) +
+                 Accumulate_2(pT, nTSize, g_ELP25.data(), g_ELP25.size(), fD2, fldash2, fl2, fF2, true) +
+                 Accumulate(pT, nTSize, g_ELP28.data(), g_ELP28.size(), fD2, fldash2, fl2, fF2, true) +
+                 Accumulate(pT, nTSize, g_ELP31.data(), g_ELP31.size(), fD2, fldash2, fl2, fF2, true) +
+                 Accumulate_3(pT, nTSize, g_ELP34.data(), g_ELP34.size(), fD2, fldash2, fl2, fF2)};
+  return CAACoordinateTransformation::MapTo0To360Range((A/3600.0) + CAACoordinateTransformation::RadiansToDegrees(MoonMeanMeanLongitude(pT, nTSize)));
 }
 
 double CAAELP2000::EclipticLongitude(double JD) noexcept
 {
   //Calculate Julian centuries
-  array<double, 5> t;
+  std::array<double, 5> t;
   t[0] = 1;
-  t[1] = (JD - 2451545.0) / 36525.0;
-  t[2] = t[1] * t[1];
-  t[3] = t[2] * t[1];
-  t[4] = t[3] * t[1];
+  t[1] = (JD - 2451545)/36525;
+  t[2] = t[1]*t[1];
+  t[3] = t[2]*t[1];
+  t[4] = t[3]*t[1];
 
   return EclipticLongitude(t.data(), 5);
 }
@@ -38777,54 +38779,54 @@ double CAAELP2000::EclipticLongitude(double JD) noexcept
 double CAAELP2000::EclipticLatitude(const double* pT, int nTSize) noexcept
 {
   //Validate our parameters
-  assert(pT != nullptr);
+  assert(pT);
   assert(nTSize >= 2);
 
   //Compute the delaney arguments for the specified time
-  const double fD = MoonMeanSolarElongation(pT, nTSize);
-  const double fldash = SunMeanAnomaly(pT, nTSize);
-  const double fl = MoonMeanAnomaly(pT, nTSize);
-  const double fF = MoonMeanArgumentOfLatitude(pT, nTSize);
-  const double fD2 = MoonMeanSolarElongation(pT, 2);
-  const double fldash2 = SunMeanAnomaly(pT, 2);
-  const double fl2 = MoonMeanAnomaly(pT, 2);
-  const double fF2 = MoonMeanArgumentOfLatitude(pT, 2);
+  const double fD{MoonMeanSolarElongation(pT, nTSize)};
+  const double fldash{SunMeanAnomaly(pT, nTSize)};
+  const double fl{MoonMeanAnomaly(pT, nTSize)};
+  const double fF{MoonMeanArgumentOfLatitude(pT, nTSize)};
+  const double fD2{MoonMeanSolarElongation(pT, 2)};
+  const double fldash2{SunMeanAnomaly(pT, 2)};
+  const double fl2{MoonMeanAnomaly(pT, 2)};
+  const double fF2{MoonMeanArgumentOfLatitude(pT, 2)};
 
   //Compute the planet mean longitudes for the specified time
-  const double fMe = MercuryMeanLongitude(pT[1]);
-  const double fV = VenusMeanLongitude(pT[1]);
-  const double fT = MeanHeliocentricMeanLongitudeEarthMoonBarycentre(pT, 2);
-  const double fMa = MarsMeanLongitude(pT[1]);
-  const double fJ = JupiterMeanLongitude(pT[1]);
-  const double fS = SaturnMeanLongitude(pT[1]);
-  const double fU = UranusMeanLongitude(pT[1]);
-  const double fN = NeptuneMeanLongitude(pT[1]);
+  const double fMe{MercuryMeanLongitude(pT[1])};
+  const double fV{VenusMeanLongitude(pT[1])};
+  const double fT{MeanHeliocentricMeanLongitudeEarthMoonBarycentre(pT, 2)};
+  const double fMa{MarsMeanLongitude(pT[1])};
+  const double fJ{JupiterMeanLongitude(pT[1])};
+  const double fS{SaturnMeanLongitude(pT[1])};
+  const double fU{UranusMeanLongitude(pT[1])};
+  const double fN{NeptuneMeanLongitude(pT[1])};
 
   //Calculate the Longitude
-  const double B = Accumulate(g_ELP2.data(), g_ELP2.size(), fD, fldash, fl, fF) +
-                   Accumulate(pT, nTSize, g_ELP5.data(), g_ELP5.size(), fD2, fldash2, fl2, fF2, false) +
-                   Accumulate_2(pT, nTSize, g_ELP8.data(), g_ELP8.size(), fD2, fldash2, fl2, fF2, false) +
-                   AccumulateTable1(g_ELP11.data(), g_ELP11.size(), fD2, fl2, fF2, fMe, fV, fT, fMa, fJ, fS, fU, fN) +
-                   AccumulateTable1_2(pT, nTSize, g_ELP14.data(), g_ELP14.size(), fD2, fl2, fF2, fMe, fV, fT, fMa, fJ, fS, fU, fN) +
-                   AccumulateTable2(g_ELP17.data(), g_ELP17.size(), fD2, fldash2, fl2, fF2, fMe, fV, fT, fMa, fJ, fS, fU) +
-                   AccumulateTable2_2(pT, nTSize, g_ELP20.data(), g_ELP20.size(), fD2, fldash2, fl2, fF2, fMe, fV, fT, fMa, fJ, fS, fU) +
-                   Accumulate(pT, nTSize, g_ELP23.data(), g_ELP23.size(), fD2, fldash2, fl2, fF2, true) +
-                   Accumulate_2(pT, nTSize, g_ELP26.data(), g_ELP26.size(), fD2, fldash2, fl2, fF2, true) +
-                   Accumulate(pT, nTSize, g_ELP29.data(), g_ELP29.size(), fD2, fldash2, fl2, fF2, true) +
-                   Accumulate(pT, nTSize, g_ELP32.data(), g_ELP32.size(), fD2, fldash2, fl2, fF2, true) +
-                   Accumulate_3(pT, nTSize, g_ELP35.data(), g_ELP35.size(), fD2, fldash2, fl2, fF2);
+  const double B{Accumulate(g_ELP2.data(), g_ELP2.size(), fD, fldash, fl, fF) +
+                 Accumulate(pT, nTSize, g_ELP5.data(), g_ELP5.size(), fD2, fldash2, fl2, fF2, false) +
+                 Accumulate_2(pT, nTSize, g_ELP8.data(), g_ELP8.size(), fD2, fldash2, fl2, fF2, false) +
+                 AccumulateTable1(g_ELP11.data(), g_ELP11.size(), fD2, fl2, fF2, fMe, fV, fT, fMa, fJ, fS, fU, fN) +
+                 AccumulateTable1_2(pT, nTSize, g_ELP14.data(), g_ELP14.size(), fD2, fl2, fF2, fMe, fV, fT, fMa, fJ, fS, fU, fN) +
+                 AccumulateTable2(g_ELP17.data(), g_ELP17.size(), fD2, fldash2, fl2, fF2, fMe, fV, fT, fMa, fJ, fS, fU) +
+                 AccumulateTable2_2(pT, nTSize, g_ELP20.data(), g_ELP20.size(), fD2, fldash2, fl2, fF2, fMe, fV, fT, fMa, fJ, fS, fU) +
+                 Accumulate(pT, nTSize, g_ELP23.data(), g_ELP23.size(), fD2, fldash2, fl2, fF2, true) +
+                 Accumulate_2(pT, nTSize, g_ELP26.data(), g_ELP26.size(), fD2, fldash2, fl2, fF2, true) +
+                 Accumulate(pT, nTSize, g_ELP29.data(), g_ELP29.size(), fD2, fldash2, fl2, fF2, true) +
+                 Accumulate(pT, nTSize, g_ELP32.data(), g_ELP32.size(), fD2, fldash2, fl2, fF2, true) +
+                 Accumulate_3(pT, nTSize, g_ELP35.data(), g_ELP35.size(), fD2, fldash2, fl2, fF2)};
   return CAACoordinateTransformation::MapToMinus90To90Range(B/3600.0);
 }
 
 double CAAELP2000::EclipticLatitude(double JD) noexcept
 {
   //Calculate Julian centuries
-  array<double, 5> t;
+  std::array<double, 5> t;
   t[0] = 1;
-  t[1] = (JD - 2451545.0) / 36525.0;
-  t[2] = t[1] * t[1];
-  t[3] = t[2] * t[1];
-  t[4] = t[3] * t[1];
+  t[1] = (JD - 2451545)/36525;
+  t[2] = t[1]*t[1];
+  t[3] = t[2]*t[1];
+  t[4] = t[3]*t[1];
 
   return EclipticLatitude(t.data(), 5);
 }
@@ -38835,110 +38837,107 @@ double CAAELP2000::EclipticLatitude(double JD) noexcept
 double CAAELP2000::RadiusVector(const double* pT, int nTSize) noexcept
 {
   //Validate our parameters
-  assert(pT != nullptr);
+  assert(pT);
   assert(nTSize >= 2);
 
   //Compute the delaney arguments for the specified time
-  const double fD = MoonMeanSolarElongation(pT, nTSize);
-  const double fldash = SunMeanAnomaly(pT, nTSize);
-  const double fl = MoonMeanAnomaly(pT, nTSize);
-  const double fF = MoonMeanArgumentOfLatitude(pT, nTSize);
-  const double fD2 = MoonMeanSolarElongation(pT, 2);
-  const double fldash2 = SunMeanAnomaly(pT, 2);
-  const double fl2 = MoonMeanAnomaly(pT, 2);
-  const double fF2 = MoonMeanArgumentOfLatitude(pT, 2);
+  const double fD{MoonMeanSolarElongation(pT, nTSize)};
+  const double fldash{SunMeanAnomaly(pT, nTSize)};
+  const double fl{MoonMeanAnomaly(pT, nTSize)};
+  const double fF{MoonMeanArgumentOfLatitude(pT, nTSize)};
+  const double fD2{MoonMeanSolarElongation(pT, 2)};
+  const double fldash2{SunMeanAnomaly(pT, 2)};
+  const double fl2{MoonMeanAnomaly(pT, 2)};
+  const double fF2{MoonMeanArgumentOfLatitude(pT, 2)};
 
   //Compute the planet mean longitudes for the specified time
-  const double fMe = MercuryMeanLongitude(pT[1]);
-  const double fV = VenusMeanLongitude(pT[1]);
-  const double fT = MeanHeliocentricMeanLongitudeEarthMoonBarycentre(pT, 2);
-  const double fMa = MarsMeanLongitude(pT[1]);
-  const double fJ = JupiterMeanLongitude(pT[1]);
-  const double fS = SaturnMeanLongitude(pT[1]);
-  const double fU = UranusMeanLongitude(pT[1]);
-  const double fN = NeptuneMeanLongitude(pT[1]);
+  const double fMe{MercuryMeanLongitude(pT[1])};
+  const double fV{VenusMeanLongitude(pT[1])};
+  const double fT{MeanHeliocentricMeanLongitudeEarthMoonBarycentre(pT, 2)};
+  const double fMa{MarsMeanLongitude(pT[1])};
+  const double fJ{JupiterMeanLongitude(pT[1])};
+  const double fS{SaturnMeanLongitude(pT[1])};
+  const double fU{UranusMeanLongitude(pT[1])};
+  const double fN{NeptuneMeanLongitude(pT[1])};
 
   //Calculate the Longitude
-  const double fValue = Accumulate_2(g_ELP3.data(), g_ELP3.size(), fD, fldash, fl, fF) +
-                        Accumulate(pT, nTSize, g_ELP6.data(), g_ELP6.size(), fD2, fldash2, fl2, fF2, false) +
-                        Accumulate_2(pT, nTSize, g_ELP9.data(), g_ELP9.size(), fD2, fldash2, fl2, fF2, false) +
-                        AccumulateTable1(g_ELP12.data(), g_ELP12.size(), fD2, fl2, fF2, fMe, fV, fT, fMa, fJ, fS, fU, fN) +
-                        AccumulateTable1_2(pT, nTSize, g_ELP15.data(), g_ELP15.size(), fD2, fl2, fF2, fMe, fV, fT, fMa, fJ, fS, fU, fN) +
-                        AccumulateTable2(g_ELP18.data(), g_ELP18.size(), fD2, fldash2, fl2, fF2, fMe, fV, fT, fMa, fJ, fS, fU) +
-                        AccumulateTable2_2(pT, nTSize, g_ELP21.data(), g_ELP21.size(), fD2, fldash2, fl2, fF2, fMe, fV, fT, fMa, fJ, fS, fU) +
-                        Accumulate(pT, nTSize, g_ELP24.data(), g_ELP24.size(), fD2, fldash2, fl2, fF2, true) +
-                        Accumulate_2(pT, nTSize, g_ELP27.data(), g_ELP27.size(), fD2, fldash2, fl2, fF2, true) +
-                        Accumulate(pT, nTSize, g_ELP30.data(), g_ELP30.size(), fD2, fldash2, fl2, fF2, true) +
-                        Accumulate(pT, nTSize, g_ELP33.data(), g_ELP33.size(), fD2, fldash2, fl2, fF2, true) +
-                        Accumulate_3(pT, nTSize, g_ELP36.data(), g_ELP36.size(), fD2, fldash2, fl2, fF2);
-  return fValue * 384747.9806448954 / 384747.9806743165;
+  const double fValue{Accumulate_2(g_ELP3.data(), g_ELP3.size(), fD, fldash, fl, fF) +
+                      Accumulate(pT, nTSize, g_ELP6.data(), g_ELP6.size(), fD2, fldash2, fl2, fF2, false) +
+                      Accumulate_2(pT, nTSize, g_ELP9.data(), g_ELP9.size(), fD2, fldash2, fl2, fF2, false) +
+                      AccumulateTable1(g_ELP12.data(), g_ELP12.size(), fD2, fl2, fF2, fMe, fV, fT, fMa, fJ, fS, fU, fN) +
+                      AccumulateTable1_2(pT, nTSize, g_ELP15.data(), g_ELP15.size(), fD2, fl2, fF2, fMe, fV, fT, fMa, fJ, fS, fU, fN) +
+                      AccumulateTable2(g_ELP18.data(), g_ELP18.size(), fD2, fldash2, fl2, fF2, fMe, fV, fT, fMa, fJ, fS, fU) +
+                      AccumulateTable2_2(pT, nTSize, g_ELP21.data(), g_ELP21.size(), fD2, fldash2, fl2, fF2, fMe, fV, fT, fMa, fJ, fS, fU) +
+                      Accumulate(pT, nTSize, g_ELP24.data(), g_ELP24.size(), fD2, fldash2, fl2, fF2, true) +
+                      Accumulate_2(pT, nTSize, g_ELP27.data(), g_ELP27.size(), fD2, fldash2, fl2, fF2, true) +
+                      Accumulate(pT, nTSize, g_ELP30.data(), g_ELP30.size(), fD2, fldash2, fl2, fF2, true) +
+                      Accumulate(pT, nTSize, g_ELP33.data(), g_ELP33.size(), fD2, fldash2, fl2, fF2, true) +
+                      Accumulate_3(pT, nTSize, g_ELP36.data(), g_ELP36.size(), fD2, fldash2, fl2, fF2)};
+  return fValue*384747.9806448954/384747.9806743165;
 }
 
 double CAAELP2000::RadiusVector(double JD) noexcept
 {
   //Calculate Julian centuries
-  array<double, 5> t;
+  std::array<double, 5> t;
   t[0] = 1;
-  t[1] = (JD - 2451545.0) / 36525.0;
-  t[2] = t[1] * t[1];
-  t[3] = t[2] * t[1];
-  t[4] = t[3] * t[1];
+  t[1] = (JD - 2451545)/36525;
+  t[2] = t[1]*t[1];
+  t[3] = t[2]*t[1];
+  t[4] = t[3]*t[1];
 
   return RadiusVector(t.data(), 5);
 }
 
 CAA3DCoordinate CAAELP2000::EclipticRectangularCoordinates(double JD) noexcept
 {
-  double fLongitude = EclipticLongitude(JD);
-  double fLatitude = EclipticLatitude(JD);
-  const double fR = RadiusVector(JD);
+  double fLongitude{EclipticLongitude(JD)};
+  double fLatitude{EclipticLatitude(JD)};
+  const double fR{RadiusVector(JD)};
 
   CAA3DCoordinate value;
   fLongitude = CAACoordinateTransformation::DegreesToRadians(fLongitude);
   fLatitude = CAACoordinateTransformation::DegreesToRadians(fLatitude);
-  const double fCosLat = cos(fLatitude);
-  value.X = fR * cos(fLongitude) * fCosLat;
-  value.Y = fR * sin(fLongitude) * fCosLat;
-  value.Z = fR * sin(fLatitude);
-
+  const double fCosLat{cos(fLatitude)};
+  value.X = fR*cos(fLongitude)*fCosLat;
+  value.Y = fR*sin(fLongitude)*fCosLat;
+  value.Z = fR*sin(fLatitude);
   return value;
 }
 
 CAA3DCoordinate CAAELP2000::EclipticRectangularCoordinatesJ2000(double JD) noexcept
 {
-  array<double, 5> t{};
+  std::array<double, 5> t{};
   t[0] = 1;
-  t[1] = (JD - 2451545.0) / 36525.0;
-  t[2] = t[1] * t[1];
-  t[3] = t[2] * t[1];
-  t[4] = t[3] * t[1];
-  const double P = (1.0180391e-5   + 4.7020439e-7*t[1] + -5.417367e-10*t[2] + -2.507948e-12*t[3] + 4.63486e-15*t[4]) * t[1];
-  const double Q = (-1.13469002e-4 + 1.2372674e-7*t[1] + 1.265417e-9*t[2]   + -1.371808e-12*t[3] + -3.20334e-15*t[4]) * t[1];
-  const double TwoP = 2*P;
-  const double P2 = P*P;
-  const double Q2 = Q*Q;
-  const double OneMinus2P2 = 1 - 2*P2;
-  const double TwoPQ = TwoP*Q;
-  const double Twosqrt1MinusPart = 2*sqrt(1 - P2 - Q2);
+  t[1] = (JD - 2451545)/36525;
+  t[2] = t[1]*t[1];
+  t[3] = t[2]*t[1];
+  t[4] = t[3]*t[1];
+  const double P{(1.0180391e-5 + (4.7020439e-7*t[1]) + (-5.417367e-10*t[2]) + (-2.507948e-12*t[3]) + (4.63486e-15*t[4]))*t[1]};
+  const double Q{(-1.13469002e-4 + (1.2372674e-7*t[1]) + (1.265417e-9*t[2]) + (-1.371808e-12*t[3]) + (-3.20334e-15*t[4]))*t[1]};
+  const double TwoP{2*P};
+  const double P2{P*P};
+  const double Q2{Q*Q};
+  const double OneMinus2P2{1 - (2*P2)};
+  const double TwoPQ{TwoP*Q};
+  const double Twosqrt1MinusPart{2*sqrt(1 - P2 - Q2)};
 
-  const CAA3DCoordinate Ecliptic = EclipticRectangularCoordinates(JD);
+  const CAA3DCoordinate Ecliptic{EclipticRectangularCoordinates(JD)};
 
   CAA3DCoordinate J2000;
   J2000.X = (OneMinus2P2*Ecliptic.X) + (TwoPQ*Ecliptic.Y) + (P*Twosqrt1MinusPart*Ecliptic.Z);
   J2000.Y = (TwoPQ*Ecliptic.X) + ((1 - 2 * Q2)*Ecliptic.Y) - (Q*Twosqrt1MinusPart*Ecliptic.Z);
   J2000.Z = (-P*Twosqrt1MinusPart*Ecliptic.X) + (Q*Twosqrt1MinusPart*Ecliptic.Y) + ((1-2*P2-2*Q2)*Ecliptic.Z);
-
   return J2000;
 }
 
 CAA3DCoordinate CAAELP2000::EquatorialRectangularCoordinatesFK5(double JD) noexcept
 {
-  const CAA3DCoordinate J2000 = EclipticRectangularCoordinatesJ2000(JD);
+  const CAA3DCoordinate J2000{EclipticRectangularCoordinatesJ2000(JD)};
 
   CAA3DCoordinate FK5;
   FK5.X = J2000.X + (0.000000437913*J2000.Y) - (0.000000189859*J2000.Z);
   FK5.Y = (-0.000000477299*J2000.X) + (0.917482137607*J2000.Y) - (0.397776981701*J2000.Z);
   FK5.Z = (0.397776981701*J2000.Y) + (0.917482137607*J2000.Z);
-
   return FK5;
 }

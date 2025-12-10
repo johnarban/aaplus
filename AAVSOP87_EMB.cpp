@@ -9,7 +9,7 @@ History: PJN / 13-09-2015 1. Initial public release.
                           false, the values returned are now in exact agreement with the vsop87.chk test
                           values. Thanks to Cao Yu for reporting this issue.
 
-Copyright (c) 2015 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2015 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -24,23 +24,21 @@ to maintain a single distribution point for the source code.
 */
 
 
-/////////////////////////////// Includes //////////////////////////////////////
+//////////////////// Includes /////////////////////////////////////////////////
 
 #include "stdafx.h"
 #include "AAVSOP87.h"
 #include "AAVSOP87_EMB.h"
-#include <cmath>
 #include <array>
-using namespace std;
 
 
-////////////////////////////// Macros / Defines ///////////////////////////////
+//////////////////// Macros / Defines /////////////////////////////////////////
 
 #ifdef _MSC_VER
 #pragma warning(disable : 26485)
 #endif //#ifdef _MSC_VER
 
-constexpr array<VSOP87Coefficient, 438> g_VSOP87_A0_EMB
+constexpr std::array<VSOP87Coefficient, 438> g_VSOP87_A0_EMB
 { {
   {        1.00000101778,        0.00000000000,        0.00000000000 },
   {        0.00001120473,        2.30855131827,    11506.76976979360 },
@@ -482,7 +480,7 @@ constexpr array<VSOP87Coefficient, 438> g_VSOP87_A0_EMB
   {        0.00000000048,        3.15413327757,    17576.54652434700 }
 } };
 
-constexpr array<VSOP87Coefficient, 258> g_VSOP87_A1_EMB
+constexpr std::array<VSOP87Coefficient, 258> g_VSOP87_A1_EMB
 { {
   {        0.00000013321,        1.40119028360,     1577.34354244780 },
   {        0.00000010803,        2.77156683086,    10977.07880469900 },
@@ -744,7 +742,7 @@ constexpr array<VSOP87Coefficient, 258> g_VSOP87_A1_EMB
   {        0.00000000019,        4.22274694347,     4701.11650170840 }
 } };
 
-constexpr array<VSOP87Coefficient, 100> g_VSOP87_A2_EMB
+constexpr std::array<VSOP87Coefficient, 100> g_VSOP87_A2_EMB
 { {
   {        0.00000000615,        3.09674638010,     1577.34354244780 },
   {        0.00000000650,        5.56221532891,      775.52261132400 },
@@ -848,7 +846,7 @@ constexpr array<VSOP87Coefficient, 100> g_VSOP87_A2_EMB
   {        0.00000000009,        5.78653918203,     6040.34724601740 }
 } };
 
-constexpr array<VSOP87Coefficient, 688> g_VSOP87_L0_EMB
+constexpr std::array<VSOP87Coefficient, 688> g_VSOP87_L0_EMB
 { {
   {        1.75347045953,        0.00000000000,        0.00000000000 },
   {        0.00003417568,        2.82887613695,        3.52311834900 },
@@ -1540,7 +1538,7 @@ constexpr array<VSOP87Coefficient, 688> g_VSOP87_L0_EMB
   {        0.00000000036,        4.59450271611,     1603.64186224760 }
 } };
 
-constexpr array<VSOP87Coefficient, 313> g_VSOP87_L1_EMB
+constexpr std::array<VSOP87Coefficient, 313> g_VSOP87_L1_EMB
 { {
   {     6283.07584999140,        0.00000000000,        0.00000000000 },
   {        0.00000425257,        1.59049255748,        3.52311834900 },
@@ -1857,7 +1855,7 @@ constexpr array<VSOP87Coefficient, 313> g_VSOP87_L1_EMB
   {        0.00000000037,        0.87176889717,    16522.65971600220 }
 } };
 
-constexpr array<VSOP87Coefficient, 80> g_VSOP87_L2_EMB
+constexpr std::array<VSOP87Coefficient, 80> g_VSOP87_L2_EMB
 { {
   {        0.00000991013,        3.14159265359,        0.00000000000 },
   {        0.00000027348,        0.05276844178,        3.52311834900 },
@@ -1941,7 +1939,7 @@ constexpr array<VSOP87Coefficient, 80> g_VSOP87_L2_EMB
   {        0.00000000038,        0.33673983694,    24356.78078864160 }
 } };
 
-constexpr array<VSOP87Coefficient, 5> g_VSOP87_L3_EMB
+constexpr std::array<VSOP87Coefficient, 5> g_VSOP87_L3_EMB
 { {
   {        0.00000002962,        5.19564087320,      155.42039943420 },
   {        0.00000002537,        3.14159265359,        0.00000000000 },
@@ -1950,18 +1948,18 @@ constexpr array<VSOP87Coefficient, 5> g_VSOP87_L3_EMB
   {        0.00000000402,        3.78606612895,      553.56940284240 }
 } };
 
-constexpr array<VSOP87Coefficient, 2> g_VSOP87_L4_EMB
+constexpr std::array<VSOP87Coefficient, 2> g_VSOP87_L4_EMB
 { {
   {        0.00000000420,        0.41892851415,      155.42039943420 },
   {        0.00000000041,        3.14032562331,        3.52311834900 }
 } };
 
-constexpr array<VSOP87Coefficient, 1> g_VSOP87_L5_EMB
+constexpr std::array<VSOP87Coefficient, 1> g_VSOP87_L5_EMB
 { {
   {        0.00000000050,        2.01352986713,      155.42039943420 }
 } };
 
-constexpr array<VSOP87Coefficient, 597> g_VSOP87_K0_EMB
+constexpr std::array<VSOP87Coefficient, 597> g_VSOP87_K0_EMB
 { {
   {        0.00374081650,        3.14159265359,        0.00000000000 },
   {        0.00001988852,        4.23374621009,     1577.34354244780 },
@@ -2562,7 +2560,7 @@ constexpr array<VSOP87Coefficient, 597> g_VSOP87_K0_EMB
   {        0.00000000046,        2.74913926743,     8671.96987044060 }
 } };
 
-constexpr array<VSOP87Coefficient, 254> g_VSOP87_K1_EMB
+constexpr std::array<VSOP87Coefficient, 254> g_VSOP87_K1_EMB
 { {
   {        0.00082267418,        3.14159265359,        0.00000000000 },
   {        0.00000026605,        2.07229275260,      775.52261132400 },
@@ -2820,7 +2818,7 @@ constexpr array<VSOP87Coefficient, 254> g_VSOP87_K1_EMB
   {        0.00000000036,        5.46350036510,    65697.55772473979 }
 } };
 
-constexpr array<VSOP87Coefficient, 55> g_VSOP87_K2_EMB
+constexpr std::array<VSOP87Coefficient, 55> g_VSOP87_K2_EMB
 { {
   {        0.00002762465,        0.00000000000,        0.00000000000 },
   {        0.00000001225,        0.37517058299,      775.52261132400 },
@@ -2879,22 +2877,22 @@ constexpr array<VSOP87Coefficient, 55> g_VSOP87_K2_EMB
   {        0.00000000038,        1.57041207320,      639.89728631400 }
 } };
 
-constexpr array<VSOP87Coefficient, 1> g_VSOP87_K3_EMB
+constexpr std::array<VSOP87Coefficient, 1> g_VSOP87_K3_EMB
 { {
   {        0.00000116955,        0.00000000000,        0.00000000000 }
 } };
 
-constexpr array<VSOP87Coefficient, 1> g_VSOP87_K4_EMB
+constexpr std::array<VSOP87Coefficient, 1> g_VSOP87_K4_EMB
 { {
   {        0.00000002696,        3.14159265359,        0.00000000000 }
 } };
 
-constexpr array<VSOP87Coefficient, 1> g_VSOP87_K5_EMB
+constexpr std::array<VSOP87Coefficient, 1> g_VSOP87_K5_EMB
 { {
   {        0.00000000071,        3.14159265359,        0.00000000000 }
 } };
 
-constexpr array<VSOP87Coefficient, 584> g_VSOP87_H0_EMB
+constexpr std::array<VSOP87Coefficient, 584> g_VSOP87_H0_EMB
 { {
   {        0.01628447663,        0.00000000000,        0.00000000000 },
   {        0.00001986929,        5.80464886318,     1577.34354244780 },
@@ -3482,7 +3480,7 @@ constexpr array<VSOP87Coefficient, 584> g_VSOP87_H0_EMB
   {        0.00000000046,        1.16988162456,     8671.96987044060 }
 } };
 
-constexpr array<VSOP87Coefficient, 251> g_VSOP87_H1_EMB
+constexpr std::array<VSOP87Coefficient, 251> g_VSOP87_H1_EMB
 { {
   {        0.00062029655,        3.14159265359,        0.00000000000 },
   {        0.00000026631,        0.50260243452,      775.52261132400 },
@@ -3737,7 +3735,7 @@ constexpr array<VSOP87Coefficient, 251> g_VSOP87_H1_EMB
   {        0.00000000036,        0.75399979841,    65697.55772473979 }
 } };
 
-constexpr array<VSOP87Coefficient, 53> g_VSOP87_H2_EMB
+constexpr std::array<VSOP87Coefficient, 53> g_VSOP87_H2_EMB
 { {
   {        0.00003382631,        3.14159265359,        0.00000000000 },
   {        0.00000001224,        5.08758285720,      775.52261132400 },
@@ -3794,22 +3792,22 @@ constexpr array<VSOP87Coefficient, 53> g_VSOP87_H2_EMB
   {        0.00000000037,        5.12896326235,     6836.64525283380 }
 } };
 
-constexpr array<VSOP87Coefficient, 1> g_VSOP87_H3_EMB
+constexpr std::array<VSOP87Coefficient, 1> g_VSOP87_H3_EMB
 { {
   {        0.00000085101,        0.00000000000,        0.00000000000 }
 } };
 
-constexpr array<VSOP87Coefficient, 1> g_VSOP87_H4_EMB
+constexpr std::array<VSOP87Coefficient, 1> g_VSOP87_H4_EMB
 { {
   {        0.00000002770,        0.00000000000,        0.00000000000 }
 } };
 
-constexpr array<VSOP87Coefficient, 1> g_VSOP87_H5_EMB
+constexpr std::array<VSOP87Coefficient, 1> g_VSOP87_H5_EMB
 { {
   {        0.00000000047,        3.14159265359,        0.00000000000 }
 } };
 
-constexpr array<VSOP87Coefficient, 197> g_VSOP87_Q0_EMB
+constexpr std::array<VSOP87Coefficient, 197> g_VSOP87_Q0_EMB
 { {
   {        0.00000046990,        1.03836320801,      775.52261132400 },
   {        0.00000037030,        2.58501310328,     1059.38193018920 },
@@ -4010,7 +4008,7 @@ constexpr array<VSOP87Coefficient, 197> g_VSOP87_Q0_EMB
   {        0.00000000043,        0.78089021121,    24383.07910844140 }
 } };
 
-constexpr array<VSOP87Coefficient, 58> g_VSOP87_Q1_EMB
+constexpr std::array<VSOP87Coefficient, 58> g_VSOP87_Q1_EMB
 { {
   {        0.00113468869,        3.14159265359,        0.00000000000 },
   {        0.00000004145,        2.55097496137,      775.52261132400 },
@@ -4072,7 +4070,7 @@ constexpr array<VSOP87Coefficient, 58> g_VSOP87_Q1_EMB
   {        0.00000000035,        1.18909598733,    27511.46787353720 }
 } };
 
-constexpr array<VSOP87Coefficient, 8> g_VSOP87_Q2_EMB
+constexpr std::array<VSOP87Coefficient, 8> g_VSOP87_Q2_EMB
 { {
   {        0.00001237314,        0.00000000000,        0.00000000000 },
   {        0.00000000156,        4.17827791124,      775.52261132400 },
@@ -4084,22 +4082,22 @@ constexpr array<VSOP87Coefficient, 8> g_VSOP87_Q2_EMB
   {        0.00000000015,        5.67119610168,      337.81426319640 }
 } };
 
-constexpr array<VSOP87Coefficient, 1> g_VSOP87_Q3_EMB
+constexpr std::array<VSOP87Coefficient, 1> g_VSOP87_Q3_EMB
 { {
   {        0.00000126542,        0.00000000000,        0.00000000000 }
 } };
 
-constexpr array<VSOP87Coefficient, 1> g_VSOP87_Q4_EMB
+constexpr std::array<VSOP87Coefficient, 1> g_VSOP87_Q4_EMB
 { {
   {        0.00000001372,        3.14159265359,        0.00000000000 }
 } };
 
-constexpr array<VSOP87Coefficient, 1> g_VSOP87_Q5_EMB
+constexpr std::array<VSOP87Coefficient, 1> g_VSOP87_Q5_EMB
 { {
   {        0.00000000032,        3.14159265359,        0.00000000000 }
 } };
 
-constexpr array<VSOP87Coefficient, 183> g_VSOP87_P0_EMB
+constexpr std::array<VSOP87Coefficient, 183> g_VSOP87_P0_EMB
 { {
   {        0.00000048408,        5.76054381234,      775.52261132400 },
   {        0.00000036656,        1.01572916759,     1059.38193018920 },
@@ -4286,7 +4284,7 @@ constexpr array<VSOP87Coefficient, 183> g_VSOP87_P0_EMB
   {        0.00000000051,        3.22403140905,    14314.16811304980 }
 } };
 
-constexpr array<VSOP87Coefficient, 57> g_VSOP87_P1_EMB
+constexpr std::array<VSOP87Coefficient, 57> g_VSOP87_P1_EMB
 { {
   {        0.00010180375,        0.00000000000,        0.00000000000 },
   {        0.00000004328,        1.01402968363,      775.52261132400 },
@@ -4347,7 +4345,7 @@ constexpr array<VSOP87Coefficient, 57> g_VSOP87_P1_EMB
   {        0.00000000035,        4.90821231573,    19804.82729158280 }
 } };
 
-constexpr array<VSOP87Coefficient, 6> g_VSOP87_P2_EMB
+constexpr std::array<VSOP87Coefficient, 6> g_VSOP87_P2_EMB
 { {
   {        0.00004701998,        0.00000000000,        0.00000000000 },
   {        0.00000000189,        2.68775678259,      775.52261132400 },
@@ -4357,29 +4355,29 @@ constexpr array<VSOP87Coefficient, 6> g_VSOP87_P2_EMB
   {        0.00000000015,        0.95917101569,      337.81426319640 }
 } };
 
-constexpr array<VSOP87Coefficient, 1> g_VSOP87_P3_EMB
+constexpr std::array<VSOP87Coefficient, 1> g_VSOP87_P3_EMB
 { {
   {        0.00000054174,        3.14159265359,        0.00000000000 }
 } };
 
-constexpr array<VSOP87Coefficient, 1> g_VSOP87_P4_EMB
+constexpr std::array<VSOP87Coefficient, 1> g_VSOP87_P4_EMB
 { {
   {        0.00000002508,        3.14159265359,        0.00000000000 }
 } };
 
-constexpr array<VSOP87Coefficient, 1> g_VSOP87_P5_EMB
+constexpr std::array<VSOP87Coefficient, 1> g_VSOP87_P5_EMB
 { {
   {        0.00000000046,        0.00000000000,        0.00000000000 }
 } };
 
-constexpr array<VSOP87Coefficient2, 3> g_VSOP87_A_EMB
+constexpr std::array<VSOP87Coefficient2, 3> g_VSOP87_A_EMB
 { {
   { g_VSOP87_A0_EMB.data(), g_VSOP87_A0_EMB.size() },
   { g_VSOP87_A1_EMB.data(), g_VSOP87_A1_EMB.size() },
   { g_VSOP87_A2_EMB.data(), g_VSOP87_A2_EMB.size() }
 } };
 
-constexpr array<VSOP87Coefficient2, 6> g_VSOP87_L_EMB
+constexpr std::array<VSOP87Coefficient2, 6> g_VSOP87_L_EMB
 { {
   { g_VSOP87_L0_EMB.data(), g_VSOP87_L0_EMB.size() },
   { g_VSOP87_L1_EMB.data(), g_VSOP87_L1_EMB.size() },
@@ -4389,7 +4387,7 @@ constexpr array<VSOP87Coefficient2, 6> g_VSOP87_L_EMB
   { g_VSOP87_L5_EMB.data(), g_VSOP87_L5_EMB.size() }
 } };
 
-constexpr array<VSOP87Coefficient2, 6> g_VSOP87_K_EMB
+constexpr std::array<VSOP87Coefficient2, 6> g_VSOP87_K_EMB
 { {
   { g_VSOP87_K0_EMB.data(), g_VSOP87_K0_EMB.size() },
   { g_VSOP87_K1_EMB.data(), g_VSOP87_K1_EMB.size() },
@@ -4399,7 +4397,7 @@ constexpr array<VSOP87Coefficient2, 6> g_VSOP87_K_EMB
   { g_VSOP87_K5_EMB.data(), g_VSOP87_K5_EMB.size() }
 } };
 
-constexpr array<VSOP87Coefficient2, 6> g_VSOP87_H_EMB
+constexpr std::array<VSOP87Coefficient2, 6> g_VSOP87_H_EMB
 { {
   { g_VSOP87_H0_EMB.data(), g_VSOP87_H0_EMB.size() },
   { g_VSOP87_H1_EMB.data(), g_VSOP87_H1_EMB.size() },
@@ -4409,7 +4407,7 @@ constexpr array<VSOP87Coefficient2, 6> g_VSOP87_H_EMB
   { g_VSOP87_H5_EMB.data(), g_VSOP87_H5_EMB.size() }
 } };
 
-constexpr array<VSOP87Coefficient2, 6> g_VSOP87_Q_EMB
+constexpr std::array<VSOP87Coefficient2, 6> g_VSOP87_Q_EMB
 { {
   { g_VSOP87_Q0_EMB.data(), g_VSOP87_Q0_EMB.size() },
   { g_VSOP87_Q1_EMB.data(), g_VSOP87_Q1_EMB.size() },
@@ -4419,7 +4417,7 @@ constexpr array<VSOP87Coefficient2, 6> g_VSOP87_Q_EMB
   { g_VSOP87_Q5_EMB.data(), g_VSOP87_Q5_EMB.size() }
 } };
 
-constexpr array<VSOP87Coefficient2, 6> g_VSOP87_P_EMB
+constexpr std::array<VSOP87Coefficient2, 6> g_VSOP87_P_EMB
 { {
   { g_VSOP87_P0_EMB.data(), g_VSOP87_P0_EMB.size() },
   { g_VSOP87_P1_EMB.data(), g_VSOP87_P1_EMB.size() },
@@ -4430,7 +4428,7 @@ constexpr array<VSOP87Coefficient2, 6> g_VSOP87_P_EMB
 } };
 
 
-////////////////////////////// Implementation /////////////////////////////////
+//////////////////// Implementation ///////////////////////////////////////////
 
 double CAAVSOP87_EMB::A(double JD) noexcept
 {

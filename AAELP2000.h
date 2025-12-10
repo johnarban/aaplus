@@ -4,7 +4,7 @@ Purpose: Implementation for the algorithms for ELP2000-82B
 Created: PJN / 28-12-2015
 History: PJN / 28-12-2015 1. Initial public release.
 
-Copyright (c) 2015 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2015 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -19,7 +19,7 @@ to maintain a single distribution point for the source code.
 */
 
 
-/////////////////////// Macros / Defines //////////////////////////////////////
+//////////////////// Macros / Defines /////////////////////////////////////////
 
 #if _MSC_VER > 1000
 #pragma once
@@ -33,14 +33,14 @@ to maintain a single distribution point for the source code.
 #endif
 
 
-/////////////////////// Includes //////////////////////////////////////////////
+//////////////////// Includes /////////////////////////////////////////////////
 
 #include <array>
 #include <cstddef>
 #include "AA3DCoordinate.h"
 
 
-/////////////////////// Classes ///////////////////////////////////////////////
+//////////////////// Classes //////////////////////////////////////////////////
 
 struct AAPLUS_EXT_CLASS ELP2000MainProblemCoefficient
 {
@@ -87,8 +87,8 @@ public:
   static double MeanLongitudeLunarAscendingNode(double JD) noexcept;
   static double MeanHeliocentricMeanLongitudeEarthMoonBarycentre(const double* pT, int nTSize) noexcept;
   static double MeanHeliocentricMeanLongitudeEarthMoonBarycentre(double JD) noexcept;
-  static double MeanLongitudeOfPerilhelionOfEarthMoonBarycentre(const double* pT, int nTSize) noexcept;
-  static double MeanLongitudeOfPerilhelionOfEarthMoonBarycentre(double JD) noexcept;
+  static double MeanLongitudeOfPerihelionOfEarthMoonBarycentre(const double* pT, int nTSize) noexcept;
+  static double MeanLongitudeOfPerihelionOfEarthMoonBarycentre(double JD) noexcept;
   static double MoonMeanSolarElongation(const double* pT, int nTSize) noexcept;
   static double MoonMeanSolarElongation(double JD) noexcept;
   static double SunMeanAnomaly(const double* pT, int nTSize) noexcept;

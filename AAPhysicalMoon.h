@@ -3,7 +3,7 @@ Module : AAPhysicalMoon.h
 Purpose: Implementation for the algorithms which obtain the physical parameters of the Moon
 Created: PJN / 17-01-2004
 
-Copyright (c) 2004 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2004 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -13,12 +13,12 @@ You are allowed to include the source code in any product (commercial, shareware
 when your product is released in binary form. You are allowed to modify the source code in any way you want 
 except you cannot modify the copyright details at the top of each module. If you want to distribute source 
 code with your application, then you are only allowed to distribute versions released by the author. This is 
-to maintain a single distribution point for the source code. 
+to maintain a single distribution point for the source code.
 
 */
 
 
-/////////////////////// Macros / Defines //////////////////////////////////////
+//////////////////// Macros / Defines /////////////////////////////////////////
 
 #if _MSC_VER > 1000
 #pragma once
@@ -32,33 +32,33 @@ to maintain a single distribution point for the source code.
 #endif //#ifndef AAPLUS_EXT_CLASS
 
 
-/////////////////////// Includes //////////////////////////////////////////////
+//////////////////// Includes /////////////////////////////////////////////////
 
-#include "AACoordinateTransformation.h"
+#include "AA2DCoordinate.h"
 
 
-/////////////////////// Classes ///////////////////////////////////////////////
+//////////////////// Classes //////////////////////////////////////////////////
 
 class AAPLUS_EXT_CLASS CAAPhysicalMoonDetails
 {
 public:
 //Member variables
-  double ldash = 0;
-  double bdash = 0;
-  double ldash2 = 0;
-  double bdash2 = 0;
-  double l = 0;
-  double b = 0;
-  double P = 0;
+  double ldash{0};
+  double bdash{0};
+  double ldash2{0};
+  double bdash2{0};
+  double l{0};
+  double b{0};
+  double P{0};
 };
 
 class AAPLUS_EXT_CLASS CAASelenographicMoonDetails
 {
 public:
 //Member variables
-  double l0 = 0;
-  double b0 = 0;
-  double c0 = 0;
+  double l0{0};
+  double b0{0};
+  double c0{0};
 };
 
 class AAPLUS_EXT_CLASS CAAPhysicalMoon

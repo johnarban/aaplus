@@ -5,7 +5,7 @@ Created: PJN / 13-09-2015
 History: PJN / 13-09-2015 1. Initial public release.
          PJN / 22-04-2020 1. Reworked C arrays to use std::array.
 
-Copyright (c) 2015 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2015 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -20,23 +20,21 @@ to maintain a single distribution point for the source code.
 */
 
 
-/////////////////////////////// Includes //////////////////////////////////////
+//////////////////// Includes /////////////////////////////////////////////////
 
 #include "stdafx.h"
 #include "AAVSOP87.h"
 #include "AAVSOP87E_SAT.h"
-#include <cmath>
 #include <array>
-using namespace std;
 
 
-////////////////////////////// Macros / Defines ///////////////////////////////
+//////////////////// Macros / Defines /////////////////////////////////////////
 
 #ifdef _MSC_VER
 #pragma warning(disable : 26485)
 #endif //#ifdef _MSC_VER
 
-constexpr array<VSOP87Coefficient, 1651> g_VSOP87E_X0_SATURN
+constexpr std::array<VSOP87Coefficient, 1651> g_VSOP87E_X0_SATURN
 { {
   {        9.51366533422,        0.87441380650,      213.29909543800 },
   {        0.26404799161,        0.12391580771,      426.59819087600 },
@@ -1691,7 +1689,7 @@ constexpr array<VSOP87Coefficient, 1651> g_VSOP87E_X0_SATURN
   {        0.00000000740,        3.78883452039,     1016.09290101090 }
 } };
 
-constexpr array<VSOP87Coefficient, 896> g_VSOP87E_X1_SATURN
+constexpr std::array<VSOP87Coefficient, 896> g_VSOP87E_X1_SATURN
 { {
   {        0.07573807889,        0.00000000000,        0.00000000000 },
   {        0.03084144308,        4.27565898829,      426.59819087600 },
@@ -2591,7 +2589,7 @@ constexpr array<VSOP87Coefficient, 896> g_VSOP87E_X1_SATURN
   {        0.00000000695,        4.58296836233,     3171.03224356680 }
 } };
 
-constexpr array<VSOP87Coefficient, 481> g_VSOP87E_X2_SATURN
+constexpr std::array<VSOP87Coefficient, 481> g_VSOP87E_X2_SATURN
 { {
   {        0.00560586041,        1.26401676555,      206.18554843720 },
   {        0.00545678885,        3.62343709789,      220.41264243880 },
@@ -3076,7 +3074,7 @@ constexpr array<VSOP87Coefficient, 481> g_VSOP87E_X2_SATURN
   {        0.00000000714,        4.03037145569,     3171.03224356680 }
 } };
 
-constexpr array<VSOP87Coefficient, 214> g_VSOP87E_X3_SATURN
+constexpr std::array<VSOP87Coefficient, 214> g_VSOP87E_X3_SATURN
 { {
   {        0.00077093916,        2.97714400003,      206.18554843720 },
   {        0.00075318954,        1.89208004954,      220.41264243880 },
@@ -3294,7 +3292,7 @@ constexpr array<VSOP87Coefficient, 214> g_VSOP87E_X3_SATURN
   {        0.00000000943,        4.37865824380,     1457.52593306200 }
 } };
 
-constexpr array<VSOP87Coefficient, 87> g_VSOP87E_X4_SATURN
+constexpr std::array<VSOP87Coefficient, 87> g_VSOP87E_X4_SATURN
 { {
   {        0.00007957649,        4.70523623227,      206.18554843720 },
   {        0.00007834416,        0.13981692944,      220.41264243880 },
@@ -3385,7 +3383,7 @@ constexpr array<VSOP87Coefficient, 87> g_VSOP87E_X4_SATURN
   {        0.00000000684,        5.09702256485,      661.23792731640 }
 } };
 
-constexpr array<VSOP87Coefficient, 31> g_VSOP87E_X5_SATURN
+constexpr std::array<VSOP87Coefficient, 31> g_VSOP87E_X5_SATURN
 { {
   {        0.00000589081,        0.13910544483,      206.18554843720 },
   {        0.00000585706,        4.66559223624,      220.41264243880 },
@@ -3420,7 +3418,7 @@ constexpr array<VSOP87Coefficient, 31> g_VSOP87E_X5_SATURN
   {        0.00000000783,        3.19520562324,      522.57741809380 }
 } };
 
-constexpr array<VSOP87Coefficient, 1657> g_VSOP87E_Y0_SATURN
+constexpr std::array<VSOP87Coefficient, 1657> g_VSOP87E_Y0_SATURN
 { {
   {        9.52714696877,        5.58600556072,      213.29909543800 },
   {        0.79354119271,        3.14159265359,        0.00000000000 },
@@ -5081,7 +5079,7 @@ constexpr array<VSOP87Coefficient, 1657> g_VSOP87E_Y0_SATURN
   {        0.00000000681,        1.84015126699,     2954.55175439110 }
 } };
 
-constexpr array<VSOP87Coefficient, 921> g_VSOP87E_Y1_SATURN
+constexpr std::array<VSOP87Coefficient, 921> g_VSOP87E_Y1_SATURN
 { {
   {        0.05373895252,        0.00000000000,        0.00000000000 },
   {        0.03089676414,        2.70347020059,      426.59819087600 },
@@ -6006,7 +6004,7 @@ constexpr array<VSOP87Coefficient, 921> g_VSOP87E_Y1_SATURN
   {        0.00000000826,        5.98430782385,      284.89930026760 }
 } };
 
-constexpr array<VSOP87Coefficient, 464> g_VSOP87E_Y2_SATURN
+constexpr std::array<VSOP87Coefficient, 464> g_VSOP87E_Y2_SATURN
 { {
   {        0.00563545688,        5.97115835983,      206.18554843720 },
   {        0.00546856143,        2.05154974712,      220.41264243880 },
@@ -6474,7 +6472,7 @@ constexpr array<VSOP87Coefficient, 464> g_VSOP87E_Y2_SATURN
   {        0.00000000813,        3.83625059019,     2420.92863603340 }
 } };
 
-constexpr array<VSOP87Coefficient, 200> g_VSOP87E_Y3_SATURN
+constexpr std::array<VSOP87Coefficient, 200> g_VSOP87E_Y3_SATURN
 { {
   {        0.00077354527,        1.40391035241,      206.18554843720 },
   {        0.00075542804,        0.31962897945,      220.41264243880 },
@@ -6678,7 +6676,7 @@ constexpr array<VSOP87Coefficient, 200> g_VSOP87E_Y3_SATURN
   {        0.00000000709,        5.45403624686,     1457.52593306200 }
 } };
 
-constexpr array<VSOP87Coefficient, 89> g_VSOP87E_Y4_SATURN
+constexpr std::array<VSOP87Coefficient, 89> g_VSOP87E_Y4_SATURN
 { {
   {        0.00007976609,        3.13229267905,      206.18554843720 },
   {        0.00007866134,        4.84940259473,      220.41264243880 },
@@ -6771,7 +6769,7 @@ constexpr array<VSOP87Coefficient, 89> g_VSOP87E_Y4_SATURN
   {        0.00000000684,        3.52622623805,      661.23792731640 }
 } };
 
-constexpr array<VSOP87Coefficient, 32> g_VSOP87E_Y5_SATURN
+constexpr std::array<VSOP87Coefficient, 32> g_VSOP87E_Y5_SATURN
 { {
   {        0.00000588911,        4.84910386986,      206.18554843720 },
   {        0.00000589946,        3.08953743297,      220.41264243880 },
@@ -6807,7 +6805,7 @@ constexpr array<VSOP87Coefficient, 32> g_VSOP87E_Y5_SATURN
   {        0.00000000786,        1.61541856004,      522.57741809380 }
 } };
 
-constexpr array<VSOP87Coefficient, 424> g_VSOP87E_Z0_SATURN
+constexpr std::array<VSOP87Coefficient, 424> g_VSOP87E_Z0_SATURN
 { {
   {        0.41345140292,        3.60234141893,      213.29909543800 },
   {        0.01147953788,        2.85128771957,      426.59819087600 },
@@ -7235,7 +7233,7 @@ constexpr array<VSOP87Coefficient, 424> g_VSOP87E_Z0_SATURN
   {        0.00000000764,        5.13454347326,    26087.90314157420 }
 } };
 
-constexpr array<VSOP87Coefficient, 218> g_VSOP87E_Z1_SATURN
+constexpr std::array<VSOP87Coefficient, 218> g_VSOP87E_Z1_SATURN
 { {
   {        0.01905958940,        4.94544746619,      213.29909543800 },
   {        0.00528167867,        3.14159265359,        0.00000000000 },
@@ -7457,7 +7455,7 @@ constexpr array<VSOP87Coefficient, 218> g_VSOP87E_Z1_SATURN
   {        0.00000001173,        0.00063234885,     1589.07289528380 }
 } };
 
-constexpr array<VSOP87Coefficient, 87> g_VSOP87E_Z2_SATURN
+constexpr std::array<VSOP87Coefficient, 87> g_VSOP87E_Z2_SATURN
 { {
   {        0.00131237677,        0.08868998014,      213.29909543800 },
   {        0.00030139033,        3.91396211806,      206.18554843720 },
@@ -7548,7 +7546,7 @@ constexpr array<VSOP87Coefficient, 87> g_VSOP87E_Z2_SATURN
   {        0.00000001504,        2.13190551837,     1368.66025284500 }
 } };
 
-constexpr array<VSOP87Coefficient, 45> g_VSOP87E_Z3_SATURN
+constexpr std::array<VSOP87Coefficient, 45> g_VSOP87E_Z3_SATURN
 { {
   {        0.00004558118,        1.70646871501,      213.29909543800 },
   {        0.00004777710,        5.57723756330,      206.18554843720 },
@@ -7597,7 +7595,7 @@ constexpr array<VSOP87Coefficient, 45> g_VSOP87E_Z3_SATURN
   {        0.00000000920,        1.65069146673,      529.69096509460 }
 } };
 
-constexpr array<VSOP87Coefficient, 19> g_VSOP87E_Z4_SATURN
+constexpr std::array<VSOP87Coefficient, 19> g_VSOP87E_Z4_SATURN
 { {
   {        0.00000574306,        0.96387396086,      206.18554843720 },
   {        0.00000252516,        2.90188946355,      220.41264243880 },
@@ -7620,7 +7618,7 @@ constexpr array<VSOP87Coefficient, 19> g_VSOP87E_Z4_SATURN
   {        0.00000001592,        0.49445731602,      412.37109687440 }
 } };
 
-constexpr array<VSOP87Coefficient, 6> g_VSOP87E_Z5_SATURN
+constexpr std::array<VSOP87Coefficient, 6> g_VSOP87E_Z5_SATURN
 { {
   {        0.00000053400,        2.61403861391,      206.18554843720 },
   {        0.00000018015,        1.15819542312,      220.41264243880 },
@@ -7630,7 +7628,7 @@ constexpr array<VSOP87Coefficient, 6> g_VSOP87E_Z5_SATURN
   {        0.00000004424,        0.11691197681,      433.71173787680 }
 } };
 
-constexpr array<VSOP87Coefficient2, 6> g_VSOP87E_X_SATURN
+constexpr std::array<VSOP87Coefficient2, 6> g_VSOP87E_X_SATURN
 { {
   { g_VSOP87E_X0_SATURN.data(), g_VSOP87E_X0_SATURN.size() },
   { g_VSOP87E_X1_SATURN.data(), g_VSOP87E_X1_SATURN.size() },
@@ -7640,7 +7638,7 @@ constexpr array<VSOP87Coefficient2, 6> g_VSOP87E_X_SATURN
   { g_VSOP87E_X5_SATURN.data(), g_VSOP87E_X5_SATURN.size() }
 } };
 
-constexpr array<VSOP87Coefficient2, 6> g_VSOP87E_Y_SATURN
+constexpr std::array<VSOP87Coefficient2, 6> g_VSOP87E_Y_SATURN
 { {
   { g_VSOP87E_Y0_SATURN.data(), g_VSOP87E_Y0_SATURN.size() },
   { g_VSOP87E_Y1_SATURN.data(), g_VSOP87E_Y1_SATURN.size() },
@@ -7650,7 +7648,7 @@ constexpr array<VSOP87Coefficient2, 6> g_VSOP87E_Y_SATURN
   { g_VSOP87E_Y5_SATURN.data(), g_VSOP87E_Y5_SATURN.size() }
 } };
 
-constexpr array<VSOP87Coefficient2, 6> g_VSOP87E_Z_SATURN
+constexpr std::array<VSOP87Coefficient2, 6> g_VSOP87E_Z_SATURN
 { {
   { g_VSOP87E_Z0_SATURN.data(), g_VSOP87E_Z0_SATURN.size() },
   { g_VSOP87E_Z1_SATURN.data(), g_VSOP87E_Z1_SATURN.size() },
@@ -7661,7 +7659,7 @@ constexpr array<VSOP87Coefficient2, 6> g_VSOP87E_Z_SATURN
 } };
 
 
-////////////////////////////// Implementation /////////////////////////////////
+//////////////////// Implementation ///////////////////////////////////////////
 
 double CAAVSOP87E_Saturn::X(double JD) noexcept
 {

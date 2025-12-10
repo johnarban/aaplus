@@ -3,7 +3,7 @@ Module : AANodes.h
 Purpose: Implementation for the algorithms which calculate passage through the nodes
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -18,7 +18,7 @@ to maintain a single distribution point for the source code.
 */
 
 
-/////////////////////// Macros / Defines //////////////////////////////////////
+//////////////////// Macros / Defines /////////////////////////////////////////
 
 #if _MSC_VER > 1000
 #pragma once
@@ -32,20 +32,20 @@ to maintain a single distribution point for the source code.
 #endif //#ifndef AAPLUS_EXT_CLASS
 
 
-//////////////////////// Includes /////////////////////////////////////////////
+//////////////////// Includes /////////////////////////////////////////////////
 
 #include "AAElliptical.h"
 #include "AAParabolic.h"
 
 
-//////////////////////// Classes //////////////////////////////////////////////
+//////////////////// Classes //////////////////////////////////////////////////
 
 class AAPLUS_EXT_CLASS CAANodeObjectDetails
 {
 public:
 //Member variables
-  double t = 0;
-  double radius = 0;
+  double t{0};
+  double radius{0};
 };
 
 class AAPLUS_EXT_CLASS CAANodes

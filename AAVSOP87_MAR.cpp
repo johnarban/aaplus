@@ -9,7 +9,7 @@ History: PJN / 13-09-2015 1. Initial public release.
                           false, the values returned are now in exact agreement with the vsop87.chk test
                           values. Thanks to Cao Yu for reporting this issue.
 
-Copyright (c) 2015 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2015 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -24,23 +24,21 @@ to maintain a single distribution point for the source code.
 */
 
 
-/////////////////////////////// Includes //////////////////////////////////////
+//////////////////// Includes /////////////////////////////////////////////////
 
 #include "stdafx.h"
 #include "AAVSOP87.h"
 #include "AAVSOP87_MAR.h"
-#include <cmath>
 #include <array>
-using namespace std;
 
 
-////////////////////////////// Macros / Defines ///////////////////////////////
+//////////////////// Macros / Defines /////////////////////////////////////////
 
 #ifdef _MSC_VER
 #pragma warning(disable : 26485)
 #endif //#ifdef _MSC_VER
 
-constexpr array<VSOP87Coefficient, 820> g_VSOP87_A0_MARS
+constexpr std::array<VSOP87Coefficient, 820> g_VSOP87_A0_MARS
 { {
   {        1.52367934191,        0.00000000000,        0.00000000000 },
   {        0.00006601698,        4.92149777465,     5621.84292321040 },
@@ -864,7 +862,7 @@ constexpr array<VSOP87Coefficient, 820> g_VSOP87_A0_MARS
   {        0.00000000056,        4.70929891625,    14319.69103735720 }
 } };
 
-constexpr array<VSOP87Coefficient, 504> g_VSOP87_A1_MARS
+constexpr std::array<VSOP87Coefficient, 504> g_VSOP87_A1_MARS
 { {
   {        0.00000173844,        2.89087004153,     2281.23049651060 },
   {        0.00000101801,        1.97498465368,      796.29800681640 },
@@ -1372,7 +1370,7 @@ constexpr array<VSOP87Coefficient, 504> g_VSOP87_A1_MARS
   {        0.00000000027,        2.76973826662,     5813.29118932200 }
 } };
 
-constexpr array<VSOP87Coefficient, 248> g_VSOP87_A2_MARS
+constexpr std::array<VSOP87Coefficient, 248> g_VSOP87_A2_MARS
 { {
   {        0.00000007922,        0.43226674586,      796.29800681640 },
   {        0.00000007069,        4.42733956430,     2281.23049651060 },
@@ -1624,7 +1622,7 @@ constexpr array<VSOP87Coefficient, 248> g_VSOP87_A2_MARS
   {        0.00000000014,        1.98102502070,     4447.75123238460 }
 } };
 
-constexpr array<VSOP87Coefficient, 1192> g_VSOP87_L0_MARS
+constexpr std::array<VSOP87Coefficient, 1192> g_VSOP87_L0_MARS
 { {
   {        6.20347611291,        0.00000000000,        0.00000000000 },
   {        0.00027745033,        5.97049541372,        3.52311834900 },
@@ -2820,7 +2818,7 @@ constexpr array<VSOP87Coefficient, 1192> g_VSOP87_L0_MARS
   {        0.00000000040,        0.38512958422,    17498.31250894439 }
 } };
 
-constexpr array<VSOP87Coefficient, 567> g_VSOP87_L1_MARS
+constexpr std::array<VSOP87Coefficient, 567> g_VSOP87_L1_MARS
 { {
   {     3340.61242669981,        0.00000000000,        0.00000000000 },
   {        0.00003452439,        4.73210379431,        3.52311834900 },
@@ -3391,7 +3389,7 @@ constexpr array<VSOP87Coefficient, 567> g_VSOP87_L1_MARS
   {        0.00000000047,        4.25739124642,    24076.44458812540 }
 } };
 
-constexpr array<VSOP87Coefficient, 173> g_VSOP87_L2_MARS
+constexpr std::array<VSOP87Coefficient, 173> g_VSOP87_L2_MARS
 { {
   {        0.00000457003,        0.00000000000,        0.00000000000 },
   {        0.00000222023,        3.19436877547,        3.52311834900 },
@@ -3568,7 +3566,7 @@ constexpr array<VSOP87Coefficient, 173> g_VSOP87_L2_MARS
   {        0.00000000036,        5.04540211726,    23141.55838292460 }
 } };
 
-constexpr array<VSOP87Coefficient, 16> g_VSOP87_L3_MARS
+constexpr std::array<VSOP87Coefficient, 16> g_VSOP87_L3_MARS
 { {
   {        0.00000022651,        2.05274276845,      155.42039943420 },
   {        0.00000010453,        1.58017883784,        3.52311834900 },
@@ -3588,7 +3586,7 @@ constexpr array<VSOP87Coefficient, 16> g_VSOP87_L3_MARS
   {        0.00000000496,        1.26361514155,     2281.23049651060 }
 } };
 
-constexpr array<VSOP87Coefficient, 4> g_VSOP87_L4_MARS
+constexpr std::array<VSOP87Coefficient, 4> g_VSOP87_L4_MARS
 { {
   {        0.00000003191,        3.56238614133,      155.42039943420 },
   {        0.00000000780,        1.31847436349,      242.72860397400 },
@@ -3596,14 +3594,14 @@ constexpr array<VSOP87Coefficient, 4> g_VSOP87_L4_MARS
   {        0.00000000337,        6.23429572653,        3.52311834900 }
 } };
 
-constexpr array<VSOP87Coefficient, 3> g_VSOP87_L5_MARS
+constexpr std::array<VSOP87Coefficient, 3> g_VSOP87_L5_MARS
 { {
   {        0.00000000360,        5.07221207581,      155.42039943420 },
   {        0.00000000101,        6.09132595616,      242.72860397400 },
   {        0.00000000035,        3.68268956419,      553.56940284240 }
 } };
 
-constexpr array<VSOP87Coefficient, 1009> g_VSOP87_K0_MARS
+constexpr std::array<VSOP87Coefficient, 1009> g_VSOP87_K0_MARS
 { {
   {        0.08536560252,        0.00000000000,        0.00000000000 },
   {        0.00008228685,        4.99515670335,     2281.23049651060 },
@@ -4616,7 +4614,7 @@ constexpr array<VSOP87Coefficient, 1009> g_VSOP87_K0_MARS
   {        0.00000000037,        2.02426272332,     5415.65737477320 }
 } };
 
-constexpr array<VSOP87Coefficient, 483> g_VSOP87_K1_MARS
+constexpr std::array<VSOP87Coefficient, 483> g_VSOP87_K1_MARS
 { {
   {        0.00376330152,        0.00000000000,        0.00000000000 },
   {        0.00000205412,        0.17415970907,     1059.38193018920 },
@@ -5103,7 +5101,7 @@ constexpr array<VSOP87Coefficient, 483> g_VSOP87_K1_MARS
   {        0.00000000046,        1.03070474867,    35464.98147893340 }
 } };
 
-constexpr array<VSOP87Coefficient, 153> g_VSOP87_K2_MARS
+constexpr std::array<VSOP87Coefficient, 153> g_VSOP87_K2_MARS
 { {
   {        0.00024657776,        3.14159265359,        0.00000000000 },
   {        0.00000008347,        4.91035186193,     1059.38193018920 },
@@ -5260,23 +5258,23 @@ constexpr array<VSOP87Coefficient, 153> g_VSOP87_K2_MARS
   {        0.00000000040,        5.29180064390,    27832.03821928320 }
 } };
 
-constexpr array<VSOP87Coefficient, 2> g_VSOP87_K3_MARS
+constexpr std::array<VSOP87Coefficient, 2> g_VSOP87_K3_MARS
 { {
   {        0.00000367305,        3.14159265359,        0.00000000000 },
   {        0.00000000976,        0.97331498838,      155.42039943420 }
 } };
 
-constexpr array<VSOP87Coefficient, 1> g_VSOP87_K4_MARS
+constexpr std::array<VSOP87Coefficient, 1> g_VSOP87_K4_MARS
 { {
   {        0.00000011112,        0.00000000000,        0.00000000000 }
 } };
 
-constexpr array<VSOP87Coefficient, 1> g_VSOP87_K5_MARS
+constexpr std::array<VSOP87Coefficient, 1> g_VSOP87_K5_MARS
 { {
   {        0.00000000026,        0.00000000000,        0.00000000000 }
 } };
 
-constexpr array<VSOP87Coefficient, 994> g_VSOP87_H0_MARS
+constexpr std::array<VSOP87Coefficient, 994> g_VSOP87_H0_MARS
 { {
   {        0.03789973236,        3.14159265359,        0.00000000000 },
   {        0.00008158391,        0.29399378947,     2281.23049651060 },
@@ -6274,7 +6272,7 @@ constexpr array<VSOP87Coefficient, 994> g_VSOP87_H0_MARS
   {        0.00000000035,        4.97677182618,    12472.64795974300 }
 } };
 
-constexpr array<VSOP87Coefficient, 471> g_VSOP87_H1_MARS
+constexpr std::array<VSOP87Coefficient, 471> g_VSOP87_H1_MARS
 { {
   {        0.00624657465,        0.00000000000,        0.00000000000 },
   {        0.00000205697,        4.88522652066,     1059.38193018920 },
@@ -6749,7 +6747,7 @@ constexpr array<VSOP87Coefficient, 471> g_VSOP87_H1_MARS
   {        0.00000000035,        5.66679333286,     3017.10701004240 }
 } };
 
-constexpr array<VSOP87Coefficient, 158> g_VSOP87_H2_MARS
+constexpr std::array<VSOP87Coefficient, 158> g_VSOP87_H2_MARS
 { {
   {        0.00015529482,        0.00000000000,        0.00000000000 },
   {        0.00000008375,        3.33893383605,     1059.38193018920 },
@@ -6911,23 +6909,23 @@ constexpr array<VSOP87Coefficient, 158> g_VSOP87_H2_MARS
   {        0.00000000035,        1.24108887464,     9381.93999378540 }
 } };
 
-constexpr array<VSOP87Coefficient, 2> g_VSOP87_H3_MARS
+constexpr std::array<VSOP87Coefficient, 2> g_VSOP87_H3_MARS
 { {
   {        0.00000634879,        3.14159265359,        0.00000000000 },
   {        0.00000000951,        2.60444791431,      155.42039943420 }
 } };
 
-constexpr array<VSOP87Coefficient, 1> g_VSOP87_H4_MARS
+constexpr std::array<VSOP87Coefficient, 1> g_VSOP87_H4_MARS
 { {
   {        0.00000006593,        3.14159265359,        0.00000000000 }
 } };
 
-constexpr array<VSOP87Coefficient, 1> g_VSOP87_H5_MARS
+constexpr std::array<VSOP87Coefficient, 1> g_VSOP87_H5_MARS
 { {
   {        0.00000000073,        0.00000000000,        0.00000000000 }
 } };
 
-constexpr array<VSOP87Coefficient, 234> g_VSOP87_Q0_MARS
+constexpr std::array<VSOP87Coefficient, 234> g_VSOP87_Q0_MARS
 { {
   {        0.01047042574,        0.00000000000,        0.00000000000 },
   {        0.00000086127,        1.13804101351,     1059.38193018920 },
@@ -7165,7 +7163,7 @@ constexpr array<VSOP87Coefficient, 234> g_VSOP87_Q0_MARS
   {        0.00000000042,        0.45823807572,    25287.72379939980 }
 } };
 
-constexpr array<VSOP87Coefficient, 95> g_VSOP87_Q1_MARS
+constexpr std::array<VSOP87Coefficient, 95> g_VSOP87_Q1_MARS
 { {
   {        0.00017138526,        0.00000000000,        0.00000000000 },
   {        0.00000006579,        2.24044032394,     1059.38193018920 },
@@ -7264,7 +7262,7 @@ constexpr array<VSOP87Coefficient, 95> g_VSOP87_Q1_MARS
   {        0.00000000035,        1.61402663674,    16858.48253293320 }
 } };
 
-constexpr array<VSOP87Coefficient, 24> g_VSOP87_Q2_MARS
+constexpr std::array<VSOP87Coefficient, 24> g_VSOP87_Q2_MARS
 { {
   {        0.00004077491,        3.14159265359,        0.00000000000 },
   {        0.00000000301,        3.38526050953,     1059.38193018920 },
@@ -7292,22 +7290,22 @@ constexpr array<VSOP87Coefficient, 24> g_VSOP87_Q2_MARS
   {        0.00000000037,        1.44593340153,      191.44826611160 }
 } };
 
-constexpr array<VSOP87Coefficient, 1> g_VSOP87_Q3_MARS
+constexpr std::array<VSOP87Coefficient, 1> g_VSOP87_Q3_MARS
 { {
   {        0.00000138835,        3.14159265359,        0.00000000000 }
 } };
 
-constexpr array<VSOP87Coefficient, 1> g_VSOP87_Q4_MARS
+constexpr std::array<VSOP87Coefficient, 1> g_VSOP87_Q4_MARS
 { {
   {        0.00000000916,        0.00000000000,        0.00000000000 }
 } };
 
-constexpr array<VSOP87Coefficient, 1> g_VSOP87_Q5_MARS
+constexpr std::array<VSOP87Coefficient, 1> g_VSOP87_Q5_MARS
 { {
   {        0.00000000176,        0.00000000000,        0.00000000000 }
 } };
 
-constexpr array<VSOP87Coefficient, 236> g_VSOP87_P0_MARS
+constexpr std::array<VSOP87Coefficient, 236> g_VSOP87_P0_MARS
 { {
   {        0.01228449307,        0.00000000000,        0.00000000000 },
   {        0.00000084872,        5.82347158199,     1059.38193018920 },
@@ -7547,7 +7545,7 @@ constexpr array<VSOP87Coefficient, 236> g_VSOP87_P0_MARS
   {        0.00000000039,        4.94154581552,    19406.67828817460 }
 } };
 
-constexpr array<VSOP87Coefficient, 90> g_VSOP87_P1_MARS
+constexpr std::array<VSOP87Coefficient, 90> g_VSOP87_P1_MARS
 { {
   {        0.00108020083,        3.14159265359,        0.00000000000 },
   {        0.00000006495,        0.71407695516,     1059.38193018920 },
@@ -7641,7 +7639,7 @@ constexpr array<VSOP87Coefficient, 90> g_VSOP87_P1_MARS
   {        0.00000000034,        1.88688083453,    21393.54196985760 }
 } };
 
-constexpr array<VSOP87Coefficient, 21> g_VSOP87_P2_MARS
+constexpr std::array<VSOP87Coefficient, 21> g_VSOP87_P2_MARS
 { {
   {        0.00001922224,        3.14159265359,        0.00000000000 },
   {        0.00000000311,        1.78969843774,     1059.38193018920 },
@@ -7666,24 +7664,24 @@ constexpr array<VSOP87Coefficient, 21> g_VSOP87_P2_MARS
   {        0.00000000036,        1.13570297853,     3870.30339179440 }
 } };
 
-constexpr array<VSOP87Coefficient, 1> g_VSOP87_P3_MARS
+constexpr std::array<VSOP87Coefficient, 1> g_VSOP87_P3_MARS
 { {
   {        0.00000087186,        0.00000000000,        0.00000000000 }
 } };
 
-constexpr array<VSOP87Coefficient, 1> g_VSOP87_P4_MARS
+constexpr std::array<VSOP87Coefficient, 1> g_VSOP87_P4_MARS
 { {
   {        0.00000003090,        0.00000000000,        0.00000000000 }
 } };
 
-constexpr array<VSOP87Coefficient2, 3> g_VSOP87_A_MARS
+constexpr std::array<VSOP87Coefficient2, 3> g_VSOP87_A_MARS
 { {
   { g_VSOP87_A0_MARS.data(), g_VSOP87_A0_MARS.size() },
   { g_VSOP87_A1_MARS.data(), g_VSOP87_A1_MARS.size() },
   { g_VSOP87_A2_MARS.data(), g_VSOP87_A2_MARS.size() }
 } };
 
-constexpr array<VSOP87Coefficient2, 6> g_VSOP87_L_MARS
+constexpr std::array<VSOP87Coefficient2, 6> g_VSOP87_L_MARS
 { {
   { g_VSOP87_L0_MARS.data(), g_VSOP87_L0_MARS.size() },
   { g_VSOP87_L1_MARS.data(), g_VSOP87_L1_MARS.size() },
@@ -7693,7 +7691,7 @@ constexpr array<VSOP87Coefficient2, 6> g_VSOP87_L_MARS
   { g_VSOP87_L5_MARS.data(), g_VSOP87_L5_MARS.size() }
 } };
 
-constexpr array<VSOP87Coefficient2, 6> g_VSOP87_K_MARS
+constexpr std::array<VSOP87Coefficient2, 6> g_VSOP87_K_MARS
 { {
   { g_VSOP87_K0_MARS.data(), g_VSOP87_K0_MARS.size() },
   { g_VSOP87_K1_MARS.data(), g_VSOP87_K1_MARS.size() },
@@ -7703,7 +7701,7 @@ constexpr array<VSOP87Coefficient2, 6> g_VSOP87_K_MARS
   { g_VSOP87_K5_MARS.data(), g_VSOP87_K5_MARS.size() }
 } };
 
-constexpr array<VSOP87Coefficient2, 6> g_VSOP87_H_MARS
+constexpr std::array<VSOP87Coefficient2, 6> g_VSOP87_H_MARS
 { {
   { g_VSOP87_H0_MARS.data(), g_VSOP87_H0_MARS.size() },
   { g_VSOP87_H1_MARS.data(), g_VSOP87_H1_MARS.size() },
@@ -7713,7 +7711,7 @@ constexpr array<VSOP87Coefficient2, 6> g_VSOP87_H_MARS
   { g_VSOP87_H5_MARS.data(), g_VSOP87_H5_MARS.size() }
 } };
 
-constexpr array<VSOP87Coefficient2, 6> g_VSOP87_Q_MARS
+constexpr std::array<VSOP87Coefficient2, 6> g_VSOP87_Q_MARS
 { {
   { g_VSOP87_Q0_MARS.data(), g_VSOP87_Q0_MARS.size() },
   { g_VSOP87_Q1_MARS.data(), g_VSOP87_Q1_MARS.size() },
@@ -7723,7 +7721,7 @@ constexpr array<VSOP87Coefficient2, 6> g_VSOP87_Q_MARS
   { g_VSOP87_Q5_MARS.data(), g_VSOP87_Q5_MARS.size() }
 } };
 
-constexpr array<VSOP87Coefficient2, 5> g_VSOP87_P_MARS
+constexpr std::array<VSOP87Coefficient2, 5> g_VSOP87_P_MARS
 { {
   { g_VSOP87_P0_MARS.data(), g_VSOP87_P0_MARS.size() },
   { g_VSOP87_P1_MARS.data(), g_VSOP87_P1_MARS.size() },
@@ -7733,7 +7731,7 @@ constexpr array<VSOP87Coefficient2, 5> g_VSOP87_P_MARS
 } };
 
 
-////////////////////////////// Implementation /////////////////////////////////
+//////////////////// Implementation ///////////////////////////////////////////
 
 double CAAVSOP87_Mars::A(double JD) noexcept
 {

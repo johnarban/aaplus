@@ -5,7 +5,7 @@ Created: PJN / 13-09-2015
 History: PJN / 13-09-2015 1. Initial public release.
          PJN / 22-04-2020 1. Reworked C arrays to use std::array.
 
-Copyright (c) 2015 - 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2015 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -20,23 +20,21 @@ to maintain a single distribution point for the source code.
 */
 
 
-/////////////////////////////// Includes //////////////////////////////////////
+//////////////////// Includes /////////////////////////////////////////////////
 
 #include "stdafx.h"
 #include "AAVSOP87.h"
 #include "AAVSOP87B_MER.h"
-#include <cmath>
 #include <array>
-using namespace std;
 
 
-////////////////////////////// Macros / Defines ///////////////////////////////
+//////////////////// Macros / Defines /////////////////////////////////////////
 
 #ifdef _MSC_VER
 #pragma warning(disable : 26485)
 #endif //#ifdef _MSC_VER
 
-constexpr array<VSOP87Coefficient, 1583> g_VSOP87B_L0_MERCURY
+constexpr std::array<VSOP87Coefficient, 1583> g_VSOP87B_L0_MERCURY
 { {
   {        4.40250710144,        0.00000000000,        0.00000000000 },
   {        0.40989414977,        1.48302034195,    26087.90314157420 },
@@ -1623,7 +1621,7 @@ constexpr array<VSOP87Coefficient, 1583> g_VSOP87B_L0_MERCURY
   {        0.00000000004,        1.64336565163,   246113.79237247215 }
 } };
 
-constexpr array<VSOP87Coefficient, 931> g_VSOP87B_L1_MERCURY
+constexpr std::array<VSOP87Coefficient, 931> g_VSOP87B_L1_MERCURY
 { {
   {    26087.90313685529,        0.00000000000,        0.00000000000 },
   {        0.01131199811,        6.21874197797,    26087.90314157420 },
@@ -2558,7 +2556,7 @@ constexpr array<VSOP87Coefficient, 931> g_VSOP87B_L1_MERCURY
   {        0.00000000002,        2.17258312431,   308502.88420183153 }
 } };
 
-constexpr array<VSOP87Coefficient, 438> g_VSOP87B_L2_MERCURY
+constexpr std::array<VSOP87Coefficient, 438> g_VSOP87B_L2_MERCURY
 { {
   {        0.00016395129,        4.67759555504,    26087.90314157420 },
   {        0.00008123865,        1.40305644134,    52175.80628314840 },
@@ -3000,7 +2998,7 @@ constexpr array<VSOP87Coefficient, 438> g_VSOP87B_L2_MERCURY
   {        0.00000000001,        5.56586628815,   183674.70392120857 }
 } };
 
-constexpr array<VSOP87Coefficient, 162> g_VSOP87B_L3_MERCURY
+constexpr std::array<VSOP87Coefficient, 162> g_VSOP87B_L3_MERCURY
 { {
   {        0.00000169496,        3.20221586818,    26087.90314157420 },
   {        0.00000155725,        6.23814315369,    52175.80628314840 },
@@ -3166,7 +3164,7 @@ constexpr array<VSOP87Coefficient, 162> g_VSOP87B_L3_MERCURY
   {        0.00000000000,        3.34933555413,    24498.83024629040 }
 } };
 
-constexpr array<VSOP87Coefficient, 23> g_VSOP87B_L4_MERCURY
+constexpr std::array<VSOP87Coefficient, 23> g_VSOP87B_L4_MERCURY
 { {
   {        0.00000002671,        4.76418299344,    52175.80628314840 },
   {        0.00000002079,        2.01782765964,    26087.90314157420 },
@@ -3193,7 +3191,7 @@ constexpr array<VSOP87Coefficient, 23> g_VSOP87B_L4_MERCURY
   {        0.00000000000,        4.19908374167,   155418.04029735178 }
 } };
 
-constexpr array<VSOP87Coefficient, 12> g_VSOP87B_L5_MERCURY
+constexpr std::array<VSOP87Coefficient, 12> g_VSOP87B_L5_MERCURY
 { {
   {        0.00000000039,        6.22596606829,    78263.70942472259 },
   {        0.00000000035,        3.08442751462,    52175.80628314840 },
@@ -3209,7 +3207,7 @@ constexpr array<VSOP87Coefficient, 12> g_VSOP87B_L5_MERCURY
   {        0.00000000000,        0.00000000000,        0.00000000000 }
 } };
 
-constexpr array<VSOP87Coefficient, 818> g_VSOP87B_B0_MERCURY
+constexpr std::array<VSOP87Coefficient, 818> g_VSOP87B_B0_MERCURY
 { {
   {        0.11737528961,        1.98357498767,    26087.90314157420 },
   {        0.02388076996,        5.03738959686,    52175.80628314840 },
@@ -4031,7 +4029,7 @@ constexpr array<VSOP87Coefficient, 818> g_VSOP87B_B0_MERCURY
   {        0.00000000004,        5.13091111991,      735.87651353180 }
 } };
 
-constexpr array<VSOP87Coefficient, 492> g_VSOP87B_B1_MERCURY
+constexpr std::array<VSOP87Coefficient, 492> g_VSOP87B_B1_MERCURY
 { {
   {        0.00274646065,        3.95008450011,    26087.90314157420 },
   {        0.00099737713,        3.14159265359,        0.00000000000 },
@@ -4527,7 +4525,7 @@ constexpr array<VSOP87Coefficient, 492> g_VSOP87B_B1_MERCURY
   {        0.00000000002,        2.36943618837,    78187.44335344699 }
 } };
 
-constexpr array<VSOP87Coefficient, 231> g_VSOP87B_B2_MERCURY
+constexpr std::array<VSOP87Coefficient, 231> g_VSOP87B_B2_MERCURY
 { {
   {        0.00002747165,        5.24567337999,    26087.90314157420 },
   {        0.00002047257,        0.00000000000,        0.00000000000 },
@@ -4762,7 +4760,7 @@ constexpr array<VSOP87Coefficient, 231> g_VSOP87B_B2_MERCURY
   {        0.00000000001,        1.26757694099,   104358.72611329758 }
 } };
 
-constexpr array<VSOP87Coefficient, 39> g_VSOP87B_B3_MERCURY
+constexpr std::array<VSOP87Coefficient, 39> g_VSOP87B_B3_MERCURY
 { {
   {        0.00000064680,        2.16518315874,    26087.90314157420 },
   {        0.00000030733,        0.00000000000,        0.00000000000 },
@@ -4805,7 +4803,7 @@ constexpr array<VSOP87Coefficient, 39> g_VSOP87B_B3_MERCURY
   {        0.00000000001,        6.08850785156,    51116.42435295920 }
 } };
 
-constexpr array<VSOP87Coefficient, 13> g_VSOP87B_B4_MERCURY
+constexpr std::array<VSOP87Coefficient, 13> g_VSOP87B_B4_MERCURY
 { {
   {        0.00000001427,        4.97519726738,    26087.90314157420 },
   {        0.00000000491,        3.14159265359,        0.00000000000 },
@@ -4822,7 +4820,7 @@ constexpr array<VSOP87Coefficient, 13> g_VSOP87B_B4_MERCURY
   {        0.00000000000,        4.13470035458,   313054.83769889036 }
 } };
 
-constexpr array<VSOP87Coefficient, 10> g_VSOP87B_B5_MERCURY
+constexpr std::array<VSOP87Coefficient, 10> g_VSOP87B_B5_MERCURY
 { {
   {        0.00000000009,        1.38311629808,    52175.80628314840 },
   {        0.00000000008,        5.38548752147,    26087.90314157420 },
@@ -4836,7 +4834,7 @@ constexpr array<VSOP87Coefficient, 10> g_VSOP87B_B5_MERCURY
   {        0.00000000000,        5.84365103714,   234791.12827416777 }
 } };
 
-constexpr array<VSOP87Coefficient, 1209> g_VSOP87B_R0_MERCURY
+constexpr std::array<VSOP87Coefficient, 1209> g_VSOP87B_R0_MERCURY
 { {
   {        0.39528271651,        0.00000000000,        0.00000000000 },
   {        0.07834131818,        6.19233722598,    26087.90314157420 },
@@ -6049,7 +6047,7 @@ constexpr array<VSOP87Coefficient, 1209> g_VSOP87B_R0_MERCURY
   {        0.00000000001,        0.71806518278,    28928.40404660019 }
 } };
 
-constexpr array<VSOP87Coefficient, 706> g_VSOP87B_R1_MERCURY
+constexpr std::array<VSOP87Coefficient, 706> g_VSOP87B_R1_MERCURY
 { {
   {        0.00217347740,        4.65617158665,    26087.90314157420 },
   {        0.00044141826,        1.42385544001,    52175.80628314840 },
@@ -6759,7 +6757,7 @@ constexpr array<VSOP87Coefficient, 706> g_VSOP87B_R1_MERCURY
   {        0.00000000001,        4.66269784654,    54374.89362643540 }
 } };
 
-constexpr array<VSOP87Coefficient, 318> g_VSOP87B_R2_MERCURY
+constexpr std::array<VSOP87Coefficient, 318> g_VSOP87B_R2_MERCURY
 { {
   {        0.00003117867,        3.08231840294,    26087.90314157420 },
   {        0.00001245397,        6.15183316810,    52175.80628314840 },
@@ -7081,7 +7079,7 @@ constexpr array<VSOP87Coefficient, 318> g_VSOP87B_R2_MERCURY
   {        0.00000000000,        4.41963004243,      114.43928868521 }
 } };
 
-constexpr array<VSOP87Coefficient, 111> g_VSOP87B_R3_MERCURY
+constexpr std::array<VSOP87Coefficient, 111> g_VSOP87B_R3_MERCURY
 { {
   {        0.00000032676,        1.67971641967,    26087.90314157420 },
   {        0.00000024166,        4.63403168878,    52175.80628314840 },
@@ -7196,7 +7194,7 @@ constexpr array<VSOP87Coefficient, 111> g_VSOP87B_R3_MERCURY
   {        0.00000000000,        2.14142206148,    64741.95798313119 }
 } };
 
-constexpr array<VSOP87Coefficient, 17> g_VSOP87B_R4_MERCURY
+constexpr std::array<VSOP87Coefficient, 17> g_VSOP87B_R4_MERCURY
 { {
   {        0.00000000394,        0.36736738836,    26087.90314157420 },
   {        0.00000000387,        3.18568894140,    52175.80628314840 },
@@ -7217,7 +7215,7 @@ constexpr array<VSOP87Coefficient, 17> g_VSOP87B_R4_MERCURY
   {        0.00000000000,        3.02089425425,    27197.28169366760 }
 } };
 
-constexpr array<VSOP87Coefficient, 10> g_VSOP87B_R5_MERCURY
+constexpr std::array<VSOP87Coefficient, 10> g_VSOP87B_R5_MERCURY
 { {
   {        0.00000000006,        3.98812118954,    26087.90314157420 },
   {        0.00000000006,        1.55172409309,    52175.80628314840 },
@@ -7231,7 +7229,7 @@ constexpr array<VSOP87Coefficient, 10> g_VSOP87B_R5_MERCURY
   {        0.00000000000,        4.00511196914,   234791.12827416777 }
 } };
 
-constexpr array<VSOP87Coefficient2, 6> g_VSOP87B_L_MERCURY
+constexpr std::array<VSOP87Coefficient2, 6> g_VSOP87B_L_MERCURY
 { {
   { g_VSOP87B_L0_MERCURY.data(), g_VSOP87B_L0_MERCURY.size() },
   { g_VSOP87B_L1_MERCURY.data(), g_VSOP87B_L1_MERCURY.size() },
@@ -7241,7 +7239,7 @@ constexpr array<VSOP87Coefficient2, 6> g_VSOP87B_L_MERCURY
   { g_VSOP87B_L5_MERCURY.data(), g_VSOP87B_L5_MERCURY.size() }
 } };
 
-constexpr array<VSOP87Coefficient2, 6> g_VSOP87B_B_MERCURY
+constexpr std::array<VSOP87Coefficient2, 6> g_VSOP87B_B_MERCURY
 { {
   { g_VSOP87B_B0_MERCURY.data(), g_VSOP87B_B0_MERCURY.size() },
   { g_VSOP87B_B1_MERCURY.data(), g_VSOP87B_B1_MERCURY.size() },
@@ -7251,7 +7249,7 @@ constexpr array<VSOP87Coefficient2, 6> g_VSOP87B_B_MERCURY
   { g_VSOP87B_B5_MERCURY.data(), g_VSOP87B_B5_MERCURY.size() }
 } };
 
-constexpr array<VSOP87Coefficient2, 6> g_VSOP87B_R_MERCURY
+constexpr std::array<VSOP87Coefficient2, 6> g_VSOP87B_R_MERCURY
 { {
   { g_VSOP87B_R0_MERCURY.data(), g_VSOP87B_R0_MERCURY.size() },
   { g_VSOP87B_R1_MERCURY.data(), g_VSOP87B_R1_MERCURY.size() },
@@ -7262,7 +7260,7 @@ constexpr array<VSOP87Coefficient2, 6> g_VSOP87B_R_MERCURY
 } };
 
 
-////////////////////////////// Implementation /////////////////////////////////
+//////////////////// Implementation ///////////////////////////////////////////
 
 double CAAVSOP87B_Mercury::L(double JD) noexcept
 {

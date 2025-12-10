@@ -3,7 +3,7 @@ Module : VSOP2013.h
 Purpose: Implementation for the algorithms for VSOP2013
 Created: PJN / 01-10-2021
 
-Copyright (c) 2021 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2021 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -18,7 +18,7 @@ to maintain a single distribution point for the source code.
 */
 
 
-/////////////////////// Macros / Defines //////////////////////////////////////
+//////////////////// Macros / Defines /////////////////////////////////////////
 
 #if _MSC_VER > 1000
 #pragma once
@@ -32,7 +32,7 @@ to maintain a single distribution point for the source code.
 #endif //#ifndef AAPLUS_EXT_CLASS
 
 
-/////////////////////// Includes //////////////////////////////////////////////
+//////////////////// Includes /////////////////////////////////////////////////
 
 #include <array>
 #include <vector>
@@ -42,7 +42,7 @@ to maintain a single distribution point for the source code.
 #include "AAElliptical.h"
 
 
-/////////////////////// Classes ///////////////////////////////////////////////
+//////////////////// Classes //////////////////////////////////////////////////
 
 //The exception class which can be thrown by CAAVSOP2013::Calculate or CAAVSOP2013::CalculateOrbit
 class AAPLUS_EXT_CLASS CAAVSOP2013Exception : public std::exception
@@ -72,7 +72,7 @@ public:
   CAAVSOP2013Exception& operator=(CAAVSOP2013Exception&&) = default;
 
 //Member variables
-  REASON m_Reason = REASON::UNDEFINED; //The reason for the exception
+  REASON m_Reason{REASON::UNDEFINED}; //The reason for the exception
 };
 
 //Represents a single VSOP2013 ephemerides file
@@ -104,7 +104,7 @@ public:
       return false;
     if (m_fEndJD != file.m_fEndJD)
       return false;
-    for (size_t i=0; i<m_FirstCoefficientRank.size(); i++)
+    for (size_t i{0}; i<m_FirstCoefficientRank.size(); i++)
     {
 #ifdef _MSC_VER
 #pragma warning(suppress : 26446 26482)
@@ -112,7 +112,7 @@ public:
       if (m_FirstCoefficientRank[i] != file.m_FirstCoefficientRank[i])
         return false;
     }
-    for (size_t i=0; i<m_CoefficientsPerCoordinate.size(); i++)
+    for (size_t i{0}; i<m_CoefficientsPerCoordinate.size(); i++)
     {
 #ifdef _MSC_VER
 #pragma warning(suppress : 26446 26482)
@@ -120,7 +120,7 @@ public:
       if (m_CoefficientsPerCoordinate[i] != file.m_CoefficientsPerCoordinate[i])
         return false;
     }
-    for (size_t i=0; i<m_SubIntervals.size(); i++)
+    for (size_t i{0}; i<m_SubIntervals.size(); i++)
     {
 #ifdef _MSC_VER
 #pragma warning(suppress : 26446 26482)
@@ -130,7 +130,7 @@ public:
     }
     if (m_ChebyshevTables.size() != file.m_ChebyshevTables.size())
       return false;
-    for (size_t i=0; i<file.m_ChebyshevTables.size(); i++)
+    for (size_t i{0}; i<file.m_ChebyshevTables.size(); i++)
     {
 #ifdef _MSC_VER
 #pragma warning(suppress : 26446)
@@ -142,8 +142,8 @@ public:
   }
 
 //Member variables
-  double m_fStartJD{};
-  double m_fEndJD{};
+  double m_fStartJD{0};
+  double m_fEndJD{0};
   std::array<int32_t, 9> m_FirstCoefficientRank{};
   std::array<int32_t, 9> m_CoefficientsPerCoordinate{};
   std::array<int32_t, 9> m_SubIntervals{};
@@ -156,17 +156,17 @@ class AAPLUS_EXT_CLASS CAAVSOP2013ElementsTerm
 public:
 //Member variables
   std::array<int32_t, 17> m_iphi{};
-  double m_fS{};
-  double m_fC{};
+  double m_fS{0};
+  double m_fC{0};
 };
 
 //Represents a series of elements term records
 struct AAPLUS_EXT_CLASS CAAVSOP2013ElementsSeries
 {
 //Member variables
-  uint8_t m_ip{}; //planet index 1=Mercury...9=Pluto
-  uint8_t m_iv{}; //variable index 1=a, 2=lambda, 3=k, 4=h, 5=q, 6=p
-  uint8_t m_it{}; //time power
+  uint8_t m_ip{0}; //planet index 1=Mercury...9=Pluto
+  uint8_t m_iv{0}; //variable index 1=a, 2=lambda, 3=k, 4=h, 5=q, 6=p
+  uint8_t m_it{0}; //time power
   std::vector<CAAVSOP2013ElementsTerm> m_Terms;
 };
 
@@ -188,16 +188,16 @@ public:
   {
     if (m_AllSeries.size() != file.m_AllSeries.size())
       return false;
-    for (size_t i=0; i<file.m_AllSeries.size(); i++)
+    for (size_t i{0}; i<file.m_AllSeries.size(); i++)
     {
 #ifdef _MSC_VER
 #pragma warning(suppress : 26446)
 #endif //#ifdef _MSC_VER
-      const auto& series1 = m_AllSeries[i];
+      const auto& series1{m_AllSeries[i]};
 #ifdef _MSC_VER
 #pragma warning(suppress : 26446)
 #endif //#ifdef _MSC_VER
-      const auto& series2 = file.m_AllSeries[i];
+      const auto& series2{file.m_AllSeries[i]};
       if (series1.m_ip != series2.m_ip)
         return false;
       if (series1.m_it != series2.m_it)
@@ -206,16 +206,16 @@ public:
         return false;
       if (series1.m_Terms.size() != series2.m_Terms.size())
         return false;
-      for (size_t j=0; j<series1.m_Terms.size(); j++)
+      for (size_t j{0}; j<series1.m_Terms.size(); j++)
       {
 #ifdef _MSC_VER
 #pragma warning(suppress : 26446)
 #endif //#ifdef _MSC_VER
-        const auto& record1 = series1.m_Terms[j];
+        const auto& record1{series1.m_Terms[j]};
 #ifdef _MSC_VER
 #pragma warning(suppress : 26446)
 #endif //#ifdef _MSC_VER
-        const auto& record2 = series2.m_Terms[j];
+        const auto& record2{series2.m_Terms[j]};
         if (record1.m_iphi != record2.m_iphi)
           return false;
         if (record1.m_fS != record2.m_fS)
@@ -236,12 +236,12 @@ class AAPLUS_EXT_CLASS CAAVSOP2013Position
 {
 public:
 //Member variables
-  double X{};
-  double Y{};
-  double Z{};
-  double X_DASH{};
-  double Y_DASH{};
-  double Z_DASH{};
+  double X{0};
+  double Y{0};
+  double Z{0};
+  double X_DASH{0};
+  double Y_DASH{0};
+  double Z_DASH{0};
 };
 
 //Contains the results from CAAVSOP2013::CalculateOrbit
@@ -249,12 +249,12 @@ class AAPLUS_EXT_CLASS CAAVSOP2013Orbit
 {
 public:
 //Member variables
-  double a{};
-  double lambda{};
-  double k{};
-  double h{};
-  double q{};
-  double p{};
+  double a{0};
+  double lambda{0};
+  double k{0};
+  double h{0};
+  double q{0};
+  double p{0};
 };
 
 //The main class which implements the VSOP2013 algorithms
