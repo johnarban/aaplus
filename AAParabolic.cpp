@@ -22,8 +22,17 @@ History: PJN / 31-01-2005 1. Fixed a bug in CAAParabolic::Calculate where the JD
                           variable declarations.
                           2. Updated methods in the CAAParabolic class to allow the epsilon value used to 
                           terminate iteration loops to be specified.
+         PJN / 10-04-2025 1. Renamed CAAParabolicObjectDetails::AstrometricGeocenticRA member variable to 
+                          "AstrometricGeocentricRA". Thanks to "znight" for reporting this issue.
+         PJN / 04-12-2025 1. Optimized the code in CAAParabolic::Calculate.
+                          2. Fixed a bug in CAAParabolic::Calculate in the calculation of the "W" variable. The
+                          worked example of 34.a from the book now produces the same results using AA+. AATest.cpp
+                          now includes worked examples of this example from the book using CAAParabolic, 
+                          CAANearParabolic and the new CAAHyperbolic class. All three classes now produce 
+                          similar values for this example.
+         PJN / 07-12-2025 1. Updated CAAParabolic::Calculate to return the radius vector and the true anomaly
 
-Copyright (c) 2003 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -104,7 +113,7 @@ CAAParabolicObjectDetails CAAParabolic::Calculate(double JD, const CAAParabolicO
   const CAA3DCoordinate SunCoord{CAASun::EquatorialRectangularCoordinatesAnyEquinox(JD, elements.JDEquinox, bHighPrecision)};
   for (int j{0}; j<2; j++)
   {
-    const double W{0.03649116245/((elements.q*sqrt(elements.q))*(JD0 - elements.T))};
+    const double W{0.03649116245/(elements.q*sqrt(elements.q))*(JD0 - elements.T)};
     const double s{CalculateBarkers(W, epsilon)};
     const double v{2*atan(s)};
     const double r{elements.q*(1 + (s*s))};
@@ -114,6 +123,8 @@ CAAParabolicObjectDetails CAAParabolic::Calculate(double JD, const CAAParabolicO
 
     if (j == 0)
     {
+      details.r = r;
+      details.v = CAACoordinateTransformation::RadiansToDegrees(v);
       details.HeliocentricRectangularEquatorial.X = x;
       details.HeliocentricRectangularEquatorial.Y = y;
       details.HeliocentricRectangularEquatorial.Z = z;
@@ -142,6 +153,7 @@ CAAParabolicObjectDetails CAAParabolic::Calculate(double JD, const CAAParabolicO
     double Delta{atan2(sigma, sqrt(psi2 + nu2))};
     Delta = CAACoordinateTransformation::RadiansToDegrees(Delta);
     const double Distance{sqrt(psi2 + nu2 + (sigma*sigma))};
+    const double Distance2{Distance*Distance};
 
     if (j == 0)
     {
@@ -152,7 +164,7 @@ CAAParabolicObjectDetails CAAParabolic::Calculate(double JD, const CAAParabolicO
     }
     else
     {
-      details.AstrometricGeocenticRA = CAACoordinateTransformation::MapTo0To24Range(Alpha/15);
+      details.AstrometricGeocentricRA = CAACoordinateTransformation::MapTo0To24Range(Alpha/15);
       details.AstrometricGeocentricDeclination = Delta;
       details.AstrometricGeocentricDistance = Distance;
       details.AstrometricGeocentricLightTime = CAAElliptical::DistanceToLightTime(Distance);
@@ -161,8 +173,8 @@ CAAParabolicObjectDetails CAAParabolic::Calculate(double JD, const CAAParabolicO
       const double RES2{RES*RES};
       const double r2{r*r};
 
-      details.Elongation = CAACoordinateTransformation::RadiansToDegrees(acos((RES2 + Distance*Distance - r2)/(2*RES*Distance)));
-      details.PhaseAngle = CAACoordinateTransformation::RadiansToDegrees(acos((r2 + Distance*Distance - RES2)/(2*r*Distance)));
+      details.Elongation = CAACoordinateTransformation::RadiansToDegrees(acos((RES2 + Distance2 - r2)/(2*RES*Distance)));
+      details.PhaseAngle = CAACoordinateTransformation::RadiansToDegrees(acos((r2 + Distance2 - RES2)/(2*r*Distance)));
     }
 
     if (j == 0) //Prepare for the next loop around

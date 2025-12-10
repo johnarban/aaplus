@@ -10,7 +10,7 @@ History: PJN / 21-01-2005 1. Fixed a small but important error in the function P
          PJN / 23-06-2022 1. Updated all the code in AAGlobe.cpp to use C++ uniform initialization for all
                           variable declarations.
 
-Copyright (c) 2003 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

@@ -13,7 +13,7 @@ History: PJN / 27-10-2012 1. Fixed a transcription bug in CAAElementsPlanetaryOr
       PJN / 19-06-2022 1. Updated all the code in AAEclipses.cpp to use C++ uniform initialization for all variable
                           declarations.
 
-Copyright (c) 2003 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

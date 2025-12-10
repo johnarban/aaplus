@@ -3,7 +3,7 @@ Module : AAVSOP87B_VEN.h
 Purpose: Implementation for the algorithms for VSOP87
 Created: PJN / 13-09-2015
 
-Copyright (c) 2015 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2015 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -37,12 +37,13 @@ to maintain a single distribution point for the source code.
 class AAPLUS_EXT_CLASS CAAVSOP87B_Venus
 {
 public:
-  static double L(double JD) noexcept;
-  static double L_DASH(double JD) noexcept;
-  static double B(double JD) noexcept;
-  static double B_DASH(double JD) noexcept;
-  static double R(double JD) noexcept;
-  static double R_DASH(double JD) noexcept;
+//Static methods
+  [[nodiscard]] static double L(double JD) noexcept;
+  [[nodiscard]] static double L_DASH(double JD) noexcept;
+  [[nodiscard]] static double B(double JD) noexcept;
+  [[nodiscard]] static double B_DASH(double JD) noexcept;
+  [[nodiscard]] static double R(double JD) noexcept;
+  [[nodiscard]] static double R_DASH(double JD) noexcept;
 };
 
 

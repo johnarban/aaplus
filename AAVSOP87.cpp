@@ -9,7 +9,7 @@ History: PJN / 28-08-2015 1. Initial public release.
          PJN / 12-07-2022 1. Updated all the code in AAVSOP87.cpp to use C++ uniform initialization for all
                           variable declarations.
 
-Copyright (c) 2015 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2015 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

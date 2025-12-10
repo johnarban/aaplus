@@ -3,7 +3,7 @@ Module : AAMoonIlluminatedFraction.h
 Purpose: Implementation for the algorithms for the Moon's Elongation, Phase Angle and Illuminated Fraction
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -38,10 +38,10 @@ class AAPLUS_EXT_CLASS CAAMoonIlluminatedFraction
 {
 public:
 //Static methods
-  static double GeocentricElongation(double ObjectAlpha, double ObjectDelta, double SunAlpha, double SunDelta) noexcept;
-  static double PhaseAngle(double GeocentricElongation, double EarthObjectDistance, double EarthSunDistance) noexcept;
-  static double IlluminatedFraction(double PhaseAngle) noexcept;
-  static double PositionAngle(double Alpha0, double Delta0, double Alpha, double Delta) noexcept;
+  [[nodiscard]] static double GeocentricElongation(double ObjectAlpha, double ObjectDelta, double SunAlpha, double SunDelta) noexcept;
+  [[nodiscard]] static double PhaseAngle(double GeocentricElongation, double EarthObjectDistance, double EarthSunDistance) noexcept;
+  [[nodiscard]] static double IlluminatedFraction(double PhaseAngle) noexcept;
+  [[nodiscard]] static double PositionAngle(double Alpha0, double Delta0, double Alpha, double Delta) noexcept;
 };
 
 

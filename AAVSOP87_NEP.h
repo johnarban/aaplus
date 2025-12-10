@@ -3,7 +3,7 @@ Module : AAVSOP87_NEP.h
 Purpose: Implementation for the algorithms for VSOP87
 Created: PJN / 13-09-2015
 
-Copyright (c) 2015 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2015 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -37,12 +37,13 @@ to maintain a single distribution point for the source code.
 class AAPLUS_EXT_CLASS CAAVSOP87_Neptune
 {
 public:
-  static double A(double JD) noexcept;
-  static double L(double JD) noexcept;
-  static double K(double JD) noexcept;
-  static double H(double JD) noexcept;
-  static double Q(double JD) noexcept;
-  static double P(double JD) noexcept;
+//Static methods
+  [[nodiscard]] static double A(double JD) noexcept;
+  [[nodiscard]] static double L(double JD) noexcept;
+  [[nodiscard]] static double K(double JD) noexcept;
+  [[nodiscard]] static double H(double JD) noexcept;
+  [[nodiscard]] static double Q(double JD) noexcept;
+  [[nodiscard]] static double P(double JD) noexcept;
 };
 
 

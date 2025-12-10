@@ -3,7 +3,7 @@ Module : AAPlanetaryPhenomena2.h
 Purpose: Implementation for the algorithms which obtain the dates of various planetary phenomena (revised version)
 Created: PJN / 11-06-2020
 
-Copyright (c) 2020 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2020 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -100,7 +100,7 @@ public:
   };
 
 //Static methods
-  static std::vector<CAAPlanetaryPhenomenaDetails2> Calculate(double StartJD, double EndJD, Object object, double StepInterval = 0.007, bool bHighPrecision = false);
+  [[nodiscard]] static std::vector<CAAPlanetaryPhenomenaDetails2> Calculate(double StartJD, double EndJD, Object object, double StepInterval = 0.007, bool bHighPrecision = false);
 
 protected:
   static void CorrectRAValuesForInterpolation(double& Alpha1, double& Alpha2, double& Alpha3) noexcept;

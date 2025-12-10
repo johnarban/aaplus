@@ -25,8 +25,11 @@ History: PJN / 17-01-2007 1. Changed name of CAASun::ApparentEclipticLongtitude 
          PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
          PJN / 12-07-2022 1. Updated all the code in AASun.cpp to use C++ uniform initialization for all
                           variable declarations.
+         PJN / 28-11-2024 1. Updated CAASun::GeometricFK5EclipticLongitude to return value in range 0 to 360
+                          2. Updated CAASun::GeometricFK5EclipticLatitude to return value in range -90 to 90
+                          3. Updated CAASun::ApparentEclipticLongitude to return value in range 0 to 360
 
-Copyright (c) 2003 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -81,7 +84,7 @@ double CAASun::GeometricFK5EclipticLongitude(double JD, bool bHighPrecision) noe
   const double Latitude{GeometricEclipticLatitude(JD, bHighPrecision)};
   Longitude += CAAFK5::CorrectionInLongitude(Longitude, Latitude, JD);
 
-  return Longitude;
+  return CAACoordinateTransformation::MapTo0To360Range(Longitude);
 }
 
 double CAASun::GeometricFK5EclipticLatitude(double JD, bool bHighPrecision) noexcept
@@ -92,7 +95,7 @@ double CAASun::GeometricFK5EclipticLatitude(double JD, bool bHighPrecision) noex
   const double SunLatCorrection{CAAFK5::CorrectionInLatitude(Longitude, JD)};
   Latitude += SunLatCorrection;
 
-  return Latitude;
+  return CAACoordinateTransformation::MapToMinus90To90Range(Latitude);
 }
 
 double CAASun::ApparentEclipticLongitude(double JD, bool bHighPrecision) noexcept
@@ -109,7 +112,7 @@ double CAASun::ApparentEclipticLongitude(double JD, bool bHighPrecision) noexcep
   else
     Longitude -= CAACoordinateTransformation::DMSToDegrees(0, 0, 20.4898/R);
 
-  return Longitude;
+  return CAACoordinateTransformation::MapTo0To360Range(Longitude);
 }
 
 double CAASun::ApparentEclipticLatitude(double JD, bool bHighPrecision) noexcept

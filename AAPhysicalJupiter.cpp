@@ -9,7 +9,7 @@ History: PJN / 16-09-2015 1. CAAPhysicalJupiter::Calculate now includes a "bool 
          PJN / 02-07-2022 1. Updated all the code in AAPhysicalJupiter.cpp to use C++ uniform initialization for
                           all variable declarations.
 
-Copyright (c) 2003 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

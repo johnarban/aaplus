@@ -11,7 +11,7 @@ History: PJN / 02-11-2019 1. Initial implementation
                           interval. Now the code iterates from StartJD by StepInterval until JD < 
                           (EndJD+StepInterval+StepInterval). Thanks to Alexander Vasenin for reporting this issue.
 
-Copyright (c) 2019 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2019 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

@@ -191,6 +191,302 @@ static void PrintMoonIlluminationAndPhase(int year, int month, int day, bool bHi
   PrintMoonPhase(position_angle, phase_angle);
 }
 
+static void PrintNorthPoleRiseTransitSetTimes(double h0, const char* objectName)
+{
+  //Print out the rise, transit and set times for the Sun for the North Pole for the year 2019 using the new CAARiseTransitSet2 class
+  auto events{CAARiseTransitSet2::Calculate(CAADynamicalTime::UTC2TT(2458484.5), CAADynamicalTime::UTC2TT(2458484.5 + 365), CAARiseTransitSet2::Object::SUN, 0, 90, h0)};
+  for (const auto& event : events)
+  {
+    switch (event.type)
+    {
+      case CAARiseTransitSetDetails2::Type::Rise:
+      {
+        const CAADate date_time{CAADynamicalTime::TT2UTC(event.JD), true};
+        long year{0};
+        long month{0};
+        long day{0};
+        long hour{0};
+        long minute{0};
+        double second{0};
+        date_time.Get(year, month, day, hour, minute, second);
+        ::printf("North Pole (H0:%f) Rise of %s (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", h0, objectName, event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::Set:
+      {
+        const CAADate date_time{CAADynamicalTime::TT2UTC(event.JD), true};
+        long year{0};
+        long month{0};
+        long day{0};
+        long hour{0};
+        long minute{0};
+        double second{0};
+        date_time.Get(year, month, day, hour, minute, second);
+        ::printf("North Pole (H0:%f) Set of %s (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", h0, objectName, event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::SouthernTransit:
+      {
+        const CAADate date_time{CAADynamicalTime::TT2UTC(event.JD), true};
+        long year{0};
+        long month{0};
+        long day{0};
+        long hour{0};
+        long minute{0};
+        double second{0};
+        date_time.Get(year, month, day, hour, minute, second);
+        if (event.bAboveHorizon) //Only bother to report visible transits
+          ::printf("North Pole (H0:%f) Southern Transit of Sun (UTC), %d-%d-%d %02d:%02d:%02d\n", h0, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::NorthernTransit:
+      {
+        const CAADate date_time{CAADynamicalTime::TT2UTC(event.JD), true};
+        long year{0};
+        long month{0};
+        long day{0};
+        long hour{0};
+        long minute{0};
+        double second{0};
+        date_time.Get(year, month, day, hour, minute, second);
+        if (event.bAboveHorizon) //Only bother to report visible transits
+          ::printf("North Pole (H0:%f) Northern Transit of Sun (UTC), %d-%d-%d %02d:%02d:%02d\n", h0, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::AstronomicalDusk:
+      {
+        const CAADate date_time{CAADynamicalTime::TT2UTC(event.JD), true};
+        long year{0};
+        long month{0};
+        long day{0};
+        long hour{0};
+        long minute{0};
+        double second{0};
+        date_time.Get(year, month, day, hour, minute, second);
+        ::printf("North Pole (H0:%f) Astronomical Dusk (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", h0, event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::NauticalDusk:
+      {
+        const CAADate date_time{CAADynamicalTime::TT2UTC(event.JD), true};
+        long year{0};
+        long month{0};
+        long day{0};
+        long hour{0};
+        long minute{0};
+        double second{0};
+        date_time.Get(year, month, day, hour, minute, second);
+        ::printf("North Pole (H0:%f) Nautical Dusk (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", h0, event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::CivilDusk:
+      {
+        const CAADate date_time{CAADynamicalTime::TT2UTC(event.JD), true};
+        long year{0};
+        long month{0};
+        long day{0};
+        long hour{0};
+        long minute{0};
+        double second{0};
+        date_time.Get(year, month, day, hour, minute, second);
+        ::printf("North Pole (H0:%f) Civil Dusk (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", h0, event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::AstronomicalDawn:
+      {
+        const CAADate date_time{CAADynamicalTime::TT2UTC(event.JD), true};
+        long year{0};
+        long month{0};
+        long day{0};
+        long hour{0};
+        long minute{0};
+        double second{0};
+        date_time.Get(year, month, day, hour, minute, second);
+        ::printf("North Pole (H0:%f) Astronomical Dawn (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", h0, event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::NauticalDawn:
+      {
+        const CAADate date_time{CAADynamicalTime::TT2UTC(event.JD), true};
+        long year{0};
+        long month{0};
+        long day{0};
+        long hour{0};
+        long minute{0};
+        double second{0};
+        date_time.Get(year, month, day, hour, minute, second);
+        ::printf("North Pole (H0:%f) Nautical Dawn (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", h0, event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::CivilDawn:
+      {
+        const CAADate date_time{CAADynamicalTime::TT2UTC(event.JD), true};
+        long year{0};
+        long month{0};
+        long day{0};
+        long hour{0};
+        long minute{0};
+        double second{0};
+        date_time.Get(year, month, day, hour, minute, second);
+        ::printf("North Pole (H0:%f) Civil Dawn (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", h0, event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      default:
+      {
+        break;
+      }
+    }
+  }
+}
+
+static void PrintSouthPoleRiseTransitSetTimes(double h0, const char* objectName)
+{
+  //Print out the rise, transit and set times for the Sun for the South Pole for the year 2019 using the new CAARiseTransitSet2 class
+  auto events{CAARiseTransitSet2::Calculate(CAADynamicalTime::UTC2TT(2458484.5), CAADynamicalTime::UTC2TT(2458484.5 + 365), CAARiseTransitSet2::Object::SUN, 0, -90, h0)};
+  for (const auto& event : events)
+  {
+    switch (event.type)
+    {
+      case CAARiseTransitSetDetails2::Type::Rise:
+      {
+        const CAADate date_time{CAADynamicalTime::TT2UTC(event.JD), true};
+        long year{0};
+        long month{0};
+        long day{0};
+        long hour{0};
+        long minute{0};
+        double second{0};
+        date_time.Get(year, month, day, hour, minute, second);
+        ::printf("South Pole (H0:%f) Rise of %s (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", h0, objectName, event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::Set:
+      {
+        const CAADate date_time{CAADynamicalTime::TT2UTC(event.JD), true};
+        long year{0};
+        long month{0};
+        long day{0};
+        long hour{0};
+        long minute{0};
+        double second{0};
+        date_time.Get(year, month, day, hour, minute, second);
+        ::printf("South Pole (H0:%f) Set of %s (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", h0, objectName, event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::SouthernTransit:
+      {
+        const CAADate date_time{CAADynamicalTime::TT2UTC(event.JD), true};
+        long year{0};
+        long month{0};
+        long day{0};
+        long hour{0};
+        long minute{0};
+        double second{0};
+        date_time.Get(year, month, day, hour, minute, second);
+        if (event.bAboveHorizon) //Only bother to report visible transits
+          ::printf("South Pole (H0:%f) Southern Transit of Sun (UTC), %d-%d-%d %02d:%02d:%02d\n", h0, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::NorthernTransit:
+      {
+        const CAADate date_time{CAADynamicalTime::TT2UTC(event.JD), true};
+        long year{0};
+        long month{0};
+        long day{0};
+        long hour{0};
+        long minute{0};
+        double second{0};
+        date_time.Get(year, month, day, hour, minute, second);
+        if (event.bAboveHorizon) //Only bother to report visible transits
+          ::printf("South Pole (H0:%f) Northern Transit of Sun (UTC), %d-%d-%d %02d:%02d:%02d\n", h0, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::AstronomicalDusk:
+      {
+        const CAADate date_time{CAADynamicalTime::TT2UTC(event.JD), true};
+        long year{0};
+        long month{0};
+        long day{0};
+        long hour{0};
+        long minute{0};
+        double second{0};
+        date_time.Get(year, month, day, hour, minute, second);
+        ::printf("South Pole (H0:%f) Astronomical Dusk (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", h0, event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::NauticalDusk:
+      {
+        const CAADate date_time{CAADynamicalTime::TT2UTC(event.JD), true};
+        long year{0};
+        long month{0};
+        long day{0};
+        long hour{0};
+        long minute{0};
+        double second{0};
+        date_time.Get(year, month, day, hour, minute, second);
+        ::printf("South Pole (H0:%f) Nautical Dusk (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", h0, event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::CivilDusk:
+      {
+        const CAADate date_time{CAADynamicalTime::TT2UTC(event.JD), true};
+        long year{0};
+        long month{0};
+        long day{0};
+        long hour{0};
+        long minute{0};
+        double second{0};
+        date_time.Get(year, month, day, hour, minute, second);
+        ::printf("South Pole (H0:%f) Civil Dusk (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", h0, event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::AstronomicalDawn:
+      {
+        const CAADate date_time{CAADynamicalTime::TT2UTC(event.JD), true};
+        long year{0};
+        long month{0};
+        long day{0};
+        long hour{0};
+        long minute{0};
+        double second{0};
+        date_time.Get(year, month, day, hour, minute, second);
+        ::printf("South Pole (H0:%f) Astronomical Dawn (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", h0, event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::NauticalDawn:
+      {
+        const CAADate date_time{CAADynamicalTime::TT2UTC(event.JD), true};
+        long year{0};
+        long month{0};
+        long day{0};
+        long hour{0};
+        long minute{0};
+        double second{0};
+        date_time.Get(year, month, day, hour, minute, second);
+        ::printf("South Pole (H0:%f) Nautical Dawn (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", h0, event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      case CAARiseTransitSetDetails2::Type::CivilDawn:
+      {
+        const CAADate date_time{CAADynamicalTime::TT2UTC(event.JD), true};
+        long year{0};
+        long month{0};
+        long day{0};
+        long hour{0};
+        long minute{0};
+        double second{0};
+        date_time.Get(year, month, day, hour, minute, second);
+        ::printf("South Pole (H0:%f) Civil Dawn (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", h0, event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        break;
+      }
+      default:
+      {
+        break;
+      }
+    }
+  }
+}
+
 static void PrintBostonRiseTransitSetTimes(CAARiseTransitSet2::Object object, double h0, const char* objectName)
 {
   std::vector<CAARiseTransitSetDetails2> events{CAARiseTransitSet2::Calculate(CAADynamicalTime::UTC2TT(2447240.5), CAADynamicalTime::UTC2TT(2447241.5), object, 71.0833, 42.3333, h0)};
@@ -493,9 +789,9 @@ static void PrintDoverSunRiseTransitSetTimes()
   }
 }
 
-static void PrintBostonRiseTransitSetTimesMoon()
+static void PrintBostonRiseTransitSetTimesMoon(double RefractionAtHorizon, const char* objectName)
 {
-  std::vector<CAARiseTransitSetDetails2> events{CAARiseTransitSet2::CalculateMoon(CAADynamicalTime::UTC2TT(2447240.5), CAADynamicalTime::UTC2TT(2447241.5), 71.0833, 42.3333)};
+  std::vector<CAARiseTransitSetDetails2> events{CAARiseTransitSet2::CalculateMoon(CAADynamicalTime::UTC2TT(2447240.5), CAADynamicalTime::UTC2TT(2447241.5), 71.0833, 42.3333, RefractionAtHorizon)};
   for (const auto& event : events)
   {
     switch (event.type)
@@ -510,7 +806,7 @@ static void PrintBostonRiseTransitSetTimesMoon()
         long minute{0};
         double second{0};
         date_time.Get(year, month, day, hour, minute, second);
-        ::printf("Boston Rise of Moon (High accuracy) (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        ::printf("Boston (H0:%f) Rise of %s (High accuracy) (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", RefractionAtHorizon, objectName, event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
         break;
       }
       case CAARiseTransitSetDetails2::Type::Set:
@@ -523,7 +819,7 @@ static void PrintBostonRiseTransitSetTimesMoon()
         long minute{0};
         double second{0};
         date_time.Get(year, month, day, hour, minute, second);
-        ::printf("Boston Set of Moon (High accuracy) (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        ::printf("Boston (H0:%f) Set of %s (High accuracy) (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", RefractionAtHorizon, objectName, event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
         break;
       }
       case CAARiseTransitSetDetails2::Type::SouthernTransit:
@@ -537,9 +833,9 @@ static void PrintBostonRiseTransitSetTimesMoon()
         double second{0};
         date_time.Get(year, month, day, hour, minute, second);
         if (event.bAboveHorizon)
-          ::printf("Boston Southern Transit of Moon (High accuracy) (Above Horizon) (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+          ::printf("Boston Southern Transit of %s (High accuracy) (Above Horizon) (UTC), %d-%d-%d %02d:%02d:%02d\n", objectName, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
         else
-          ::printf("Boston Southern Transit of Moon (High accuracy) (Below Horizon) (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+          ::printf("Boston Southern Transit of %s (High accuracy) (Below Horizon) (UTC), %d-%d-%d %02d:%02d:%02d\n", objectName, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
         break;
       }
       case CAARiseTransitSetDetails2::Type::NorthernTransit:
@@ -553,9 +849,9 @@ static void PrintBostonRiseTransitSetTimesMoon()
         double second{0};
         date_time.Get(year, month, day, hour, minute, second);
         if (event.bAboveHorizon)
-          ::printf("Boston Northern Transit of Moon (High accuracy) (Above Horizon) (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+          ::printf("Boston Northern Transit of %s (High accuracy) (Above Horizon) (UTC), %d-%d-%d %02d:%02d:%02d\n", objectName, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
         else
-          ::printf("Boston Northern Transit of Moon (High accuracy) (Below Horizon) (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+          ::printf("Boston Northern Transit of %s (High accuracy) (Below Horizon) (UTC), %d-%d-%d %02d:%02d:%02d\n", objectName, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
         break;
       }
       default:
@@ -743,6 +1039,12 @@ static void PrintBostonRiseTransitSetTimesSirius()
 #endif //#ifdef _MSC_VER
 int main()
 {
+  //Display details of the AA+ framework we are using
+  ::printf("AAPLUS_VERSION preprocessor macro is %s\n", AAPLUS_VERSION);
+  ::printf("AAPLUS_VERSION_NUMBER preprocessor macro is %d\n", AAPLUS_VERSION_NUMBER);
+  ::printf("CAAPlus::Version is %s\n", CAAPlus::Version());
+  ::printf("CAAPlus::VersionNumber is %d\n", CAAPlus::VersionNumber());
+
   //Test out the CAAEaster class
   const auto e1{CAAEaster::Calculate(2021, true)};
   UNREFERENCED_PARAMETER(e1);
@@ -785,7 +1087,7 @@ int main()
   pluElements.T = 2357519.8865967956;
   const auto pluDetails{CAAElliptical::Calculate(2411545.0, pluElements, false)};
   UNREFERENCED_PARAMETER(pluDetails);
-  const auto pluDetails2{CAAElliptical::Calculate(2411545.0, pluElements, false)};
+  const auto pluDetails2{CAAElliptical::Calculate(2411545.0, pluElements, true)};
   UNREFERENCED_PARAMETER(pluDetails2);
   CAAEllipticalObjectElements embElements;
   embElements.a = 1.0000096358167019;
@@ -797,7 +1099,7 @@ int main()
   embElements.T = 2411368.8611574373;
   const auto embDetails{CAAElliptical::Calculate(2411545.0, embElements, false)};
   UNREFERENCED_PARAMETER(embDetails);
-  const auto embDetails2{CAAElliptical::Calculate(2411545.0, embElements, false)};
+  const auto embDetails2{CAAElliptical::Calculate(2411545.0, embElements, true)};
   UNREFERENCED_PARAMETER(embDetails2);
 
   double RA{0};
@@ -897,9 +1199,9 @@ int main()
   UNREFERENCED_PARAMETER(JDUTC);
   const double fRA{CAACoordinateTransformation::RadiansToDegrees(atan2(ELP2000FK5.Y, ELP2000FK5.X)) / 15};
   UNREFERENCED_PARAMETER(fRA);
-  const double fDec{CAACoordinateTransformation::RadiansToDegrees(atan2(ELP2000FK5.Z, (sqrt((ELP2000FK5.X*ELP2000FK5.X) + (ELP2000FK5.Y*ELP2000FK5.Y)))))};
+  const double fDec{CAACoordinateTransformation::RadiansToDegrees(atan2(ELP2000FK5.Z, (sqrt((ELP2000FK5.X * ELP2000FK5.X) + (ELP2000FK5.Y * ELP2000FK5.Y)))))};
   UNREFERENCED_PARAMETER(fDec);
-  fRadius = sqrt((ELP2000FK5.X*ELP2000FK5.X) + (ELP2000FK5.Y*ELP2000FK5.Y) + (ELP2000FK5.Z*ELP2000FK5.Z)); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  fRadius = sqrt((ELP2000FK5.X * ELP2000FK5.X) + (ELP2000FK5.Y * ELP2000FK5.Y) + (ELP2000FK5.Z * ELP2000FK5.Z)); //NOLINT(clang-analyzer-deadcode.DeadStores)
   ELP2000 = CAAELP2000::EclipticRectangularCoordinatesJ2000(2449000.5);
   ELP2000 = CAAELP2000::EclipticRectangularCoordinatesJ2000(2429000.5);
   ELP2000 = CAAELP2000::EclipticRectangularCoordinatesJ2000(2409000.5);
@@ -957,7 +1259,7 @@ int main()
 #endif //#ifndef AAPLUS_NO_ELPMPP02
 
   //Calculate the Moon's phase for 2019 using CAAMoonPhases
-  for (int k{235}; k<248; k++)
+  for (int k{235}; k < 248; k++)
   {
     const double NewMoon{CAAMoonPhases::TruePhase(k)};
     CAADate date_time{CAADynamicalTime::TT2UTC(NewMoon), true};
@@ -1069,7 +1371,7 @@ int main()
   }
 
   //Calculate the passage through the nodes of the Moon for 2019 using CAAMoonNodes
-  for (int k{254}; k<268; k++)
+  for (int k{254}; k < 268; k++)
   {
     const double MoonNode1{CAAMoonNodes::PassageThroNode(k)};
     CAADate date_time{CAADynamicalTime::TT2UTC(MoonNode1), true};
@@ -1144,7 +1446,7 @@ int main()
   }
 
   //Calculate the Moon Apogee and Perigee's for 2019 using CAAMoonPerigeeApogee
-  for (int k{252}; k<266; k++)
+  for (int k{252}; k < 266; k++)
   {
     const double MoonPerigee{CAAMoonPerigeeApogee::TruePerigee(k)};
     const double MoonPerigeeValue{CAAMoon::HorizontalParallaxToRadiusVector(CAAMoonPerigeeApogee::PerigeeParallax(k))};
@@ -1221,297 +1523,29 @@ int main()
   }
 
   //Print out the rise, transit and set times for the Sun for the North Pole for the year 2019 using the new CAARiseTransitSet2 class
-  std::vector<CAARiseTransitSetDetails2> events{CAARiseTransitSet2::Calculate(CAADynamicalTime::UTC2TT(2458484.5), CAADynamicalTime::UTC2TT(2458484.5 + 365), CAARiseTransitSet2::Object::SUN, 0, 90, -0.8333)};
-  for (const auto& event : events)
-  {
-    switch (event.type)
-    {
-      case CAARiseTransitSetDetails2::Type::Rise:
-      {
-        const CAADate date_time{CAADynamicalTime::TT2UTC(event.JD), true};
-        long year{0};
-        long month{0};
-        long day{0};
-        long hour{0};
-        long minute{0};
-        double second{0};
-        date_time.Get(year, month, day, hour, minute, second);
-        ::printf("North Pole Rise of Sun (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
-        break;
-      }
-      case CAARiseTransitSetDetails2::Type::Set:
-      {
-        const CAADate date_time{CAADynamicalTime::TT2UTC(event.JD), true};
-        long year{0};
-        long month{0};
-        long day{0};
-        long hour{0};
-        long minute{0};
-        double second{0};
-        date_time.Get(year, month, day, hour, minute, second);
-        ::printf("North Pole Set of Sun (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
-        break;
-      }
-      case CAARiseTransitSetDetails2::Type::SouthernTransit:
-      {
-        const CAADate date_time{CAADynamicalTime::TT2UTC(event.JD), true};
-        long year{0};
-        long month{0};
-        long day{0};
-        long hour{0};
-        long minute{0};
-        double second{0};
-        date_time.Get(year, month, day, hour, minute, second);
-        if (event.bAboveHorizon) //Only bother to report visible transits
-          ::printf("North Pole Southern Transit of Sun (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
-        break;
-      }
-      case CAARiseTransitSetDetails2::Type::NorthernTransit:
-      {
-        const CAADate date_time{CAADynamicalTime::TT2UTC(event.JD), true};
-        long year{0};
-        long month{0};
-        long day{0};
-        long hour{0};
-        long minute{0};
-        double second{0};
-        date_time.Get(year, month, day, hour, minute, second);
-        if (event.bAboveHorizon) //Only bother to report visible transits
-          ::printf("North Pole Northern Transit of Sun (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
-        break;
-      }
-      case CAARiseTransitSetDetails2::Type::AstronomicalDusk:
-      {
-        const CAADate date_time{CAADynamicalTime::TT2UTC(event.JD), true};
-        long year{0};
-        long month{0};
-        long day{0};
-        long hour{0};
-        long minute{0};
-        double second{0};
-        date_time.Get(year, month, day, hour, minute, second);
-        ::printf("North Pole Astronomical Dusk (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
-        break;
-      }
-      case CAARiseTransitSetDetails2::Type::NauticalDusk:
-      {
-        const CAADate date_time{CAADynamicalTime::TT2UTC(event.JD), true};
-        long year{0};
-        long month{0};
-        long day{0};
-        long hour{0};
-        long minute{0};
-        double second{0};
-        date_time.Get(year, month, day, hour, minute, second);
-        ::printf("North Pole Nautical Dusk (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
-        break;
-      }
-      case CAARiseTransitSetDetails2::Type::CivilDusk:
-      {
-        const CAADate date_time{CAADynamicalTime::TT2UTC(event.JD), true};
-        long year{0};
-        long month{0};
-        long day{0};
-        long hour{0};
-        long minute{0};
-        double second{0};
-        date_time.Get(year, month, day, hour, minute, second);
-        ::printf("North Pole Civil Dusk (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
-        break;
-      }
-      case CAARiseTransitSetDetails2::Type::AstronomicalDawn:
-      {
-        const CAADate date_time{CAADynamicalTime::TT2UTC(event.JD), true};
-        long year{0};
-        long month{0};
-        long day{0};
-        long hour{0};
-        long minute{0};
-        double second{0};
-        date_time.Get(year, month, day, hour, minute, second);
-        ::printf("North Pole Astronomical Dawn (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
-        break;
-      }
-      case CAARiseTransitSetDetails2::Type::NauticalDawn:
-      {
-        const CAADate date_time{CAADynamicalTime::TT2UTC(event.JD), true};
-        long year{0};
-        long month{0};
-        long day{0};
-        long hour{0};
-        long minute{0};
-        double second{0};
-        date_time.Get(year, month, day, hour, minute, second);
-        ::printf("North Pole Nautical Dawn (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
-        break;
-      }
-      case CAARiseTransitSetDetails2::Type::CivilDawn:
-      {
-        const CAADate date_time{CAADynamicalTime::TT2UTC(event.JD), true};
-        long year{0};
-        long month{0};
-        long day{0};
-        long hour{0};
-        long minute{0};
-        double second{0};
-        date_time.Get(year, month, day, hour, minute, second);
-        ::printf("North Pole Civil Dawn (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
-        break;
-      }
-      default:
-      {
-        break;
-      }
-    }
-  }
+  PrintNorthPoleRiseTransitSetTimes(-0.8333, "Sun@0m");
+  PrintNorthPoleRiseTransitSetTimes(-0.8333 - (2.076 * sqrt(1000) / 60), "Sun@1000m");
+  PrintNorthPoleRiseTransitSetTimes(-0.8333 - (2.076 * sqrt(2000) / 60), "Sun@2000m");
+  PrintNorthPoleRiseTransitSetTimes(-0.8333 - (2.076 * sqrt(10000 / 3.28) / 60), "Sun@10000feet");
+  PrintNorthPoleRiseTransitSetTimes(-0.8333 - (2.076 * sqrt(4000) / 60), "Sun@4000m");
+  PrintNorthPoleRiseTransitSetTimes(-0.8333 - (2.076 * sqrt(5000) / 60), "Sun@5000m");
+  PrintNorthPoleRiseTransitSetTimes(-0.8333 - (2.076 * sqrt(10000) / 60), "Sun@10000m");
+  PrintNorthPoleRiseTransitSetTimes(-0.8333 - (2.076 * sqrt(20000) / 60), "Sun@20000m");
+  PrintNorthPoleRiseTransitSetTimes(-0.8333 - (2.076 * sqrt(50000) / 60), "Sun@50000m");
 
   //Print out the rise, transit and set times for the Sun for the South Pole for the year 2019 using the new CAARiseTransitSet2 class
-  events = CAARiseTransitSet2::Calculate(CAADynamicalTime::UTC2TT(2458484.5), CAADynamicalTime::UTC2TT(2458484.5 + 365), CAARiseTransitSet2::Object::SUN, 0, -90, -0.8333);
-  for (const auto& event : events)
-  {
-    switch (event.type)
-    {
-      case CAARiseTransitSetDetails2::Type::Rise:
-      {
-        const CAADate date_time{CAADynamicalTime::TT2UTC(event.JD), true};
-        long year{0};
-        long month{0};
-        long day{0};
-        long hour{0};
-        long minute{0};
-        double second{0};
-        date_time.Get(year, month, day, hour, minute, second);
-        ::printf("South Pole Rise of Sun (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
-        break;
-      }
-      case CAARiseTransitSetDetails2::Type::Set:
-      {
-        const CAADate date_time{CAADynamicalTime::TT2UTC(event.JD), true};
-        long year{0};
-        long month{0};
-        long day{0};
-        long hour{0};
-        long minute{0};
-        double second{0};
-        date_time.Get(year, month, day, hour, minute, second);
-        ::printf("South Pole Set of Sun (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
-        break;
-      }
-      case CAARiseTransitSetDetails2::Type::SouthernTransit:
-      {
-        const CAADate date_time{CAADynamicalTime::TT2UTC(event.JD), true};
-        long year{0};
-        long month{0};
-        long day{0};
-        long hour{0};
-        long minute{0};
-        double second{0};
-        date_time.Get(year, month, day, hour, minute, second);
-        if (event.bAboveHorizon) //Only bother to report visible transits
-          ::printf("South Pole Southern Transit of Sun (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
-        break;
-      }
-      case CAARiseTransitSetDetails2::Type::NorthernTransit:
-      {
-        const CAADate date_time{CAADynamicalTime::TT2UTC(event.JD), true};
-        long year{0};
-        long month{0};
-        long day{0};
-        long hour{0};
-        long minute{0};
-        double second{0};
-        date_time.Get(year, month, day, hour, minute, second);
-        if (event.bAboveHorizon) //Only bother to report visible transits
-          ::printf("South Pole Northern Transit of Sun (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
-        break;
-      }
-      case CAARiseTransitSetDetails2::Type::AstronomicalDusk:
-      {
-        const CAADate date_time{CAADynamicalTime::TT2UTC(event.JD), true};
-        long year{0};
-        long month{0};
-        long day{0};
-        long hour{0};
-        long minute{0};
-        double second{0};
-        date_time.Get(year, month, day, hour, minute, second);
-        ::printf("South Pole Astronomical Dusk (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
-        break;
-      }
-      case CAARiseTransitSetDetails2::Type::NauticalDusk:
-      {
-        const CAADate date_time{CAADynamicalTime::TT2UTC(event.JD), true};
-        long year{0};
-        long month{0};
-        long day{0};
-        long hour{0};
-        long minute{0};
-        double second{0};
-        date_time.Get(year, month, day, hour, minute, second);
-        ::printf("South Pole Nautical Dusk (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
-        break;
-      }
-      case CAARiseTransitSetDetails2::Type::CivilDusk:
-      {
-        const CAADate date_time{CAADynamicalTime::TT2UTC(event.JD), true};
-        long year{0};
-        long month{0};
-        long day{0};
-        long hour{0};
-        long minute{0};
-        double second{0};
-        date_time.Get(year, month, day, hour, minute, second);
-        ::printf("South Pole Civil Dusk (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
-        break;
-      }
-      case CAARiseTransitSetDetails2::Type::AstronomicalDawn:
-      {
-        const CAADate date_time{CAADynamicalTime::TT2UTC(event.JD), true};
-        long year{0};
-        long month{0};
-        long day{0};
-        long hour{0};
-        long minute{0};
-        double second{0};
-        date_time.Get(year, month, day, hour, minute, second);
-        ::printf("South Pole Astronomical Dawn (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
-        break;
-      }
-      case CAARiseTransitSetDetails2::Type::NauticalDawn:
-      {
-        const CAADate date_time{CAADynamicalTime::TT2UTC(event.JD), true};
-        long year{0};
-        long month{0};
-        long day{0};
-        long hour{0};
-        long minute{0};
-        double second{0};
-        date_time.Get(year, month, day, hour, minute, second);
-        ::printf("South Pole Nautical Dawn (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
-        break;
-      }
-      case CAARiseTransitSetDetails2::Type::CivilDawn:
-      {
-        const CAADate date_time{CAADynamicalTime::TT2UTC(event.JD), true};
-        long year{0};
-        long month{0};
-        long day{0};
-        long hour{0};
-        long minute{0};
-        double second{0};
-        date_time.Get(year, month, day, hour, minute, second);
-        ::printf("South Pole Civil Dawn (UTC) at bearing %f, %d-%d-%d %02d:%02d:%02d\n", event.Bearing, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
-        break;
-      }
-      default:
-      {
-        break;
-      }
-    }
-  }
+  PrintSouthPoleRiseTransitSetTimes(-0.8333, "Sun@0m");
+  PrintSouthPoleRiseTransitSetTimes(-0.8333 - (2.076 * sqrt(1000) / 60), "Sun@1000m");
+  PrintSouthPoleRiseTransitSetTimes(-0.8333 - (2.076 * sqrt(2000) / 60), "Sun@2000m");
+  PrintSouthPoleRiseTransitSetTimes(-0.8333 - (2.076 * sqrt(10000 / 3.28) / 60), "Sun@10000feet");
+  PrintSouthPoleRiseTransitSetTimes(-0.8333 - (2.076 * sqrt(4000) / 60), "Sun@4000m");
+  PrintSouthPoleRiseTransitSetTimes(-0.8333 - (2.076 * sqrt(5000) / 60), "Sun@5000m");
+  PrintSouthPoleRiseTransitSetTimes(-0.8333 - (2.076 * sqrt(10000) / 60), "Sun@10000m");
+  PrintSouthPoleRiseTransitSetTimes(-0.8333 - (2.076 * sqrt(20000) / 60), "Sun@20000m");
+  PrintSouthPoleRiseTransitSetTimes(-0.8333 - (2.076 * sqrt(50000) / 60), "Sun@50000m");
 
   //Print out the rise, transit and set times for the Moon for the North Pole for the 8th - 11th March 2019 using the new CAARiseTransitSet2 class
-  events = CAARiseTransitSet2::Calculate(CAADynamicalTime::UTC2TT(2458550.5), CAADynamicalTime::UTC2TT(2458553.5), CAARiseTransitSet2::Object::MOON, 0, 90, -0.825);
+  auto events{CAARiseTransitSet2::Calculate(CAADynamicalTime::UTC2TT(2458550.5), CAADynamicalTime::UTC2TT(2458553.5), CAARiseTransitSet2::Object::MOON, 0, 90, -0.825)};
   for (const auto& event : events)
   {
     switch (event.type)
@@ -1673,7 +1707,7 @@ int main()
         long minute{0};
         double second{0};
         date_time.Get(year, month, day, hour, minute, second);
-        ::printf("Northern Solstice (UTC) at declination %f, %d-%d-%d %02d:%02d:%02d\n", event.Declination, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        ::printf("Northern Solstice (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
         break;
       }
       case CAAEquinoxSolsticeDetails2::Type::SouthwardEquinox:
@@ -1699,7 +1733,7 @@ int main()
         long minute{0};
         double second{0};
         date_time.Get(year, month, day, hour, minute, second);
-        ::printf("Southern Solstice (UTC) at declination %f, %d-%d-%d %02d:%02d:%02d\n", event.Declination, static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+        ::printf("Southern Solstice (UTC), %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
         break;
       }
       default:
@@ -1714,7 +1748,7 @@ int main()
   {
     double MoonDec{CAAMoonMaxDeclinations::TrueGreatestDeclination(k, false)};
     double MoonDecValue{CAAMoonMaxDeclinations::TrueGreatestDeclinationValue(k, false)};
-    CAADate date_time{CAADynamicalTime::TT2UTC(MoonDec), true};
+    CAADate date_time{CAADynamicalTime::TT2UTC(MoonDec), true };
     long year{0};
     long month{0};
     long day{0};
@@ -1793,7 +1827,7 @@ int main()
     constexpr int year{2012};
     constexpr int month{4};
     constexpr int days_in_month{30};
-    for (int Day{1}; Day<=days_in_month; ++Day)
+    for (int Day{1}; Day <= days_in_month; ++Day)
     {
       PrintMoonIlluminationAndPhase(year, month, Day, false);
       PrintMoonIlluminationAndPhase(year, month, Day, true);
@@ -2519,8 +2553,8 @@ int main()
     }
 
     ::printf("* SPECIAL CASE UTC LEAP SECOND DATES\n");
-    std::array<double, 28> JDUT1s{2441317.5, 2441499.5, 2441683.5, 2442048.5,  2442413.5,  2442778.5,  2443144.5, 2443509.5, 2443874.5, 
-                                  2444239.5, 2444786.5, 2445151.5, 2445516.5,  2446247.5,  2447161.5,  2447892.5, 2448257.5, 2448804.5, 
+    std::array<double, 28> JDUT1s{2441317.5, 2441499.5, 2441683.5, 2442048.5,  2442413.5,  2442778.5,  2443144.5, 2443509.5, 2443874.5,
+                                  2444239.5, 2444786.5, 2445151.5, 2445516.5,  2446247.5,  2447161.5,  2447892.5, 2448257.5, 2448804.5,
                                   2449169.5, 2449534.5, 2450083.5, 2450630.5,  2451179.5,  2453736.5,  2454832.5, 2456109.5, 2457204.5, 2457754.5 }; //Handle the special leap seconds time constants
     for (const auto JD1 : JDUT1s)
     {
@@ -2660,25 +2694,23 @@ int main()
   LocalHourAngle = AST - LongitudeAsHourAngle - MoonTopo.X;
   CAA2DCoordinate MoonHorizontal{CAACoordinateTransformation::Equatorial2Horizontal(LocalHourAngle, MoonTopo.Y, Latitude)};
   MoonHorizontal.Y += CAARefraction::RefractionFromTrue(MoonHorizontal.Y, 1013, 10);
-
   //The result above should be that we have a rising Moon at 17 degrees above the horizon at azimuth 38 degrees east of the southern horizon
-
 
   //Do a full round trip test on CAADate across a nice wide range. Note we should expect
   //some printfs to appear during this test (Specifically a monotonic error for 15 October 1582)
   double prevJulian{-1};
-  for (int YYYY{-4712}; YYYY<5000; YYYY++) //Change the end YYYY value if you would like to test a longer range
+  for (int YYYY{-4712}; YYYY < 5000; YYYY++) //Change the end YYYY value if you would like to test a longer range
   {
     if ((YYYY % 1000) == 0)
       ::printf("Doing date tests on year %d\n", YYYY);
-    for (int MMMM{1}; MMMM<=12; MMMM++)
+    for (int MMMM{1}; MMMM <= 12; MMMM++)
     {
       const bool bLeap{CAADate::IsLeap(YYYY, (YYYY >= 1582))};
-      for (int DDDD{1}; DDDD<=CAADate::DaysInMonth(MMMM, bLeap); DDDD++)
+      for (int DDDD{1}; DDDD <= CAADate::DaysInMonth(MMMM, bLeap); DDDD++)
       {
         const bool bGregorian{CAADate::AfterPapalReform(YYYY, MMMM, DDDD)};
         const CAADate date{YYYY, MMMM, static_cast<double>(DDDD), 12, 0, 0, bGregorian};
-        if ((date.Year() != YYYY) || (date.Month() != MMMM)|| (date.Day() != DDDD))
+        if ((date.Year() != YYYY) || (date.Month() != MMMM) || (date.Day() != DDDD))
           ::printf("Round trip bug with date %d-%d-%d\n", YYYY, MMMM, DDDD);
         const double currentJulian{date.Julian()};
         if ((prevJulian != -1) && ((prevJulian + 1) != currentJulian))
@@ -2692,7 +2724,7 @@ int main()
         {
           const CAACalendarDate GregorianDate{CAADate::JulianToGregorian(YYYY, MMMM, DDDD)};
           const CAACalendarDate JulianDate{CAADate::GregorianToJulian(GregorianDate.Year, GregorianDate.Month, GregorianDate.Day)};
-          if ((JulianDate.Year != YYYY) || (JulianDate.Month != MMMM)|| (JulianDate.Day != DDDD))
+          if ((JulianDate.Year != YYYY) || (JulianDate.Month != MMMM) || (JulianDate.Day != DDDD))
             ::printf("Round trip bug with Julian -> Gregorian Calendar %d-%d-%d\n", YYYY, MMMM, DDDD);
         }
       }
@@ -2722,7 +2754,8 @@ int main()
   UNREFERENCED_PARAMETER(FractionalYear);
   const double DayOfYear{date.DayOfYear()};
   UNREFERENCED_PARAMETER(DayOfYear);
-  CAADate::DOW dow{date.DayOfWeek()}; //NOLINT(clang-analyzer-deadcode.DeadStores, clang-diagnostic-unused-but-set-variable)
+  CAADate::DOW dow{date.DayOfWeek()}; //NOLINT(clang-analyzer-deadcode.DeadStores)
+  UNREFERENCED_PARAMETER(dow);
   Year = date.Year(); //NOLINT(clang-analyzer-deadcode.DeadStores)
   Month = date.Month();
   Day = date.Day();
@@ -2731,34 +2764,111 @@ int main()
   Second = date.Second();
   const double Julian2{date};
   UNREFERENCED_PARAMETER(Julian2);
+  date.Set(-4712, 1, 7, 0, 0, 0, false);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::SUNDAY);
+  date.Set(-4712, 1, 6, 0, 0, 0, false);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::SATURDAY);
+  date.Set(-4712, 1, 5, 0, 0, 0, false);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::FRIDAY);
+  date.Set(-4712, 1, 4, 0, 0, 0, false);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::THURSDAY);
+  date.Set(-4712, 1, 3, 0, 0, 0, false);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::WEDNESDAY);
+  date.Set(-4712, 1, 2, 0, 0, 0, false);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::TUESDAY);
   date.Set(-4712, 1, 1, 0, 0, 0, false);
   dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::MONDAY);
+  date.Set(-4713, 12, 31, 0, 0, 0, false);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::SUNDAY);
+  date.Set(-4713, 12, 30, 0, 0, 0, false);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::SATURDAY);
+  date = CAADate{-4713, 12, 29, false};
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::FRIDAY);
+  date = CAADate{-4713, 12, 28, false};
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::THURSDAY);
+  date = CAADate{-4713, 12, 27, false};
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::WEDNESDAY);
+  date = CAADate{-4713, 12, 26, false};
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::TUESDAY);
+  date = CAADate{-4713, 12, 25, false};
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::MONDAY);
+  date = CAADate{-4713, 12, 24, false};
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::SUNDAY);
+  date = CAADate{-4713, 12, 23, false};
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::SATURDAY);
+  date = CAADate{-4713, 12, 22, false};
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::FRIDAY);
+  date.Set(-4713, 1, 9, 0, 0, 0, false);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::MONDAY);
+  date.Set(-4713, 1, 8, 0, 0, 0, false);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::SUNDAY);
+  date.Set(-4713, 1, 7, 0, 0, 0, false);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::SATURDAY);
+  date.Set(-4713, 1, 6, 0, 0, 0, false);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::FRIDAY);
+  date.Set(-4713, 1, 5, 0, 0, 0, false);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::THURSDAY);
+  date.Set(-4713, 1, 4, 0, 0, 0, false);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  date.Set(-4713, 1, 3, 0, 0, 0, false);
+  assert(dow == CAADate::DOW::WEDNESDAY);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  date.Set(-4713, 1, 2, 0, 0, 0, false);
+  assert(dow == CAADate::DOW::TUESDAY);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::MONDAY);
   date.Set(-4713, 1, 1, 0, 0, 0, false);
   dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
-
-  CAADate date2{-4712, 1, 1, false};
-  auto dow2{date2.DayOfWeek()}; //NOLINT(clang-analyzer-deadcode.DeadStores, clang-diagnostic-unused-but-set-variable)
-  date2 = CAADate{-4713, 12, 31, false};
-  dow2 = date2.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
-  date2 = CAADate{-4713, 12, 30, false};
-  dow2 = date2.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
-  date2 = CAADate{-4713, 12, 29, false};
-  dow2 = date2.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
-  date2 = CAADate{-4713, 12, 28, false};
-  dow2 = date2.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
-  date2 = CAADate{-4713, 12, 27, false};
-  dow2 = date2.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
-  date2 = CAADate{-4713, 12, 26, false};
-  dow2 = date2.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
-  date2 = CAADate{-4713, 12, 25, false};
-  dow2 = date2.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
-  date2 = CAADate{-4713, 12, 24, false};
-  dow2 = date2.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
-  date2 = CAADate{-4713, 12, 23, false};
-  dow2 = date2.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
-  date2 = CAADate{-4713, 12, 22, false};
-  dow2 = date2.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
-
+  assert(dow == CAADate::DOW::SUNDAY);
+  date.Set(-4714, 12, 31, 0, 0, 0, false);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::SATURDAY);
+  date.Set(-4714, 12, 30, 0, 0, 0, false);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::FRIDAY);
+  date.Set(-4714, 12, 29, 0, 0, 0, false);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::THURSDAY);
+  date.Set(-4714, 12, 28, 0, 0, 0, false);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::WEDNESDAY);
+  date.Set(-4714, 12, 27, 0, 0, 0, false);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::TUESDAY);
+  date.Set(-4714, 12, 26, 0, 0, 0, false);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::MONDAY);
+  date.Set(-4714, 12, 25, 0, 0, 0, false);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::SUNDAY);
+  date.Set(-4714, 12, 24, 0, 0, 0, false);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::SATURDAY);
+  date.Set(-4714, 12, 23, 0, 0, 0, false);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::FRIDAY);
   date.Set(1978, 11, 14, 0, 0, 0, true);
   const long DayNumber{static_cast<long>(date.DayOfYear())};
   date.DayOfYearToDayAndMonth(DayNumber, date.Leap(), Day, Month);
@@ -2852,13 +2962,187 @@ int main()
   const double R1{CAARefraction::RefractionFromApparent(0.5)};
   const double R2{CAARefraction::RefractionFromTrue(0.5 - R1 + CAACoordinateTransformation::DMSToDegrees(0, 32, 0))};
   UNREFERENCED_PARAMETER(R2);
-  double R3{CAARefraction::RefractionFromApparent(90)}; //NOLINT(clang-analyzer-deadcode.DeadStores, clang-diagnostic-unused-but-set-variable)
+  double R3{CAARefraction::RefractionFromApparent(90)}; //NOLINT(clang-analyzer-deadcode.DeadStores)
+  UNREFERENCED_PARAMETER(R3);
   R3 = CAARefraction::RefractionFromApparent(-1.6); //NOLINT(clang-analyzer-deadcode.DeadStores)
   R3 = CAARefraction::RefractionFromApparent(-1.6962987799993996); //NOLINT(clang-analyzer-deadcode.DeadStores)
   R3 = CAARefraction::RefractionFromApparent(-2); //NOLINT(clang-analyzer-deadcode.DeadStores)
   R3 = CAARefraction::RefractionFromTrue(-1.8); //NOLINT(clang-analyzer-deadcode.DeadStores)
   R3 = CAARefraction::RefractionFromTrue(-1.9006387000003735); //NOLINT(clang-analyzer-deadcode.DeadStores)
   R3 = CAARefraction::RefractionFromTrue(-2); //NOLINT(clang-analyzer-deadcode.DeadStores)
+
+  const double refract1{CAARefraction::RefractionFromTrue(-3) * 60}; //6.60 minutes
+  UNREFERENCED_PARAMETER(refract1);
+  const double refract2{CAARefraction::RefractionFromTrue(-2) * 60}; //9.91 minutes
+  UNREFERENCED_PARAMETER(refract2);
+  const double refract3{CAARefraction::RefractionFromTrue(-1.6) * 60}; //12.40 minutes
+  UNREFERENCED_PARAMETER(refract3);
+  const double refract4{CAARefraction::RefractionFromTrue(-1) * 60}; //19.84 minutes
+  UNREFERENCED_PARAMETER(refract4);
+  const double refract4a{CAARefraction::RefractionFromTrue(-0.5749999999) * 60}; //34.49 minutes
+  UNREFERENCED_PARAMETER(refract4a);
+  const double refract4b{CAARefraction::RefractionFromTrue(-0.575) * 60}; //34.50 minutes
+  UNREFERENCED_PARAMETER(refract4b);
+  const double refract4c{CAARefraction::RefractionFromTrue(-0.5750000001) * 60}; //34.50 minutes
+  UNREFERENCED_PARAMETER(refract4c);
+  const double refract5{CAARefraction::RefractionFromTrue(0) * 60}; //28.92 minutes
+  UNREFERENCED_PARAMETER(refract5);
+  const double refract5x{CAARefraction::RefractionFromTrue(0, 1010, 20) * 60}; //27.93 minutes
+  UNREFERENCED_PARAMETER(refract5x);
+  const double refract5y{CAARefraction::RefractionFromTrue(0, 1010, 5) * 60}; //29.44 minutes
+  UNREFERENCED_PARAMETER(refract5y);
+  const double refract5z{CAARefraction::RefractionFromTrue(0, 950, 10) * 60}; //27.20 minutes
+  UNREFERENCED_PARAMETER(refract5z);
+  const double refract5w{CAARefraction::RefractionFromTrue(0, 1150, 10) * 60}; //32.93 minutes
+  UNREFERENCED_PARAMETER(refract5w);
+  const double refract5a{CAARefraction::RefractionFromTrue(1) * 60}; //21.80 minutes
+  UNREFERENCED_PARAMETER(refract5a);
+  const double refract5b{CAARefraction::RefractionFromTrue(2) * 60}; //17.02 minutes
+  UNREFERENCED_PARAMETER(refract5b);
+  const double refract5c{CAARefraction::RefractionFromTrue(3) * 60}; //13.72 minutes
+  UNREFERENCED_PARAMETER(refract5c);
+  const double refract5d{CAARefraction::RefractionFromTrue(4.5) * 60}; //10.38 minutes
+  UNREFERENCED_PARAMETER(refract5d);
+  const double refract6{CAARefraction::RefractionFromTrue(4.9999999) * 60}; //9.58 minutes
+  UNREFERENCED_PARAMETER(refract6);
+  const double refract7{CAARefraction::RefractionFromTrue(5) * 60}; //9.58 minutes
+  UNREFERENCED_PARAMETER(refract7);
+  const double refract7a{CAARefraction::RefractionFromTrue(5.0000000001) * 60}; //9.58 minutes
+  UNREFERENCED_PARAMETER(refract7a);
+  const double refract7b{CAARefraction::RefractionFromTrue(5.49397999999) * 60}; //8.93 minutes
+  UNREFERENCED_PARAMETER(refract7b);
+  const double refract7c{CAARefraction::RefractionFromTrue(5.49398) * 60}; //8.93 minutes
+  UNREFERENCED_PARAMETER(refract7c);
+  const double refract7d{CAARefraction::RefractionFromTrue(5.493980000001) * 60}; //8.93 minutes
+  UNREFERENCED_PARAMETER(refract7d);
+  const double refract7e{CAARefraction::RefractionFromTrue(10) * 60}; //5.29 minutes
+  UNREFERENCED_PARAMETER(refract7e);
+  const double refract7f{CAARefraction::RefractionFromTrue(15) * 60}; //3.55 minutes
+  UNREFERENCED_PARAMETER(refract7f);
+  const double refract7g{CAARefraction::RefractionFromTrue(20) * 60}; //2.64 minutes
+  UNREFERENCED_PARAMETER(refract7g);
+  const double refract8{CAARefraction::RefractionFromTrue(25) * 60}; //2.07 minutes
+  UNREFERENCED_PARAMETER(refract8);
+  const double refract9{CAARefraction::RefractionFromTrue(45) * 60}; //0.97 minutes
+  UNREFERENCED_PARAMETER(refract9);
+  const double refract10{CAARefraction::RefractionFromTrue(65) * 60}; //0.45 minutes
+  UNREFERENCED_PARAMETER(refract10);
+  const double refract10a{CAARefraction::RefractionFromTrue(80) * 60}; //0.17 minutes
+  UNREFERENCED_PARAMETER(refract10a);
+  const double refract10b{CAARefraction::RefractionFromTrue(83) * 60}; //0.12 minutes
+  UNREFERENCED_PARAMETER(refract10b);
+  const double refract10c{CAARefraction::RefractionFromTrue(84) * 60}; //0.10 minutes
+  UNREFERENCED_PARAMETER(refract10c);
+  const double refract10d{CAARefraction::RefractionFromTrue(84.0000000001) * 60}; //0.10 minutes
+  UNREFERENCED_PARAMETER(refract10d);
+  const double refract10e{CAARefraction::RefractionFromTrue(84.5) * 60}; //0.05 minutes
+  UNREFERENCED_PARAMETER(refract10e);
+  const double refract11{CAARefraction::RefractionFromTrue(84.999999999999) * 60}; //1.01E-13 minutes
+  UNREFERENCED_PARAMETER(refract11);
+  const double refract12{CAARefraction::RefractionFromTrue(85) * 60}; //0 minutes
+  UNREFERENCED_PARAMETER(refract12);
+  const double refract12a{CAARefraction::RefractionFromTrue(85.000000001) * 60}; //0 minutes
+  UNREFERENCED_PARAMETER(refract12a);
+  const double refract13{CAARefraction::RefractionFromTrue(90) * 60}; //0 minutes
+  UNREFERENCED_PARAMETER(refract13);
+  const double refract14{CAARefraction::RefractionFromTrue(91) * 60}; //0 minutes
+  UNREFERENCED_PARAMETER(refract14);
+
+  const double refract15{CAARefraction::RefractionFromApparent(-3) * 60}; //6.38 minutes
+  UNREFERENCED_PARAMETER(refract15);
+  const double refract16{CAARefraction::RefractionFromApparent(-2) * 60}; //9.21 minutes
+  UNREFERENCED_PARAMETER(refract16);
+  const double refract17{CAARefraction::RefractionFromApparent(-1.6) * 60}; //11.11 minutes
+  UNREFERENCED_PARAMETER(refract17);
+  const double refract18{CAARefraction::RefractionFromApparent(-1) * 60}; //15.72 minutes
+  UNREFERENCED_PARAMETER(refract18);
+  const double refract18a{CAARefraction::RefractionFromApparent(-0.5749999999) * 60}; //21.32 minutes
+  UNREFERENCED_PARAMETER(refract18a);
+  const double refract18b{CAARefraction::RefractionFromApparent(-0.575) * 60}; //21.32 minutes
+  UNREFERENCED_PARAMETER(refract18b);
+  const double refract19{CAARefraction::RefractionFromApparent(0) * 60}; //34.49 minutes
+  UNREFERENCED_PARAMETER(refract19);
+  const double refract19a{CAARefraction::RefractionFromApparent(1) * 60}; //24.35 minutes
+  UNREFERENCED_PARAMETER(refract19a);
+  const double refract19b{CAARefraction::RefractionFromApparent(2) * 60}; //18.29 minutes
+  UNREFERENCED_PARAMETER(refract19b);
+  const double refract19c{CAARefraction::RefractionFromApparent(3) * 60}; //14.41 minutes
+  UNREFERENCED_PARAMETER(refract19c);
+  const double refract19d{CAARefraction::RefractionFromApparent(4.5) * 60}; //10.71 minutes
+  UNREFERENCED_PARAMETER(refract19d);
+  const double refract20{CAARefraction::RefractionFromApparent(4.9999999) * 60}; //9.83 minutes
+  UNREFERENCED_PARAMETER(refract20);
+  const double refract21{CAARefraction::RefractionFromApparent(5) * 60}; //9.83 minutes
+  UNREFERENCED_PARAMETER(refract21);
+  const double refract21a{CAARefraction::RefractionFromApparent(6) * 60}; //8.48 minutes
+  UNREFERENCED_PARAMETER(refract21a);
+  const double refract21b{CAARefraction::RefractionFromApparent(7) * 60}; //7.42 minutes
+  UNREFERENCED_PARAMETER(refract21b);
+  const double refract21c{CAARefraction::RefractionFromApparent(8) * 60}; //6.58 minutes
+  UNREFERENCED_PARAMETER(refract21c);
+  const double refract21d{CAARefraction::RefractionFromApparent(9) * 60}; //5.90 minutes
+  UNREFERENCED_PARAMETER(refract21d);
+  const double refract21e{CAARefraction::RefractionFromApparent(10) * 60}; //5.33 minutes
+  UNREFERENCED_PARAMETER(refract21e);
+  const double refract21f{CAARefraction::RefractionFromApparent(15) * 60}; //3.57 minutes
+  UNREFERENCED_PARAMETER(refract21f);
+  const double refract21g{CAARefraction::RefractionFromApparent(20) * 60}; //2.64 minutes
+  UNREFERENCED_PARAMETER(refract21g);
+  const double refract22{CAARefraction::RefractionFromApparent(25) * 60}; //2.07 minutes
+  UNREFERENCED_PARAMETER(refract22);
+  const double refract22a{CAARefraction::RefractionFromApparent(30) * 60}; //1.67 minutes
+  UNREFERENCED_PARAMETER(refract22a);
+  const double refract22b{CAARefraction::RefractionFromApparent(35) * 60}; //1.38 minutes
+  UNREFERENCED_PARAMETER(refract22b);
+  const double refract23{CAARefraction::RefractionFromApparent(45) * 60}; //0.97 minutes
+  UNREFERENCED_PARAMETER(refract23);
+  const double refract23a{CAARefraction::RefractionFromApparent(50) * 60}; //0.81 minutes
+  UNREFERENCED_PARAMETER(refract23a);
+  const double refract23b{CAARefraction::RefractionFromApparent(55) * 60}; //0.68 minutes
+  UNREFERENCED_PARAMETER(refract23b);
+  const double refract23c{CAARefraction::RefractionFromApparent(60) * 60}; //0.56 minutes
+  UNREFERENCED_PARAMETER(refract23c);
+  const double refract24{CAARefraction::RefractionFromApparent(65) * 60}; //0.45 minutes
+  UNREFERENCED_PARAMETER(refract24);
+  const double refract24a{CAARefraction::RefractionFromApparent(70) * 60}; //0.35 minutes
+  UNREFERENCED_PARAMETER(refract24a);
+  const double refract24b{CAARefraction::RefractionFromApparent(80) * 60}; //0.17 minutes
+  UNREFERENCED_PARAMETER(refract24b);
+  const double refract25{CAARefraction::RefractionFromApparent(84.9999999) * 60}; //1.02E-8 minutes
+  UNREFERENCED_PARAMETER(refract25);
+  const double refract26{CAARefraction::RefractionFromApparent(85) * 60}; //0 minutes
+  UNREFERENCED_PARAMETER(refract26);
+  const double refract27{CAARefraction::RefractionFromApparent(90) * 60}; //0 minutes
+  UNREFERENCED_PARAMETER(refract27);
+  const double refract28{CAARefraction::RefractionFromApparent(91) * 60}; //0 minutes
+  UNREFERENCED_PARAMETER(refract28);
+
+  //Test round tripping of CAARefraction::RefractionFromApparent and CAARefraction::RefractionFromTrue
+  double f{-12.0};
+  while (f < 100.0)
+  {
+    const double apparentAltitude{f};
+    double refraction{CAARefraction::RefractionFromApparent(apparentAltitude)};
+    const double trueAltitude{apparentAltitude - refraction};
+    refraction = CAARefraction::RefractionFromTrue(trueAltitude);
+    const double apparentAltitude2{trueAltitude + refraction};
+    UNREFERENCED_PARAMETER(apparentAltitude2);
+    assert(fabs(apparentAltitude2 - apparentAltitude) < 0.00001);
+    f += 0.001;
+  }
+
+  f = -12.0;
+  while (f < 100.0)
+  {
+    const double trueAltitude{f};
+    double refraction{CAARefraction::RefractionFromTrue(trueAltitude)};
+    const double apparentAltitude{trueAltitude + refraction};
+    refraction = CAARefraction::RefractionFromApparent(apparentAltitude);
+    const double trueAltitude2{apparentAltitude - refraction};
+    UNREFERENCED_PARAMETER(trueAltitude2);
+    assert(fabs(trueAltitude2 - trueAltitude) < 0.0001);
+    f += 0.001;
+  }
 
   //Test out the CAAAngularSeparation class
   const double AngularSeparation{CAAAngularSeparation::Separation(CAACoordinateTransformation::DMSToDegrees(14, 15, 39.7), CAACoordinateTransformation::DMSToDegrees(19, 10, 57),
@@ -2874,7 +3158,7 @@ int main()
                                                        CAACoordinateTransformation::DMSToDegrees(5, 36, 12.81), CAACoordinateTransformation::DMSToDegrees(1, 12, 7, false))};
   UNREFERENCED_PARAMETER(PA0);
   const double PA1{CAAAngularSeparation::PositionAngle(CAACoordinateTransformation::DMSToDegrees(5, 40, 45.52), CAACoordinateTransformation::DMSToDegrees(1, 56, 33.3, false),
-                                                       CAACoordinateTransformation::DMSToDegrees(5, 36, 12.81), CAACoordinateTransformation::DMSToDegrees(1, 12, 7, false))};
+                                                       CAACoordinateTransformation::DMSToDegrees(5, 36, 12.81), CAACoordinateTransformation::DMSToDegrees(1, 12, 7, false)) };
   UNREFERENCED_PARAMETER(PA1);
   const double distance{CAAAngularSeparation::DistanceFromGreatArc(CAACoordinateTransformation::DMSToDegrees(5, 32, 0.4), CAACoordinateTransformation::DMSToDegrees(0, 17, 56.9, false),
                                                                    CAACoordinateTransformation::DMSToDegrees(5, 40, 45.52), CAACoordinateTransformation::DMSToDegrees(1, 56, 33.3, false),
@@ -2885,18 +3169,18 @@ int main()
                                                          CAACoordinateTransformation::DMSToDegrees(12, 52, 5.21), CAACoordinateTransformation::DMSToDegrees(4, 22, 26.2, false),
                                                          CAACoordinateTransformation::DMSToDegrees(12, 39, 28.11), CAACoordinateTransformation::DMSToDegrees(1, 50, 3.7, false), bType1)};
   separation = CAAAngularSeparation::SmallestCircle(CAACoordinateTransformation::DMSToDegrees(9, 5, 41.44), CAACoordinateTransformation::DMSToDegrees(18, 30, 30),
-                                                    CAACoordinateTransformation::DMSToDegrees(9, 9, 29), CAACoordinateTransformation::DMSToDegrees(17, 43, 56.7),
-                                                    CAACoordinateTransformation::DMSToDegrees(8, 59, 47.14), CAACoordinateTransformation::DMSToDegrees(17, 49, 36.8), bType1);
+    CAACoordinateTransformation::DMSToDegrees(9, 9, 29), CAACoordinateTransformation::DMSToDegrees(17, 43, 56.7),
+    CAACoordinateTransformation::DMSToDegrees(8, 59, 47.14), CAACoordinateTransformation::DMSToDegrees(17, 49, 36.8), bType1);
   UNREFERENCED_PARAMETER(separation);
 
   Alpha = CAACoordinateTransformation::DMSToDegrees(2, 44, 11.986);
   double Delta{CAACoordinateTransformation::DMSToDegrees(49, 13, 42.48)};
-  const CAA2DCoordinate PA{CAAPrecession::AdjustPositionUsingUniformProperMotion((2462088.69-2451545)/365.25, Alpha, Delta, 0.03425, -0.0895)};
+  const CAA2DCoordinate PA{CAAPrecession::AdjustPositionUsingUniformProperMotion((2462088.69 - 2451545) / 365.25, Alpha, Delta, 0.03425, -0.0895)};
   const CAA2DCoordinate Precessed{CAAPrecession::PrecessEquatorial(PA.X, PA.Y, 2451545, 2462088.69)};
   UNREFERENCED_PARAMETER(Precessed);
   Alpha = CAACoordinateTransformation::DMSToDegrees(2, 31, 48.704);
   Delta = CAACoordinateTransformation::DMSToDegrees(89, 15, 50.72);
-  const CAA2DCoordinate PA2{CAAPrecession::AdjustPositionUsingUniformProperMotion((2415020.3135-2451545)/365.25, Alpha, Delta, 0.19877, -0.0152)};
+  const CAA2DCoordinate PA2{CAAPrecession::AdjustPositionUsingUniformProperMotion((2415020.3135 - 2451545) / 365.25, Alpha, Delta, 0.19877, -0.0152)};
   UNREFERENCED_PARAMETER(PA2);
   const CAA2DCoordinate Precessed2{CAAPrecession::PrecessEquatorialFK4(PA2.X, PA2.Y, 2451545, 2415020.3135)};
   UNREFERENCED_PARAMETER(Precessed2);
@@ -2924,7 +3208,7 @@ int main()
   UNREFERENCED_PARAMETER(PA12);
   Alpha = CAACoordinateTransformation::DMSToDegrees(2, 44, 11.986);
   Delta = CAACoordinateTransformation::DMSToDegrees(49, 13, 42.48);
-  CAA2DCoordinate PA13{CAAPrecession::AdjustPositionUsingUniformProperMotion((2462088.69-2451545)/365.25, Alpha, Delta, 0.03425, -0.0895)};
+  CAA2DCoordinate PA13{CAAPrecession::AdjustPositionUsingUniformProperMotion((2462088.69 - 2451545) / 365.25, Alpha, Delta, 0.03425, -0.0895)};
   const CAA3DCoordinate EarthVelocity{CAAAberration::EarthVelocity(2462088.69, false)};
   UNREFERENCED_PARAMETER(EarthVelocity);
   const CAA3DCoordinate EarthVelocity2{CAAAberration::EarthVelocity(2462088.69, true)};
@@ -2941,11 +3225,12 @@ int main()
   NutationInEcliptic = CAANutation::NutationInObliquity(2462088.69);
   const double AlphaNutation{CAANutation::NutationInRightAscension(PA13.X, PA13.Y, Obliquity, NutationInLongitude, NutationInEcliptic)};
   const double DeltaNutation{CAANutation::NutationInDeclination(PA13.X, Obliquity, NutationInLongitude, NutationInEcliptic)};
-  PA13.X += CAACoordinateTransformation::DMSToDegrees(0, 0, AlphaNutation/15);
+  PA13.X += CAACoordinateTransformation::DMSToDegrees(0, 0, AlphaNutation / 15);
   PA13.Y += CAACoordinateTransformation::DMSToDegrees(0, 0, DeltaNutation);
 
   //Try out the AAKepler class
-  double E0{CAAKepler::Calculate(5, 0.1)}; //NOLINT(clang-analyzer-deadcode.DeadStores, clang-diagnostic-unused-but-set-variable)
+  double E0{CAAKepler::Calculate(5, 0.1)}; //NOLINT(clang-analyzer-deadcode.DeadStores)
+  UNREFERENCED_PARAMETER(E0);
   E0 = CAAKepler::Calculate(5, 0.2); //NOLINT(clang-analyzer-deadcode.DeadStores)
   E0 = CAAKepler::Calculate(5, 0.3); //NOLINT(clang-analyzer-deadcode.DeadStores)
   E0 = CAAKepler::Calculate(5, 0.4); //NOLINT(clang-analyzer-deadcode.DeadStores)
@@ -2957,6 +3242,68 @@ int main()
   E0 = CAAKepler::Calculate(5, 0.99); //NOLINT(clang-analyzer-deadcode.DeadStores)
   E0 = CAAKepler::Calculate(1, 0.99); //NOLINT(clang-analyzer-deadcode.DeadStores)
   E0 = CAAKepler::Calculate(33, 0.99); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  const double E1{CAAKepler::Calculate(0, 0.4)}; //NOLINT(clang-analyzer-deadcode.DeadStores)
+  UNREFERENCED_PARAMETER(E1);
+  const double E2{CAAKepler::Calculate(1, 0.4)}; //NOLINT(clang-analyzer-deadcode.DeadStores)
+  UNREFERENCED_PARAMETER(E2);
+  const double E3{CAAKepler::Calculate(5, 0.4)}; //NOLINT(clang-analyzer-deadcode.DeadStores)
+  UNREFERENCED_PARAMETER(E3);
+  const double E4{CAAKepler::Calculate(89, 0.4)}; //NOLINT(clang-analyzer-deadcode.DeadStores)
+  UNREFERENCED_PARAMETER(E4);
+  const double E5{CAAKepler::Calculate(90, 0.4)}; //NOLINT(clang-analyzer-deadcode.DeadStores)
+  UNREFERENCED_PARAMETER(E5);
+  const double E6{CAAKepler::Calculate(91, 0.4)}; //NOLINT(clang-analyzer-deadcode.DeadStores)
+  UNREFERENCED_PARAMETER(E6);
+  const double E7{CAAKepler::Calculate(179, 0.4)}; //NOLINT(clang-analyzer-deadcode.DeadStores)
+  UNREFERENCED_PARAMETER(E7);
+  const double E8{CAAKepler::Calculate(180, 0.4)}; //NOLINT(clang-analyzer-deadcode.DeadStores)
+  UNREFERENCED_PARAMETER(E8);
+  const double E9{CAAKepler::Calculate(181, 0.4)}; //NOLINT(clang-analyzer-deadcode.DeadStores)
+  UNREFERENCED_PARAMETER(E9);
+  const double E10{CAAKepler::Calculate(269, 0.4)}; //NOLINT(clang-analyzer-deadcode.DeadStores)
+  UNREFERENCED_PARAMETER(E10);
+  const double E11{CAAKepler::Calculate(270, 0.4)}; //NOLINT(clang-analyzer-deadcode.DeadStores)
+  UNREFERENCED_PARAMETER(E11);
+  const double E12{CAAKepler::Calculate(271, 0.4)}; //NOLINT(clang-analyzer-deadcode.DeadStores)
+  UNREFERENCED_PARAMETER(E12);
+  const double E13{CAAKepler::Calculate(355, 0.4)}; //NOLINT(clang-analyzer-deadcode.DeadStores)
+  UNREFERENCED_PARAMETER(E13);
+  const double E14{CAAKepler::Calculate(359, 0.4)}; //NOLINT(clang-analyzer-deadcode.DeadStores)
+  UNREFERENCED_PARAMETER(E14);
+  const double E15{CAAKepler::Calculate(360, 0.4)}; //NOLINT(clang-analyzer-deadcode.DeadStores)
+  UNREFERENCED_PARAMETER(E15);
+  const double E16{CAAKepler::Calculate(361, 0.4)}; //NOLINT(clang-analyzer-deadcode.DeadStores)
+  UNREFERENCED_PARAMETER(E16);
+  const double E17{CAAKepler::Calculate(365, 0.4)}; //NOLINT(clang-analyzer-deadcode.DeadStores)
+  UNREFERENCED_PARAMETER(E17);
+  const double E18{CAAKepler::Calculate(-1, 0.4)}; //NOLINT(clang-analyzer-deadcode.DeadStores)
+  UNREFERENCED_PARAMETER(E18);
+  const double E19{CAAKepler::Calculate(-5, 0.4)}; //NOLINT(clang-analyzer-deadcode.DeadStores)
+  UNREFERENCED_PARAMETER(E19);
+  const double E20{CAAKepler::Calculate(-89, 0.4)}; //NOLINT(clang-analyzer-deadcode.DeadStores)
+  UNREFERENCED_PARAMETER(E20);
+  const double E21{CAAKepler::Calculate(-90, 0.4)}; //NOLINT(clang-analyzer-deadcode.DeadStores)
+  UNREFERENCED_PARAMETER(E21);
+  const double E22{CAAKepler::Calculate(-91, 0.4)}; //NOLINT(clang-analyzer-deadcode.DeadStores)
+  UNREFERENCED_PARAMETER(E22);
+  const double E23{CAAKepler::Calculate(-179, 0.4)}; //NOLINT(clang-analyzer-deadcode.DeadStores)
+  UNREFERENCED_PARAMETER(E23);
+  const double E24{CAAKepler::Calculate(-180, 0.4)}; //NOLINT(clang-analyzer-deadcode.DeadStores)
+  UNREFERENCED_PARAMETER(E24);
+  const double E25{CAAKepler::Calculate(-181, 0.4)}; //NOLINT(clang-analyzer-deadcode.DeadStores)
+  UNREFERENCED_PARAMETER(E25);
+  const double E26{CAAKepler::Calculate(-269, 0.4)}; //NOLINT(clang-analyzer-deadcode.DeadStores)
+  UNREFERENCED_PARAMETER(E26);
+  const double E27{CAAKepler::Calculate(-270, 0.4)}; //NOLINT(clang-analyzer-deadcode.DeadStores)
+  UNREFERENCED_PARAMETER(E27);
+  const double E28{CAAKepler::Calculate(-271, 0.4)}; //NOLINT(clang-analyzer-deadcode.DeadStores)
+  UNREFERENCED_PARAMETER(E28);
+  const double E29{CAAKepler::Calculate(-359, 0.4)}; //NOLINT(clang-analyzer-deadcode.DeadStores)
+  UNREFERENCED_PARAMETER(E29);
+  const double E30{CAAKepler::Calculate(-360, 0.4)}; //NOLINT(clang-analyzer-deadcode.DeadStores)
+  UNREFERENCED_PARAMETER(E30);
+  const double E31{CAAKepler::Calculate(-361, 0.4)}; //NOLINT(clang-analyzer-deadcode.DeadStores)
+  UNREFERENCED_PARAMETER(E31);
 
   //Try out the binary star class
   CAABinaryStarDetails bsdetails{CAABinaryStar::Calculate(1980, 41.623, 1934.008, 0.2763, 0.907, 59.025, 23.717, 219.907)};
@@ -2976,7 +3323,7 @@ int main()
   //Test out the CAAStellarMagnitudes class
   const double CombinedMag{CAAStellarMagnitudes::CombinedMagnitude(1.96, 2.89)};
   UNREFERENCED_PARAMETER(CombinedMag);
-  std::vector<double> Mags{ 4.73, 5.22, 5.60 };
+  std::vector<double> Mags{4.73, 5.22, 5.60};
   const double CombinedMag2{CAAStellarMagnitudes::CombinedMagnitude(static_cast<int>(Mags.size()), Mags.data())};
   UNREFERENCED_PARAMETER(CombinedMag2);
   const double BrightnessRatio{CAAStellarMagnitudes::BrightnessRatio(0.14, 2.12)};
@@ -3730,7 +4077,7 @@ int main()
   double MoonApogeeParallax{CAAMoonPerigeeApogee::ApogeeParallax(-148.5)};
   double MoonApogeeDistance{CAAMoon::HorizontalParallaxToRadiusVector(MoonApogeeParallax)};
   UNREFERENCED_PARAMETER(MoonApogeeDistance);
-  MoonK = CAAMoonPerigeeApogee::K(2015 + 9.0/12); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  MoonK = CAAMoonPerigeeApogee::K(2015 + 9.0 / 12); //NOLINT(clang-analyzer-deadcode.DeadStores)
   MoonApogee = CAAMoonPerigeeApogee::MeanApogee(208.5); //Corresponds to Moon Apogee around September 2015
   MoonApogee = CAADynamicalTime::TT2UTC(MoonApogee); //NOLINT(clang-analyzer-deadcode.DeadStores)
   MoonApogee2 = CAAMoonPerigeeApogee::TrueApogee(208.5);
@@ -3766,8 +4113,8 @@ int main()
   //Test out the CAAEquationOfTime class
   const double E{CAAEquationOfTime::Calculate(2448908.5, false)};
   UNREFERENCED_PARAMETER(E);
-  const double E2{CAAEquationOfTime::Calculate(2448908.5, true)};
-  UNREFERENCED_PARAMETER(E2);
+  const double EE2{CAAEquationOfTime::Calculate(2448908.5, true)};
+  UNREFERENCED_PARAMETER(EE2);
 
   //Test out the CAAPhysicalSun class
   const CAAPhysicalSunDetails psd{CAAPhysicalSun::Calculate(2448908.50068, false)};
@@ -3778,7 +4125,7 @@ int main()
   UNREFERENCED_PARAMETER(JED);
 
   //Test out the CAAEquinoxesAndSolstices class
-  for (Year=1962; Year<2021; Year++)
+  for (Year = 1962; Year < 2021; Year++)
   {
     double NorthwardEquinox{CAAEquinoxesAndSolstices::NorthwardEquinox(Year, false)};
     const double NorthwardEquinox4{CAAEquinoxesAndSolstices::NorthwardEquinox(Year, true)};
@@ -3798,7 +4145,7 @@ int main()
     double Second2{0};
     date.Get(Year2, Month2, Day2, Hour2, Minute2, Second2);
     ::printf("%d-%d-%d %02d:%02d:%f TT is %d-%d-%d %02d:%02d:%f UTC\n", static_cast<int>(Year), static_cast<int>(Month), static_cast<int>(Day), static_cast<int>(Hour), static_cast<int>(Minute), Second,
-             static_cast<int>(Year2), static_cast<int>(Month2), static_cast<int>(Day2), static_cast<int>(Hour2), static_cast<int>(Minute2), Second2);
+      static_cast<int>(Year2), static_cast<int>(Month2), static_cast<int>(Day2), static_cast<int>(Hour2), static_cast<int>(Minute2), Second2);
     double NorthwardEquinox3{CAADynamicalTime::UTC2TT(NorthwardEquinox2)};
     date.Set(NorthwardEquinox3, true);
     long Year3{0};
@@ -3809,27 +4156,27 @@ int main()
     double Second3{0};
     date.Get(Year3, Month3, Day3, Hour3, Minute3, Second3);
     ::printf("%d-%d-%d %02d:%02d:%f UTC is %d-%d-%d %02d:%02d:%f TT\n", static_cast<int>(Year2), static_cast<int>(Month2), static_cast<int>(Day2), static_cast<int>(Hour2), static_cast<int>(Minute2), Second2,
-             static_cast<int>(Year3), static_cast<int>(Month3), static_cast<int>(Day3), static_cast<int>(Hour3), static_cast<int>(Minute3), Second3);
+      static_cast<int>(Year3), static_cast<int>(Month3), static_cast<int>(Day3), static_cast<int>(Hour3), static_cast<int>(Minute3), Second3);
     NorthwardEquinox2 = CAADynamicalTime::TT2TAI(NorthwardEquinox);
     date.Set(NorthwardEquinox2, true);
     date.Get(Year2, Month2, Day2, Hour2, Minute2, Second2);
     ::printf("%d-%d-%d %02d:%02d:%f TT is %d-%d-%d %02d:%02d:%f TAI\n", static_cast<int>(Year), static_cast<int>(Month), static_cast<int>(Day), static_cast<int>(Hour), static_cast<int>(Minute), Second,
-             static_cast<int>(Year2), static_cast<int>(Month2), static_cast<int>(Day2), static_cast<int>(Hour2), static_cast<int>(Minute2), Second2);
+      static_cast<int>(Year2), static_cast<int>(Month2), static_cast<int>(Day2), static_cast<int>(Hour2), static_cast<int>(Minute2), Second2);
     NorthwardEquinox3 = CAADynamicalTime::TAI2TT(NorthwardEquinox2);
     date.Set(NorthwardEquinox3, true);
     date.Get(Year3, Month3, Day3, Hour3, Minute3, Second3);
     ::printf("%d-%d-%d %02d:%02d:%f TAI is %d-%d-%d %02d:%02d:%f TT\n", static_cast<int>(Year2), static_cast<int>(Month2), static_cast<int>(Day2), static_cast<int>(Hour2), static_cast<int>(Minute2), Second2,
-             static_cast<int>(Year3), static_cast<int>(Month3), static_cast<int>(Day3), static_cast<int>(Hour3), static_cast<int>(Minute3), Second3);
+      static_cast<int>(Year3), static_cast<int>(Month3), static_cast<int>(Day3), static_cast<int>(Hour3), static_cast<int>(Minute3), Second3);
     NorthwardEquinox2 = CAADynamicalTime::TT2UT1(NorthwardEquinox);
     date.Set(NorthwardEquinox2, true);
     date.Get(Year2, Month2, Day2, Hour2, Minute2, Second2);
     ::printf("%d-%d-%d %02d:%02d:%f TT is %d-%d-%d %02d:%02d:%f UT1\n", static_cast<int>(Year), static_cast<int>(Month), static_cast<int>(Day), static_cast<int>(Hour), static_cast<int>(Minute), Second,
-             static_cast<int>(Year2), static_cast<int>(Month2), static_cast<int>(Day2), static_cast<int>(Hour2), static_cast<int>(Minute2), Second2);
+      static_cast<int>(Year2), static_cast<int>(Month2), static_cast<int>(Day2), static_cast<int>(Hour2), static_cast<int>(Minute2), Second2);
     NorthwardEquinox3 = CAADynamicalTime::UT12TT(NorthwardEquinox2);
     date.Set(NorthwardEquinox3, true);
     date.Get(Year3, Month3, Day3, Hour3, Minute3, Second3);
     ::printf("%d-%d-%d %02d:%02d:%f UT1 is %d-%d-%d %02d:%02d:%f TT\n", static_cast<int>(Year2), static_cast<int>(Month2), static_cast<int>(Day2), static_cast<int>(Hour2), static_cast<int>(Minute2), Second2,
-             static_cast<int>(Year3), static_cast<int>(Month3), static_cast<int>(Day3), static_cast<int>(Hour3), static_cast<int>(Minute3), Second3);
+      static_cast<int>(Year3), static_cast<int>(Month3), static_cast<int>(Day3), static_cast<int>(Hour3), static_cast<int>(Minute3), Second3);
     date.Set(NorthwardEquinox, true);
     date.Get(Year, Month, Day, Hour, Minute, Second);
     ::printf("The Northward Equinox for %d occurs on %d-%d-%d %02d:%02d:%f TT\n", static_cast<int>(Year), static_cast<int>(Year), static_cast<int>(Month), static_cast<int>(Day), static_cast<int>(Hour), static_cast<int>(Minute), Second);
@@ -4123,7 +4470,7 @@ int main()
   const double MoonPhaseAngle{CAAMoonIlluminatedFraction::PhaseAngle(MoonGeocentricElongation, 368410, 149971520)};
   const double MoonIlluminatedFraction{CAAMoonIlluminatedFraction::IlluminatedFraction(MoonPhaseAngle)};
   UNREFERENCED_PARAMETER(MoonIlluminatedFraction);
-  const double MoonPositionAngle{CAAMoonIlluminatedFraction::PositionAngle(CAACoordinateTransformation::DMSToDegrees(1, 22, 37.9), 8.6964, 134.6885/15, 13.7684)};
+  const double MoonPositionAngle{CAAMoonIlluminatedFraction::PositionAngle(CAACoordinateTransformation::DMSToDegrees(1, 22, 37.9), 8.6964, 134.6885 / 15, 13.7684)};
   UNREFERENCED_PARAMETER(MoonPositionAngle);
 
   //Test out the CAAElliptical class
@@ -4184,8 +4531,8 @@ int main()
   const double Mag3{CAAElliptical::CometMagnitude(5.5, 1.1017, 10, 1.5228)};
   UNREFERENCED_PARAMETER(Mag3);
 
-  //Test out the CAAParabolic class
-  CAAParabolicObjectElements elements2; //Sample taken from http://www.stjarnhimlen.se/comp/tutorial.html for comet Levy
+  //Test out the CAAParabolic class using sample taken from http://www.stjarnhimlen.se/comp/tutorial.html for comet Levy
+  CAAParabolicObjectElements elements2;
   elements2.q = 0.93858;
   elements2.i = 131.5856;
   elements2.omega = 139.2313;
@@ -4197,6 +4544,8 @@ int main()
   UNREFERENCED_PARAMETER(details2);
   const CAAParabolicObjectDetails details5{CAAParabolic::Calculate(JDCalc, elements2, true)};
   UNREFERENCED_PARAMETER(details5);
+
+  //Test out the CAAParabolic class using Example 34.a taken from Meeus's book
   CAAParabolicObjectElements elements7;
   elements7.q = 1.487469;
   elements7.i = 0;
@@ -4208,6 +4557,97 @@ int main()
   UNREFERENCED_PARAMETER(details9);
   const CAAParabolicObjectDetails details10{CAAParabolic::Calculate(elements7.T + 112.5642, elements7, true)};
   UNREFERENCED_PARAMETER(details10);
+
+  //Test out the CAANearParabolic class using the same sample for comet Levy as for CAAParabolic
+  CAANearParabolicObjectElements elements6;
+  elements6.q = 0.93858;
+  elements6.e = 1.000270;
+  elements6.i = 131.5856;
+  elements6.omega = 139.2313;
+  elements6.w = 242.6797;
+  elements6.T = CAADate::DateToJD(1990, 10, 24.6954, true);
+  elements6.JDEquinox = elements6.T; //Of the day
+  JDCalc = CAADynamicalTime::UTC2TT(CAADate::DateToJD(1990, 8, 22.0, true));
+  const CAANearParabolicObjectDetails details3{CAANearParabolic::Calculate(JDCalc, elements6, false)};
+  UNREFERENCED_PARAMETER(details3);
+  const CAANearParabolicObjectDetails details4{CAANearParabolic::Calculate(JDCalc, elements6, true)};
+  UNREFERENCED_PARAMETER(details4);
+
+  /* More Test code to exercise CAANearParabolic
+  elements6.q = 0.921326;
+  elements6.e = 1;
+  elements6.i = 0; //unknown
+  elements6.omega = 0; //unknown
+  elements6.w = 0; //unknown
+  elements6.T = 0;
+  elements6.JDEquinox = 0;
+  details3 = CAANearParabolic::Calculate(138.4783, elements6, false);
+  details4 = CAANearParabolic::Calculate(138.4783, elements6, true);
+  elements6.q = 0.1;
+  elements6.e = 0.987;
+  details3 = CAANearParabolic::Calculate(254.9, elements6, false);
+  details4 = CAANearParabolic::Calculate(254.9, elements6, true);
+  elements6.q = 0.123456;
+  elements6.e = 0.99997;
+  details3 = CAANearParabolic::Calculate(-30.47, elements6, false);
+  details4 = CAANearParabolic::Calculate(-30.47, elements6, true);
+  elements6.q = 3.363943;
+  elements6.e = 1.05731;
+  details3 = CAANearParabolic::Calculate(1237.1, elements6, false);
+  details4 = CAANearParabolic::Calculate(1237.1, elements6, true);
+  elements6.q = 0.5871018;
+  elements6.e = 0.9672746;
+  details3 = CAANearParabolic::Calculate(20, elements6, false);
+  details4 = CAANearParabolic::Calculate(20, elements6, true);
+  details3 = CAANearParabolic::Calculate(0, elements6, false);
+  details4 = CAANearParabolic::Calculate(0, elements6, false);
+  const CAAEclipticalElementDetails ed5{CAAEclipticalElements::Calculate(131.5856, 242.6797, 138.6637, 2433282.4235, 2448188.5 + 0.6954 - 63.6954)};
+  UNREFERENCED_PARAMETER(ed5);
+  const CAAEclipticalElementDetails ed6{CAAEclipticalElements::Calculate(131.5856, 242.6797, 138.6637, 2433282.4235, 2433282.4235)};
+  UNREFERENCED_PARAMETER(ed6);
+  const CAAEclipticalElementDetails ed7{CAAEclipticalElements::FK4B1950ToFK5J2000(131.5856, 242.6797, 138.6637)};
+  UNREFERENCED_PARAMETER(ed7);
+  elements6.q = 0.93858;
+  elements6.e = 1.000270;
+  elements6.i = ed5.i;
+  elements6.omega = ed5.omega;
+  elements6.w = ed5.w;
+  elements6.T = 2448188.5 + 0.6954;
+  elements6.JDEquinox = elements6.T;
+  const CAANearParabolicObjectDetails details6{CAANearParabolic::Calculate(elements6.T - 63.6954, elements6, false)};
+  UNREFERENCED_PARAMETER(details6);
+  const CAANearParabolicObjectDetails details7{CAANearParabolic::Calculate(elements6.T - 63.6954, elements6, true)};
+  UNREFERENCED_PARAMETER(details7);
+  */
+
+  //Test out the CAAHyperbolic class using the same sample for comet Levy as for CAAParabolic
+  CAAHyperbolicObjectElements elements16;
+  elements16.q = 0.93858;
+  elements16.e = 1.000270;
+  elements16.i = 131.5856;
+  elements16.omega = 139.2313;
+  elements16.w = 242.6797;
+  elements16.T = CAADate::DateToJD(1990, 10, 24.6954, true);
+  elements16.JDEquinox = elements16.T; //Of the day
+  JDCalc = CAADynamicalTime::UTC2TT(CAADate::DateToJD(1990, 8, 22.0, true));
+  const CAAHyperbolicObjectDetails details13{CAAHyperbolic::Calculate(JDCalc, elements16, false)};
+  UNREFERENCED_PARAMETER(details13);
+  const CAAHyperbolicObjectDetails details14{CAAHyperbolic::Calculate(JDCalc, elements16, true)};
+  UNREFERENCED_PARAMETER(details14);
+  //Try a sample as provided by Google AI mode
+  CAAHyperbolicObjectElements elements17;
+  elements17.q = 0.4;
+  elements17.e = 1.2;
+  elements17.i = 0;
+  elements17.omega = 0;
+  elements17.w = 0;
+  elements17.T = 2451544.5;
+  elements17.JDEquinox = elements17.T; //Of the day
+  JDCalc = elements17.T + 100;
+  const CAAHyperbolicObjectDetails details15{CAAHyperbolic::Calculate(JDCalc, elements17, false)};
+  UNREFERENCED_PARAMETER(details15);
+  const CAAHyperbolicObjectDetails details16{CAAHyperbolic::Calculate(JDCalc, elements17, true)};
+  UNREFERENCED_PARAMETER(details16);
 
   //Test out the CAANodes class
   CAAEllipticalObjectElements elements3;
@@ -4258,7 +4698,7 @@ int main()
   UNREFERENCED_PARAMETER(YM);
   const double N0{CAAInterpolate::Zero(-1693.4, 406.3, 2303.2)};
   UNREFERENCED_PARAMETER(N0);
-  const double N02{ CAAInterpolate::Zero2(-2, 3, 2)};
+  const double N02{CAAInterpolate::Zero2(-2, 3, 2)};
   UNREFERENCED_PARAMETER(N02);
   const double Y2{CAAInterpolate::Interpolate(0.2777778, 36.125, 24.606, 15.486, 8.694, 4.133)};
   UNREFERENCED_PARAMETER(Y2);
@@ -4270,8 +4710,8 @@ int main()
   UNREFERENCED_PARAMETER(N05);
   constexpr double Y3{CAAInterpolate::InterpolateToHalves(1128.732, 1402.835, 1677.247, 1951.983)};
   UNREFERENCED_PARAMETER(Y3);
-  std::vector<double> X1{ 29.43, 30.97, 27.69, 28.11, 31.58, 33.05 };
-  std::vector<double> Y1{ 0.4913598528, 0.5145891926, 0.4646875083, 0.4711658342, 0.5236885653, 0.5453707057 };
+  std::vector<double> X1{29.43, 30.97, 27.69, 28.11, 31.58, 33.05};
+  std::vector<double> Y1{0.4913598528, 0.5145891926, 0.4646875083, 0.4711658342, 0.5236885653, 0.5453707057};
   assert(X1.size() == Y1.size());
   const double Y4{CAAInterpolate::LagrangeInterpolate(30, static_cast<int>(X1.size()), X1.data(), Y1.data())};
   UNREFERENCED_PARAMETER(Y4);
@@ -4288,14 +4728,25 @@ int main()
   PrintBostonRiseTransitSetTimes(CAARiseTransitSet2::Object::SATURN, -0.5667, "Saturn");
   PrintBostonRiseTransitSetTimes(CAARiseTransitSet2::Object::URANUS, -0.5667, "Uranus");
   PrintBostonRiseTransitSetTimes(CAARiseTransitSet2::Object::NEPTUNE, -0.5667, "Neptune");
-  PrintBostonRiseTransitSetTimes(CAARiseTransitSet2::Object::SUN, -0.8333, "Sun");
-  PrintBostonRiseTransitSetTimes(CAARiseTransitSet2::Object::SUN, -0.8333 - CAACoordinateTransformation::RadiansToDegrees(acos(6371008 / (6371008 + 0))), "Sun");
-  PrintBostonRiseTransitSetTimes(CAARiseTransitSet2::Object::SUN, -0.8333 - CAACoordinateTransformation::RadiansToDegrees(acos(6371008 / (6371008 + 5000.0))), "Sun");
-  PrintBostonRiseTransitSetTimes(CAARiseTransitSet2::Object::SUN, -0.8333 - CAACoordinateTransformation::RadiansToDegrees(acos(6371008 / (6371008 + 10000.0))), "Sun");
-  PrintBostonRiseTransitSetTimes(CAARiseTransitSet2::Object::SUN, -0.8333 - CAACoordinateTransformation::RadiansToDegrees(acos(6371008 / (6371008 + 20000.0))), "Sun");
-  PrintBostonRiseTransitSetTimes(CAARiseTransitSet2::Object::SUN, -0.8333 - CAACoordinateTransformation::RadiansToDegrees(acos(6371008 / (6371008 + 50000.0))), "Sun");
+  PrintBostonRiseTransitSetTimes(CAARiseTransitSet2::Object::SUN, -0.8333, "Sun@0m");
+  PrintBostonRiseTransitSetTimes(CAARiseTransitSet2::Object::SUN, -0.8333 - (2.076 * sqrt(1000) / 60), "Sun@1000m");
+  PrintBostonRiseTransitSetTimes(CAARiseTransitSet2::Object::SUN, -0.8333 - (2.076 * sqrt(2000) / 60), "Sun@2000m");
+  PrintBostonRiseTransitSetTimes(CAARiseTransitSet2::Object::SUN, -0.8333 - (2.076 * sqrt(10000 / 3.28) / 60), "Sun@10000feet");
+  PrintBostonRiseTransitSetTimes(CAARiseTransitSet2::Object::SUN, -0.8333 - (2.076 * sqrt(4000) / 60), "Sun@4000m");
+  PrintBostonRiseTransitSetTimes(CAARiseTransitSet2::Object::SUN, -0.8333 - (2.076 * sqrt(5000) / 60), "Sun@5000m");
+  PrintBostonRiseTransitSetTimes(CAARiseTransitSet2::Object::SUN, -0.8333 - (2.076 * sqrt(10000) / 60), "Sun@10000m");
+  PrintBostonRiseTransitSetTimes(CAARiseTransitSet2::Object::SUN, -0.8333 - (2.076 * sqrt(20000) / 60), "Sun@20000m");
+  PrintBostonRiseTransitSetTimes(CAARiseTransitSet2::Object::SUN, -0.8333 - (2.076 * sqrt(50000) / 60), "Sun@50000m");
   PrintBostonRiseTransitSetTimes(CAARiseTransitSet2::Object::MOON, -0.825, "Moon");
-  PrintBostonRiseTransitSetTimesMoon();
+  PrintBostonRiseTransitSetTimesMoon(-0.5667, "Moon@0m");
+  PrintBostonRiseTransitSetTimesMoon(-0.5667 - (2.076 * sqrt(1000) / 60), "Moon@1000m");
+  PrintBostonRiseTransitSetTimesMoon(-0.5667 - (2.076 * sqrt(2000) / 60), "Moon@2000m");
+  PrintBostonRiseTransitSetTimesMoon(-0.5667 - (2.076 * sqrt(10000 / 3.28) / 60), "Moon@10000feet");
+  PrintBostonRiseTransitSetTimesMoon(-0.5667 - (2.076 * sqrt(4000) / 60), "Moon@4000m");
+  PrintBostonRiseTransitSetTimesMoon(-0.5667 - (2.076 * sqrt(5000) / 60), "Moon@5000m");
+  PrintBostonRiseTransitSetTimesMoon(-0.5667 - (2.076 * sqrt(10000) / 60), "Moon@10000m");
+  PrintBostonRiseTransitSetTimesMoon(-0.5667 - (2.076 * sqrt(20000) / 60), "Moon@20000m");
+  PrintBostonRiseTransitSetTimesMoon(-0.5667 - (2.076 * sqrt(50000) / 60), "Moon@50000m");
   PrintBostonRiseTransitSetTimesSirius();
   const double Parallax1{CAAMoon::RadiusVectorToHorizontalParallax(384400)};
   UNREFERENCED_PARAMETER(Parallax1);
@@ -4312,7 +4763,7 @@ int main()
   const CAADate CalcDate{YYYY, MM, DD, true};
   const double JD2{CalcDate.Julian()};
 #ifdef _MSC_VER
-  #pragma warning(suppress: 26444)
+#pragma warning(suppress: 26444)
 #endif //#ifdef _MSC_VER
   events = CAARiseTransitSet2::CalculateMoon(CAADynamicalTime::UTC2TT(JD2), CAADynamicalTime::UTC2TT(JD2) + 1, CAACoordinateTransformation::DMSToDegrees(116, 51, 45), CAACoordinateTransformation::DMSToDegrees(33, 21, 22));
   for (const auto& event : events)
@@ -4372,9 +4823,9 @@ int main()
   Kpp2 = floor(Kpp2 + 0.5);
   ::printf("Saturn K: %f\n", Kpp2);
   const double SaturnConjunction{CAAPlanetaryPhenomena::Mean(Kpp2, CAAPlanetaryPhenomena::Planet::SATURN, CAAPlanetaryPhenomena::Type::CONJUNCTION)};
-  ::printf("Saturn Mean Conjuction: %f\n", SaturnConjunction);
+  ::printf("Saturn Mean Conjunction: %f\n", SaturnConjunction);
   const double SaturnConjunction2{CAAPlanetaryPhenomena::True(Kpp2, CAAPlanetaryPhenomena::Planet::SATURN, CAAPlanetaryPhenomena::Type::CONJUNCTION)};
-  ::printf("Saturn True Conjuction: %f\n", SaturnConjunction2);
+  ::printf("Saturn True Conjunction: %f\n", SaturnConjunction2);
   const double MercuryWesternElongation{CAAPlanetaryPhenomena::True(Kpp, CAAPlanetaryPhenomena::Planet::MERCURY, CAAPlanetaryPhenomena::Type::WESTERN_ELONGATION)};
   ::printf("Mercury Mean Western Elongation: %f\n", MercuryWesternElongation);
   const double MercuryWesternElongationValue{CAAPlanetaryPhenomena::ElongationValue(Kpp, CAAPlanetaryPhenomena::Planet::MERCURY, false)};
@@ -6354,7 +6805,7 @@ int main()
   }
 
   //Test out the CAAParallax class
-  const CAA2DCoordinate TopocentricDelta{CAAParallax::Equatorial2TopocentricDelta(CAACoordinateTransformation::DMSToDegrees(22, 38, 7.25), -15.771083, 0.37276, CAACoordinateTransformation::DMSToDegrees(7, 47, 27)*15, CAACoordinateTransformation::DMSToDegrees(33, 21, 22), 1706, 2452879.63681)};
+  const CAA2DCoordinate TopocentricDelta{CAAParallax::Equatorial2TopocentricDelta(CAACoordinateTransformation::DMSToDegrees(22, 38, 7.25), -15.771083, 0.37276, CAACoordinateTransformation::DMSToDegrees(7, 47, 27) * 15, CAACoordinateTransformation::DMSToDegrees(33, 21, 22), 1706, 2452879.63681)};
   UNREFERENCED_PARAMETER(TopocentricDelta);
   const CAA2DCoordinate Topocentric{CAAParallax::Equatorial2Topocentric(CAACoordinateTransformation::DMSToDegrees(22, 38, 7.25), -15.771083, 0.37276, CAACoordinateTransformation::DMSToDegrees(7, 47, 27) * 15, CAACoordinateTransformation::DMSToDegrees(33, 21, 22), 1706, 2452879.63681)};
   UNREFERENCED_PARAMETER(Topocentric);
@@ -6406,68 +6857,68 @@ int main()
 
   //Calculate the Eclipse Disappearance of Satellite 1 on February 1 2004 at 13:32 UCT
   double JD{2453037.05903};
-  for (int i{0}; i<10; i++)
+  for (int i{0}; i < 10; i++)
   {
     const CAAGalileanMoonsDetails GalileanDetails1{CAAGalileanMoons::Calculate(JD, false)};
     UNREFERENCED_PARAMETER(GalileanDetails1);
     const CAAGalileanMoonsDetails GalileanDetails3{CAAGalileanMoons::Calculate(JD, true)};
     UNREFERENCED_PARAMETER(GalileanDetails3);
-    JD += (1.0/1440);
+    JD += (1.0 / 1440);
   }
 
   //Calculate the Shadow Egress of Satellite 1 on February 2  2004 at 13:07 UT
   JD = 2453038.04236;
-  for (int i{0}; i<10; i++)
+  for (int i{0}; i < 10; i++)
   {
     const CAAGalileanMoonsDetails GalileanDetails1{CAAGalileanMoons::Calculate(JD, false)};
     UNREFERENCED_PARAMETER(GalileanDetails1);
     const CAAGalileanMoonsDetails GalileanDetails3{CAAGalileanMoons::Calculate(JD, true)};
     UNREFERENCED_PARAMETER(GalileanDetails3);
-    JD += (1.0/1440);
+    JD += (1.0 / 1440);
   }
 
   //Calculate the Shadow Ingress of Satellite 4 on February 6 2004 at 22:59 UCT
   JD = 2453042.45486;
-  for (int i{0}; i<10; i++)
+  for (int i{0}; i < 10; i++)
   {
     const CAAGalileanMoonsDetails GalileanDetails1{CAAGalileanMoons::Calculate(JD, false)};
     UNREFERENCED_PARAMETER(GalileanDetails1);
     const CAAGalileanMoonsDetails GalileanDetails3{CAAGalileanMoons::Calculate(JD, true)};
     UNREFERENCED_PARAMETER(GalileanDetails3);
-    JD += (1.0/1440);
+    JD += (1.0 / 1440);
   }
 
   //Calculate the Shadow Egress of Satellite 4 on February 7 2004 at 2:41 UCT
   JD = 2453042.61042;
-  for (int i{0}; i<10; i++)
+  for (int i{0}; i < 10; i++)
   {
     const CAAGalileanMoonsDetails GalileanDetails1{CAAGalileanMoons::Calculate(JD, false)};
     UNREFERENCED_PARAMETER(GalileanDetails1);
     const CAAGalileanMoonsDetails GalileanDetails3{CAAGalileanMoons::Calculate(JD, true)};
     UNREFERENCED_PARAMETER(GalileanDetails3);
-    JD += (1.0/1440);
+    JD += (1.0 / 1440);
   }
 
   //Calculate the Transit Ingress of Satellite 4 on February 7 2004 at 5:07 UCT
   JD = 2453042.71181;
-  for (int i{0}; i<10; i++)
+  for (int i{0}; i < 10; i++)
   {
     const CAAGalileanMoonsDetails GalileanDetails1{CAAGalileanMoons::Calculate(JD, false)};
     UNREFERENCED_PARAMETER(GalileanDetails1);
     const CAAGalileanMoonsDetails GalileanDetails3{CAAGalileanMoons::Calculate(JD, true)};
     UNREFERENCED_PARAMETER(GalileanDetails3);
-    JD += (1.0/1440);
+    JD += (1.0 / 1440);
   }
 
   //Calculate the Transit Egress of Satellite 4 on February 7 2004 at 7:46 UT
   JD = 2453042.82222;
-  for (int i{0}; i<10; i++)
+  for (int i{0}; i < 10; i++)
   {
     const CAAGalileanMoonsDetails GalileanDetails1{CAAGalileanMoons::Calculate(JD, false)};
     UNREFERENCED_PARAMETER(GalileanDetails1);
     const CAAGalileanMoonsDetails GalileanDetails3{CAAGalileanMoons::Calculate(JD, true)};
     UNREFERENCED_PARAMETER(GalileanDetails3);
-    JD += (1.0/1440);
+    JD += (1.0 / 1440);
   }
 
   //Test out the CAASaturnRings class
@@ -6663,7 +7114,7 @@ int main()
   EclipseDetails4 = CAAEclipses::CalculateLunar(-29.5); //No lunar eclipse
   EclipseDetails4 = CAAEclipses::CalculateLunar(-28.5); //Aha, found you!
   ::printf("Calculating Solar eclipse details from 1903 to 2080\n");
-  for (int K{-1200}; K<1000; K++)
+  for (int K{-1200}; K < 1000; K++)
   {
     EclipseDetails = CAAEclipses::CalculateSolar(K);
     if (EclipseDetails.Flags)
@@ -6711,62 +7162,6 @@ int main()
   long DaysInJewishYear{CAAJewishCalendar::DaysInYear(JewishDate.Year)}; //NOLINT(clang-analyzer-deadcode.DeadStores)
   DaysInJewishYear = CAAJewishCalendar::DaysInYear(5751);
   UNREFERENCED_PARAMETER(DaysInJewishYear);
-
-  //Test out the CAANearParabolic class
-  CAANearParabolicObjectElements elements6;
-  elements6.q = 0.93858; //Try the same sample for comet Levy as for CAAParabolic
-  elements6.i = 131.5856;
-  elements6.omega = 139.2313;
-  elements6.w = 242.6797;
-  elements6.T = CAADate::DateToJD(1990, 10, 24.6954, true);
-  elements6.JDEquinox = elements6.T; //Of the day
-  JDCalc = CAADynamicalTime::UTC2TT(CAADate::DateToJD(1990, 8, 22.0, true));
-  CAANearParabolicObjectDetails details3{CAANearParabolic::Calculate(JDCalc, elements6, false)};
-  CAANearParabolicObjectDetails details4{CAANearParabolic::Calculate(JDCalc, elements6, true)};
-  elements6.q = 0.921326;
-  elements6.e = 1;
-  elements6.i = 0; //unknown
-  elements6.omega = 0; //unknown
-  elements6.w = 0; //unknown
-  elements6.T = 0;
-  elements6.JDEquinox = 0;
-  details3 = CAANearParabolic::Calculate(138.4783, elements6, false);
-  details4 = CAANearParabolic::Calculate(138.4783, elements6, true);
-  elements6.q = 0.1;
-  elements6.e = 0.987;
-  details3 = CAANearParabolic::Calculate(254.9, elements6, false);
-  details4 = CAANearParabolic::Calculate(254.9, elements6, true);
-  elements6.q = 0.123456;
-  elements6.e = 0.99997;
-  details3 = CAANearParabolic::Calculate(-30.47, elements6, false);
-  details4 = CAANearParabolic::Calculate(-30.47, elements6, true);
-  elements6.q = 3.363943;
-  elements6.e = 1.05731;
-  details3 = CAANearParabolic::Calculate(1237.1, elements6, false);
-  details4 = CAANearParabolic::Calculate(1237.1, elements6, true);
-  elements6.q = 0.5871018;
-  elements6.e = 0.9672746;
-  details3 = CAANearParabolic::Calculate(20, elements6, false);
-  details4 = CAANearParabolic::Calculate(20, elements6, true);
-  details3 = CAANearParabolic::Calculate(0, elements6, false);
-  details4 = CAANearParabolic::Calculate(0, elements6, false);
-  const CAAEclipticalElementDetails ed5{CAAEclipticalElements::Calculate(131.5856, 242.6797, 138.6637, 2433282.4235, 2448188.5 + 0.6954-63.6954)};
-  UNREFERENCED_PARAMETER(ed5);
-  const CAAEclipticalElementDetails ed6{CAAEclipticalElements::Calculate(131.5856, 242.6797, 138.6637, 2433282.4235, 2433282.4235)};
-  UNREFERENCED_PARAMETER(ed6);
-  const CAAEclipticalElementDetails ed7{CAAEclipticalElements::FK4B1950ToFK5J2000(131.5856, 242.6797, 138.6637)};
-  UNREFERENCED_PARAMETER(ed7);
-  elements6.q = 0.93858;
-  elements6.e = 1.000270;
-  elements6.i = ed5.i;
-  elements6.omega = ed5.omega;
-  elements6.w = ed5.w;
-  elements6.T = 2448188.5 + 0.6954;
-  elements6.JDEquinox = elements6.T;
-  const CAANearParabolicObjectDetails details6{CAANearParabolic::Calculate(elements6.T - 63.6954, elements6, false)};
-  UNREFERENCED_PARAMETER(details6);
-  const CAANearParabolicObjectDetails details7{CAANearParabolic::Calculate(elements6.T - 63.6954, elements6, true)};
-  UNREFERENCED_PARAMETER(details7);
 
 #ifndef AAPLUS_NO_VSOP87
   //A sample test for Mercury VSOP87 as taken from vsop87.chk

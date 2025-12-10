@@ -3,7 +3,7 @@ Module : AAEclipticalElements.h
 Purpose: Implementation for the algorithms which map the ecliptical elements from one equinox to another
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -47,8 +47,8 @@ class AAPLUS_EXT_CLASS CAAEclipticalElements
 {
 public:
 //Static methods
-  static CAAEclipticalElementDetails Calculate(double i0, double w0, double omega0, double JD0, double JD) noexcept;
-  static CAAEclipticalElementDetails FK4B1950ToFK5J2000(double i0, double w0, double omega0) noexcept;
+  [[nodiscard]] static CAAEclipticalElementDetails Calculate(double i0, double w0, double omega0, double JD0, double JD) noexcept;
+  [[nodiscard]] static CAAEclipticalElementDetails FK4B1950ToFK5J2000(double i0, double w0, double omega0) noexcept;
 };
 
 

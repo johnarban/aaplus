@@ -6,7 +6,7 @@ History: PJN / 12-02-2004 1. Fixed a number of level 4 warnings when the code is
          PJN / 11-07-2022 1. Updated all the code in AAStellarMagnitudes.cpp to use C++ uniform
                           initialization for all variable declarations.
 
-Copyright (c) 2003 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

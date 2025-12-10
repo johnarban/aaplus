@@ -3,7 +3,7 @@ Module : AARiseTransitSet2.h
 Purpose: Implementation for the algorithms which obtain the Rise, Transit and Set times (revised version)
 Created: PJN / 29-12-2003
 
-Copyright (c) 2019 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2019 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -102,11 +102,18 @@ public:
   };
 
 //Static methods
-  static std::vector<CAARiseTransitSetDetails2> Calculate(double StartJD, double EndJD, Object object, double Longitude, double Latitude, double h0, double StepInterval = 0.007, bool bHighPrecision = false);
-  static std::vector<CAARiseTransitSetDetails2> CalculateMoon(double StartJD, double EndJD, double Longitude, double Latitude, double RefractionAtHorizon = -0.5667, double StepInterval = 0.007, MoonAlgorithm algorithm = MoonAlgorithm::MeeusTruncated);
-  static std::vector<CAARiseTransitSetDetails2> CalculateStationary(double StartJD, double EndJD, double Alpha, double Delta, double Longitude, double Latitude, double h0 = -0.5667, double StepInterval = 0.007);
+  [[nodiscard]] static std::vector<CAARiseTransitSetDetails2> Calculate(double StartJD, double EndJD, Object object, double Longitude, double Latitude, double h0, double StepInterval = 0.007, bool bHighPrecision = false);
+  [[nodiscard]] static std::vector<CAARiseTransitSetDetails2> CalculateMoon(double StartJD, double EndJD, double Longitude, double Latitude, double RefractionAtHorizon = -0.5667, double StepInterval = 0.007, MoonAlgorithm algorithm = MoonAlgorithm::MeeusTruncated);
+  [[nodiscard]] static std::vector<CAARiseTransitSetDetails2> CalculateStationary(double StartJD, double EndJD, double Alpha, double Delta, double Longitude, double Latitude, double h0 = -0.5667, double StepInterval = 0.007);
 
 protected:
+  [[nodiscard]] static double CalculateBearing(double lastBearing, double currentBearing, double fraction) noexcept;
+  static void AddTwilightEvent(std::vector<CAARiseTransitSetDetails2>& events, CAARiseTransitSetDetails2::Type type, double altitude, double lastAltitude, double currentAltitude, double lastJD, double stepInterval, double lastBearing, double currentBearing, double EndJD);
+  static void ProcessTwilight(std::vector<CAARiseTransitSetDetails2>& events, double twilightAngle, CAARiseTransitSetDetails2::Type dawnType, CAARiseTransitSetDetails2::Type duskType, double LastAltitudeForDetectingTwilight, double AltitudeForTwilight, double LastAltitudeForInterpolation, double LastJD, double StepInterval, double LastBearing, CAA2DCoordinate Horizontal, double EndJD);
+  static void AddRiseSetEvent(std::vector<CAARiseTransitSetDetails2>& events, CAARiseTransitSetDetails2::Type type, double lastAltitude, double currentAltitude, double h0, double lastJD, double stepInterval, double lastBearing, double currentBearing, double EndJD);
+  static void ProcessRiseSet(std::vector<CAARiseTransitSetDetails2>& events, double LastAltitude, double CurrentAltitude, double LastAltitudeForInterpolation, double h0, CAA2DCoordinate Horizontal, double LastJD, double StepInterval, double LastBearing, double EndJD);
+  static void AddTransitEvent(std::vector<CAARiseTransitSetDetails2>& events, CAARiseTransitSetDetails2::Type type, double fraction, double LastJD, double StepInterval, double LastAltitudeForInterpolation, double CurrentAltitude, double AltitudeForDetectingRiseSet, double EndJD);
+  static void ProcessTransit(std::vector<CAARiseTransitSetDetails2>& events, double LastBearing, CAA2DCoordinate Horizontal, double LastJD, double StepInterval, double LastAltitudeForInterpolation, double AltitudeForDetectingRiseSet, double EndJD);
   static void AddEvents(std::vector<CAARiseTransitSetDetails2>& events, double LastAltitudeForDetectingRiseSet, double AltitudeForDetectingRiseSet,
                         double LastAltitudeForInterpolation, double h0, const CAA2DCoordinate& Horizontal, double LastJD, double StepInterval, double LastBearing,
                         Object object, double LastAltitudeForDetectingTwilight, double AltitudeForTwilight, double EndJD);

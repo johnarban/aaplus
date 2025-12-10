@@ -3,7 +3,7 @@ Module : AAVSOP87.h
 Purpose: Implementation for the algorithms for VSOP87
 Created: PJN / 29-08-2015
 
-Copyright (c) 2015 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2015 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -56,8 +56,8 @@ class AAPLUS_EXT_CLASS CAAVSOP87
 {
 public:
 //Static methods
-  static double Calculate(double JD, const VSOP87Coefficient2* pTable, size_t nTableSize, bool bAngle) noexcept;
-  static double Calculate_Dash(double JD, const VSOP87Coefficient2* pTable, size_t nTableSize) noexcept;
+  [[nodiscard]] static double Calculate(double JD, const VSOP87Coefficient2* pTable, size_t nTableSize, bool bAngle) noexcept;
+  [[nodiscard]] static double Calculate_Dash(double JD, const VSOP87Coefficient2* pTable, size_t nTableSize) noexcept;
 };
 
 

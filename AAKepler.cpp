@@ -5,8 +5,14 @@ Created: PJN / 29-12-2003
 History: PJN / 22-11-2021 1. Made some minor optimizations to the CAAKepler::Calculate method.
          PJN / 26-06-2022 1. Updated all the code in AAKepler.cpp to use C++ uniform initialization for all
                           variable declarations.
+         PJN / 06-12-2025 1. Provided a new CAAKepler::CalculateRadians method which works in radians as 
+                          opposed to degrees for the main CAAKepler::Calculate method.
+                          2. Optimized the code in the new CAAKepler::CalculateRadians method.
+                          3. Updated CAAKepler::Calculate and CAAKepler::CalculateRadians to use a "double
+                          epsilon" value instead of an "int iterations" parameter. These improvements help
+                          speed up the CAAKepler::Calculate method by a factor of two.
 
-Copyright (c) 2003 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -31,29 +37,40 @@ to maintain a single distribution point for the source code.
 
 //////////////////// Implementation ///////////////////////////////////////////
 
-double CAAKepler::Calculate(double M, double e, int nIterations) noexcept
+double CAAKepler::Calculate(double M, double e, double epsilon) noexcept
 {
-  //Convert from degrees to radians
-  M = CAACoordinateTransformation::DegreesToRadians(M);
-  constexpr double PI{CAACoordinateTransformation::PI()};
+  return CAACoordinateTransformation::RadiansToDegrees(CalculateRadians(CAACoordinateTransformation::DegreesToRadians(M), e, CAACoordinateTransformation::DegreesToRadians(epsilon)));
+}
 
-  double F{1};
+double CAAKepler::CalculateRadians(double M, double e, double epsilon) noexcept
+{
+  constexpr double PI{CAACoordinateTransformation::PI()};
+  constexpr double TWOPI{PI*2};
+  //Reduce M to a value in the range -TWOPI < M < TWOPI
+  double F{0};
   if (M < 0)
     F = -1;
-  M = fabs(M)/(2*PI);
-  M = (M - static_cast<int>(M))*2*PI*F;
+  else if (M > 0)
+    F = 1;
+  else
+    return 0;
+  M = fabs(M)/TWOPI;
+  M = (M - static_cast<int>(M))*TWOPI*F;
+  //Make M a value in the range 0 < M < TWOPI
   if (M < 0)
-    M += (2*PI);
-  F = 1;
+    M += TWOPI;
+  bool bPositive{true};
   if (M > PI)
   {
-    M = (2*PI) - M;
-    F = -1;
+    M = TWOPI - M;
+    bPositive = false;
   }
-
-  double E{PI/2};
-  double D{PI/4};
-  for (int i{0}; i<nIterations; i++)
+  else if (M == 0)
+    return 0;
+  const double e2{e/2};
+  double E{M + e2};
+  double D{e2};
+  while (D > epsilon)
   {
     const double M1{E - (e*sin(E))};
     if (M > M1)
@@ -62,7 +79,8 @@ double CAAKepler::Calculate(double M, double e, int nIterations) noexcept
       E -= D;
     D /= 2;
   }
-
-  //Convert the result back to degrees
-  return CAACoordinateTransformation::RadiansToDegrees(E)*F;
+  if (bPositive)
+    return E;
+  else
+    return -E;
 }

@@ -25,7 +25,7 @@ History: PJN / 08-05-2011 1. Fixed a compilation issue on GCC where size_t was u
                           2. Fixed a transcription error in the lookup tables used to calculate the Station 1 values for
                           Mars.
 
-Copyright (c) 2003 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

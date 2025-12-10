@@ -3,7 +3,7 @@ Module : AAEquinoxesAndSoltices2.h
 Purpose: Implementation for the algorithms to calculate the dates of the Equinoxes and Solstices (revised version)
 Created: PJN / 28-09-2019
 
-Copyright (c) 2019 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2019 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -55,14 +55,13 @@ public:
 //Member variables
   Type type{Type::NotDefined}; //The type of the event which has occurred
   double JD{0}; //When the event occurred in TT
-  double Declination{0}; //Applicable for solstices only, the apparent declination of the Sun
 };
 
 class AAPLUS_EXT_CLASS CAAEquinoxesAndSolstices2
 {
 public:
 //Static methods
-  static std::vector<CAAEquinoxSolsticeDetails2> Calculate(double StartJD, double EndJD, double StepInterval = 0.007, bool bHighPrecision = false);
+  [[nodiscard]] static std::vector<CAAEquinoxSolsticeDetails2> Calculate(double StartJD, double EndJD, double StepInterval = 0.007, bool bHighPrecision = false);
 };
 
 

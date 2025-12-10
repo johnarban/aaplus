@@ -9,7 +9,7 @@ History: PJN / 29-11-2006 1. Fixed a bug where CAAEclipticalElements::Calculate 
          PJN / 19-06-2022 1. Updated all the code in AAEclipticalElements.cpp to use C++ uniform initialization for all 
                           variable declarations.
 
-Copyright (c) 2003 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

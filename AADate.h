@@ -3,7 +3,7 @@ Module : AADate.h
 Purpose: Implementation for the algorithms which convert between the Gregorian and Julian calendars and the Julian Day
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -65,25 +65,25 @@ public:
   CAADate(double JD, bool bGregorianCalendar) noexcept;
 
 //Static Methods
-  static double DateToJD(long Year, long Month, double Day, bool bGregorianCalendar) noexcept;
-  static bool IsLeap(long Year, bool bGregorianCalendar) noexcept;
+  [[nodiscard]] static double DateToJD(long Year, long Month, double Day, bool bGregorianCalendar) noexcept;
+  [[nodiscard]] static bool IsLeap(long Year, bool bGregorianCalendar) noexcept;
   static void DayOfYearToDayAndMonth(long DayOfYear, bool bLeap, long& DayOfMonth, long& Month) noexcept;
-  static CAACalendarDate JulianToGregorian(long Year, long Month, long Day) noexcept;
-  static CAACalendarDate GregorianToJulian(long Year, long Month, long Day) noexcept;
-  static long INT(double value) noexcept;
+  [[nodiscard]] static CAACalendarDate JulianToGregorian(long Year, long Month, long Day) noexcept;
+  [[nodiscard]] static CAACalendarDate GregorianToJulian(long Year, long Month, long Day) noexcept;
+  [[nodiscard]] static long INT(double value) noexcept;
 
-  constexpr static bool AfterPapalReform(long Year, long Month, double Day)
+  [[nodiscard]] constexpr static bool AfterPapalReform(long Year, long Month, double Day)
   {
     return ((Year > 1582) || ((Year == 1582) && (Month > 10)) || ((Year == 1582) && (Month == 10) && (Day >= 15)));
   }
 
-  constexpr static bool AfterPapalReform(double JD)
+  [[nodiscard]] constexpr static bool AfterPapalReform(double JD)
   {
     return (JD >= 2299160.5);
   }
 
-  static double DayOfYear(double JD, long Year, bool bGregorianCalendar) noexcept;
-  static long DaysInMonth(long Month, bool bLeap) noexcept;
+  [[nodiscard]] static double DayOfYear(double JD, long Year, bool bGregorianCalendar) noexcept;
+  [[nodiscard]] static long DaysInMonth(long Month, bool bLeap) noexcept;
 
 //Non Static methods
   [[nodiscard]] double Julian() const noexcept { return m_dblJulian; };

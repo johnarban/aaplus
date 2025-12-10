@@ -10,8 +10,12 @@ History: PJN / 28-09-2019 1. Initial implementation
                           StepInterval to EndJD get lost because the step where we can catch it is outside of StartJD...EndJD
                           interval. Now the code iterates from StartJD by StepInterval until JD < 
                           (EndJD+StepInterval+StepInterval). Thanks to Alexander Vasenin for reporting this issue.
+         PJN / 28-11-2024 1. Updated logic in CAAEquinoxesAndSolstices2::Calculate to use the correct definition of Equinoxes
+                          and Solstices as mentioned on Page 177 of Meeus's book. Thanks to "Pavel" for reporting this issue.
+         PJN / 30-11-2024 1. Fixed a bug in CAAEquinoxesAndSolstices2::Calculate where the time of Southern Solstice was
+                          incorrectly being reported as a Northern Solstice. Thanks to "Pavel" for reporting this issue.
 
-Copyright (c) 2019 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2019 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -46,62 +50,53 @@ std::vector<CAAEquinoxSolsticeDetails2> CAAEquinoxesAndSolstices2::Calculate(dou
   double JD{StartJD};
   double LastJD0{0};
   double LastLatitude0{-90};
-  double LastLatitude1{-90};
   const double localEndJD{EndJD + StepInterval + StepInterval}; //Make sure we do not miss any possible events near to EndJD
   while (JD < localEndJD)
   {
     const double lambda{CAASun::ApparentEclipticLongitude(JD, bHighPrecision)};
-    const double beta{CAASun::ApparentEclipticLatitude(JD, bHighPrecision)};
-    const double epsilon{CAANutation::TrueObliquityOfEcliptic(JD)};
-    const CAA2DCoordinate Solarcoord{CAACoordinateTransformation::Ecliptic2Equatorial(lambda, beta, epsilon)};
     if (LastLatitude0 != -90)
     {
-      if ((LastLatitude0 < 0) && (Solarcoord.Y >= 0))
+      if ((LastLatitude0 > 270) && (lambda >= 0) && (lambda < 90))
       {
         CAAEquinoxSolsticeDetails2 event;
         event.type = CAAEquinoxSolsticeDetails2::Type::NorthwardEquinox;
-        const double fraction{(0 - LastLatitude0) / (Solarcoord.Y - LastLatitude0)};
+        const double tempLastLatitude{LastLatitude0 - 360};
+        const double fraction{(0 - tempLastLatitude) / (lambda - tempLastLatitude)};
         event.JD = LastJD0 + (fraction*StepInterval);
         if (event.JD < EndJD)
           events.push_back(event);
       }
-      else if ((LastLatitude0 > 0) && (Solarcoord.Y <= 0))
+      else if ((LastLatitude0 < 180) && (lambda >= 180))
       {
         CAAEquinoxSolsticeDetails2 event;
         event.type = CAAEquinoxSolsticeDetails2::Type::SouthwardEquinox;
-        const double fraction{(0 - LastLatitude0) / (Solarcoord.Y - LastLatitude0)};
+        const double fraction{(180 - LastLatitude0) / (lambda - LastLatitude0)};
         event.JD = LastJD0 + (fraction*StepInterval);
         if (event.JD < EndJD)
           events.push_back(event);
       }
-    }
-    if ((LastLatitude0 != -90) && (LastLatitude1 != -90))
-    {
-      if ((LastLatitude0 > Solarcoord.Y) && (LastLatitude0 > LastLatitude1))
+      else if ((LastLatitude0 < 90) && (lambda >= 90))
       {
         CAAEquinoxSolsticeDetails2 event;
         event.type = CAAEquinoxSolsticeDetails2::Type::NorthernSolstice;
-        double fraction{0};
-        event.Declination = CAAInterpolate::Extremum(LastLatitude1, LastLatitude0, Solarcoord.Y, fraction);
-        event.JD = JD - StepInterval + (fraction*StepInterval);
+        const double fraction{(90 - LastLatitude0) / (lambda - LastLatitude0)};
+        event.JD = LastJD0 + (fraction * StepInterval);
         if (event.JD < EndJD)
           events.push_back(event);
       }
-      else if ((LastLatitude0 < Solarcoord.Y) && (LastLatitude0 < LastLatitude1))
+      else if ((LastLatitude0 < 270) && (lambda >= 270))
       {
         CAAEquinoxSolsticeDetails2 event;
         event.type = CAAEquinoxSolsticeDetails2::Type::SouthernSolstice;
-        double fraction{0};
-        event.Declination = CAAInterpolate::Extremum(LastLatitude1, LastLatitude0, Solarcoord.Y, fraction);
-        event.JD = JD - StepInterval + (fraction*StepInterval);
+        const double fraction{(270 - LastLatitude0) / (lambda - LastLatitude0) };
+        event.JD = LastJD0 + (fraction * StepInterval);
         if (event.JD < EndJD)
           events.push_back(event);
       }
     }
 
     //Prepare for the next loop
-    LastLatitude1 = LastLatitude0;
-    LastLatitude0 = Solarcoord.Y;
+    LastLatitude0 = lambda;
     LastJD0 = JD;
     JD += StepInterval;
   }

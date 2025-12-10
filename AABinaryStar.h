@@ -3,7 +3,7 @@ Module : AABinaryStar.h
 Purpose: Implementation for the algorithms for a binary star system
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -49,8 +49,8 @@ class AAPLUS_EXT_CLASS CAABinaryStar
 {
 public:
 //Static methods
-  static CAABinaryStarDetails Calculate(double t, double P, double T, double e, double a, double i, double omega, double w) noexcept;
-  static double ApparentEccentricity(double e, double i, double w) noexcept;
+  [[nodiscard]] static CAABinaryStarDetails Calculate(double t, double P, double T, double e, double a, double i, double omega, double w, double epsilon = 5E-5) noexcept;
+  [[nodiscard]] static double ApparentEccentricity(double e, double i, double w) noexcept;
 };
 
 

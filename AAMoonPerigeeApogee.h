@@ -3,7 +3,7 @@ Module : AAMoonPerigeeApogee.h
 Purpose: Implementation for the algorithms which obtain the dates of Lunar Apogee and Perigee
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -38,7 +38,7 @@ class AAPLUS_EXT_CLASS CAAMoonPerigeeApogee
 {
 public:
 //Static methods
-  constexpr static double K(double Year) noexcept
+  [[nodiscard]] constexpr static double K(double Year) noexcept
   {
     return 13.2555*(Year - 1999.97);
   }
@@ -46,7 +46,7 @@ public:
 #ifdef _MSC_VER
   #pragma warning(suppress : 26497)
 #endif //#ifdef _MSC_VER
-  static double MeanPerigee(double k) noexcept
+  [[nodiscard]] static double MeanPerigee(double k) noexcept
   {
     //convert from K to T
     const double T{k/1325.55};
@@ -57,16 +57,16 @@ public:
     return 2451534.6698 + (27.55454989*k) - (0.0006691*Tsquared) - (0.000001098*Tcubed) + (0.0000000052*T4);
   }
 
-  static double MeanApogee(double k) noexcept
+  [[nodiscard]] static double MeanApogee(double k) noexcept
   {
     //Uses the same formula as MeanPerigee
     return MeanPerigee(k);
   }
 
-  static double TruePerigee(double k) noexcept;
-  static double TrueApogee(double k) noexcept;
-  static double PerigeeParallax(double k) noexcept;
-  static double ApogeeParallax(double k) noexcept;
+  [[nodiscard]] static double TruePerigee(double k) noexcept;
+  [[nodiscard]] static double TrueApogee(double k) noexcept;
+  [[nodiscard]] static double PerigeeParallax(double k) noexcept;
+  [[nodiscard]] static double ApogeeParallax(double k) noexcept;
 };
 
 

@@ -3,7 +3,7 @@ Module : AAInterpolate.h
 Purpose: Implementation for the algorithms for Interpolation
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -42,7 +42,7 @@ public:
 #ifdef _MSC_VER
   #pragma warning(suppress : 26497)
 #endif //#ifdef _MSC_VER
-  static double Interpolate(double n, double Y1, double Y2, double Y3) noexcept
+  [[nodiscard]] static double Interpolate(double n, double Y1, double Y2, double Y3) noexcept
   {
     const double a{Y2 - Y1};
     const double b{Y3 - Y2};
@@ -54,7 +54,7 @@ public:
 #ifdef _MSC_VER
   #pragma warning(suppress : 26497)
 #endif //#ifdef _MSC_VER
-  static double Interpolate(double n, double Y1, double Y2, double Y3, double Y4, double Y5) noexcept
+  [[nodiscard]] static double Interpolate(double n, double Y1, double Y2, double Y3, double Y4, double Y5) noexcept
   {
     const double A{Y2 - Y1};
     const double B{Y3 - Y2};
@@ -73,18 +73,18 @@ public:
     return Y3 + (n*(((B + C)/2) - ((H + J)/12))) + (N2*((F/2) - (K/24))) + (N3*((H + J)/12)) + (N4*(K/24));
   }
 
-  constexpr static double InterpolateToHalves(double Y1, double Y2, double Y3, double Y4)
+  [[nodiscard]] constexpr static double InterpolateToHalves(double Y1, double Y2, double Y3, double Y4)
   {
     return ((9*(Y2 + Y3)) - Y1 - Y4)/16;
   }
 
-  static double LagrangeInterpolate(double X, int n, const double* pX, const double* pY) noexcept;
+  [[nodiscard]] static double LagrangeInterpolate(double X, int n, const double* pX, const double* pY) noexcept;
   static double Extremum(double Y1, double Y2, double Y3, double& nm) noexcept;
   static double Extremum(double Y1, double Y2, double Y3, double Y4, double Y5, double& nm, double epsilon = 1e-12) noexcept;
-  static double Zero(double Y1, double Y2, double Y3, double epsilon = 1e-12) noexcept;
-  static double Zero(double Y1, double Y2, double Y3, double Y4, double Y5, double epsilon = 1e-12) noexcept;
-  static double Zero2(double Y1, double Y2, double Y3, double epsilon = 1e-12) noexcept;
-  static double Zero2(double Y1, double Y2, double Y3, double Y4, double Y5, double epsilon = 1e-12) noexcept;
+  [[nodiscard]] static double Zero(double Y1, double Y2, double Y3, double epsilon = 1e-12) noexcept;
+  [[nodiscard]] static double Zero(double Y1, double Y2, double Y3, double Y4, double Y5, double epsilon = 1e-12) noexcept;
+  [[nodiscard]] static double Zero2(double Y1, double Y2, double Y3, double epsilon = 1e-12) noexcept;
+  [[nodiscard]] static double Zero2(double Y1, double Y2, double Y3, double Y4, double Y5, double epsilon = 1e-12) noexcept;
 };
 
 

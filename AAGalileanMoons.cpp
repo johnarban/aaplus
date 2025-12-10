@@ -11,10 +11,10 @@ History: PJN / 08-05-2011 1. Fixed a bug in CAAGalileanMoons::CalculateHelper wh
          PJN / 24-07-2018 1. Fixed a number of GCC warnings in the method CAAGalileanMoons::CalculateHelper. Thanks to
                           Todd Carnes for reporting this issue.
          PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
-         PJN / 24-06-2022 1. Updated all the code in AAGlobe.cpp to use C++ uniform initialization for all
+         PJN / 24-06-2022 1. Updated all the code in AAGalileanMoons.cpp to use C++ uniform initialization for all
                           variable declarations.
 
-Copyright (c) 2003 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

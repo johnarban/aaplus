@@ -13,8 +13,10 @@ History: PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 
                           the existing polar coordinates.
          PJN / 12-06-2022 1. Updated all the code in AABinaryStar.cpp to use C++ uniform initialization for all 
                           variable declarations.
+         PJN / 06-12-2025 1. CAABinaryStar::Calculate now takes an epsilon parameter which gets passed to 
+                          CAAKepler::Calculate.
 
-Copyright (c) 2003 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -40,11 +42,11 @@ to maintain a single distribution point for the source code.
 
 //////////////////// Implementation ///////////////////////////////////////////
 
-CAABinaryStarDetails CAABinaryStar::Calculate(double t, double P, double T, double e, double a, double i, double omega, double w) noexcept
+CAABinaryStarDetails CAABinaryStar::Calculate(double t, double P, double T, double e, double a, double i, double omega, double w, double epsilon) noexcept
 {
   const double n{360 / P};
   const double M{CAACoordinateTransformation::MapTo0To360Range(n*(t - T))};
-  const double E{CAACoordinateTransformation::DegreesToRadians(CAAKepler::Calculate(M, e))};
+  const double E{CAACoordinateTransformation::DegreesToRadians(CAAKepler::Calculate(M, e, epsilon))};
   i = CAACoordinateTransformation::DegreesToRadians(i);
   w = CAACoordinateTransformation::DegreesToRadians(w);
   omega = CAACoordinateTransformation::DegreesToRadians(omega);

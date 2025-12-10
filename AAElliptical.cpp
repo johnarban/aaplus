@@ -65,8 +65,12 @@ History: PJN / 24-05-2004 1. Fixed a missing break statement in CAAElliptical::C
                           ApparentGeocentricEclipticalLongitude.
                           4. Renamed CAAEllipticalPlanetaryDetails::ApparentGeocentricLatitude to 
                           ApparentGeocentricEclipticalLatitude.
+         PJN / 06-12-2025 1. The CAAElliptical::Calculate method which takes a CAAEllipticalObjectElements 
+                          parameter now takes an epsilon parameter which gets passed to CAAKepler::Calculate.
+         PJN / 07-12-2025 1. Updated CAAElliptical::Calculate method which takes a CAAEllipticalObjectElements to
+                          return the radius vector and the true anomaly.
 
-Copyright (c) 2003 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -342,7 +346,7 @@ double CAAElliptical::MeanMotionFromSemiMajorAxis(double a) noexcept
   return 0.9856076686 / (a * sqrt(a));
 }
 
-CAAEllipticalObjectDetails CAAElliptical::Calculate(double JD, const CAAEllipticalObjectElements& elements, bool bHighPrecision) noexcept
+CAAEllipticalObjectDetails CAAElliptical::Calculate(double JD, const CAAEllipticalObjectElements& elements, bool bHighPrecision, double epsilon) noexcept
 {
   double Epsilon{CAANutation::MeanObliquityOfEcliptic(elements.JDEquinox)};
   double JD0{JD};
@@ -381,7 +385,7 @@ CAAEllipticalObjectDetails CAAElliptical::Calculate(double JD, const CAAElliptic
   for (int j=0; j<2; j++)
   {
     const double M{n*(JD0 - elements.T)};
-    double E{CAAKepler::Calculate(M, elements.e)};
+    double E{CAAKepler::Calculate(M, elements.e, epsilon)};
     E = CAACoordinateTransformation::DegreesToRadians(E);
     const double v{2*atan(sqrt((1 + elements.e) / (1 - elements.e)) * tan(E/2))};
     const double r{elements.a*(1 - (elements.e*cos(E)))};
@@ -391,6 +395,8 @@ CAAEllipticalObjectDetails CAAElliptical::Calculate(double JD, const CAAElliptic
 
     if (j == 0)
     {
+      details.r = r;
+      details.v = CAACoordinateTransformation::RadiansToDegrees(v);
       details.HeliocentricRectangularEquatorial.X = x;
       details.HeliocentricRectangularEquatorial.Y = y;
       details.HeliocentricRectangularEquatorial.Z = z;

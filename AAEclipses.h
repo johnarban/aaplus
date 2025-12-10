@@ -3,7 +3,7 @@ Module : AAEclipses.h
 Purpose: Implementation for the algorithms which obtain the principal characteristics of an eclipse of the Sun or the Moon
 Created: PJN / 21-01-2004
 
-Copyright (c) 2004 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2004 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -77,11 +77,11 @@ class AAPLUS_EXT_CLASS CAAEclipses
 {
 public:
 //Static methods
-  static CAASolarEclipseDetails CalculateSolar(double k) noexcept;
-  static CAALunarEclipseDetails CalculateLunar(double k) noexcept;
+  [[nodiscard]] static CAASolarEclipseDetails CalculateSolar(double k) noexcept;
+  [[nodiscard]] static CAALunarEclipseDetails CalculateLunar(double k) noexcept;
 
 protected:
-  static CAASolarEclipseDetails Calculate(double k, double& Mdash) noexcept;
+  [[nodiscard]] static CAASolarEclipseDetails Calculate(double k, double& Mdash) noexcept;
 };
 
 

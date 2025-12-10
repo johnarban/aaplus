@@ -3,7 +3,7 @@ Module : AANutation.h
 Purpose: Implementation for the algorithms for Nutation
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -38,12 +38,12 @@ class AAPLUS_EXT_CLASS CAANutation
 {
 public:
 //Static methods
-  static double NutationInLongitude(double JD) noexcept;
-  static double NutationInObliquity(double JD) noexcept;
-  static double NutationInRightAscension(double Alpha, double Delta, double Obliquity, double NutationInLongitude, double NutationInObliquity) noexcept;
-  static double NutationInDeclination(double Alpha, double Obliquity, double NutationInLongitude, double NutationInObliquity) noexcept;
-  static double MeanObliquityOfEcliptic(double JD) noexcept;
-  static double TrueObliquityOfEcliptic(double JD) noexcept;
+  [[nodiscard]] static double NutationInLongitude(double JD) noexcept;
+  [[nodiscard]] static double NutationInObliquity(double JD) noexcept;
+  [[nodiscard]] static double NutationInRightAscension(double Alpha, double Delta, double Obliquity, double NutationInLongitude, double NutationInObliquity) noexcept;
+  [[nodiscard]] static double NutationInDeclination(double Alpha, double Obliquity, double NutationInLongitude, double NutationInObliquity) noexcept;
+  [[nodiscard]] static double MeanObliquityOfEcliptic(double JD) noexcept;
+  [[nodiscard]] static double TrueObliquityOfEcliptic(double JD) noexcept;
 };
 
 

@@ -375,6 +375,12 @@
     <ClCompile Include="AAVSOP2013.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AA+.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AAHyperbolic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AA+.h">
@@ -747,6 +753,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AAVSOP2013.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AAHyperbolic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

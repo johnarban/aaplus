@@ -3,7 +3,7 @@ Module : AAPhysicalJupiter.h
 Purpose: Implementation for the algorithms which obtain the physical parameters of Jupiter
 Created: PJN / 05-01-2004
 
-Copyright (c) 2003 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -51,7 +51,7 @@ class AAPLUS_EXT_CLASS CAAPhysicalJupiter
 {
 public:
 //Static methods
-  static CAAPhysicalJupiterDetails Calculate(double JD, bool bHighPrecision) noexcept;
+  [[nodiscard]] static CAAPhysicalJupiterDetails Calculate(double JD, bool bHighPrecision) noexcept;
 };
 
 #endif //#ifndef __AAPHYSICALJUPITER_H__

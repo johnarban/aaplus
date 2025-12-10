@@ -3,7 +3,7 @@ Module : AAMoonPhases.h
 Purpose: Implementation for the algorithms which obtain the dates for the phases of the Moon
 Created: PJN / 11-01-2004
 
-Copyright (c) 2004 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2004 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -38,7 +38,7 @@ class AAPLUS_EXT_CLASS CAAMoonPhases
 {
 public:
 //Static methods
-  constexpr static double K(double Year) noexcept
+  [[nodiscard]] constexpr static double K(double Year) noexcept
   {
     return 12.3685*(Year - 2000);
   }
@@ -46,7 +46,7 @@ public:
 #ifdef _MSC_VER
   #pragma warning(suppress : 26497)
 #endif //#ifdef _MSC_VER
-  static double MeanPhase(double k) noexcept
+  [[nodiscard]] static double MeanPhase(double k) noexcept
   {
     //convert from K to T
     const double T{k/1236.85};
@@ -57,7 +57,7 @@ public:
     return 2451550.09766 + (29.530588861*k) + (0.00015437*T2) - (0.000000150*T3) + (0.00000000073*T4);
   }
 
-  static double TruePhase(double k) noexcept;
+  [[nodiscard]] static double TruePhase(double k) noexcept;
 };
 
 

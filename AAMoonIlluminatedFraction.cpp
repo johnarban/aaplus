@@ -9,7 +9,7 @@ History: PJN / 26-01-2007 1. Changed name of CAAMoonIlluminatedFraction::Ilumina
          PJN / 27-06-2022 1. Updated all the code in AAMoonIlluminatedFraction.cpp to use C++ uniform initialization 
                           for all variable declarations.
 
-Copyright (c) 2003 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

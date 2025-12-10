@@ -3,7 +3,7 @@ Module : AAEarth.h
 Purpose: Implementation for the algorithms which calculate the position of Earth
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -38,23 +38,23 @@ class AAPLUS_EXT_CLASS CAAEarth
 {
 public:
 //Static methods
-  static double EclipticLongitude(double JD, bool bHighPrecision) noexcept;
-  static double EclipticLatitude(double JD, bool bHighPrecision) noexcept;
-  static double RadiusVector(double JD, bool bHighPrecision) noexcept;
-  static double SunMeanAnomaly(double JD) noexcept;
+  [[nodiscard]] static double EclipticLongitude(double JD, bool bHighPrecision) noexcept;
+  [[nodiscard]] static double EclipticLatitude(double JD, bool bHighPrecision) noexcept;
+  [[nodiscard]] static double RadiusVector(double JD, bool bHighPrecision) noexcept;
+  [[nodiscard]] static double SunMeanAnomaly(double JD) noexcept;
 
 #ifdef _MSC_VER
   #pragma warning(suppress : 26497)
 #endif //#ifdef _MSC_VER
-  static double Eccentricity(double JD) noexcept
+  [[nodiscard]] static double Eccentricity(double JD) noexcept
   {
     const double T{(JD - 2451545)/36525};
     const double Tsquared{T*T};
     return 1 - (0.002516*T) - (0.0000074*Tsquared);
   }
 
-  static double EclipticLongitudeJ2000(double JD, bool bHighPrecision) noexcept;
-  static double EclipticLatitudeJ2000(double JD, bool bHighPrecision) noexcept;
+  [[nodiscard]] static double EclipticLongitudeJ2000(double JD, bool bHighPrecision) noexcept;
+  [[nodiscard]] static double EclipticLatitudeJ2000(double JD, bool bHighPrecision) noexcept;
 };
 
 

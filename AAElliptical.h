@@ -3,7 +3,7 @@ Module : AAElliptical.h
 Purpose: Implementation for the algorithms for an elliptical orbit
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -78,6 +78,8 @@ class AAPLUS_EXT_CLASS CAAEllipticalObjectDetails
 {
 public:
 //Member variables
+  double r{0};
+  double v{0};
   CAA3DCoordinate HeliocentricRectangularEquatorial;
   CAA3DCoordinate HeliocentricRectangularEcliptical;
   double HeliocentricEclipticLongitude{0};
@@ -112,26 +114,26 @@ public:
 
 //Static methods
 
-  constexpr static double DistanceToLightTime(double Distance)
+  [[nodiscard]] constexpr static double DistanceToLightTime(double Distance)
   {
     return Distance*0.0057755183;
   }
 
-  static CAAEllipticalPlanetaryDetails Calculate(double JD, Object object, bool bHighPrecision) noexcept;
+  [[nodiscard]] static CAAEllipticalPlanetaryDetails Calculate(double JD, Object object, bool bHighPrecision) noexcept;
 
-  constexpr static double SemiMajorAxisFromPerihelionDistance(double q, double e)
+  [[nodiscard]] constexpr static double SemiMajorAxisFromPerihelionDistance(double q, double e)
   {
     return q/(1 - e);
   }
 
-  static double MeanMotionFromSemiMajorAxis(double a) noexcept;
-  static CAAEllipticalObjectDetails Calculate(double JD, const CAAEllipticalObjectElements& elements, bool bHighPrecision) noexcept;
-  static double InstantaneousVelocity(double r, double a) noexcept;
-  static double VelocityAtPerihelion(double e, double a) noexcept;
-  static double VelocityAtAphelion(double e, double a) noexcept;
-  static double LengthOfEllipse(double e, double a) noexcept;
-  static double CometMagnitude(double g, double delta, double k, double r) noexcept;
-  static double MinorPlanetMagnitude(double H, double delta, double G, double r, double PhaseAngle) noexcept;
+  [[nodiscard]] static double MeanMotionFromSemiMajorAxis(double a) noexcept;
+  [[nodiscard]] static CAAEllipticalObjectDetails Calculate(double JD, const CAAEllipticalObjectElements& elements, bool bHighPrecision, double epsilon = 5E-5) noexcept;
+  [[nodiscard]] static double InstantaneousVelocity(double r, double a) noexcept;
+  [[nodiscard]] static double VelocityAtPerihelion(double e, double a) noexcept;
+  [[nodiscard]] static double VelocityAtAphelion(double e, double a) noexcept;
+  [[nodiscard]] static double LengthOfEllipse(double e, double a) noexcept;
+  [[nodiscard]] static double CometMagnitude(double g, double delta, double k, double r) noexcept;
+  [[nodiscard]] static double MinorPlanetMagnitude(double H, double delta, double G, double r, double PhaseAngle) noexcept;
 };
 
 

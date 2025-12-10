@@ -22,8 +22,9 @@ History: PJN / 16-03-2009 1. Fixed a bug in CAANearParabolic::Calculate(double J
                           all variable declarations.
          PJN / 28-01-2023 1. Renamed CAANearParabolic::CalculateTrueAnnomalyAndRadius to 
                           CAANearParabolic::CalculateTrueAnomalyAndRadius.
+         PJN / 07-12-2025 1. Updated CAANearParabolic::Calculate to return the radius vector and the true anomaly.
 
-Copyright (c) 2006 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2006 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -79,7 +80,6 @@ void CAANearParabolic::CalculateTrueAnomalyAndRadius(double JD, const CAANearPar
 CAANearParabolicObjectDetails CAANearParabolic::Calculate(double JD, const CAANearParabolicObjectElements& elements, bool bHighPrecision) noexcept
 {
   double Epsilon{CAANutation::MeanObliquityOfEcliptic(elements.JDEquinox)};
-
   double JD0{JD};
 
   //What will be the return value
@@ -116,14 +116,14 @@ CAANearParabolicObjectDetails CAANearParabolic::Calculate(double JD, const CAANe
     double v{0};
     double r{0};
     CalculateTrueAnomalyAndRadius(JD0, elements, v, r);
-    const double r2{r*r};
-
     const double x{r*a*sin(A + w + v)};
     const double y{r*b*sin(B + w + v)};
     const double z{r*c*sin(C + w + v)};
 
     if (j == 0)
     {
+      details.r = r;
+      details.v = CAACoordinateTransformation::RadiansToDegrees(v);
       details.HeliocentricRectangularEquatorial.X = x;
       details.HeliocentricRectangularEquatorial.Y = y;
       details.HeliocentricRectangularEquatorial.Z = z;
@@ -170,6 +170,7 @@ CAANearParabolicObjectDetails CAANearParabolic::Calculate(double JD, const CAANe
 
       const double RES{sqrt((SunCoord.X*SunCoord.X) + (SunCoord.Y*SunCoord.Y) + (SunCoord.Z*SunCoord.Z))};
       const double RES2{RES*RES};
+      const double r2{r*r};
 
       details.Elongation = CAACoordinateTransformation::RadiansToDegrees(acos((RES2 + Distance2 - r2) / (2*RES*Distance)));
       details.PhaseAngle = CAACoordinateTransformation::RadiansToDegrees(acos((r2 + Distance2 - RES2) / (2*r*Distance)));

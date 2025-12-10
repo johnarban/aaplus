@@ -5,7 +5,7 @@ Created: PJN / 29-12-2003
 History: PJN / 23-06-2022 1. Updated all the code in AAFK5.cpp to use C++ uniform initialization for
                           all variable declarations.
 
-Copyright (c) 2003 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

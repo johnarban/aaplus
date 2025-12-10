@@ -17,7 +17,7 @@ History: PJN / 09-02-2004 1. Updated the values used in the calculation of the a
          PJN / 11-07-2022 1. Updated all the code in AASaturnMoons.cpp to use C++ uniform initialization for
                           all variable declarations.
 
-Copyright (c) 2004 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2004 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

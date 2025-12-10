@@ -3,7 +3,7 @@ Module : AAVSOP87A_EMB.h
 Purpose: Implementation for the algorithms for VSOP87
 Created: PJN / 13-09-2015
 
-Copyright (c) 2015 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2015 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -37,12 +37,13 @@ to maintain a single distribution point for the source code.
 class AAPLUS_EXT_CLASS CAAVSOP87A_EMB
 {
 public:
-  static double X(double JD) noexcept;
-  static double X_DASH(double JD) noexcept;
-  static double Y(double JD) noexcept;
-  static double Y_DASH(double JD) noexcept;
-  static double Z(double JD) noexcept;
-  static double Z_DASH(double JD) noexcept;
+//Static methods
+  [[nodiscard]] static double X(double JD) noexcept;
+  [[nodiscard]] static double X_DASH(double JD) noexcept;
+  [[nodiscard]] static double Y(double JD) noexcept;
+  [[nodiscard]] static double Y_DASH(double JD) noexcept;
+  [[nodiscard]] static double Z(double JD) noexcept;
+  [[nodiscard]] static double Z_DASH(double JD) noexcept;
 };
 
 

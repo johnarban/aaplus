@@ -3,7 +3,7 @@ Module : AAIlluminatedFraction.h
 Purpose: Implementation for the algorithms for a Planet's Phase Angle, Illuminated Fraction and Magnitude
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -38,31 +38,31 @@ class AAPLUS_EXT_CLASS CAAIlluminatedFraction
 {
 public:
 //Static methods
-  static double PhaseAngle(double r, double R, double Delta) noexcept;
-  static double PhaseAngle(double R, double R0, double B, double L, double L0, double Delta) noexcept;
-  static double PhaseAngleRectangular(double x, double y, double z, double B, double L, double Delta) noexcept;
-  static double IlluminatedFraction(double PhaseAngle) noexcept;
+  [[nodiscard]] static double PhaseAngle(double r, double R, double Delta) noexcept;
+  [[nodiscard]] static double PhaseAngle(double R, double R0, double B, double L, double L0, double Delta) noexcept;
+  [[nodiscard]] static double PhaseAngleRectangular(double x, double y, double z, double B, double L, double Delta) noexcept;
+  [[nodiscard]] static double IlluminatedFraction(double PhaseAngle) noexcept;
 
-  constexpr static double IlluminatedFraction(double r, double R, double Delta) noexcept
+  [[nodiscard]] constexpr static double IlluminatedFraction(double r, double R, double Delta) noexcept
   {
     return (((r + Delta)*(r + Delta) - (R*R))/(4*r*Delta));
   }
 
-  static double MercuryMagnitudeMuller(double r, double Delta, double i) noexcept;
-  static double VenusMagnitudeMuller(double r, double Delta, double i) noexcept;
-  static double MarsMagnitudeMuller(double r, double Delta, double i) noexcept;
-  static double JupiterMagnitudeMuller(double r, double Delta) noexcept;
-  static double SaturnMagnitudeMuller(double r, double Delta, double DeltaU, double B) noexcept;
-  static double UranusMagnitudeMuller(double r, double Delta) noexcept;
-  static double NeptuneMagnitudeMuller(double r, double Delta) noexcept;
-  static double MercuryMagnitudeAA(double r, double Delta, double i) noexcept;
-  static double VenusMagnitudeAA(double r, double Delta, double i) noexcept;
-  static double MarsMagnitudeAA(double r, double Delta, double i) noexcept;
-  static double JupiterMagnitudeAA(double r, double Delta, double i) noexcept;
-  static double SaturnMagnitudeAA(double r, double Delta, double DeltaU, double B) noexcept;
-  static double UranusMagnitudeAA(double r, double Delta) noexcept;
-  static double NeptuneMagnitudeAA(double r, double Delta) noexcept;
-  static double PlutoMagnitudeAA(double r, double Delta) noexcept;
+  [[nodiscard]] static double MercuryMagnitudeMuller(double r, double Delta, double i) noexcept;
+  [[nodiscard]] static double VenusMagnitudeMuller(double r, double Delta, double i) noexcept;
+  [[nodiscard]] static double MarsMagnitudeMuller(double r, double Delta, double i) noexcept;
+  [[nodiscard]] static double JupiterMagnitudeMuller(double r, double Delta) noexcept;
+  [[nodiscard]] static double SaturnMagnitudeMuller(double r, double Delta, double DeltaU, double B) noexcept;
+  [[nodiscard]] static double UranusMagnitudeMuller(double r, double Delta) noexcept;
+  [[nodiscard]] static double NeptuneMagnitudeMuller(double r, double Delta) noexcept;
+  [[nodiscard]] static double MercuryMagnitudeAA(double r, double Delta, double i) noexcept;
+  [[nodiscard]] static double VenusMagnitudeAA(double r, double Delta, double i) noexcept;
+  [[nodiscard]] static double MarsMagnitudeAA(double r, double Delta, double i) noexcept;
+  [[nodiscard]] static double JupiterMagnitudeAA(double r, double Delta, double i) noexcept;
+  [[nodiscard]] static double SaturnMagnitudeAA(double r, double Delta, double DeltaU, double B) noexcept;
+  [[nodiscard]] static double UranusMagnitudeAA(double r, double Delta) noexcept;
+  [[nodiscard]] static double NeptuneMagnitudeAA(double r, double Delta) noexcept;
+  [[nodiscard]] static double PlutoMagnitudeAA(double r, double Delta) noexcept;
 };
 
 

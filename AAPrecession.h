@@ -3,7 +3,7 @@ Module : AAPrecession.h
 Purpose: Implementation for the algorithms for Precession
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -43,12 +43,12 @@ class AAPLUS_EXT_CLASS CAAPrecession
 {
 public:
 //Static methods
-  static CAA2DCoordinate PrecessEquatorial(double Alpha, double Delta, double JD0, double JD) noexcept;
-  static CAA2DCoordinate PrecessEquatorialFK4(double Alpha, double Delta, double JD0, double JD) noexcept;
-  static CAA2DCoordinate PrecessEcliptic(double Lambda, double Beta, double JD0, double JD) noexcept;
-  static CAA2DCoordinate EquatorialPMToEcliptic(double Alpha, double Delta, double Beta, double PMAlpha, double PMDelta, double Epsilon) noexcept;
-  static CAA2DCoordinate AdjustPositionUsingUniformProperMotion(double t, double Alpha, double Delta, double PMAlpha, double PMDelta) noexcept;
-  static CAA2DCoordinate AdjustPositionUsingMotionInSpace(double r, double deltar, double t, double Alpha, double Delta, double PMAlpha, double PMDelta) noexcept;
+  [[nodiscard]] static CAA2DCoordinate PrecessEquatorial(double Alpha, double Delta, double JD0, double JD) noexcept;
+  [[nodiscard]] static CAA2DCoordinate PrecessEquatorialFK4(double Alpha, double Delta, double JD0, double JD) noexcept;
+  [[nodiscard]] static CAA2DCoordinate PrecessEcliptic(double Lambda, double Beta, double JD0, double JD) noexcept;
+  [[nodiscard]] static CAA2DCoordinate EquatorialPMToEcliptic(double Alpha, double Delta, double Beta, double PMAlpha, double PMDelta, double Epsilon) noexcept;
+  [[nodiscard]] static CAA2DCoordinate AdjustPositionUsingUniformProperMotion(double t, double Alpha, double Delta, double PMAlpha, double PMDelta) noexcept;
+  [[nodiscard]] static CAA2DCoordinate AdjustPositionUsingMotionInSpace(double r, double deltar, double t, double Alpha, double Delta, double PMAlpha, double PMDelta) noexcept;
 };
 
 

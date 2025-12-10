@@ -105,6 +105,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <EnableClangTidyCodeAnalysis>true</EnableClangTidyCodeAnalysis>
+    <EnableMicrosoftCodeAnalysis>true</EnableMicrosoftCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <RunCodeAnalysis>true</RunCodeAnalysis>
@@ -272,6 +273,7 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AA+.cpp" />
     <ClCompile Include="AAAberration.cpp" />
     <ClCompile Include="AAAngularSeparation.cpp" />
     <ClCompile Include="AABinaryStar.cpp" />
@@ -292,6 +294,7 @@
     <ClCompile Include="AAFK5.cpp" />
     <ClCompile Include="AAGalileanMoons.cpp" />
     <ClCompile Include="AAGlobe.cpp" />
+    <ClCompile Include="AAHyperbolic.cpp" />
     <ClCompile Include="AAIlluminatedFraction.cpp" />
     <ClCompile Include="AAInterpolate.cpp" />
     <ClCompile Include="AAJewishCalendar.cpp" />
@@ -424,6 +427,7 @@
     <ClInclude Include="AAFK5.h" />
     <ClInclude Include="AAGalileanMoons.h" />
     <ClInclude Include="AAGlobe.h" />
+    <ClInclude Include="AAHyperbolic.h" />
     <ClInclude Include="AAIlluminatedFraction.h" />
     <ClInclude Include="AAInterpolate.h" />
     <ClInclude Include="AAJewishCalendar.h" />

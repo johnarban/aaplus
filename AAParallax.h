@@ -3,7 +3,7 @@ Module : AAParallax.h
 Purpose: Implementation for the algorithms which convert a geocentric set of coordinates to their topocentric equivalent
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -51,13 +51,12 @@ public:
 class AAPLUS_EXT_CLASS CAAParallax
 {
 public:
-//Conversion functions
-  static CAA2DCoordinate Equatorial2TopocentricDelta(double Alpha, double Delta, double Distance, double Longitude, double Latitude, double Height, double JD) noexcept;
-  static CAA2DCoordinate Equatorial2Topocentric(double Alpha, double Delta, double Distance, double Longitude, double Latitude, double Height, double JD) noexcept;
-  static CAATopocentricEclipticDetails Ecliptic2Topocentric(double Lambda, double Beta, double Semidiameter, double Distance, double Epsilon, double Latitude, double Height, double JD) noexcept;
-
-  static double ParallaxToDistance(double Parallax) noexcept;
-  static double DistanceToParallax(double Distance) noexcept;
+//Static methods
+  [[nodiscard]] static CAA2DCoordinate Equatorial2TopocentricDelta(double Alpha, double Delta, double Distance, double Longitude, double Latitude, double Height, double JD) noexcept;
+  [[nodiscard]] static CAA2DCoordinate Equatorial2Topocentric(double Alpha, double Delta, double Distance, double Longitude, double Latitude, double Height, double JD) noexcept;
+  [[nodiscard]] static CAATopocentricEclipticDetails Ecliptic2Topocentric(double Lambda, double Beta, double Semidiameter, double Distance, double Epsilon, double Latitude, double Height, double JD) noexcept;
+  [[nodiscard]] static double ParallaxToDistance(double Parallax) noexcept;
+  [[nodiscard]] static double DistanceToParallax(double Distance) noexcept;
 };
 
 

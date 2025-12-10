@@ -9,7 +9,7 @@ History: PJN / 16-09-2015 1. CAAPhysicalMars::Calculate now includes a "bool bHi
          PJN / 03-07-2022 1. Updated all the code in AAPhysicalMars.cpp to use C++ uniform initialization for
                           all variable declarations.
 
-Copyright (c) 2003 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

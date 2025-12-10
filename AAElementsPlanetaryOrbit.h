@@ -3,7 +3,7 @@ Module : AAElementsPlanetaryOrbit.h
 Purpose: Implementation for the algorithms to calculate the elements of the planetary orbits
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -38,9 +38,9 @@ class AAPLUS_EXT_CLASS CAAElementsPlanetaryOrbit
 {
 public:
 //Static methods
-  static double MercuryMeanLongitude(double JD) noexcept;
+  [[nodiscard]] static double MercuryMeanLongitude(double JD) noexcept;
 
-  constexpr static double MercurySemimajorAxis(double /*JD*/) noexcept
+  [[nodiscard]] constexpr static double MercurySemimajorAxis(double /*JD*/) noexcept
   {
     return 0.387098310;
   }
@@ -48,7 +48,7 @@ public:
 #ifdef _MSC_VER
   #pragma warning(suppress : 26497)
 #endif //#ifdef _MSC_VER
-  static double MercuryEccentricity(double JD) noexcept
+  [[nodiscard]] static double MercuryEccentricity(double JD) noexcept
   {
     const double T{(JD - 2451545)/36525};
     const double Tsquared{T*T};
@@ -57,13 +57,13 @@ public:
     return 0.20563175 + (0.000020407*T) - (0.0000000283*Tsquared) - (0.00000000018*Tcubed);
   }
 
-  static double MercuryInclination(double JD) noexcept;
-  static double MercuryLongitudeAscendingNode(double JD) noexcept;
-  static double MercuryLongitudePerihelion(double JD) noexcept;
+  [[nodiscard]] static double MercuryInclination(double JD) noexcept;
+  [[nodiscard]] static double MercuryLongitudeAscendingNode(double JD) noexcept;
+  [[nodiscard]] static double MercuryLongitudePerihelion(double JD) noexcept;
 
-  static double VenusMeanLongitude(double JD) noexcept;
+  [[nodiscard]] static double VenusMeanLongitude(double JD) noexcept;
 
-  constexpr static double VenusSemimajorAxis(double /*JD*/) noexcept
+  [[nodiscard]] constexpr static double VenusSemimajorAxis(double /*JD*/) noexcept
   {
     return 0.723329820;
   }
@@ -71,7 +71,7 @@ public:
 #ifdef _MSC_VER
   #pragma warning(suppress : 26497)
 #endif //#ifdef _MSC_VER
-  static double VenusEccentricity(double JD) noexcept
+  [[nodiscard]] static double VenusEccentricity(double JD) noexcept
   {
     const double T{(JD - 2451545)/36525};
     const double Tsquared{T*T};
@@ -80,13 +80,13 @@ public:
     return 0.00677192 - (0.000047765*T) + (0.0000000981*Tsquared) + (0.00000000046*Tcubed);
   }
 
-  static double VenusInclination(double JD) noexcept;
-  static double VenusLongitudeAscendingNode(double JD) noexcept;
-  static double VenusLongitudePerihelion(double JD) noexcept;
+  [[nodiscard]] static double VenusInclination(double JD) noexcept;
+  [[nodiscard]] static double VenusLongitudeAscendingNode(double JD) noexcept;
+  [[nodiscard]] static double VenusLongitudePerihelion(double JD) noexcept;
 
-  static double EarthMeanLongitude(double JD) noexcept;
+  [[nodiscard]] static double EarthMeanLongitude(double JD) noexcept;
 
-  constexpr static double EarthSemimajorAxis(double /*JD*/) noexcept
+  [[nodiscard]] constexpr static double EarthSemimajorAxis(double /*JD*/) noexcept
   {
     return 1.000001018;
   }
@@ -94,7 +94,7 @@ public:
 #ifdef _MSC_VER
   #pragma warning(suppress : 26497)
 #endif //#ifdef _MSC_VER
-  static double EarthEccentricity(double JD) noexcept
+  [[nodiscard]] static double EarthEccentricity(double JD) noexcept
   {
     const double T{(JD - 2451545)/36525};
     const double Tsquared{T*T};
@@ -103,16 +103,16 @@ public:
     return 0.01670863 - (0.000042037*T) - (0.0000001267*Tsquared) + (0.00000000014*Tcubed);
   }
 
-  constexpr static double EarthInclination(double /*JD*/) noexcept
+  [[nodiscard]] constexpr static double EarthInclination(double /*JD*/) noexcept
   {
     return 0;
   }
 
-  static double EarthLongitudePerihelion(double JD) noexcept;
+  [[nodiscard]] static double EarthLongitudePerihelion(double JD) noexcept;
 
-  static double MarsMeanLongitude(double JD) noexcept;
+  [[nodiscard]] static double MarsMeanLongitude(double JD) noexcept;
 
-  constexpr static double MarsSemimajorAxis(double /*JD*/) noexcept
+  [[nodiscard]] constexpr static double MarsSemimajorAxis(double /*JD*/) noexcept
   {
     return 1.523679342;
   }
@@ -120,7 +120,7 @@ public:
 #ifdef _MSC_VER
   #pragma warning(suppress : 26497)
 #endif //#ifdef _MSC_VER
-  static double MarsEccentricity(double JD) noexcept
+  [[nodiscard]] static double MarsEccentricity(double JD) noexcept
   {
     const double T{(JD - 2451545)/36525};
     const double Tsquared{T*T};
@@ -129,16 +129,16 @@ public:
     return 0.09340065 + (0.000090484*T) - (0.0000000806*Tsquared) - (0.00000000025*Tcubed);
   }
 
-  static double MarsInclination(double JD) noexcept;
-  static double MarsLongitudeAscendingNode(double JD) noexcept;
-  static double MarsLongitudePerihelion(double JD) noexcept;
+  [[nodiscard]] static double MarsInclination(double JD) noexcept;
+  [[nodiscard]] static double MarsLongitudeAscendingNode(double JD) noexcept;
+  [[nodiscard]] static double MarsLongitudePerihelion(double JD) noexcept;
 
-  static double JupiterMeanLongitude(double JD) noexcept;
+  [[nodiscard]] static double JupiterMeanLongitude(double JD) noexcept;
 
 #ifdef _MSC_VER
   #pragma warning(suppress : 26497)
 #endif //#ifdef _MSC_VER
-  static double JupiterSemimajorAxis(double JD) noexcept
+  [[nodiscard]] static double JupiterSemimajorAxis(double JD) noexcept
   {
     const double T{(JD - 2451545)/36525};
 
@@ -148,7 +148,7 @@ public:
 #ifdef _MSC_VER
   #pragma warning(suppress : 26497)
 #endif //#ifdef _MSC_VER
-  static double JupiterEccentricity(double JD) noexcept
+  [[nodiscard]] static double JupiterEccentricity(double JD) noexcept
   {
     const double T{(JD - 2451545)/36525};
     const double Tsquared{T*T};
@@ -157,16 +157,16 @@ public:
     return 0.04849793 + (0.000163225*T) - (0.0000004714*Tsquared) - (0.00000000201*Tcubed);
   }
 
-  static double JupiterInclination(double JD) noexcept;
-  static double JupiterLongitudeAscendingNode(double JD) noexcept;
-  static double JupiterLongitudePerihelion(double JD) noexcept;
+  [[nodiscard]] static double JupiterInclination(double JD) noexcept;
+  [[nodiscard]] static double JupiterLongitudeAscendingNode(double JD) noexcept;
+  [[nodiscard]] static double JupiterLongitudePerihelion(double JD) noexcept;
 
-  static double SaturnMeanLongitude(double JD) noexcept;
+  [[nodiscard]] static double SaturnMeanLongitude(double JD) noexcept;
 
 #ifdef _MSC_VER
   #pragma warning(suppress : 26497)
 #endif //#ifdef _MSC_VER
-  static double SaturnSemimajorAxis(double JD) noexcept
+  [[nodiscard]] static double SaturnSemimajorAxis(double JD) noexcept
   {
     const double T{(JD - 2451545)/36525};
     const double Tsquared{T*T};
@@ -177,7 +177,7 @@ public:
 #ifdef _MSC_VER
   #pragma warning(suppress : 26497)
 #endif //#ifdef _MSC_VER
-  static double SaturnEccentricity(double JD) noexcept
+  [[nodiscard]] static double SaturnEccentricity(double JD) noexcept
   {
     const double T{(JD - 2451545)/36525};
     const double Tsquared{T*T};
@@ -186,16 +186,16 @@ public:
     return 0.05554814 - (0.0003446641*T) - (0.0000006436*Tsquared) + (0.00000000340*Tcubed);
   }
 
-  static double SaturnInclination(double JD) noexcept;
-  static double SaturnLongitudeAscendingNode(double JD) noexcept;
-  static double SaturnLongitudePerihelion(double JD) noexcept;
+  [[nodiscard]] static double SaturnInclination(double JD) noexcept;
+  [[nodiscard]] static double SaturnLongitudeAscendingNode(double JD) noexcept;
+  [[nodiscard]] static double SaturnLongitudePerihelion(double JD) noexcept;
 
-  static double UranusMeanLongitude(double JD) noexcept;
+  [[nodiscard]] static double UranusMeanLongitude(double JD) noexcept;
 
 #ifdef _MSC_VER
   #pragma warning(suppress : 26497)
 #endif //#ifdef _MSC_VER
-  static double UranusSemimajorAxis(double JD) noexcept
+  [[nodiscard]] static double UranusSemimajorAxis(double JD) noexcept
   {
     const double T{(JD - 2451545)/36525};
     const double Tsquared{T*T};
@@ -206,7 +206,7 @@ public:
 #ifdef _MSC_VER
   #pragma warning(suppress : 26497)
 #endif //#ifdef _MSC_VER
-  static double UranusEccentricity(double JD) noexcept
+  [[nodiscard]] static double UranusEccentricity(double JD) noexcept
   {
     const double T{(JD - 2451545)/36525};
     const double Tsquared{T*T};
@@ -215,16 +215,16 @@ public:
     return 0.04638122 - (0.000027293*T) + (0.0000000789*Tsquared) + (0.00000000024*Tcubed);
   }
 
-  static double UranusInclination(double JD) noexcept;
-  static double UranusLongitudeAscendingNode(double JD) noexcept;
-  static double UranusLongitudePerihelion(double JD) noexcept;
+  [[nodiscard]] static double UranusInclination(double JD) noexcept;
+  [[nodiscard]] static double UranusLongitudeAscendingNode(double JD) noexcept;
+  [[nodiscard]] static double UranusLongitudePerihelion(double JD) noexcept;
 
-  static double NeptuneMeanLongitude(double JD) noexcept;
+  [[nodiscard]] static double NeptuneMeanLongitude(double JD) noexcept;
 
 #ifdef _MSC_VER
   #pragma warning(suppress : 26497)
 #endif //#ifdef _MSC_VER
-  static double NeptuneSemimajorAxis(double JD) noexcept
+  [[nodiscard]] static double NeptuneSemimajorAxis(double JD) noexcept
   {
     const double T{(JD - 2451545)/36525};
     const double Tsquared{T*T};
@@ -235,7 +235,7 @@ public:
 #ifdef _MSC_VER
   #pragma warning(suppress : 26497)
 #endif //#ifdef _MSC_VER
-  static double NeptuneEccentricity(double JD) noexcept
+  [[nodiscard]] static double NeptuneEccentricity(double JD) noexcept
   {
     const double T{(JD - 2451545)/36525};
     const double Tcubed{T*T*T};
@@ -243,26 +243,26 @@ public:
     return 0.00945575 + (0.000006033*T) - (0.00000000005*Tcubed);
   }
 
-  static double NeptuneInclination(double JD) noexcept;
-  static double NeptuneLongitudeAscendingNode(double JD) noexcept;
-  static double NeptuneLongitudePerihelion(double JD) noexcept;
+  [[nodiscard]] static double NeptuneInclination(double JD) noexcept;
+  [[nodiscard]] static double NeptuneLongitudeAscendingNode(double JD) noexcept;
+  [[nodiscard]] static double NeptuneLongitudePerihelion(double JD) noexcept;
 
-  static double MercuryMeanLongitudeJ2000(double JD) noexcept;
-  static double MercuryInclinationJ2000(double JD) noexcept;
-  static double MercuryLongitudeAscendingNodeJ2000(double JD) noexcept;
-  static double MercuryLongitudePerihelionJ2000(double JD) noexcept;
+  [[nodiscard]] static double MercuryMeanLongitudeJ2000(double JD) noexcept;
+  [[nodiscard]] static double MercuryInclinationJ2000(double JD) noexcept;
+  [[nodiscard]] static double MercuryLongitudeAscendingNodeJ2000(double JD) noexcept;
+  [[nodiscard]] static double MercuryLongitudePerihelionJ2000(double JD) noexcept;
 
-  static double VenusMeanLongitudeJ2000(double JD) noexcept;
-  static double VenusInclinationJ2000(double JD) noexcept;
-  static double VenusLongitudeAscendingNodeJ2000(double JD) noexcept;
-  static double VenusLongitudePerihelionJ2000(double JD) noexcept;
+  [[nodiscard]] static double VenusMeanLongitudeJ2000(double JD) noexcept;
+  [[nodiscard]] static double VenusInclinationJ2000(double JD) noexcept;
+  [[nodiscard]] static double VenusLongitudeAscendingNodeJ2000(double JD) noexcept;
+  [[nodiscard]] static double VenusLongitudePerihelionJ2000(double JD) noexcept;
 
-  static double EarthMeanLongitudeJ2000(double JD) noexcept;
+  [[nodiscard]] static double EarthMeanLongitudeJ2000(double JD) noexcept;
 
 #ifdef _MSC_VER
   #pragma warning(suppress : 26497)
 #endif //#ifdef _MSC_VER
-  static double EarthInclinationJ2000(double JD) noexcept
+  [[nodiscard]] static double EarthInclinationJ2000(double JD) noexcept
   {
     const double T{(JD - 2451545)/36525};
     const double Tsquared{T*T};
@@ -271,33 +271,33 @@ public:
     return (0.0130548*T) - (0.00000931*Tsquared) - (0.000000034*Tcubed);
   }
 
-  static double EarthLongitudeAscendingNodeJ2000(double JD) noexcept;
-  static double EarthLongitudePerihelionJ2000(double JD) noexcept;
+  [[nodiscard]] static double EarthLongitudeAscendingNodeJ2000(double JD) noexcept;
+  [[nodiscard]] static double EarthLongitudePerihelionJ2000(double JD) noexcept;
 
-  static double MarsMeanLongitudeJ2000(double JD) noexcept;
-  static double MarsInclinationJ2000(double JD) noexcept;
-  static double MarsLongitudeAscendingNodeJ2000(double JD) noexcept;
-  static double MarsLongitudePerihelionJ2000(double JD) noexcept;
+  [[nodiscard]] static double MarsMeanLongitudeJ2000(double JD) noexcept;
+  [[nodiscard]] static double MarsInclinationJ2000(double JD) noexcept;
+  [[nodiscard]] static double MarsLongitudeAscendingNodeJ2000(double JD) noexcept;
+  [[nodiscard]] static double MarsLongitudePerihelionJ2000(double JD) noexcept;
 
-  static double JupiterMeanLongitudeJ2000(double JD) noexcept;
-  static double JupiterInclinationJ2000(double JD) noexcept;
-  static double JupiterLongitudeAscendingNodeJ2000(double JD) noexcept;
-  static double JupiterLongitudePerihelionJ2000(double JD) noexcept;
+  [[nodiscard]] static double JupiterMeanLongitudeJ2000(double JD) noexcept;
+  [[nodiscard]] static double JupiterInclinationJ2000(double JD) noexcept;
+  [[nodiscard]] static double JupiterLongitudeAscendingNodeJ2000(double JD) noexcept;
+  [[nodiscard]] static double JupiterLongitudePerihelionJ2000(double JD) noexcept;
 
-  static double SaturnMeanLongitudeJ2000(double JD) noexcept;
-  static double SaturnInclinationJ2000(double JD) noexcept;
-  static double SaturnLongitudeAscendingNodeJ2000(double JD) noexcept;
-  static double SaturnLongitudePerihelionJ2000(double JD) noexcept;
+  [[nodiscard]] static double SaturnMeanLongitudeJ2000(double JD) noexcept;
+  [[nodiscard]] static double SaturnInclinationJ2000(double JD) noexcept;
+  [[nodiscard]] static double SaturnLongitudeAscendingNodeJ2000(double JD) noexcept;
+  [[nodiscard]] static double SaturnLongitudePerihelionJ2000(double JD) noexcept;
 
-  static double UranusMeanLongitudeJ2000(double JD) noexcept;
-  static double UranusInclinationJ2000(double JD) noexcept;
-  static double UranusLongitudeAscendingNodeJ2000(double JD) noexcept;
-  static double UranusLongitudePerihelionJ2000(double JD) noexcept;
+  [[nodiscard]] static double UranusMeanLongitudeJ2000(double JD) noexcept;
+  [[nodiscard]] static double UranusInclinationJ2000(double JD) noexcept;
+  [[nodiscard]] static double UranusLongitudeAscendingNodeJ2000(double JD) noexcept;
+  [[nodiscard]] static double UranusLongitudePerihelionJ2000(double JD) noexcept;
 
-  static double NeptuneMeanLongitudeJ2000(double JD) noexcept;
-  static double NeptuneInclinationJ2000(double JD) noexcept;
-  static double NeptuneLongitudeAscendingNodeJ2000(double JD) noexcept;
-  static double NeptuneLongitudePerihelionJ2000(double JD) noexcept;
+  [[nodiscard]] static double NeptuneMeanLongitudeJ2000(double JD) noexcept;
+  [[nodiscard]] static double NeptuneInclinationJ2000(double JD) noexcept;
+  [[nodiscard]] static double NeptuneLongitudeAscendingNodeJ2000(double JD) noexcept;
+  [[nodiscard]] static double NeptuneLongitudePerihelionJ2000(double JD) noexcept;
 };
 
 #endif //__AAELEMENTSPLANETARYORBIT_H__

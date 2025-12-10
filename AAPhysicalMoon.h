@@ -3,7 +3,7 @@ Module : AAPhysicalMoon.h
 Purpose: Implementation for the algorithms which obtain the physical parameters of the Moon
 Created: PJN / 17-01-2004
 
-Copyright (c) 2004 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2004 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -65,16 +65,16 @@ class AAPLUS_EXT_CLASS CAAPhysicalMoon
 {
 public:
 //Static methods
-  static CAAPhysicalMoonDetails CalculateGeocentric(double JD) noexcept;
-  static CAAPhysicalMoonDetails CalculateTopocentric(double JD, double Longitude, double Latitude) noexcept;
-  static CAASelenographicMoonDetails CalculateSelenographicPositionOfSun(double JD, bool bHighPrecision) noexcept;
-  static double AltitudeOfSun(double JD, double Longitude, double Latitude, bool bHighPrecision) noexcept;
-  static double TimeOfSunrise(double JD, double Longitude, double Latitude, bool bHighPrecision) noexcept;
-  static double TimeOfSunset(double JD, double Longitude, double Latitude, bool bHighPrecision) noexcept;
+  [[nodiscard]] static CAAPhysicalMoonDetails CalculateGeocentric(double JD) noexcept;
+  [[nodiscard]] static CAAPhysicalMoonDetails CalculateTopocentric(double JD, double Longitude, double Latitude) noexcept;
+  [[nodiscard]] static CAASelenographicMoonDetails CalculateSelenographicPositionOfSun(double JD, bool bHighPrecision) noexcept;
+  [[nodiscard]] static double AltitudeOfSun(double JD, double Longitude, double Latitude, bool bHighPrecision) noexcept;
+  [[nodiscard]] static double TimeOfSunrise(double JD, double Longitude, double Latitude, bool bHighPrecision) noexcept;
+  [[nodiscard]] static double TimeOfSunset(double JD, double Longitude, double Latitude, bool bHighPrecision) noexcept;
 
 protected:
-  static double SunriseSunsetHelper(double JD, double Longitude, double Latitude, bool bSunrise, bool bHighPrecision) noexcept;
-  static CAAPhysicalMoonDetails CalculateHelper(double JD, double& Lambda, double& Beta, double& epsilon, CAA2DCoordinate& Equatorial) noexcept;
+  [[nodiscard]] static double SunriseSunsetHelper(double JD, double Longitude, double Latitude, bool bSunrise, bool bHighPrecision) noexcept;
+  [[nodiscard]] static CAAPhysicalMoonDetails CalculateHelper(double JD, double& Lambda, double& Beta, double& epsilon, CAA2DCoordinate& Equatorial) noexcept;
   static void CalculateOpticalLibration(double JD, double Lambda, double Beta, double& ldash, double& bdash, double& ldash2, double& bdash2, double& epsilon, double& omega, double& DeltaU, double& sigma, double& I, double& rho) noexcept;
 };
 

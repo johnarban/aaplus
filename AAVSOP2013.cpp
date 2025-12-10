@@ -4,8 +4,10 @@ Purpose: Implementation for the algorithms for VSOP2013
 Created: PJN / 01-08-2021
 History: PJN / 12-06-2022 1. Updated all the code in AAVSOP2013.cpp to use C++ uniform initialization for all
                           variable declarations.
+         PJN / 15-11-2025 1. Updated code in AAVSOP2013.cpp to compile correctly on the MinGW compiler.
+                          Thanks to "znight" for reporting this issue.
 
-Copyright (c) 2021 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2021 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -235,12 +237,12 @@ static size_t fread_int32_t(int32_t& nValue, FILE* f) noexcept
 bool CAAVSOP2013EphemeridesFile::WriteBinaryFile(const std::filesystem::path::value_type* pszFilename) noexcept
 {
   FILE* f{nullptr};
-#ifdef _MSC_VER
+#ifdef _WIN32
   if (_wfopen_s(&f, pszFilename, L"wb") != 0)
 #else
   f = fopen(pszFilename, "wb");
   if (f == nullptr)
-#endif //#ifdef _MSC_VER
+#endif //#ifdef _WIN32
     return false;
   std::unique_ptr<FILE, CVSOP2013FILEDeleter> file{f};
   constexpr uint8_t nVersionInfo{1};
@@ -277,12 +279,12 @@ bool CAAVSOP2013EphemeridesFile::WriteBinaryFile(const std::filesystem::path::va
 bool CAAVSOP2013EphemeridesFile::ReadBinaryFile(const std::filesystem::path::value_type* pszFilename)
 {
   FILE* f{nullptr};
-#ifdef _MSC_VER
+#ifdef _WIN32
   if (_wfopen_s(&f, pszFilename, L"rb") != 0)
 #else
   f = fopen(pszFilename, "rb");
   if (f == nullptr)
-#endif //#ifdef _MSC_VER
+#endif //#ifdef _WIN32
     return false;
   std::unique_ptr<FILE, CVSOP2013FILEDeleter> file{f};
   uint8_t nVersionInfo{0};
@@ -408,12 +410,12 @@ bool CAAVSOP2013ElementsFile::ReadTextFile(const std::filesystem::path::value_ty
 bool CAAVSOP2013ElementsFile::WriteBinaryFile(const std::filesystem::path::value_type* pszFilename) noexcept
 {
   FILE* f{nullptr};
-#ifdef _MSC_VER
+#ifdef _WIN32
   if (_wfopen_s(&f, pszFilename, L"wb") != 0)
 #else
   f = fopen(pszFilename, "wb");
   if (f == nullptr)
-#endif //#ifdef _MSC_VER
+#endif //#ifdef _WIN32
     return false;
   std::unique_ptr<FILE, CVSOP2013FILEDeleter> file{f};
   constexpr uint8_t nVersionInfo{1};
@@ -462,12 +464,12 @@ bool CAAVSOP2013ElementsFile::WriteBinaryFile(const std::filesystem::path::value
 bool CAAVSOP2013ElementsFile::ReadBinaryFile(const std::filesystem::path::value_type* pszFilename)
 {
   FILE* f{nullptr};
-#ifdef _MSC_VER
+#ifdef _WIN32
   if (_wfopen_s(&f, pszFilename, L"rb") != 0)
 #else
   f = fopen(pszFilename, "rb");
   if (f == nullptr)
-#endif //#ifdef _MSC_VER
+#endif //#ifdef _WIN32
     return false;
   std::unique_ptr<FILE, CVSOP2013FILEDeleter> file{f};
   uint8_t nVersionInfo{0};

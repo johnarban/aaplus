@@ -3,7 +3,7 @@ Module : AASidereal.h
 Purpose: Implementation for the algorithms which obtain sidereal time
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -38,8 +38,8 @@ class AAPLUS_EXT_CLASS CAASidereal
 {
 public:
 //Static methods
-  static double MeanGreenwichSiderealTime(double JD) noexcept;
-  static double ApparentGreenwichSiderealTime(double JD) noexcept;
+  [[nodiscard]] static double MeanGreenwichSiderealTime(double JD) noexcept;
+  [[nodiscard]] static double ApparentGreenwichSiderealTime(double JD) noexcept;
 };
 
 

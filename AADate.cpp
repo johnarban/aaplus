@@ -51,8 +51,9 @@ History: PJN / 10-11-2004 1. Fix for CAADate::Get so that it works correctly for
                           day epoch. Thanks to "znight" for reporting this issue.
                           2. Updated all the code in the AADate.cpp to use C++ uniform initialization for all variable
                           declarations.
+         PJN / 21-12-2024 1. Fixed a compiler warning in CAADate::DayOfWeek when using Clang.
 
-Copyright (c) 2003 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -285,7 +286,7 @@ CAADate::DOW CAADate::DayOfWeek() const noexcept
     return static_cast<DOW>(t % 7);
   else
   {
-    long r{7 - (abs(t) % 7)};
+    long r{7 - (std::abs(t) % 7)};
     if (r == 7)
       r -= 7;
     return static_cast<DOW>(r);

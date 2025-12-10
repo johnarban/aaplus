@@ -3,7 +3,7 @@ Module : AAParabolic.h
 Purpose: Implementation for the algorithms for a parabolic orbit
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -55,6 +55,8 @@ class AAPLUS_EXT_CLASS CAAParabolicObjectDetails
 {
 public:
 //Member variables
+  double r{0};
+  double v{0};
   CAA3DCoordinate HeliocentricRectangularEquatorial;
   CAA3DCoordinate HeliocentricRectangularEcliptical;
   double HeliocentricEclipticLongitude{0};
@@ -63,7 +65,7 @@ public:
   double TrueGeocentricDeclination{0};
   double TrueGeocentricDistance{0};
   double TrueGeocentricLightTime{0};
-  double AstrometricGeocenticRA{0};
+  double AstrometricGeocentricRA{0};
   double AstrometricGeocentricDeclination{0};
   double AstrometricGeocentricDistance{0};
   double AstrometricGeocentricLightTime{0};
@@ -75,8 +77,8 @@ class AAPLUS_EXT_CLASS CAAParabolic
 {
 public:
 //Static methods
-  static double CalculateBarkers(double W, double epsilon = 0.000001) noexcept;
-  static CAAParabolicObjectDetails Calculate(double JD, const CAAParabolicObjectElements& elements, bool bHighPrecision, double epsilon = 0.000001) noexcept;
+  [[nodiscard]] static double CalculateBarkers(double W, double epsilon = 0.000001) noexcept;
+  [[nodiscard]] static CAAParabolicObjectDetails Calculate(double JD, const CAAParabolicObjectElements& elements, bool bHighPrecision, double epsilon = 0.000001) noexcept;
 };
 
 

@@ -3,7 +3,7 @@ Module : AAJewishCalendar.h
 Purpose: Implementation for the algorithms which convert between the Gregorian, Julian and the Jewish calendar
 Created: PJN / 04-02-2004
 
-Copyright (c) 2004 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2004 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -43,19 +43,19 @@ class AAPLUS_EXT_CLASS CAAJewishCalendar
 {
 public:
 //Static methods
-  static CAACalendarDate DateOfPesach(long Year, bool bGregorianCalendar = true) noexcept;
+  [[nodiscard]] static CAACalendarDate DateOfPesach(long Year, bool bGregorianCalendar = true) noexcept;
 
 #ifdef _MSC_VER
   #pragma warning(suppress : 26497)
 #endif //#ifdef _MSC_VER
-  static bool IsLeap(long Year) noexcept
+  [[nodiscard]] static bool IsLeap(long Year) noexcept
   {
     const long ymod19 = Year % 19;
 
     return (ymod19 == 0) || (ymod19 == 3) || (ymod19 == 6) || (ymod19 == 8) || (ymod19 == 11) || (ymod19 == 14) || (ymod19 == 17);
   }
 
-  static long DaysInYear(long Year) noexcept;
+  [[nodiscard]] static long DaysInYear(long Year) noexcept;
 };
 
 

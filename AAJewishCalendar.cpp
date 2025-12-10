@@ -6,7 +6,7 @@ History: PJN / 28-01-2007 1. Minor updates to fit in with new layout of CAADate 
          PJN / 26-06-2022 1. Updated all the code in AAJewishCalendar.cpp to use C++ uniform initialization for all 
                           variable declarations.
 
-Copyright (c) 2004 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2004 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

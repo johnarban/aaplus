@@ -3,7 +3,7 @@ Module : AAMoslemCalendar.h
 Purpose: Implementation for the algorithms which convert between the Julian and Moslem calendars
 Created: PJN / 04-02-2004
 
-Copyright (c) 2004 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2004 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -43,13 +43,13 @@ class AAPLUS_EXT_CLASS CAAMoslemCalendar
 {
 public:
 //Static methods
-  static CAACalendarDate MoslemToJulian(long Year, long Month, long Day) noexcept;
-  static CAACalendarDate JulianToMoslem(long Year, long Month, long Day) noexcept;
+  [[nodiscard]] static CAACalendarDate MoslemToJulian(long Year, long Month, long Day) noexcept;
+  [[nodiscard]] static CAACalendarDate JulianToMoslem(long Year, long Month, long Day) noexcept;
 
 #ifdef _MSC_VER
   #pragma warning(suppress : 26497)
 #endif //#ifdef _MSC_VER
-  static bool IsLeap(long Year) noexcept
+  [[nodiscard]] static bool IsLeap(long Year) noexcept
   {
     const long R{Year % 30};
     return (((11*R) + 3) % 30) > 18;

@@ -3,7 +3,7 @@ Module : AANearParabolic.h
 Purpose: Implementation for the algorithms for a near parabolic orbit
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -56,6 +56,8 @@ class AAPLUS_EXT_CLASS CAANearParabolicObjectDetails
 {
 public:
 //Member variables
+  double r{0};
+  double v{0};
   CAA3DCoordinate HeliocentricRectangularEquatorial;
   CAA3DCoordinate HeliocentricRectangularEcliptical;
   double HeliocentricEclipticLongitude{0};
@@ -76,8 +78,8 @@ class AAPLUS_EXT_CLASS CAANearParabolic
 {
 public:
 //Static methods
-  static CAANearParabolicObjectDetails Calculate(double JD, const CAANearParabolicObjectElements& elements, bool bHighPrecision) noexcept;
-  static double cbrt(double x) noexcept;
+  [[nodiscard]] static CAANearParabolicObjectDetails Calculate(double JD, const CAANearParabolicObjectElements& elements, bool bHighPrecision) noexcept;
+  [[nodiscard]] static double cbrt(double x) noexcept;
   static void CalculateTrueAnomalyAndRadius(double JD, const CAANearParabolicObjectElements& elements, double& v, double& r) noexcept;
 };
 

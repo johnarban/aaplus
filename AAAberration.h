@@ -3,7 +3,7 @@ Module : AAAberration.h
 Purpose: Implementation for the algorithms for Aberration
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -44,9 +44,9 @@ class AAPLUS_EXT_CLASS CAAAberration
 {
 public:
 //Static methods
-  static CAA3DCoordinate EarthVelocity(double JD, bool bHighPrecision) noexcept;
-  static CAA2DCoordinate EclipticAberration(double Alpha, double Delta, double JD, bool bHighPrecision) noexcept;
-  static CAA2DCoordinate EquatorialAberration(double Lambda, double Beta, double JD, bool bHighPrecision) noexcept;
+  [[nodiscard]] static CAA3DCoordinate EarthVelocity(double JD, bool bHighPrecision) noexcept;
+  [[nodiscard]] static CAA2DCoordinate EclipticAberration(double Alpha, double Delta, double JD, bool bHighPrecision) noexcept;
+  [[nodiscard]] static CAA2DCoordinate EquatorialAberration(double Lambda, double Beta, double JD, bool bHighPrecision) noexcept;
 };
 
 

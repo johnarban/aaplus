@@ -3,7 +3,7 @@ Module : AAStellarMagnitudes.h
 Purpose: Implementation for the algorithms which operate on the stellar magntidue system
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -37,11 +37,11 @@ to maintain a single distribution point for the source code.
 class AAPLUS_EXT_CLASS CAAStellarMagnitudes
 {
 public:
-//functions
-  static double CombinedMagnitude(double m1, double m2) noexcept;
-  static double CombinedMagnitude(int Magnitudes, const double* pMagnitudes) noexcept;
-  static double BrightnessRatio(double m1, double m2) noexcept;
-  static double MagnitudeDifference(double brightnessRatio) noexcept;
+//Static methods
+  [[nodiscard]] static double CombinedMagnitude(double m1, double m2) noexcept;
+  [[nodiscard]] static double CombinedMagnitude(int Magnitudes, const double* pMagnitudes) noexcept;
+  [[nodiscard]] static double BrightnessRatio(double m1, double m2) noexcept;
+  [[nodiscard]] static double MagnitudeDifference(double brightnessRatio) noexcept;
 };
 
 

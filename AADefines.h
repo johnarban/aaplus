@@ -3,7 +3,7 @@ Module : AADefines.h
 Purpose: include file for AA+ framework for defines
 Created: PJN / 30-1-2005
 
-Copyright (c) 2020 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2020 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

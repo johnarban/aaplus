@@ -3,7 +3,7 @@ Module : AA+.h
 Purpose: Main include file for AA+ framework
 Created: PJN / 30-1-2005
 
-Copyright (c) 2003 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -37,6 +37,15 @@ to maintain a single distribution point for the source code.
 #define AAPLUS_EXT_CLASS
 #endif //#ifndef AAPLUS_EXT_CLASS
 
+//The [AAPLUS_VERSION] C preprocessor macro evaluates to a string
+//literal that is the AA+ version in the format "X.Y" where X is
+//the major version number and Y is the minor version number.
+//The [AAPLUS_VERSION_NUMBER] C preprocessor macro resolves to
+//an integer with the value (X * 1000 + Y) where X and Y are the
+//same numbers used in [AAPLLUS_VERSION].
+#define AAPLUS_VERSION        "2.67"
+#define AAPLUS_VERSION_NUMBER 2067 //NOLINT(modernize-macro-to-enum)
+
 
 //////////////////// Includes /////////////////////////////////////////////////
 
@@ -67,6 +76,7 @@ to maintain a single distribution point for the source code.
 #include "AAFK5.h"
 #include "AAGalileanMoons.h"
 #include "AAGlobe.h"
+#include "AAHyperbolic.h"
 #include "AAIlluminatedFraction.h"
 #include "AAInterpolate.h"
 #include "AAJewishCalendar.h"
@@ -169,5 +179,20 @@ to maintain a single distribution point for the source code.
 #include "AAVSOP87E_URA.h"
 #include "AAVSOP87E_VEN.h"
 #endif //#ifndef AAPLUS_NO_VSOP87
+
+
+//////////////////// Classes //////////////////////////////////////////////////
+
+class AAPLUS_EXT_CLASS CAAPlus
+{
+public:
+//Methods
+//These methods provide the same information as the [AAPLUS_VERSION]
+//and [AAPLUS_VERSION_NUMBER] C preprocessor macros but are associated
+//with the library instead of the header file.
+  [[nodiscard]] static const char* Version() noexcept;
+  [[nodiscard]] static int VersionNumber() noexcept;
+};
+
 
 #endif //#ifndef __AAPLUS_H__

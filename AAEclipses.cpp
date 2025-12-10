@@ -12,7 +12,7 @@ History: PJN / 25-02-2004 1. Calculation of semi durations is now calculated onl
          PJN / 18-06-2022 1. Updated all the code in AAEclipses.cpp to use C++ uniform initialization for all variable
                           declarations.
 
-Copyright (c) 2004 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2004 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

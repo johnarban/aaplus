@@ -35,7 +35,7 @@ History: PJN / 12-11-2014 1. Fixed two transcription bugs in the CAAPrecession::
                           DeltaZ variables. This issue was introduced in July 2022 when C++ uniform initialization for all variable 
                           declarations was introduced. Thanks to "Pavel" for reporting this issue.
 
-Copyright (c) 2003 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

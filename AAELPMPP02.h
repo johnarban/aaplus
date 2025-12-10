@@ -3,7 +3,7 @@ Module : AAELPMPP02.h
 Purpose: Implementation for the algorithms for ELP/MPP02
 Created: PJN / 30-07-2017
 
-Copyright (c) 2017 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2017 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -52,16 +52,16 @@ public:
   };
 
 //Static methods
-  static double EclipticLongitude(double JD, Correction correction = Correction::LLR, double* pDerivative = nullptr) noexcept;
-  static double EclipticLongitude(const double* pT, int nTSize, Correction correction = Correction::LLR, double* pDerivative = nullptr) noexcept;
-  static double EclipticLatitude(double JD, Correction correction = Correction::LLR, double* pDerivative = nullptr) noexcept;
-  static double EclipticLatitude(const double* pT, int nTSize, Correction correction = Correction::LLR, double* pDerivative = nullptr) noexcept;
-  static double RadiusVector(double JD, Correction correction = Correction::LLR, double* pDerivative = nullptr) noexcept;
-  static double RadiusVector(const double* pT, int nTSize, Correction correction = Correction::LLR, double* pDerivative = nullptr) noexcept;
-  static CAA3DCoordinate EclipticRectangularCoordinates(double JD, Correction correction = Correction::LLR, CAA3DCoordinate* pDerivative = nullptr) noexcept;
-  static CAA3DCoordinate EclipticRectangularCoordinates(const double* pT, int nTSize, Correction correction = Correction::LLR, CAA3DCoordinate* pDerivative = nullptr) noexcept;
-  static CAA3DCoordinate EclipticRectangularCoordinatesJ2000(double JD, Correction correction = Correction::LLR, CAA3DCoordinate* pDerivative = nullptr) noexcept;
-  static CAA3DCoordinate EclipticRectangularCoordinatesJ2000(const double* pT, int nTSize, Correction correction = Correction::LLR, CAA3DCoordinate* pDerivative = nullptr) noexcept;
+  [[nodiscard]] static double EclipticLongitude(double JD, Correction correction = Correction::LLR, double* pDerivative = nullptr) noexcept;
+  [[nodiscard]] static double EclipticLongitude(const double* pT, int nTSize, Correction correction = Correction::LLR, double* pDerivative = nullptr) noexcept;
+  [[nodiscard]] static double EclipticLatitude(double JD, Correction correction = Correction::LLR, double* pDerivative = nullptr) noexcept;
+  [[nodiscard]] static double EclipticLatitude(const double* pT, int nTSize, Correction correction = Correction::LLR, double* pDerivative = nullptr) noexcept;
+  [[nodiscard]] static double RadiusVector(double JD, Correction correction = Correction::LLR, double* pDerivative = nullptr) noexcept;
+  [[nodiscard]] static double RadiusVector(const double* pT, int nTSize, Correction correction = Correction::LLR, double* pDerivative = nullptr) noexcept;
+  [[nodiscard]] static CAA3DCoordinate EclipticRectangularCoordinates(double JD, Correction correction = Correction::LLR, CAA3DCoordinate* pDerivative = nullptr) noexcept;
+  [[nodiscard]] static CAA3DCoordinate EclipticRectangularCoordinates(const double* pT, int nTSize, Correction correction = Correction::LLR, CAA3DCoordinate* pDerivative = nullptr) noexcept;
+  [[nodiscard]] static CAA3DCoordinate EclipticRectangularCoordinatesJ2000(double JD, Correction correction = Correction::LLR, CAA3DCoordinate* pDerivative = nullptr) noexcept;
+  [[nodiscard]] static CAA3DCoordinate EclipticRectangularCoordinatesJ2000(const double* pT, int nTSize, Correction correction = Correction::LLR, CAA3DCoordinate* pDerivative = nullptr) noexcept;
 };
 
 

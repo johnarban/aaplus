@@ -3,7 +3,7 @@ Module : AAPluto.h
 Purpose: Implementation for the algorithms which obtain the heliocentric position of Pluto
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -38,9 +38,9 @@ class AAPLUS_EXT_CLASS CAAPluto
 {
 public:
 //Static methods
-  static double EclipticLongitude(double JD) noexcept;
-  static double EclipticLatitude(double JD) noexcept;
-  static double RadiusVector(double JD) noexcept;
+  [[nodiscard]] static double EclipticLongitude(double JD) noexcept;
+  [[nodiscard]] static double EclipticLatitude(double JD) noexcept;
+  [[nodiscard]] static double RadiusVector(double JD) noexcept;
 };
 
 

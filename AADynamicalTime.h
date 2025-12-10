@@ -4,7 +4,7 @@ Purpose: Implementation for the algorithms which provides for conversion between
          and Terrestrial Time (TT) aka Terrestrial Dynamical Time (TDT) aka Ephemeris Time (ET)
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -43,24 +43,24 @@ public:
 
 //Static methods
   static DELTAT_PROC SetUserDefinedDeltaT(DELTAT_PROC pProc) noexcept;
-  static double DeltaT(double JD);
-  static double CumulativeLeapSeconds(double JD);
-  static double TT2UTC(double JD);
-  static double UTC2TT(double JD);
+  [[nodiscard]] static double DeltaT(double JD);
+  [[nodiscard]] static double CumulativeLeapSeconds(double JD);
+  [[nodiscard]] static double TT2UTC(double JD);
+  [[nodiscard]] static double UTC2TT(double JD);
 
-  constexpr static double TT2TAI(double JD)
+  [[nodiscard]] constexpr static double TT2TAI(double JD)
   {
     return JD - (32.184 / 86400.0);
   }
 
-  constexpr static double TAI2TT(double JD)
+  [[nodiscard]] constexpr static double TAI2TT(double JD)
   {
     return JD + (32.184 / 86400.0);
   }
 
-  static double TT2UT1(double JD);
-  static double UT12TT(double JD);
-  static double UT1MinusUTC(double JD);
+  [[nodiscard]] static double TT2UT1(double JD);
+  [[nodiscard]] static double UT12TT(double JD);
+  [[nodiscard]] static double UT1MinusUTC(double JD);
 
 protected:
 //Member variables

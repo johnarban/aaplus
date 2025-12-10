@@ -6,7 +6,7 @@ History: PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 
          PJN / 27-06-2022 1. Updated all the code in AAMoonMaxDeclinations.cpp to use C++ uniform initialization
                           for all variable declarations.
 
-Copyright (c) 2004 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2004 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

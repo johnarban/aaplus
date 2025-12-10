@@ -3,7 +3,7 @@ Module : AAMoonMaxDeclinations.h
 Purpose: Implementation for the algorithms which obtain the dates and values for maximum declination of the Moon
 Created: PJN / 13-01-2004
 
-Copyright (c) 2004 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2004 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -38,7 +38,7 @@ class AAPLUS_EXT_CLASS CAAMoonMaxDeclinations
 {
 public:
 //Static methods
-  constexpr static double K(double Year) noexcept
+  [[nodiscard]] constexpr static double K(double Year) noexcept
   {
     return 13.3686*(Year - 2000.03);
   }
@@ -46,7 +46,7 @@ public:
 #ifdef _MSC_VER
   #pragma warning(suppress : 26497)
 #endif //#ifdef _MSC_VER
-  static double MeanGreatestDeclination(double k, bool bNortherly) noexcept
+  [[nodiscard]] static double MeanGreatestDeclination(double k, bool bNortherly) noexcept
   {
     //convert from K to T
     const double T{k/1336.86};
@@ -60,15 +60,15 @@ public:
 #ifdef _MSC_VER
   #pragma warning(suppress : 26497)
 #endif //#ifdef _MSC_VER
-  static double MeanGreatestDeclinationValue(double k) noexcept
+  [[nodiscard]] static double MeanGreatestDeclinationValue(double k) noexcept
   {
     //convert from K to T
     const double T{k/1336.86};
     return 23.6961 - (0.013004*T);
   }
 
-  static double TrueGreatestDeclination(double k, bool bNortherly) noexcept;
-  static double TrueGreatestDeclinationValue(double k, bool bNortherly) noexcept;
+  [[nodiscard]] static double TrueGreatestDeclination(double k, bool bNortherly) noexcept;
+  [[nodiscard]] static double TrueGreatestDeclinationValue(double k, bool bNortherly) noexcept;
 };
 
 

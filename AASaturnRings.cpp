@@ -19,7 +19,7 @@ History: PJN / 05-07-2015 1. U1 (the Saturnicentric longitude of the Sun) and U2
          PJN / 11-07-2022 1. Updated all the code in AASaturnRings.cpp to use C++ uniform initialization for all
                           variable declarations.
 
-Copyright (c) 2004 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2004 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

@@ -3,7 +3,7 @@ Module : AASaturnRings.h
 Purpose: Implementation for the algorithms which calculate various parameters related to the Rings of Saturn
 Created: PJN / 08-01-2004
 
-Copyright (c) 2004 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2004 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -52,7 +52,7 @@ class AAPLUS_EXT_CLASS CAASaturnRings
 {
 public:
 //Static methods
-  static CAASaturnRingDetails Calculate(double JD, bool bHighPrecision) noexcept;
+  [[nodiscard]] static CAASaturnRingDetails Calculate(double JD, bool bHighPrecision) noexcept;
 };
 
 

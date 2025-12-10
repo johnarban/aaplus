@@ -3,7 +3,7 @@ Module : AAEquinoxesAndSolstices.h
 Purpose: Implementation for the algorithms to calculate the dates of the Equinoxes and Solstices
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -38,14 +38,14 @@ class AAPLUS_EXT_CLASS CAAEquinoxesAndSolstices
 {
 public:
 //Static methods
-  static double NorthwardEquinox(long Year, bool bHighPrecision) noexcept;
-  static double NorthernSolstice(long Year, bool bHighPrecision) noexcept;
-  static double SouthwardEquinox(long Year, bool bHighPrecision) noexcept;
-  static double SouthernSolstice(long Year, bool bHighPrecision) noexcept;
-  static double LengthOfSpring(long Year, bool bNorthernHemisphere, bool bHighPrecision) noexcept;
-  static double LengthOfSummer(long Year, bool bNorthernHemisphere, bool bHighPrecision) noexcept;
-  static double LengthOfAutumn(long Year, bool bNorthernHemisphere, bool bHighPrecision) noexcept;
-  static double LengthOfWinter(long Year, bool bNorthernHemisphere, bool bHighPrecision) noexcept;
+  [[nodiscard]] static double NorthwardEquinox(long Year, bool bHighPrecision) noexcept;
+  [[nodiscard]] static double NorthernSolstice(long Year, bool bHighPrecision) noexcept;
+  [[nodiscard]] static double SouthwardEquinox(long Year, bool bHighPrecision) noexcept;
+  [[nodiscard]] static double SouthernSolstice(long Year, bool bHighPrecision) noexcept;
+  [[nodiscard]] static double LengthOfSpring(long Year, bool bNorthernHemisphere, bool bHighPrecision) noexcept;
+  [[nodiscard]] static double LengthOfSummer(long Year, bool bNorthernHemisphere, bool bHighPrecision) noexcept;
+  [[nodiscard]] static double LengthOfAutumn(long Year, bool bNorthernHemisphere, bool bHighPrecision) noexcept;
+  [[nodiscard]] static double LengthOfWinter(long Year, bool bNorthernHemisphere, bool bHighPrecision) noexcept;
 };
 
 

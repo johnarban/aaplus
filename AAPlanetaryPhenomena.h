@@ -3,7 +3,7 @@ Module : AAPlanetaryPhenomena.h
 Purpose: Implementation for the algorithms which obtain the dates of various planetary phenomena
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2024 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -62,10 +62,10 @@ public:
   };
 
 //Static methods
-  static double K(double Year, Planet planet, Type type) noexcept;
-  static double Mean(double k, Planet planet, Type type) noexcept;
-  static double True(double k, Planet planet, Type type) noexcept;
-  static double ElongationValue(double k, Planet planet, bool bEastern) noexcept;
+  [[nodiscard]] static double K(double Year, Planet planet, Type type) noexcept;
+  [[nodiscard]] static double Mean(double k, Planet planet, Type type) noexcept;
+  [[nodiscard]] static double True(double k, Planet planet, Type type) noexcept;
+  [[nodiscard]] static double ElongationValue(double k, Planet planet, bool bEastern) noexcept;
 };
 
 
