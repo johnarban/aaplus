@@ -1045,6 +1045,36 @@ int main()
   ::printf("CAAPlus::Version is %s\n", CAAPlus::Version());
   ::printf("CAAPlus::VersionNumber is %d\n", CAAPlus::VersionNumber());
 
+  //Test out the CAADate::INT method
+  int p{CAADate::INT(4.1)}; //NOLINT(clang-diagnostic-unused-but-set-variable)
+  assert(p == 4);
+  p = CAADate::INT(4.0); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(p == 4);
+  p = CAADate::INT(3.5); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(p == 3);
+  p = CAADate::INT(3.0); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(p == 3);
+  p = CAADate::INT(2.5); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(p == 2);
+  p = CAADate::INT(2.0); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(p == 2);
+  p = CAADate::INT(1.0); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(p == 1);
+  p = CAADate::INT(0.0222); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(p == 0);
+  p = CAADate::INT(0); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(p == 0);
+  p = CAADate::INT(0.0); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(p == 0);
+  p = CAADate::INT(-0.0); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(p == 0);
+  p = CAADate::INT(-0.00022); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(p == -1);
+  p = CAADate::INT(-1.0); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(p == -1);
+  p = CAADate::INT(-1.1111); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(p == -2);
+
   //Test out the CAAEaster class
   const auto e1{CAAEaster::Calculate(2021, true)};
   UNREFERENCED_PARAMETER(e1);
@@ -2676,7 +2706,6 @@ int main()
   SunHorizontal.Y += CAARefraction::RefractionFromTrue(SunHorizontal.Y, 1013, 10);
   //The result above should be that we have a setting Sun at 21 degrees above the horizon at azimuth 14 degrees south of the westerly horizon
 
-
   //Calculate the topocentric horizontal position of the Moon for Palomar Observatory on midnight UTC for the 21st of September 2007
   const CAADate dateMoonCalc{2007, 9, 21, true};
   const double JDMoon{CAADynamicalTime::UTC2TT(dateMoonCalc.Julian())};
@@ -2696,45 +2725,12 @@ int main()
   MoonHorizontal.Y += CAARefraction::RefractionFromTrue(MoonHorizontal.Y, 1013, 10);
   //The result above should be that we have a rising Moon at 17 degrees above the horizon at azimuth 38 degrees east of the southern horizon
 
-  //Do a full round trip test on CAADate across a nice wide range. Note we should expect
-  //some printfs to appear during this test (Specifically a monotonic error for 15 October 1582)
-  double prevJulian{-1};
-  for (int YYYY{-4712}; YYYY < 5000; YYYY++) //Change the end YYYY value if you would like to test a longer range
-  {
-    if ((YYYY % 1000) == 0)
-      ::printf("Doing date tests on year %d\n", YYYY);
-    for (int MMMM{1}; MMMM <= 12; MMMM++)
-    {
-      const bool bLeap{CAADate::IsLeap(YYYY, (YYYY >= 1582))};
-      for (int DDDD{1}; DDDD <= CAADate::DaysInMonth(MMMM, bLeap); DDDD++)
-      {
-        const bool bGregorian{CAADate::AfterPapalReform(YYYY, MMMM, DDDD)};
-        const CAADate date{YYYY, MMMM, static_cast<double>(DDDD), 12, 0, 0, bGregorian};
-        if ((date.Year() != YYYY) || (date.Month() != MMMM) || (date.Day() != DDDD))
-          ::printf("Round trip bug with date %d-%d-%d\n", YYYY, MMMM, DDDD);
-        const double currentJulian{date.Julian()};
-        if ((prevJulian != -1) && ((prevJulian + 1) != currentJulian))
-          ::printf("Julian Day monotonic bug with date %d-%d-%d\n", YYYY, MMMM, DDDD);
-        prevJulian = currentJulian;
-
-        //Only do round trip tests between the Julian and Gregorian calendars after the papal
-        //reform. This is because the CAADate class does not support the propalactic Gregorian
-        //calendar, while it does fully support the propalactic Julian calendar.
-        if (bGregorian)
-        {
-          const CAACalendarDate GregorianDate{CAADate::JulianToGregorian(YYYY, MMMM, DDDD)};
-          const CAACalendarDate JulianDate{CAADate::GregorianToJulian(GregorianDate.Year, GregorianDate.Month, GregorianDate.Day)};
-          if ((JulianDate.Year != YYYY) || (JulianDate.Month != MMMM) || (JulianDate.Day != DDDD))
-            ::printf("Round trip bug with Julian -> Gregorian Calendar %d-%d-%d\n", YYYY, MMMM, DDDD);
-        }
-      }
-    }
-  }
-  ::printf("Date tests completed\n");
-
   //Test out the CAADate class
   CAADate date;
-  date.Set(2000, 1, 1, 12, 1, 2.3, true);
+  assert(!date.IsValid());
+  date.Set(1970, 1, 1, 12, 1, 2.3, true);
+  assert(date.IsValid());
+  assert(date.InGregorianCalendar());
   long Year{0};
   long Month{0};
   long Day{0};
@@ -2742,20 +2738,124 @@ int main()
   long Minute{0};
   double Second{0};
   date.Get(Year, Month, Day, Hour, Minute, Second);
-  const long DaysInMonth{date.DaysInMonth()};
+  assert(Year == 1970);
+  assert(Month == 1);
+  assert(Day == 1);
+  assert(Hour == 12);
+  assert(Minute == 1);
+  double tempZ{0};
+#ifdef _MSC_VER
+#pragma warning(suppress: 6031)
+#endif //#ifdef _MSC_VER
+  std::modf(Second, &tempZ);
+  assert(tempZ == 2);
+  long DaysInMonth{date.DaysInMonth()};
   UNREFERENCED_PARAMETER(DaysInMonth);
-  const long DaysInYear{date.DaysInYear()};
+  long DaysInYear{date.DaysInYear()};
   UNREFERENCED_PARAMETER(DaysInYear);
   bool bLeap{date.Leap()};
   UNREFERENCED_PARAMETER(bLeap);
-  const double Julian{date.Julian()};
+  date.Set(1970, 1, 1, 12, 1, 2.3, false);
+  assert(date.IsValid());
+  assert(!date.InGregorianCalendar());
+  date.Get(Year, Month, Day, Hour, Minute, Second);
+  assert(Year == 1970);
+  assert(Month == 1);
+  assert(Day == 1);
+  assert(Hour == 12);
+  assert(Minute == 1);
+#ifdef _MSC_VER
+#pragma warning(suppress: 6031)
+#endif //#ifdef _MSC_VER
+  std::modf(Second, &tempZ);
+  assert(tempZ == 2);
+  date.Set(date.Julian(), date.InGregorianCalendar());
+  assert(!date.InGregorianCalendar());
+  date.Get(Year, Month, Day, Hour, Minute, Second);
+  assert(Year == 1970);
+  assert(Month == 1);
+  assert(Day == 1);
+  assert(Hour == 12);
+  assert(Minute == 1);
+#ifdef _MSC_VER
+#pragma warning(suppress: 6031)
+#endif //#ifdef _MSC_VER
+  std::modf(Second, &tempZ);
+  assert(tempZ == 2);
+  DaysInMonth = date.DaysInMonth();
+  UNREFERENCED_PARAMETER(DaysInMonth);
+  Day = CAADate::DaysInMonth(2, true); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(Day == 29);
+  Day = CAADate::DaysInMonth(2, false); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(Day == 28);
+  DaysInYear = date.DaysInYear();
+  UNREFERENCED_PARAMETER(DaysInYear);
+  bLeap = date.Leap();
+  UNREFERENCED_PARAMETER(bLeap);
+  bLeap = CAADate::IsLeap(2000, true); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(bLeap);
+  bLeap = CAADate::IsLeap(2100, true); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(!bLeap);
+  bLeap = CAADate::IsLeap(2200, true); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(!bLeap);
+  bLeap = CAADate::IsLeap(2300, true); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(!bLeap);
+  bLeap = CAADate::IsLeap(2400, true); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(bLeap);
+  bLeap = CAADate::IsLeap(2024, true); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(bLeap);
+  bLeap = CAADate::IsLeap(2026, true); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(!bLeap);
+  bLeap = CAADate::IsLeap(2027, true); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(!bLeap);
+  bLeap = CAADate::IsLeap(2000, false); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(bLeap);
+  bLeap = CAADate::IsLeap(2100, false); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(bLeap);
+  bLeap = CAADate::IsLeap(2200, false); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(bLeap);
+  bLeap = CAADate::IsLeap(2300, false); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(bLeap);
+  bLeap = CAADate::IsLeap(2400, false); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(bLeap);
+  bLeap = CAADate::IsLeap(2024, false); //NOLINT(clang-analyzer-deadcode.DeadStores);
+  assert(bLeap);
+  bLeap = CAADate::IsLeap(2026, false); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(!bLeap);
+  bLeap = CAADate::IsLeap(2027, false); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(!bLeap);
+  double Julian{date.Julian()};
   UNREFERENCED_PARAMETER(Julian);
-  const double FractionalYear{date.FractionalYear()};
+  double FractionalYear{date.FractionalYear()};
   UNREFERENCED_PARAMETER(FractionalYear);
-  const double DayOfYear{date.DayOfYear()};
+  date.Set(1970, 1, 1, 0, 0, 0.0, true);
+  CAADate::DOW dow{date.DayOfWeek()}; //NOLINT(clang-diagnostic-unused-but-set-variable, clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::THURSDAY);
+  FractionalYear = date.FractionalYear(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  double DayOfYear{date.DayOfYear()};
   UNREFERENCED_PARAMETER(DayOfYear);
-  CAADate::DOW dow{date.DayOfWeek()}; //NOLINT(clang-analyzer-deadcode.DeadStores)
-  UNREFERENCED_PARAMETER(dow);
+  assert(FractionalYear == 1970.0);
+  date.Set(1970, 7, 1, 0, 0, 0.0, true);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::WEDNESDAY);
+  FractionalYear = date.FractionalYear();
+  UNREFERENCED_PARAMETER(FractionalYear);
+  DayOfYear = date.DayOfYear(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  date.Set(1970, 12, 31, 23, 25, 59.0, true);
+  FractionalYear = date.FractionalYear(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  DayOfYear = date.DayOfYear(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  date.Set(2024, 1, 1, 0, 0, 0.0, true);
+  FractionalYear = date.FractionalYear(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  DayOfYear = date.DayOfYear(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(FractionalYear == 2024.0);
+  date.Set(2024, 7, 1, 0, 0, 0.0, true);
+  FractionalYear = date.FractionalYear(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  DayOfYear = date.DayOfYear(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  date.Set(2024, 12, 31, 23, 25, 59.0, true);
+  FractionalYear = date.FractionalYear(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  DayOfYear = date.DayOfYear(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::TUESDAY);
   Year = date.Year(); //NOLINT(clang-analyzer-deadcode.DeadStores)
   Month = date.Month();
   Day = date.Day();
@@ -2872,7 +2972,149 @@ int main()
   date.Set(1978, 11, 14, 0, 0, 0, true);
   const long DayNumber{static_cast<long>(date.DayOfYear())};
   date.DayOfYearToDayAndMonth(DayNumber, date.Leap(), Day, Month);
+  assert(Day == 14);
+  assert(Month == 11);
+  date.DayOfYearToDayAndMonth(16, date.Leap(), Day, Month);
+  assert(Day == 16);
+  assert(Month == 1);
   Year = date.Year(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  date.Set(-7000, 1, 1, 12, 1, 2.3, true);
+  Julian = date.Julian(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  date.Get(Year, Month, Day, Hour, Minute, Second);
+  assert(Year == -7000);
+  assert(Month == 1);
+  assert(Day == 1);
+  assert(Hour == 12);
+  assert(Minute == 1);
+#ifdef _MSC_VER
+#pragma warning(suppress: 6031)
+#endif //#ifdef _MSC_VER
+  std::modf(Second, &tempZ);
+  assert(tempZ == 2);
+  CAADate date2;
+  date2.Set(date.Julian(), date.InGregorianCalendar());
+  assert(date2.Julian() == date.Julian());
+  assert(date2.InGregorianCalendar() == date.InGregorianCalendar());
+  date2 = CAADate(date.Julian(), date.InGregorianCalendar());
+  assert(date2.Julian() == date.Julian());
+  assert(date2.InGregorianCalendar() == date.InGregorianCalendar());
+  bool bAfterPapal{CAADate::AfterPapalReform(1581, 1, 1)}; //NOLINT(clang-diagnostic-unused-but-set-variable)
+  assert(!bAfterPapal);
+  bAfterPapal = CAADate::AfterPapalReform(1582, 1, 1); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(!bAfterPapal);
+  bAfterPapal = CAADate::AfterPapalReform(1582, 10, 1); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(!bAfterPapal);
+  bAfterPapal = CAADate::AfterPapalReform(1582, 10, 14); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(!bAfterPapal);
+  bAfterPapal = CAADate::AfterPapalReform(1582, 10, 15); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(bAfterPapal);
+  bAfterPapal = CAADate::AfterPapalReform(1582, 11, 1); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(bAfterPapal);
+  bAfterPapal = CAADate::AfterPapalReform(1583, 1, 1); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(bAfterPapal);
+  bAfterPapal = CAADate::AfterPapalReform(2299159.5); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(!bAfterPapal);
+  bAfterPapal = CAADate::AfterPapalReform(2299160.3); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(!bAfterPapal);
+  bAfterPapal = CAADate::AfterPapalReform(2299160.5); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(bAfterPapal);
+  bAfterPapal = CAADate::AfterPapalReform(2299161.5); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(bAfterPapal);
+  date.Set(1969, 12, 31, 0, 0, 0, true);
+  assert(date.IsValid());
+  assert(date.InGregorianCalendar());
+  date.Get(Year, Month, Day, Hour, Minute, Second);
+  assert(Year == 1969);
+  assert(Month == 12);
+  assert(Day == 31);
+  assert(Hour == 0);
+  assert(Minute == 0);
+#ifdef _MSC_VER
+#pragma warning(suppress: 6031)
+#endif //#ifdef _MSC_VER
+  std::modf(Second, &tempZ);
+  assert(tempZ == 0);
+
+  CAACalendarDate JulianDate{CAADate::GregorianToJulian(1969, 12, 31)};
+  CAACalendarDate GregorianDate{CAADate::JulianToGregorian(JulianDate.Year, JulianDate.Month, JulianDate.Day)};
+  assert(GregorianDate.Year == 1969);
+  assert(GregorianDate.Month == 12);
+  assert(GregorianDate.Day == 31);
+
+  //Do a full round trip test on CAADate in the Gregorian Calendar across a nice wide range.
+  ::printf("Doing CAADate validation tests using Gregorian calendar\n");
+  double prevJulian{-1};
+  for (int YYYY{-10000}; YYYY < 10000; YYYY++) //Change the end YYYY value if you would like to test a longer range
+  {
+    if ((YYYY % 1000) == 0)
+      ::printf("Doing Gregorian CDate tests on year %d\n", YYYY);
+    for (int MMMM{1}; MMMM <= 12; MMMM++)
+    {
+      bLeap = CAADate::IsLeap(YYYY, true);
+      for (int DDDD{1}; DDDD <= CAADate::DaysInMonth(MMMM, bLeap); DDDD++)
+      {
+        date = CAADate{YYYY, MMMM, static_cast<double>(DDDD), 0, 0, 0, true};
+        if ((date.Year() != YYYY) || (date.Month() != MMMM) || (date.Day() != DDDD))
+        {
+          ::printf("Round trip bug with date %d-%d-%d\n", YYYY, MMMM, DDDD);
+          assert(false);
+        }
+        const double currentJulian{date.Julian()};
+        if ((prevJulian != -1) && ((prevJulian + 1) != currentJulian))
+        {
+          ::printf("Julian Day monotonic bug with date %d-%d-%d\n", YYYY, MMMM, DDDD);
+          assert(false);
+        }
+        prevJulian = currentJulian;
+
+        JulianDate = CAADate::GregorianToJulian(YYYY, MMMM, DDDD);
+        GregorianDate = CAADate::JulianToGregorian(JulianDate.Year, JulianDate.Month, JulianDate.Day);
+        if ((GregorianDate.Year != YYYY) || (GregorianDate.Month != MMMM) || (GregorianDate.Day != DDDD))
+        {
+          ::printf("Round trip bug with Gregorian -> Julian -> Gregorian Calendar %d-%d-%d\n", YYYY, MMMM, DDDD);
+          assert(false);
+        }
+      }
+    }
+  }
+
+  //Do a full round trip test on CAADate in the Julian Calendar across a nice wide range.
+  ::printf("Doing CAADate validation tests using Julian calendar\n");
+  prevJulian = -1;
+  for (int YYYY{-10000}; YYYY < 10000; YYYY++) //Change the end YYYY value if you would like to test a longer range
+  {
+    if ((YYYY % 1000) == 0)
+      ::printf("Doing Julian CDate tests on year %d\n", YYYY);
+    for (int MMMM{1}; MMMM <= 12; MMMM++)
+    {
+      bLeap = CAADate::IsLeap(YYYY, false);
+      for (int DDDD{1}; DDDD <= CAADate::DaysInMonth(MMMM, bLeap); DDDD++)
+      {
+        date = CAADate{YYYY, MMMM, static_cast<double>(DDDD), 0, 0, 0, false};
+        if ((date.Year() != YYYY) || (date.Month() != MMMM) || (date.Day() != DDDD))
+        {
+          ::printf("Round trip bug with date %d-%d-%d\n", YYYY, MMMM, DDDD);
+          assert(false);
+        }
+        const double currentJulian{date.Julian()};
+        if ((prevJulian != -1) && ((prevJulian + 1) != currentJulian))
+        {
+          ::printf("Julian Day monotonic bug with date %d-%d-%d\n", YYYY, MMMM, DDDD);
+          assert(false);
+        }
+        prevJulian = currentJulian;
+
+        GregorianDate = CAADate::JulianToGregorian(YYYY, MMMM, DDDD);
+        JulianDate = CAADate::GregorianToJulian(GregorianDate.Year, GregorianDate.Month, GregorianDate.Day);
+        if ((JulianDate.Year != YYYY) || (JulianDate.Month != MMMM) || (JulianDate.Day != DDDD))
+        {
+          ::printf("Round trip bug with Julian -> Gregorian -> Julian Calendar %d-%d-%d\n", YYYY, MMMM, DDDD);
+          assert(false);
+        }
+      }
+    }
+  }
+  ::printf("Date tests completed\n");
 
   //Test out the CAAEaster class
   const CAAEasterDetails easterDetails{CAAEaster::Calculate(1991, true)};
@@ -4537,9 +4779,9 @@ int main()
   elements2.i = 131.5856;
   elements2.omega = 139.2313;
   elements2.w = 242.6797;
-  elements2.T = CAADate::DateToJD(1990, 10, 24.6954, true);
+  elements2.T = CAADate(1990, 10, 24.6954, true).Julian();
   elements2.JDEquinox = elements2.T; //Of the day
-  double JDCalc{CAADynamicalTime::UTC2TT(CAADate::DateToJD(1990, 8, 22.0, true))};
+  double JDCalc{CAADynamicalTime::UTC2TT(CAADate(1990, 8, 22.0, true).Julian())};
   const CAAParabolicObjectDetails details2{CAAParabolic::Calculate(JDCalc, elements2, false)};
   UNREFERENCED_PARAMETER(details2);
   const CAAParabolicObjectDetails details5{CAAParabolic::Calculate(JDCalc, elements2, true)};
@@ -4551,7 +4793,7 @@ int main()
   elements7.i = 0;
   elements7.omega = 0;
   elements7.w = 0;
-  elements7.T = CAADate::DateToJD(1998, 4, 14.4358, true);
+  elements7.T = CAADate(1998, 4, 14.4358, true).Julian();
   elements7.JDEquinox = elements7.T; //Of the day
   const CAAParabolicObjectDetails details9{CAAParabolic::Calculate(elements7.T + 112.5642, elements7, false)};
   UNREFERENCED_PARAMETER(details9);
@@ -4565,9 +4807,9 @@ int main()
   elements6.i = 131.5856;
   elements6.omega = 139.2313;
   elements6.w = 242.6797;
-  elements6.T = CAADate::DateToJD(1990, 10, 24.6954, true);
+  elements6.T = CAADate(1990, 10, 24.6954, true).Julian();
   elements6.JDEquinox = elements6.T; //Of the day
-  JDCalc = CAADynamicalTime::UTC2TT(CAADate::DateToJD(1990, 8, 22.0, true));
+  JDCalc = CAADynamicalTime::UTC2TT(CAADate(1990, 8, 22.0, true).Julian());
   const CAANearParabolicObjectDetails details3{CAANearParabolic::Calculate(JDCalc, elements6, false)};
   UNREFERENCED_PARAMETER(details3);
   const CAANearParabolicObjectDetails details4{CAANearParabolic::Calculate(JDCalc, elements6, true)};
@@ -4627,9 +4869,9 @@ int main()
   elements16.i = 131.5856;
   elements16.omega = 139.2313;
   elements16.w = 242.6797;
-  elements16.T = CAADate::DateToJD(1990, 10, 24.6954, true);
+  elements16.T = CAADate(1990, 10, 24.6954, true).Julian();
   elements16.JDEquinox = elements16.T; //Of the day
-  JDCalc = CAADynamicalTime::UTC2TT(CAADate::DateToJD(1990, 8, 22.0, true));
+  JDCalc = CAADynamicalTime::UTC2TT(CAADate(1990, 8, 22.0, true).Julian());
   const CAAHyperbolicObjectDetails details13{CAAHyperbolic::Calculate(JDCalc, elements16, false)};
   UNREFERENCED_PARAMETER(details13);
   const CAAHyperbolicObjectDetails details14{CAAHyperbolic::Calculate(JDCalc, elements16, true)};
@@ -7139,8 +7381,8 @@ int main()
   }
 
   //Test out the CAAMoslemCalendar class
-  const CAACalendarDate JulianDate{CAAMoslemCalendar::MoslemToJulian(1421, 1, 1)};
-  const CAACalendarDate GregorianDate{CAADate::JulianToGregorian(JulianDate.Year, JulianDate.Month, JulianDate.Day)};
+  JulianDate = CAAMoslemCalendar::MoslemToJulian(1421, 1, 1);
+  GregorianDate = CAADate::JulianToGregorian(JulianDate.Year, JulianDate.Month, JulianDate.Day);
   const CAACalendarDate JulianDate2{CAADate::GregorianToJulian(GregorianDate.Year, GregorianDate.Month, GregorianDate.Day)};
   CAACalendarDate MoslemDate{CAAMoslemCalendar::JulianToMoslem(JulianDate2.Year, JulianDate2.Month, JulianDate2.Day)};
   bLeap = CAAMoslemCalendar::IsLeap(1421);

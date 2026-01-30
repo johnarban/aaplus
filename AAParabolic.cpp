@@ -32,7 +32,7 @@ History: PJN / 31-01-2005 1. Fixed a bug in CAAParabolic::Calculate where the JD
                           similar values for this example.
          PJN / 07-12-2025 1. Updated CAAParabolic::Calculate to return the radius vector and the true anomaly
 
-Copyright (c) 2003 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2026 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

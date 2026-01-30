@@ -29,7 +29,7 @@ History: PJN / 17-01-2007 1. Changed name of CAASun::ApparentEclipticLongtitude 
                           2. Updated CAASun::GeometricFK5EclipticLatitude to return value in range -90 to 90
                           3. Updated CAASun::ApparentEclipticLongitude to return value in range 0 to 360
 
-Copyright (c) 2003 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2026 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

@@ -16,7 +16,7 @@ History: PJN / 26-11-2010 1. CAARefraction::RefractionFromApparent now returns a
 
                           apparentAltitude = trueAltitude + refractionAmount
 
-Copyright (c) 2003 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2026 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

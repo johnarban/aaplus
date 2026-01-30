@@ -16,7 +16,7 @@ History: PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 
          PJN / 06-12-2025 1. CAABinaryStar::Calculate now takes an epsilon parameter which gets passed to 
                           CAAKepler::Calculate.
 
-Copyright (c) 2003 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2026 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

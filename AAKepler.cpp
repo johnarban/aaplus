@@ -12,7 +12,7 @@ History: PJN / 22-11-2021 1. Made some minor optimizations to the CAAKepler::Cal
                           epsilon" value instead of an "int iterations" parameter. These improvements help
                           speed up the CAAKepler::Calculate method by a factor of two.
 
-Copyright (c) 2003 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2026 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

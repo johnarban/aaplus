@@ -43,7 +43,7 @@ History: PJN / 13-07-2019 1. Initial implementation
          PJN / 17-10-2024 1. Reimplemented the internal methods of CAARiseTransitSet2 to avoid code duplication. Thanks to 
                           "Pavel" for providing this update.
 
-Copyright (c) 2019 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2019 - 2026 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

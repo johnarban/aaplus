@@ -5,7 +5,7 @@ Created: PJN / 03-12-2025
 History: PJN / 28-12-2025 1. Initial creation.
          PJN / 07-12-2025 1. Updated CAAHyperbolic::Calculate to return the radius vector and the true anomaly.
 
-Copyright (c) 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2025 - 2026 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

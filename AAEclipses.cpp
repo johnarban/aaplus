@@ -12,7 +12,7 @@ History: PJN / 25-02-2004 1. Calculation of semi durations is now calculated onl
          PJN / 18-06-2022 1. Updated all the code in AAEclipses.cpp to use C++ uniform initialization for all variable
                           declarations.
 
-Copyright (c) 2004 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2004 - 2026 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -43,7 +43,7 @@ CAASolarEclipseDetails CAAEclipses::Calculate(double k, double& Mdash) noexcept
 {
   //Are we looking for a solar or lunar eclipse
   double intp{0};
-  const bool bSolarEclipse{modf(k, &intp) == 0};
+  const bool bSolarEclipse{std::modf(k, &intp) == 0};
 
   //What will be the return value
   CAASolarEclipseDetails details;
@@ -186,7 +186,7 @@ CAASolarEclipseDetails CAAEclipses::CalculateSolar(double k) noexcept
 {
 #ifdef _DEBUG
   double intp{0};
-  const bool bSolarEclipse{modf(k, &intp) == 0};
+  const bool bSolarEclipse{std::modf(k, &intp) == 0};
   assert(bSolarEclipse);
 #endif //#ifdef _DEBUG
 
@@ -198,7 +198,7 @@ CAALunarEclipseDetails CAAEclipses::CalculateLunar(double k) noexcept
 {
 #ifdef _DEBUG
   double intp{0};
-  const bool bSolarEclipse{modf(k, &intp) == 0};
+  const bool bSolarEclipse{std::modf(k, &intp) == 0};
   assert(!bSolarEclipse);
 #endif //#ifdef _DEBUG
 

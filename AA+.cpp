@@ -5,7 +5,7 @@ Created: PJN / 08-05-2025
 History: PJN / 08-05-2025 1. Initial creation of the new class. Thanks to Armando DiCianno for prompting
                           this update.
 
-Copyright (c) 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2025 - 2026 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

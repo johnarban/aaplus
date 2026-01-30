@@ -2,7 +2,7 @@
 
 <head>
 <meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
-<title>AA+ v2.67</title>
+<title>AA+ v2.70</title>
 <link href="./naughter.css" rel="stylesheet" type="text/css">
 <style type="text/css">
 .auto-style1 {
@@ -13,7 +13,7 @@
 
 <body>
 
-<h2>AA+ v2.67</h2>
+<h2>AA+ v2.70</h2>
 <p>Welcome to <b>AA+</b>, a collection of freeware C++ classes which provide an 
 implementation of the algorithms as presented in the book &quot;Astronomical Algorithms&quot; 
 (2nd Edition) by Jean Meeus.</p>
@@ -73,7 +73,8 @@ of Jupiter and Saturn as well as many other algorithms presented in the book.</p
 	until you arrive at a minimum set for your requirements.</li>
 	<li>To see the classes in action, have a look at the code in the main function 
 	in the module &quot;AATest.cpp&quot;. </li>
-	<li>The download includes a VC 2022 project and has been tested on VC 2022 on 
+	<li>The download includes a VC 2022 project and has been tested on VC 2022 
+	and VC 2026 on 
 	Windows 11 and GCC on Ubuntu.</li>
 </ul>
 <p>&nbsp;</p>
@@ -93,6 +94,43 @@ of Jupiter and Saturn as well as many other algorithms presented in the book.</p
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <h2><a name="History"></a>History</h2>
+<p><b>v2.70 (12 January 2026)</b></p>
+<ul>
+	<li>Fixed an issue with the CAADate::INT method where it would return wrong 
+	values for negative integer values. Thanks to &quot;znight&quot; for reporting this 
+	issue.</li>
+</ul>
+<p><b>v2.69 (11 January 2026)</b></p>
+<ul>
+	<li>Made the whole CAAJewishCalendar class constexpr.</li>
+	<li>Made the whole CAADate class constexpr.</li>
+	<li>Made the whole CAAMoslemCalendar class constexpr.</li>
+</ul>
+<p><b>v2.68 (10 January 2026)</b></p>
+<ul>
+	<li>Updated copyright details.</li>
+	<li>Updated CAADate::Get to handle JD values &lt; 0. Internally now the CAADate 
+	class uses the Howard Hinnant's algorithms at
+	<a href="http://howardhinnant.github.io/date_algorithms.html">
+	http://howardhinnant.github.io/date_algorithms.html</a> as their basis 
+	instead of the algorithms as presented in Meeus's book. This is because the 
+	Meeus's algorithms do not work with negative Julian dates. This means that 
+	CAADate can now fully support propalactive calendar dates in both the 
+	Julian and Gregorian calendars. </li>
+	<li>Introduced the concept of a null or invalid CAADate. This means that an 
+	instance of CAADate can be used to represent an invalid, undefined or null 
+	date. A new CAADate::IsValid method has been added to get this state. </li>
+	<li>Fully implemented the gang of 6 for the CAADate class. </li>
+	<li>The CAADate::IsLeap method is now constexpr and has been optimized. </li>
+	<li>The CAADate::InGregorianCalendar method is now constexpr </li>
+	<li>Reworked the CAADate constructors to use constructor delegation </li>
+	<li>The CAADate::DayOfWeek method has been optimized. </li>
+	<li>The CAADate::DaysInMonth method has been optimized. </li>
+	<li>Updated the g_DeltaTValues lookup table to use observed DeltaT values to 
+	08 January 2026 and predicted values to 16 January 2027 from
+	<a href="https://cddis.nasa.gov/archive/products/iers/finals2000A.all">
+	https://cddis.nasa.gov/archive/products/iers/finals2000A.all</a>.</li>
+</ul>
 <p><b>v2.67 (7 December 2025)</b></p>
 <ul>
 	<li>Updated CAAParabolic::Calculate to return the radius vector and 
@@ -2778,6 +2816,7 @@ the book.</p>
 <p><a href="#CAADate_Leap">Leap</a></p>
 <p><a href="#CAADate_FractionalYear">FractionalYear</a></p>
 <p><a href="#CAADate_AfterPapalReform">AfterPapalReform</a></p>
+<p><a href="#CAADate_IsValid">IsValid</a></p>
 <p>&nbsp;</p>
 <p><b><a name="CAADate_CAADate"></a>CAADate::CAADate</b></p>
 <p><b>CAADate()</b></p>
@@ -2798,7 +2837,9 @@ bool </b><i>bGregorianCalendar</i><b>)</b></p>
 <p><i>bGregorianCalendar </i>true to imply a date in the Gregorian Calendar, false 
 means use the Julian Calendar.</p>
 <p><b>Remarks</b></p>
-<p>Constructs a date given a variety of parameters.</p>
+<p>Constructs a date given a variety of parameters. The constructor which takes 
+no parameters creates a CAADate instance which represents an invalid or &quot;null&quot; 
+date. </p>
 <p>&nbsp;</p>
 <p><b><a name="CAADate_IsLeap"></a>CAADate::IsLeap</b></p>
 <p><b>static bool IsLeap(long </b><i>Year</i><b>, bool </b><i>bGregorianCalendar</i><b>)</b></p>
@@ -2921,7 +2962,7 @@ CAADate instance to do this test.</p>
 <p>Returns the total number of days in the year (365 or 366) which this date represents.</p>
 <p>&nbsp;</p>
 <p><b><a name="CAADate_DayOfYearToDayAndMonth"></a>CAADate::DayOfYearToDayAndMonth</b></p>
-<p><b>static </b><b>DayOfYearToDayAndMonth(long </b><i>DayOfYear</i><b>, bool
+<p><b>static void DayOfYearToDayAndMonth(long </b><i>DayOfYear</i><b>, bool
 </b><i>bLeap</i><b>, long&amp; </b><i>DayOfMonth</i><b>, long&amp; </b><i>Month</i><b>)</b></p>
 <p><b>Parameters</b></p>
 <p><i>DayOfYear </i>The day of the year where 1st of January is 1 going up to 365 
@@ -2947,9 +2988,8 @@ i.e. 1 BC = Year 0)</p>
 for December).</p>
 <p><i>Day </i>The day of the month in the Julian Calendar.</p>
 <p><b>Remarks</b></p>
-<p>Converts a calendrical date expressed in the Julian Calendar to the equivalent 
-date in the Gregorian Calendar. It is assumed that the adoption of the Gregorian 
-Calendar occurred in 1582.</p>
+<p>Converts a calendrical date expressed in the Julian Calendar to the 
+equivalent date in the Gregorian Calendar.</p>
 <p>&nbsp;</p>
 <p><b><a name="CAADate_GregorianToJulian"></a>CAADate::GregorianToJulian</b></p>
 <p><b>static </b><b>CAACalendarDate GregorianToJulian(long </b><i>Year</i><b>, long
@@ -2983,8 +3023,8 @@ date in the Julian Calendar.</p>
 2000 would be returned as 2000.5.</p>
 <p>&nbsp;</p>
 <p><b><a name="CAADate_AfterPapalReform"></a>CAADate::AfterPapalReform</b></p>
-<p><b>bool AfterPapalReform(long </b><i>Year</i><b>, long </b><i>Month</i><b>, double
-</b><i>Day</i><b>)<br>bool AfterPapalReform(double </b><i>JD</i><b>)</b></p>
+<p><b>static bool AfterPapalReform(long </b><i>Year</i><b>, long </b><i>Month</i><b>, double
+</b><i>Day</i><b>)<br>static bool AfterPapalReform(double </b><i>JD</i><b>)</b></p>
 <p><b>Parameters</b></p>
 <p><i>Year </i>The year. (Years are counted astronomically i.e. 1 BC = Year 0)</p>
 <p><i>Month </i>The month of the year (1 for January to 12 for December).</p>
@@ -2993,9 +3033,14 @@ date in the Julian Calendar.</p>
 <p><b>Remarks</b></p>
 <p>Returns true if the date occurs on or after the Gregorian calendar reform which 
 occurred on 15th October 1582 (which corresponds to Julian Day 2299160.5), otherwise 
-false. Please note that the CAADate class assumes the calendar change occured on 
-this date. Historically of course different countries adopted the reform at different 
+false. Historically of course different countries adopted the reform at different 
 times.</p>
+<p>&nbsp;</p>
+<p><b><a name="CAADate_IsValid"></a>CAADate::IsValid</b></p>
+<p><b>bool IsValid() const</b></p>
+<p><b>Return Value</b></p>
+<p>Returns true if the CAADate instance contains a valid date or false 
+otherwise.</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p><b><a name="CAADiameters"></a>CAADiameters</b></p>
@@ -11411,8 +11456,8 @@ for further details.</p>
 <p>&nbsp;</p>
 <h2><a name="Contact"></a>Contacting the Author</h2>
 <p>PJ Naughter<br>Email: <a href="mailto:pjna@naughter.com">pjna@naughter.com</a><br>
-Web: <a href="http://www.naughter.com">http://www.naughter.com</a><br>7 December 
-2025</p>
+Web: <a href="http://www.naughter.com">http://www.naughter.com</a><br>12 January 
+2026</p>
 
 </body>
 

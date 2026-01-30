@@ -3,7 +3,7 @@ Module : AAMoonPhases2.h
 Purpose: Implementation for the algorithms which obtain the dates for the phases of the Moon (revised version)
 Created: PJN / 01-01-2020
 
-Copyright (c) 2020 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2020 - 2026 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

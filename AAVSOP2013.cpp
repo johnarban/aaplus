@@ -7,7 +7,7 @@ History: PJN / 12-06-2022 1. Updated all the code in AAVSOP2013.cpp to use C++ u
          PJN / 15-11-2025 1. Updated code in AAVSOP2013.cpp to compile correctly on the MinGW compiler.
                           Thanks to "znight" for reporting this issue.
 
-Copyright (c) 2021 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2021 - 2026 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

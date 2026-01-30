@@ -3,7 +3,7 @@ Module : VSOP2013.h
 Purpose: Implementation for the algorithms for VSOP2013
 Created: PJN / 01-10-2021
 
-Copyright (c) 2021 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2021 - 2026 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

@@ -3,7 +3,7 @@ Module : AA+.h
 Purpose: Main include file for AA+ framework
 Created: PJN / 30-1-2005
 
-Copyright (c) 2003 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2026 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -43,8 +43,8 @@ to maintain a single distribution point for the source code.
 //The [AAPLUS_VERSION_NUMBER] C preprocessor macro resolves to
 //an integer with the value (X * 1000 + Y) where X and Y are the
 //same numbers used in [AAPLLUS_VERSION].
-#define AAPLUS_VERSION        "2.67"
-#define AAPLUS_VERSION_NUMBER 2067 //NOLINT(modernize-macro-to-enum)
+#define AAPLUS_VERSION        "2.70"
+#define AAPLUS_VERSION_NUMBER 2070 //NOLINT(modernize-macro-to-enum)
 
 
 //////////////////// Includes /////////////////////////////////////////////////

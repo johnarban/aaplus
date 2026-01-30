@@ -24,7 +24,7 @@ History: PJN / 16-03-2009 1. Fixed a bug in CAANearParabolic::Calculate(double J
                           CAANearParabolic::CalculateTrueAnomalyAndRadius.
          PJN / 07-12-2025 1. Updated CAANearParabolic::Calculate to return the radius vector and the true anomaly.
 
-Copyright (c) 2006 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2006 - 2026 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

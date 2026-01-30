@@ -15,7 +15,7 @@ History: PJN / 30-07-2017 1. Initial public release.
          PJN / 21-06-2022 1. Updated all the code in AAELPMPP02.cpp to use C++ uniform initialization for all
                           variable declarations.
 
-Copyright (c) 2017 - 2025 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2017 - 2026 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 

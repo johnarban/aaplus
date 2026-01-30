@@ -278,7 +278,6 @@
     <ClCompile Include="AAAngularSeparation.cpp" />
     <ClCompile Include="AABinaryStar.cpp" />
     <ClCompile Include="AACoordinateTransformation.cpp" />
-    <ClCompile Include="AADate.cpp" />
     <ClCompile Include="AADiameters.cpp" />
     <ClCompile Include="AADynamicalTime.cpp" />
     <ClCompile Include="AAEarth.cpp" />
@@ -297,7 +296,6 @@
     <ClCompile Include="AAHyperbolic.cpp" />
     <ClCompile Include="AAIlluminatedFraction.cpp" />
     <ClCompile Include="AAInterpolate.cpp" />
-    <ClCompile Include="AAJewishCalendar.cpp" />
     <ClCompile Include="AAJupiter.cpp" />
     <ClCompile Include="AAKepler.cpp" />
     <ClCompile Include="AAMars.cpp" />
@@ -312,7 +310,6 @@
     <ClCompile Include="AAMoonPerigeeApogee2.cpp" />
     <ClCompile Include="AAMoonPhases.cpp" />
     <ClCompile Include="AAMoonPhases2.cpp" />
-    <ClCompile Include="AAMoslemCalendar.cpp" />
     <ClCompile Include="AANearParabolic.cpp" />
     <ClCompile Include="AANeptune.cpp" />
     <ClCompile Include="AANodes.cpp" />
