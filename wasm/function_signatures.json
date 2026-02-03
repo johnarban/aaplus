@@ -1,0 +1,6207 @@
+{
+  "CAAPlus": {
+    "Version": [],
+    "VersionNumber": []
+  },
+  "CAAAberration": {
+    "EarthVelocity": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ],
+    "EclipticAberration": [
+      {
+        "type": "double",
+        "name": "Alpha"
+      },
+      {
+        "type": "double",
+        "name": "Delta"
+      },
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ],
+    "EquatorialAberration": [
+      {
+        "type": "double",
+        "name": "Lambda"
+      },
+      {
+        "type": "double",
+        "name": "Beta"
+      },
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ]
+  },
+  "CAAAngularSeparation": {
+    "Separation": [
+      {
+        "type": "double",
+        "name": "Alpha1"
+      },
+      {
+        "type": "double",
+        "name": "Delta1"
+      },
+      {
+        "type": "double",
+        "name": "Alpha2"
+      },
+      {
+        "type": "double",
+        "name": "Delta2"
+      }
+    ],
+    "PositionAngle": [
+      {
+        "type": "double",
+        "name": "Alpha1"
+      },
+      {
+        "type": "double",
+        "name": "Delta1"
+      },
+      {
+        "type": "double",
+        "name": "Alpha2"
+      },
+      {
+        "type": "double",
+        "name": "Delta2"
+      }
+    ],
+    "DistanceFromGreatArc": [
+      {
+        "type": "double",
+        "name": "Alpha1"
+      },
+      {
+        "type": "double",
+        "name": "Delta1"
+      },
+      {
+        "type": "double",
+        "name": "Alpha2"
+      },
+      {
+        "type": "double",
+        "name": "Delta2"
+      },
+      {
+        "type": "double",
+        "name": "Alpha3"
+      },
+      {
+        "type": "double",
+        "name": "Delta3"
+      }
+    ],
+    "SmallestCircle": [
+      {
+        "type": "double",
+        "name": "Alpha1"
+      },
+      {
+        "type": "double",
+        "name": "Delta1"
+      },
+      {
+        "type": "double",
+        "name": "Alpha2"
+      },
+      {
+        "type": "double",
+        "name": "Delta2"
+      },
+      {
+        "type": "double",
+        "name": "Alpha3"
+      },
+      {
+        "type": "double",
+        "name": "Delta3"
+      },
+      {
+        "type": "bool &",
+        "name": "bType1"
+      }
+    ]
+  },
+  "CAABinaryStar": {
+    "Calculate": [
+      {
+        "type": "double",
+        "name": "t"
+      },
+      {
+        "type": "double",
+        "name": "P"
+      },
+      {
+        "type": "double",
+        "name": "T"
+      },
+      {
+        "type": "double",
+        "name": "e"
+      },
+      {
+        "type": "double",
+        "name": "a"
+      },
+      {
+        "type": "double",
+        "name": "i"
+      },
+      {
+        "type": "double",
+        "name": "omega"
+      },
+      {
+        "type": "double",
+        "name": "w"
+      },
+      {
+        "type": "double",
+        "name": "epsilon"
+      }
+    ],
+    "ApparentEccentricity": [
+      {
+        "type": "double",
+        "name": "e"
+      },
+      {
+        "type": "double",
+        "name": "i"
+      },
+      {
+        "type": "double",
+        "name": "w"
+      }
+    ]
+  },
+  "CAACoordinateTransformation": {
+    "Equatorial2Ecliptic": [
+      {
+        "type": "double",
+        "name": "Alpha"
+      },
+      {
+        "type": "double",
+        "name": "Delta"
+      },
+      {
+        "type": "double",
+        "name": "Epsilon"
+      }
+    ],
+    "Ecliptic2Equatorial": [
+      {
+        "type": "double",
+        "name": "Lambda"
+      },
+      {
+        "type": "double",
+        "name": "Beta"
+      },
+      {
+        "type": "double",
+        "name": "Epsilon"
+      }
+    ],
+    "Equatorial2Horizontal": [
+      {
+        "type": "double",
+        "name": "LocalHourAngle"
+      },
+      {
+        "type": "double",
+        "name": "Delta"
+      },
+      {
+        "type": "double",
+        "name": "Latitude"
+      }
+    ],
+    "Horizontal2Equatorial": [
+      {
+        "type": "double",
+        "name": "A"
+      },
+      {
+        "type": "double",
+        "name": "h"
+      },
+      {
+        "type": "double",
+        "name": "Latitude"
+      }
+    ],
+    "Equatorial2Galactic": [
+      {
+        "type": "double",
+        "name": "Alpha"
+      },
+      {
+        "type": "double",
+        "name": "Delta"
+      }
+    ],
+    "Galactic2Equatorial": [
+      {
+        "type": "double",
+        "name": "l"
+      },
+      {
+        "type": "double",
+        "name": "b"
+      }
+    ],
+    "DegreesToRadians": [
+      {
+        "type": "double",
+        "name": "Degrees"
+      }
+    ],
+    "RadiansToDegrees": [
+      {
+        "type": "double",
+        "name": "Radians"
+      }
+    ],
+    "RadiansToHours": [
+      {
+        "type": "double",
+        "name": "Radians"
+      }
+    ],
+    "HoursToRadians": [
+      {
+        "type": "double",
+        "name": "Hours"
+      }
+    ],
+    "HoursToDegrees": [
+      {
+        "type": "double",
+        "name": "Hours"
+      }
+    ],
+    "DegreesToHours": [
+      {
+        "type": "double",
+        "name": "Degrees"
+      }
+    ],
+    "PI": [],
+    "MapTo0To360Range": [
+      {
+        "type": "double",
+        "name": "Degrees"
+      }
+    ],
+    "MapToMinus90To90Range": [
+      {
+        "type": "double",
+        "name": "Degrees"
+      }
+    ],
+    "MapTo0To24Range": [
+      {
+        "type": "double",
+        "name": "HourAngle"
+      }
+    ],
+    "MapTo0To2PIRange": [
+      {
+        "type": "double",
+        "name": "Angle"
+      }
+    ],
+    "DMSToDegrees": [
+      {
+        "type": "double",
+        "name": "Degrees"
+      },
+      {
+        "type": "double",
+        "name": "Minutes"
+      },
+      {
+        "type": "double",
+        "name": "Seconds"
+      },
+      {
+        "type": "bool",
+        "name": "bPositive"
+      }
+    ]
+  },
+  "CAADate": {
+    "IsLeap": [
+      {
+        "type": "long",
+        "name": "Year"
+      },
+      {
+        "type": "bool",
+        "name": "bGregorianCalendar"
+      }
+    ],
+    "DayOfYearToDayAndMonth": [
+      {
+        "type": "long",
+        "name": "DayOfYear"
+      },
+      {
+        "type": "bool",
+        "name": "bLeap"
+      },
+      {
+        "type": "long &",
+        "name": "DayOfMonth"
+      },
+      {
+        "type": "long &",
+        "name": "Month"
+      }
+    ],
+    "JulianToGregorian": [
+      {
+        "type": "long",
+        "name": "Year"
+      },
+      {
+        "type": "long",
+        "name": "Month"
+      },
+      {
+        "type": "long",
+        "name": "Day"
+      }
+    ],
+    "GregorianToJulian": [
+      {
+        "type": "long",
+        "name": "Year"
+      },
+      {
+        "type": "long",
+        "name": "Month"
+      },
+      {
+        "type": "long",
+        "name": "Day"
+      }
+    ],
+    "INT": [
+      {
+        "type": "double",
+        "name": "value"
+      }
+    ],
+    "AfterPapalReform": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "DayOfYear": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "long",
+        "name": "Year"
+      },
+      {
+        "type": "bool",
+        "name": "bGregorianCalendar"
+      }
+    ],
+    "DaysInCommonMonth": [
+      {
+        "type": "long",
+        "name": "Month"
+      }
+    ],
+    "DaysInMonth": [
+      {
+        "type": "long",
+        "name": "Month"
+      },
+      {
+        "type": "bool",
+        "name": "bLeap"
+      }
+    ]
+  },
+  "CAADiameters": {
+    "SunSemidiameterA": [
+      {
+        "type": "double",
+        "name": "Delta"
+      }
+    ],
+    "MercurySemidiameterA": [
+      {
+        "type": "double",
+        "name": "Delta"
+      }
+    ],
+    "VenusSemidiameterA": [
+      {
+        "type": "double",
+        "name": "Delta"
+      }
+    ],
+    "MarsSemidiameterA": [
+      {
+        "type": "double",
+        "name": "Delta"
+      }
+    ],
+    "JupiterEquatorialSemidiameterA": [
+      {
+        "type": "double",
+        "name": "Delta"
+      }
+    ],
+    "JupiterPolarSemidiameterA": [
+      {
+        "type": "double",
+        "name": "Delta"
+      }
+    ],
+    "SaturnEquatorialSemidiameterA": [
+      {
+        "type": "double",
+        "name": "Delta"
+      }
+    ],
+    "SaturnPolarSemidiameterA": [
+      {
+        "type": "double",
+        "name": "Delta"
+      }
+    ],
+    "UranusSemidiameterA": [
+      {
+        "type": "double",
+        "name": "Delta"
+      }
+    ],
+    "NeptuneSemidiameterA": [
+      {
+        "type": "double",
+        "name": "Delta"
+      }
+    ],
+    "MercurySemidiameterB": [
+      {
+        "type": "double",
+        "name": "Delta"
+      }
+    ],
+    "VenusSemidiameterB": [
+      {
+        "type": "double",
+        "name": "Delta"
+      }
+    ],
+    "MarsSemidiameterB": [
+      {
+        "type": "double",
+        "name": "Delta"
+      }
+    ],
+    "JupiterEquatorialSemidiameterB": [
+      {
+        "type": "double",
+        "name": "Delta"
+      }
+    ],
+    "JupiterPolarSemidiameterB": [
+      {
+        "type": "double",
+        "name": "Delta"
+      }
+    ],
+    "SaturnEquatorialSemidiameterB": [
+      {
+        "type": "double",
+        "name": "Delta"
+      }
+    ],
+    "SaturnPolarSemidiameterB": [
+      {
+        "type": "double",
+        "name": "Delta"
+      }
+    ],
+    "UranusSemidiameterB": [
+      {
+        "type": "double",
+        "name": "Delta"
+      }
+    ],
+    "NeptuneSemidiameterB": [
+      {
+        "type": "double",
+        "name": "Delta"
+      }
+    ],
+    "PlutoSemidiameterB": [
+      {
+        "type": "double",
+        "name": "Delta"
+      }
+    ],
+    "ApparentAsteroidDiameter": [
+      {
+        "type": "double",
+        "name": "Delta"
+      },
+      {
+        "type": "double",
+        "name": "d"
+      }
+    ],
+    "GeocentricMoonSemidiameter": [
+      {
+        "type": "double",
+        "name": "Delta"
+      }
+    ],
+    "ApparentSaturnPolarSemidiameterA": [
+      {
+        "type": "double",
+        "name": "Delta"
+      },
+      {
+        "type": "double",
+        "name": "B"
+      }
+    ],
+    "ApparentSaturnPolarSemidiameterB": [
+      {
+        "type": "double",
+        "name": "Delta"
+      },
+      {
+        "type": "double",
+        "name": "B"
+      }
+    ],
+    "TopocentricMoonSemidiameter": [
+      {
+        "type": "double",
+        "name": "DistanceDelta"
+      },
+      {
+        "type": "double",
+        "name": "Delta"
+      },
+      {
+        "type": "double",
+        "name": "H"
+      },
+      {
+        "type": "double",
+        "name": "Latitude"
+      },
+      {
+        "type": "double",
+        "name": "Height"
+      }
+    ],
+    "AsteroidDiameter": [
+      {
+        "type": "double",
+        "name": "H"
+      },
+      {
+        "type": "double",
+        "name": "A"
+      }
+    ]
+  },
+  "CAADynamicalTime": {
+    "SetUserDefinedDeltaT": [
+      {
+        "type": "DELTAT_PROC",
+        "name": "pProc"
+      }
+    ],
+    "DeltaT": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "CumulativeLeapSeconds": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "TT2UTC": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "UTC2TT": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "TT2TAI": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "TAI2TT": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "TT2UT1": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "UT12TT": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "UT1MinusUTC": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAELP2000": {
+    "EclipticLongitude": [
+      {
+        "type": "const double *",
+        "name": "pT"
+      },
+      {
+        "type": "int",
+        "name": "nTSize"
+      }
+    ],
+    "EclipticLatitude": [
+      {
+        "type": "const double *",
+        "name": "pT"
+      },
+      {
+        "type": "int",
+        "name": "nTSize"
+      }
+    ],
+    "RadiusVector": [
+      {
+        "type": "const double *",
+        "name": "pT"
+      },
+      {
+        "type": "int",
+        "name": "nTSize"
+      }
+    ],
+    "EclipticRectangularCoordinates": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "EclipticRectangularCoordinatesJ2000": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "EquatorialRectangularCoordinatesFK5": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "MoonMeanMeanLongitude": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "MeanLongitudeLunarPerigee": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "MeanLongitudeLunarAscendingNode": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "MeanHeliocentricMeanLongitudeEarthMoonBarycentre": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "MeanLongitudeOfPerihelionOfEarthMoonBarycentre": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "MoonMeanSolarElongation": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "SunMeanAnomaly": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "MoonMeanAnomaly": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "MoonMeanArgumentOfLatitude": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "MercuryMeanLongitude": [
+      {
+        "type": "double",
+        "name": "T"
+      }
+    ],
+    "VenusMeanLongitude": [
+      {
+        "type": "double",
+        "name": "T"
+      }
+    ],
+    "MarsMeanLongitude": [
+      {
+        "type": "double",
+        "name": "T"
+      }
+    ],
+    "JupiterMeanLongitude": [
+      {
+        "type": "double",
+        "name": "T"
+      }
+    ],
+    "SaturnMeanLongitude": [
+      {
+        "type": "double",
+        "name": "T"
+      }
+    ],
+    "UranusMeanLongitude": [
+      {
+        "type": "double",
+        "name": "T"
+      }
+    ],
+    "NeptuneMeanLongitude": [
+      {
+        "type": "double",
+        "name": "T"
+      }
+    ]
+  },
+  "CAAELPMPP02": {
+    "EclipticLongitude": [
+      {
+        "type": "const double *",
+        "name": "pT"
+      },
+      {
+        "type": "int",
+        "name": "nTSize"
+      },
+      {
+        "type": "Correction",
+        "name": "correction"
+      },
+      {
+        "type": "double *",
+        "name": "pDerivative"
+      }
+    ],
+    "EclipticLatitude": [
+      {
+        "type": "const double *",
+        "name": "pT"
+      },
+      {
+        "type": "int",
+        "name": "nTSize"
+      },
+      {
+        "type": "Correction",
+        "name": "correction"
+      },
+      {
+        "type": "double *",
+        "name": "pDerivative"
+      }
+    ],
+    "RadiusVector": [
+      {
+        "type": "const double *",
+        "name": "pT"
+      },
+      {
+        "type": "int",
+        "name": "nTSize"
+      },
+      {
+        "type": "Correction",
+        "name": "correction"
+      },
+      {
+        "type": "double *",
+        "name": "pDerivative"
+      }
+    ],
+    "EclipticRectangularCoordinates": [
+      {
+        "type": "const double *",
+        "name": "pT"
+      },
+      {
+        "type": "int",
+        "name": "nTSize"
+      },
+      {
+        "type": "Correction",
+        "name": "correction"
+      },
+      {
+        "type": "CAA3DCoordinate *",
+        "name": "pDerivative"
+      }
+    ],
+    "EclipticRectangularCoordinatesJ2000": [
+      {
+        "type": "const double *",
+        "name": "pT"
+      },
+      {
+        "type": "int",
+        "name": "nTSize"
+      },
+      {
+        "type": "Correction",
+        "name": "correction"
+      },
+      {
+        "type": "CAA3DCoordinate *",
+        "name": "pDerivative"
+      }
+    ]
+  },
+  "CAAEarth": {
+    "EclipticLongitude": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ],
+    "EclipticLatitude": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ],
+    "RadiusVector": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ],
+    "SunMeanAnomaly": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Eccentricity": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "EclipticLongitudeJ2000": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ],
+    "EclipticLatitudeJ2000": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ]
+  },
+  "CAAEaster": {
+    "Calculate": [
+      {
+        "type": "int",
+        "name": "nYear"
+      },
+      {
+        "type": "bool",
+        "name": "GregorianCalendar"
+      }
+    ]
+  },
+  "CAAEclipses": {
+    "CalculateSolar": [
+      {
+        "type": "double",
+        "name": "k"
+      }
+    ],
+    "CalculateLunar": [
+      {
+        "type": "double",
+        "name": "k"
+      }
+    ]
+  },
+  "CAAEclipticalElements": {
+    "Calculate": [
+      {
+        "type": "double",
+        "name": "i0"
+      },
+      {
+        "type": "double",
+        "name": "w0"
+      },
+      {
+        "type": "double",
+        "name": "omega0"
+      },
+      {
+        "type": "double",
+        "name": "JD0"
+      },
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "FK4B1950ToFK5J2000": [
+      {
+        "type": "double",
+        "name": "i0"
+      },
+      {
+        "type": "double",
+        "name": "w0"
+      },
+      {
+        "type": "double",
+        "name": "omega0"
+      }
+    ]
+  },
+  "CAAElementsPlanetaryOrbit": {
+    "MercuryMeanLongitude": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "MercurySemimajorAxis": [
+      {
+        "type": "double",
+        "name": ""
+      }
+    ],
+    "MercuryEccentricity": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "MercuryInclination": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "MercuryLongitudeAscendingNode": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "MercuryLongitudePerihelion": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "VenusMeanLongitude": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "VenusSemimajorAxis": [
+      {
+        "type": "double",
+        "name": ""
+      }
+    ],
+    "VenusEccentricity": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "VenusInclination": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "VenusLongitudeAscendingNode": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "VenusLongitudePerihelion": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "EarthMeanLongitude": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "EarthSemimajorAxis": [
+      {
+        "type": "double",
+        "name": ""
+      }
+    ],
+    "EarthEccentricity": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "EarthInclination": [
+      {
+        "type": "double",
+        "name": ""
+      }
+    ],
+    "EarthLongitudePerihelion": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "MarsMeanLongitude": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "MarsSemimajorAxis": [
+      {
+        "type": "double",
+        "name": ""
+      }
+    ],
+    "MarsEccentricity": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "MarsInclination": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "MarsLongitudeAscendingNode": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "MarsLongitudePerihelion": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "JupiterMeanLongitude": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "JupiterSemimajorAxis": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "JupiterEccentricity": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "JupiterInclination": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "JupiterLongitudeAscendingNode": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "JupiterLongitudePerihelion": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "SaturnMeanLongitude": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "SaturnSemimajorAxis": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "SaturnEccentricity": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "SaturnInclination": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "SaturnLongitudeAscendingNode": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "SaturnLongitudePerihelion": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "UranusMeanLongitude": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "UranusSemimajorAxis": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "UranusEccentricity": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "UranusInclination": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "UranusLongitudeAscendingNode": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "UranusLongitudePerihelion": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "NeptuneMeanLongitude": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "NeptuneSemimajorAxis": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "NeptuneEccentricity": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "NeptuneInclination": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "NeptuneLongitudeAscendingNode": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "NeptuneLongitudePerihelion": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "MercuryMeanLongitudeJ2000": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "MercuryInclinationJ2000": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "MercuryLongitudeAscendingNodeJ2000": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "MercuryLongitudePerihelionJ2000": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "VenusMeanLongitudeJ2000": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "VenusInclinationJ2000": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "VenusLongitudeAscendingNodeJ2000": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "VenusLongitudePerihelionJ2000": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "EarthMeanLongitudeJ2000": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "EarthInclinationJ2000": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "EarthLongitudeAscendingNodeJ2000": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "EarthLongitudePerihelionJ2000": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "MarsMeanLongitudeJ2000": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "MarsInclinationJ2000": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "MarsLongitudeAscendingNodeJ2000": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "MarsLongitudePerihelionJ2000": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "JupiterMeanLongitudeJ2000": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "JupiterInclinationJ2000": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "JupiterLongitudeAscendingNodeJ2000": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "JupiterLongitudePerihelionJ2000": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "SaturnMeanLongitudeJ2000": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "SaturnInclinationJ2000": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "SaturnLongitudeAscendingNodeJ2000": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "SaturnLongitudePerihelionJ2000": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "UranusMeanLongitudeJ2000": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "UranusInclinationJ2000": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "UranusLongitudeAscendingNodeJ2000": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "UranusLongitudePerihelionJ2000": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "NeptuneMeanLongitudeJ2000": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "NeptuneInclinationJ2000": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "NeptuneLongitudeAscendingNodeJ2000": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "NeptuneLongitudePerihelionJ2000": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAElliptical": {
+    "DistanceToLightTime": [
+      {
+        "type": "double",
+        "name": "Distance"
+      }
+    ],
+    "Calculate": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "const CAAEllipticalObjectElements &",
+        "name": "elements"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      },
+      {
+        "type": "double",
+        "name": "epsilon"
+      }
+    ],
+    "SemiMajorAxisFromPerihelionDistance": [
+      {
+        "type": "double",
+        "name": "q"
+      },
+      {
+        "type": "double",
+        "name": "e"
+      }
+    ],
+    "MeanMotionFromSemiMajorAxis": [
+      {
+        "type": "double",
+        "name": "a"
+      }
+    ],
+    "InstantaneousVelocity": [
+      {
+        "type": "double",
+        "name": "r"
+      },
+      {
+        "type": "double",
+        "name": "a"
+      }
+    ],
+    "VelocityAtPerihelion": [
+      {
+        "type": "double",
+        "name": "e"
+      },
+      {
+        "type": "double",
+        "name": "a"
+      }
+    ],
+    "VelocityAtAphelion": [
+      {
+        "type": "double",
+        "name": "e"
+      },
+      {
+        "type": "double",
+        "name": "a"
+      }
+    ],
+    "LengthOfEllipse": [
+      {
+        "type": "double",
+        "name": "e"
+      },
+      {
+        "type": "double",
+        "name": "a"
+      }
+    ],
+    "CometMagnitude": [
+      {
+        "type": "double",
+        "name": "g"
+      },
+      {
+        "type": "double",
+        "name": "delta"
+      },
+      {
+        "type": "double",
+        "name": "k"
+      },
+      {
+        "type": "double",
+        "name": "r"
+      }
+    ],
+    "MinorPlanetMagnitude": [
+      {
+        "type": "double",
+        "name": "H"
+      },
+      {
+        "type": "double",
+        "name": "delta"
+      },
+      {
+        "type": "double",
+        "name": "G"
+      },
+      {
+        "type": "double",
+        "name": "r"
+      },
+      {
+        "type": "double",
+        "name": "PhaseAngle"
+      }
+    ]
+  },
+  "CAAEquationOfTime": {
+    "Calculate": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ]
+  },
+  "CAAEquinoxesAndSolstices": {
+    "NorthwardEquinox": [
+      {
+        "type": "long",
+        "name": "Year"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ],
+    "NorthernSolstice": [
+      {
+        "type": "long",
+        "name": "Year"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ],
+    "SouthwardEquinox": [
+      {
+        "type": "long",
+        "name": "Year"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ],
+    "SouthernSolstice": [
+      {
+        "type": "long",
+        "name": "Year"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ],
+    "LengthOfSpring": [
+      {
+        "type": "long",
+        "name": "Year"
+      },
+      {
+        "type": "bool",
+        "name": "bNorthernHemisphere"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ],
+    "LengthOfSummer": [
+      {
+        "type": "long",
+        "name": "Year"
+      },
+      {
+        "type": "bool",
+        "name": "bNorthernHemisphere"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ],
+    "LengthOfAutumn": [
+      {
+        "type": "long",
+        "name": "Year"
+      },
+      {
+        "type": "bool",
+        "name": "bNorthernHemisphere"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ],
+    "LengthOfWinter": [
+      {
+        "type": "long",
+        "name": "Year"
+      },
+      {
+        "type": "bool",
+        "name": "bNorthernHemisphere"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ]
+  },
+  "CAAEquinoxesAndSolstices2": {
+    "Calculate": [
+      {
+        "type": "double",
+        "name": "StartJD"
+      },
+      {
+        "type": "double",
+        "name": "EndJD"
+      },
+      {
+        "type": "double",
+        "name": "StepInterval"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ]
+  },
+  "CAAFK5": {
+    "CorrectionInLongitude": [
+      {
+        "type": "double",
+        "name": "Longitude"
+      },
+      {
+        "type": "double",
+        "name": "Latitude"
+      },
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "CorrectionInLatitude": [
+      {
+        "type": "double",
+        "name": "Longitude"
+      },
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "ConvertVSOPToFK5J2000": [
+      {
+        "type": "const CAA3DCoordinate &",
+        "name": "value"
+      }
+    ],
+    "ConvertVSOPToFK5B1950": [
+      {
+        "type": "const CAA3DCoordinate &",
+        "name": "value"
+      }
+    ],
+    "ConvertVSOPToFK5AnyEquinox": [
+      {
+        "type": "const CAA3DCoordinate &",
+        "name": "value"
+      },
+      {
+        "type": "double",
+        "name": "JDEquinox"
+      }
+    ]
+  },
+  "CAAGalileanMoons": {
+    "Calculate": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ]
+  },
+  "CAAGlobe": {
+    "RhoSinThetaPrime": [
+      {
+        "type": "double",
+        "name": "GeographicalLatitude"
+      },
+      {
+        "type": "double",
+        "name": "Height"
+      }
+    ],
+    "RhoCosThetaPrime": [
+      {
+        "type": "double",
+        "name": "GeographicalLatitude"
+      },
+      {
+        "type": "double",
+        "name": "Height"
+      }
+    ],
+    "RadiusOfParallelOfLatitude": [
+      {
+        "type": "double",
+        "name": "GeographicalLatitude"
+      }
+    ],
+    "RadiusOfCurvature": [
+      {
+        "type": "double",
+        "name": "GeographicalLatitude"
+      }
+    ],
+    "DistanceBetweenPoints": [
+      {
+        "type": "double",
+        "name": "GeographicalLatitude1"
+      },
+      {
+        "type": "double",
+        "name": "GeographicalLongitude1"
+      },
+      {
+        "type": "double",
+        "name": "GeographicalLatitude2"
+      },
+      {
+        "type": "double",
+        "name": "GeographicalLongitude2"
+      }
+    ]
+  },
+  "CAAHyperbolic": {
+    "CalculateKeplers": [
+      {
+        "type": "double",
+        "name": "M"
+      },
+      {
+        "type": "double",
+        "name": "e"
+      },
+      {
+        "type": "double",
+        "name": "epsilon"
+      }
+    ],
+    "Calculate": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "const CAAHyperbolicObjectElements &",
+        "name": "elements"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      },
+      {
+        "type": "double",
+        "name": "epsilon"
+      }
+    ],
+    "CalculateTrueAnomalyAndRadius": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "const CAAHyperbolicObjectElements &",
+        "name": "elements"
+      },
+      {
+        "type": "double &",
+        "name": "v"
+      },
+      {
+        "type": "double &",
+        "name": "r"
+      },
+      {
+        "type": "double",
+        "name": "epsilon"
+      }
+    ]
+  },
+  "CAAIlluminatedFraction": {
+    "PhaseAngle": [
+      {
+        "type": "double",
+        "name": "R"
+      },
+      {
+        "type": "double",
+        "name": "R0"
+      },
+      {
+        "type": "double",
+        "name": "B"
+      },
+      {
+        "type": "double",
+        "name": "L"
+      },
+      {
+        "type": "double",
+        "name": "L0"
+      },
+      {
+        "type": "double",
+        "name": "Delta"
+      }
+    ],
+    "PhaseAngleRectangular": [
+      {
+        "type": "double",
+        "name": "x"
+      },
+      {
+        "type": "double",
+        "name": "y"
+      },
+      {
+        "type": "double",
+        "name": "z"
+      },
+      {
+        "type": "double",
+        "name": "B"
+      },
+      {
+        "type": "double",
+        "name": "L"
+      },
+      {
+        "type": "double",
+        "name": "Delta"
+      }
+    ],
+    "IlluminatedFraction": [
+      {
+        "type": "double",
+        "name": "r"
+      },
+      {
+        "type": "double",
+        "name": "R"
+      },
+      {
+        "type": "double",
+        "name": "Delta"
+      }
+    ],
+    "MercuryMagnitudeMuller": [
+      {
+        "type": "double",
+        "name": "r"
+      },
+      {
+        "type": "double",
+        "name": "Delta"
+      },
+      {
+        "type": "double",
+        "name": "i"
+      }
+    ],
+    "VenusMagnitudeMuller": [
+      {
+        "type": "double",
+        "name": "r"
+      },
+      {
+        "type": "double",
+        "name": "Delta"
+      },
+      {
+        "type": "double",
+        "name": "i"
+      }
+    ],
+    "MarsMagnitudeMuller": [
+      {
+        "type": "double",
+        "name": "r"
+      },
+      {
+        "type": "double",
+        "name": "Delta"
+      },
+      {
+        "type": "double",
+        "name": "i"
+      }
+    ],
+    "JupiterMagnitudeMuller": [
+      {
+        "type": "double",
+        "name": "r"
+      },
+      {
+        "type": "double",
+        "name": "Delta"
+      }
+    ],
+    "SaturnMagnitudeMuller": [
+      {
+        "type": "double",
+        "name": "r"
+      },
+      {
+        "type": "double",
+        "name": "Delta"
+      },
+      {
+        "type": "double",
+        "name": "DeltaU"
+      },
+      {
+        "type": "double",
+        "name": "B"
+      }
+    ],
+    "UranusMagnitudeMuller": [
+      {
+        "type": "double",
+        "name": "r"
+      },
+      {
+        "type": "double",
+        "name": "Delta"
+      }
+    ],
+    "NeptuneMagnitudeMuller": [
+      {
+        "type": "double",
+        "name": "r"
+      },
+      {
+        "type": "double",
+        "name": "Delta"
+      }
+    ],
+    "MercuryMagnitudeAA": [
+      {
+        "type": "double",
+        "name": "r"
+      },
+      {
+        "type": "double",
+        "name": "Delta"
+      },
+      {
+        "type": "double",
+        "name": "i"
+      }
+    ],
+    "VenusMagnitudeAA": [
+      {
+        "type": "double",
+        "name": "r"
+      },
+      {
+        "type": "double",
+        "name": "Delta"
+      },
+      {
+        "type": "double",
+        "name": "i"
+      }
+    ],
+    "MarsMagnitudeAA": [
+      {
+        "type": "double",
+        "name": "r"
+      },
+      {
+        "type": "double",
+        "name": "Delta"
+      },
+      {
+        "type": "double",
+        "name": "i"
+      }
+    ],
+    "JupiterMagnitudeAA": [
+      {
+        "type": "double",
+        "name": "r"
+      },
+      {
+        "type": "double",
+        "name": "Delta"
+      },
+      {
+        "type": "double",
+        "name": "i"
+      }
+    ],
+    "SaturnMagnitudeAA": [
+      {
+        "type": "double",
+        "name": "r"
+      },
+      {
+        "type": "double",
+        "name": "Delta"
+      },
+      {
+        "type": "double",
+        "name": "DeltaU"
+      },
+      {
+        "type": "double",
+        "name": "B"
+      }
+    ],
+    "UranusMagnitudeAA": [
+      {
+        "type": "double",
+        "name": "r"
+      },
+      {
+        "type": "double",
+        "name": "Delta"
+      }
+    ],
+    "NeptuneMagnitudeAA": [
+      {
+        "type": "double",
+        "name": "r"
+      },
+      {
+        "type": "double",
+        "name": "Delta"
+      }
+    ],
+    "PlutoMagnitudeAA": [
+      {
+        "type": "double",
+        "name": "r"
+      },
+      {
+        "type": "double",
+        "name": "Delta"
+      }
+    ]
+  },
+  "CAAInterpolate": {
+    "Interpolate": [
+      {
+        "type": "double",
+        "name": "n"
+      },
+      {
+        "type": "double",
+        "name": "Y1"
+      },
+      {
+        "type": "double",
+        "name": "Y2"
+      },
+      {
+        "type": "double",
+        "name": "Y3"
+      },
+      {
+        "type": "double",
+        "name": "Y4"
+      },
+      {
+        "type": "double",
+        "name": "Y5"
+      }
+    ],
+    "InterpolateToHalves": [
+      {
+        "type": "double",
+        "name": "Y1"
+      },
+      {
+        "type": "double",
+        "name": "Y2"
+      },
+      {
+        "type": "double",
+        "name": "Y3"
+      },
+      {
+        "type": "double",
+        "name": "Y4"
+      }
+    ],
+    "LagrangeInterpolate": [
+      {
+        "type": "double",
+        "name": "X"
+      },
+      {
+        "type": "int",
+        "name": "n"
+      },
+      {
+        "type": "const double *",
+        "name": "pX"
+      },
+      {
+        "type": "const double *",
+        "name": "pY"
+      }
+    ],
+    "Extremum": [
+      {
+        "type": "double",
+        "name": "Y1"
+      },
+      {
+        "type": "double",
+        "name": "Y2"
+      },
+      {
+        "type": "double",
+        "name": "Y3"
+      },
+      {
+        "type": "double",
+        "name": "Y4"
+      },
+      {
+        "type": "double",
+        "name": "Y5"
+      },
+      {
+        "type": "double &",
+        "name": "nm"
+      },
+      {
+        "type": "double",
+        "name": "epsilon"
+      }
+    ],
+    "Zero": [
+      {
+        "type": "double",
+        "name": "Y1"
+      },
+      {
+        "type": "double",
+        "name": "Y2"
+      },
+      {
+        "type": "double",
+        "name": "Y3"
+      },
+      {
+        "type": "double",
+        "name": "Y4"
+      },
+      {
+        "type": "double",
+        "name": "Y5"
+      },
+      {
+        "type": "double",
+        "name": "epsilon"
+      }
+    ],
+    "Zero2": [
+      {
+        "type": "double",
+        "name": "Y1"
+      },
+      {
+        "type": "double",
+        "name": "Y2"
+      },
+      {
+        "type": "double",
+        "name": "Y3"
+      },
+      {
+        "type": "double",
+        "name": "Y4"
+      },
+      {
+        "type": "double",
+        "name": "Y5"
+      },
+      {
+        "type": "double",
+        "name": "epsilon"
+      }
+    ]
+  },
+  "CAAJewishCalendar": {
+    "DateOfPesach": [
+      {
+        "type": "long",
+        "name": "Year"
+      },
+      {
+        "type": "bool",
+        "name": "bGregorianCalendar"
+      }
+    ],
+    "IsLeap": [
+      {
+        "type": "long",
+        "name": "Year"
+      }
+    ],
+    "DaysInYear": [
+      {
+        "type": "long",
+        "name": "Year"
+      }
+    ]
+  },
+  "CAAJupiter": {
+    "EclipticLongitude": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ],
+    "EclipticLatitude": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ],
+    "RadiusVector": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ]
+  },
+  "CAAKepler": {
+    "Calculate": [
+      {
+        "type": "double",
+        "name": "M"
+      },
+      {
+        "type": "double",
+        "name": "e"
+      },
+      {
+        "type": "double",
+        "name": "epsilon"
+      }
+    ],
+    "CalculateRadians": [
+      {
+        "type": "double",
+        "name": "M"
+      },
+      {
+        "type": "double",
+        "name": "e"
+      },
+      {
+        "type": "double",
+        "name": "epsilon"
+      }
+    ]
+  },
+  "CAAMars": {
+    "EclipticLongitude": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ],
+    "EclipticLatitude": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ],
+    "RadiusVector": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ]
+  },
+  "CAAMercury": {
+    "EclipticLongitude": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ],
+    "EclipticLatitude": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ],
+    "RadiusVector": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ]
+  },
+  "CAAMoon": {
+    "MeanLongitude": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "MeanElongation": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "MeanAnomaly": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "ArgumentOfLatitude": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "MeanLongitudeAscendingNode": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "MeanLongitudePerigee": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "TrueLongitudeAscendingNode": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "EclipticLongitude": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "EclipticLatitude": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "RadiusVector": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "RadiusVectorToHorizontalParallax": [
+      {
+        "type": "double",
+        "name": "RadiusVector"
+      }
+    ],
+    "HorizontalParallaxToRadiusVector": [
+      {
+        "type": "double",
+        "name": "Parallax"
+      }
+    ]
+  },
+  "CAAMoonIlluminatedFraction": {
+    "GeocentricElongation": [
+      {
+        "type": "double",
+        "name": "ObjectAlpha"
+      },
+      {
+        "type": "double",
+        "name": "ObjectDelta"
+      },
+      {
+        "type": "double",
+        "name": "SunAlpha"
+      },
+      {
+        "type": "double",
+        "name": "SunDelta"
+      }
+    ],
+    "PhaseAngle": [
+      {
+        "type": "double",
+        "name": "GeocentricElongation"
+      },
+      {
+        "type": "double",
+        "name": "EarthObjectDistance"
+      },
+      {
+        "type": "double",
+        "name": "EarthSunDistance"
+      }
+    ],
+    "IlluminatedFraction": [
+      {
+        "type": "double",
+        "name": "PhaseAngle"
+      }
+    ],
+    "PositionAngle": [
+      {
+        "type": "double",
+        "name": "Alpha0"
+      },
+      {
+        "type": "double",
+        "name": "Delta0"
+      },
+      {
+        "type": "double",
+        "name": "Alpha"
+      },
+      {
+        "type": "double",
+        "name": "Delta"
+      }
+    ]
+  },
+  "CAAMoonMaxDeclinations": {
+    "K": [
+      {
+        "type": "double",
+        "name": "Year"
+      }
+    ],
+    "MeanGreatestDeclination": [
+      {
+        "type": "double",
+        "name": "k"
+      },
+      {
+        "type": "bool",
+        "name": "bNortherly"
+      }
+    ],
+    "MeanGreatestDeclinationValue": [
+      {
+        "type": "double",
+        "name": "k"
+      }
+    ],
+    "TrueGreatestDeclination": [
+      {
+        "type": "double",
+        "name": "k"
+      },
+      {
+        "type": "bool",
+        "name": "bNortherly"
+      }
+    ],
+    "TrueGreatestDeclinationValue": [
+      {
+        "type": "double",
+        "name": "k"
+      },
+      {
+        "type": "bool",
+        "name": "bNortherly"
+      }
+    ]
+  },
+  "CAAMoonMaxDeclinations2": {
+    "Calculate": [
+      {
+        "type": "double",
+        "name": "StartJD"
+      },
+      {
+        "type": "double",
+        "name": "EndJD"
+      },
+      {
+        "type": "double",
+        "name": "StepInterval"
+      },
+      {
+        "type": "Algorithm",
+        "name": "algorithm"
+      }
+    ]
+  },
+  "CAAMoonNodes": {
+    "K": [
+      {
+        "type": "double",
+        "name": "Year"
+      }
+    ],
+    "PassageThroNode": [
+      {
+        "type": "double",
+        "name": "k"
+      }
+    ]
+  },
+  "CAAMoonNodes2": {
+    "Calculate": [
+      {
+        "type": "double",
+        "name": "StartJD"
+      },
+      {
+        "type": "double",
+        "name": "EndJD"
+      },
+      {
+        "type": "double",
+        "name": "StepInterval"
+      },
+      {
+        "type": "Algorithm",
+        "name": "algorithm"
+      }
+    ]
+  },
+  "CAAMoonPerigeeApogee": {
+    "K": [
+      {
+        "type": "double",
+        "name": "Year"
+      }
+    ],
+    "MeanPerigee": [
+      {
+        "type": "double",
+        "name": "k"
+      }
+    ],
+    "MeanApogee": [
+      {
+        "type": "double",
+        "name": "k"
+      }
+    ],
+    "TruePerigee": [
+      {
+        "type": "double",
+        "name": "k"
+      }
+    ],
+    "TrueApogee": [
+      {
+        "type": "double",
+        "name": "k"
+      }
+    ],
+    "PerigeeParallax": [
+      {
+        "type": "double",
+        "name": "k"
+      }
+    ],
+    "ApogeeParallax": [
+      {
+        "type": "double",
+        "name": "k"
+      }
+    ]
+  },
+  "CAAMoonPerigeeApogee2": {
+    "Calculate": [
+      {
+        "type": "double",
+        "name": "StartJD"
+      },
+      {
+        "type": "double",
+        "name": "EndJD"
+      },
+      {
+        "type": "double",
+        "name": "StepInterval"
+      },
+      {
+        "type": "Algorithm",
+        "name": "algorithm"
+      }
+    ]
+  },
+  "CAAMoonPhases": {
+    "K": [
+      {
+        "type": "double",
+        "name": "Year"
+      }
+    ],
+    "MeanPhase": [
+      {
+        "type": "double",
+        "name": "k"
+      }
+    ],
+    "TruePhase": [
+      {
+        "type": "double",
+        "name": "k"
+      }
+    ]
+  },
+  "CAAMoonPhases2": {
+    "Calculate": [
+      {
+        "type": "double",
+        "name": "StartJD"
+      },
+      {
+        "type": "double",
+        "name": "EndJD"
+      },
+      {
+        "type": "double",
+        "name": "StepInterval"
+      },
+      {
+        "type": "Algorithm",
+        "name": "algorithm"
+      }
+    ]
+  },
+  "CAAMoslemCalendar": {
+    "MoslemToJulian": [
+      {
+        "type": "long",
+        "name": "Year"
+      },
+      {
+        "type": "long",
+        "name": "Month"
+      },
+      {
+        "type": "long",
+        "name": "Day"
+      }
+    ],
+    "JulianToMoslem": [
+      {
+        "type": "long",
+        "name": "Year"
+      },
+      {
+        "type": "long",
+        "name": "Month"
+      },
+      {
+        "type": "long",
+        "name": "Day"
+      }
+    ],
+    "IsLeap": [
+      {
+        "type": "long",
+        "name": "Year"
+      }
+    ]
+  },
+  "CAANearParabolic": {
+    "Calculate": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "const CAANearParabolicObjectElements &",
+        "name": "elements"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ],
+    "cbrt": [
+      {
+        "type": "double",
+        "name": "x"
+      }
+    ],
+    "CalculateTrueAnomalyAndRadius": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "const CAANearParabolicObjectElements &",
+        "name": "elements"
+      },
+      {
+        "type": "double &",
+        "name": "v"
+      },
+      {
+        "type": "double &",
+        "name": "r"
+      }
+    ]
+  },
+  "CAANeptune": {
+    "EclipticLongitude": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ],
+    "EclipticLatitude": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ],
+    "RadiusVector": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ]
+  },
+  "CAANodes": {
+    "PassageThroAscendingNode": [
+      {
+        "type": "const CAAParabolicObjectElements &",
+        "name": "elements"
+      }
+    ],
+    "PassageThroDescendingNode": [
+      {
+        "type": "const CAAParabolicObjectElements &",
+        "name": "elements"
+      }
+    ]
+  },
+  "CAANutation": {
+    "NutationInLongitude": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "NutationInObliquity": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "NutationInRightAscension": [
+      {
+        "type": "double",
+        "name": "Alpha"
+      },
+      {
+        "type": "double",
+        "name": "Delta"
+      },
+      {
+        "type": "double",
+        "name": "Obliquity"
+      },
+      {
+        "type": "double",
+        "name": "NutationInLongitude"
+      },
+      {
+        "type": "double",
+        "name": "NutationInObliquity"
+      }
+    ],
+    "NutationInDeclination": [
+      {
+        "type": "double",
+        "name": "Alpha"
+      },
+      {
+        "type": "double",
+        "name": "Obliquity"
+      },
+      {
+        "type": "double",
+        "name": "NutationInLongitude"
+      },
+      {
+        "type": "double",
+        "name": "NutationInObliquity"
+      }
+    ],
+    "MeanObliquityOfEcliptic": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "TrueObliquityOfEcliptic": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAParabolic": {
+    "CalculateBarkers": [
+      {
+        "type": "double",
+        "name": "W"
+      },
+      {
+        "type": "double",
+        "name": "epsilon"
+      }
+    ],
+    "Calculate": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "const CAAParabolicObjectElements &",
+        "name": "elements"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      },
+      {
+        "type": "double",
+        "name": "epsilon"
+      }
+    ]
+  },
+  "CAAParallactic": {
+    "ParallacticAngle": [
+      {
+        "type": "double",
+        "name": "HourAngle"
+      },
+      {
+        "type": "double",
+        "name": "Latitude"
+      },
+      {
+        "type": "double",
+        "name": "delta"
+      }
+    ],
+    "EclipticLongitudeOnHorizon": [
+      {
+        "type": "double",
+        "name": "LocalSiderealTime"
+      },
+      {
+        "type": "double",
+        "name": "ObliquityOfEcliptic"
+      },
+      {
+        "type": "double",
+        "name": "Latitude"
+      }
+    ],
+    "AngleBetweenEclipticAndHorizon": [
+      {
+        "type": "double",
+        "name": "LocalSiderealTime"
+      },
+      {
+        "type": "double",
+        "name": "ObliquityOfEcliptic"
+      },
+      {
+        "type": "double",
+        "name": "Latitude"
+      }
+    ],
+    "AngleBetweenNorthCelestialPoleAndNorthPoleOfEcliptic": [
+      {
+        "type": "double",
+        "name": "Lambda"
+      },
+      {
+        "type": "double",
+        "name": "Beta"
+      },
+      {
+        "type": "double",
+        "name": "ObliquityOfEcliptic"
+      }
+    ]
+  },
+  "CAAParallax": {
+    "Equatorial2TopocentricDelta": [
+      {
+        "type": "double",
+        "name": "Alpha"
+      },
+      {
+        "type": "double",
+        "name": "Delta"
+      },
+      {
+        "type": "double",
+        "name": "Distance"
+      },
+      {
+        "type": "double",
+        "name": "Longitude"
+      },
+      {
+        "type": "double",
+        "name": "Latitude"
+      },
+      {
+        "type": "double",
+        "name": "Height"
+      },
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Equatorial2Topocentric": [
+      {
+        "type": "double",
+        "name": "Alpha"
+      },
+      {
+        "type": "double",
+        "name": "Delta"
+      },
+      {
+        "type": "double",
+        "name": "Distance"
+      },
+      {
+        "type": "double",
+        "name": "Longitude"
+      },
+      {
+        "type": "double",
+        "name": "Latitude"
+      },
+      {
+        "type": "double",
+        "name": "Height"
+      },
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Ecliptic2Topocentric": [
+      {
+        "type": "double",
+        "name": "Lambda"
+      },
+      {
+        "type": "double",
+        "name": "Beta"
+      },
+      {
+        "type": "double",
+        "name": "Semidiameter"
+      },
+      {
+        "type": "double",
+        "name": "Distance"
+      },
+      {
+        "type": "double",
+        "name": "Epsilon"
+      },
+      {
+        "type": "double",
+        "name": "Latitude"
+      },
+      {
+        "type": "double",
+        "name": "Height"
+      },
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "ParallaxToDistance": [
+      {
+        "type": "double",
+        "name": "Parallax"
+      }
+    ],
+    "DistanceToParallax": [
+      {
+        "type": "double",
+        "name": "Distance"
+      }
+    ]
+  },
+  "CAAPhysicalJupiter": {
+    "Calculate": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ]
+  },
+  "CAAPhysicalMars": {
+    "Calculate": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ]
+  },
+  "CAAPhysicalMoon": {
+    "CalculateGeocentric": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "CalculateTopocentric": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "double",
+        "name": "Longitude"
+      },
+      {
+        "type": "double",
+        "name": "Latitude"
+      }
+    ],
+    "CalculateSelenographicPositionOfSun": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ],
+    "AltitudeOfSun": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "double",
+        "name": "Longitude"
+      },
+      {
+        "type": "double",
+        "name": "Latitude"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ],
+    "TimeOfSunrise": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "double",
+        "name": "Longitude"
+      },
+      {
+        "type": "double",
+        "name": "Latitude"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ],
+    "TimeOfSunset": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "double",
+        "name": "Longitude"
+      },
+      {
+        "type": "double",
+        "name": "Latitude"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ]
+  },
+  "CAAPhysicalSun": {
+    "Calculate": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ],
+    "TimeOfStartOfRotation": [
+      {
+        "type": "long",
+        "name": "C"
+      }
+    ]
+  },
+  "CAAPlanetPerihelionAphelion": {
+    "MercuryK": [
+      {
+        "type": "double",
+        "name": "Year"
+      }
+    ],
+    "Mercury": [
+      {
+        "type": "double",
+        "name": "k"
+      }
+    ],
+    "VenusK": [
+      {
+        "type": "double",
+        "name": "Year"
+      }
+    ],
+    "Venus": [
+      {
+        "type": "double",
+        "name": "k"
+      }
+    ],
+    "EarthK": [
+      {
+        "type": "double",
+        "name": "Year"
+      }
+    ],
+    "EarthPerihelion": [
+      {
+        "type": "double",
+        "name": "k"
+      },
+      {
+        "type": "bool",
+        "name": "bBarycentric"
+      }
+    ],
+    "EarthAphelion": [
+      {
+        "type": "double",
+        "name": "k"
+      },
+      {
+        "type": "bool",
+        "name": "bBarycentric"
+      }
+    ],
+    "MarsK": [
+      {
+        "type": "double",
+        "name": "Year"
+      }
+    ],
+    "Mars": [
+      {
+        "type": "double",
+        "name": "k"
+      }
+    ],
+    "JupiterK": [
+      {
+        "type": "double",
+        "name": "Year"
+      }
+    ],
+    "Jupiter": [
+      {
+        "type": "double",
+        "name": "k"
+      }
+    ],
+    "SaturnK": [
+      {
+        "type": "double",
+        "name": "Year"
+      }
+    ],
+    "Saturn": [
+      {
+        "type": "double",
+        "name": "k"
+      }
+    ],
+    "UranusK": [
+      {
+        "type": "double",
+        "name": "Year"
+      }
+    ],
+    "Uranus": [
+      {
+        "type": "double",
+        "name": "k"
+      }
+    ],
+    "NeptuneK": [
+      {
+        "type": "double",
+        "name": "Year"
+      }
+    ],
+    "Neptune": [
+      {
+        "type": "double",
+        "name": "k"
+      }
+    ]
+  },
+  "CAAPlanetPerihelionAphelion2": {
+    "Calculate": [
+      {
+        "type": "double",
+        "name": "StartJD"
+      },
+      {
+        "type": "double",
+        "name": "EndJD"
+      },
+      {
+        "type": "Object",
+        "name": "object"
+      },
+      {
+        "type": "double",
+        "name": "StepInterval"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ]
+  },
+  "CAAPlanetaryPhenomena": {
+    "K": [
+      {
+        "type": "double",
+        "name": "Year"
+      },
+      {
+        "type": "Planet",
+        "name": "planet"
+      },
+      {
+        "type": "Type",
+        "name": "type"
+      }
+    ],
+    "Mean": [
+      {
+        "type": "double",
+        "name": "k"
+      },
+      {
+        "type": "Planet",
+        "name": "planet"
+      },
+      {
+        "type": "Type",
+        "name": "type"
+      }
+    ],
+    "True": [
+      {
+        "type": "double",
+        "name": "k"
+      },
+      {
+        "type": "Planet",
+        "name": "planet"
+      },
+      {
+        "type": "Type",
+        "name": "type"
+      }
+    ],
+    "ElongationValue": [
+      {
+        "type": "double",
+        "name": "k"
+      },
+      {
+        "type": "Planet",
+        "name": "planet"
+      },
+      {
+        "type": "bool",
+        "name": "bEastern"
+      }
+    ]
+  },
+  "CAAPlanetaryPhenomena2": {
+    "Calculate": [
+      {
+        "type": "double",
+        "name": "StartJD"
+      },
+      {
+        "type": "double",
+        "name": "EndJD"
+      },
+      {
+        "type": "Object",
+        "name": "object"
+      },
+      {
+        "type": "double",
+        "name": "StepInterval"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ]
+  },
+  "CAAPluto": {
+    "EclipticLongitude": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "EclipticLatitude": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "RadiusVector": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAPrecession": {
+    "PrecessEquatorial": [
+      {
+        "type": "double",
+        "name": "Alpha"
+      },
+      {
+        "type": "double",
+        "name": "Delta"
+      },
+      {
+        "type": "double",
+        "name": "JD0"
+      },
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "PrecessEquatorialFK4": [
+      {
+        "type": "double",
+        "name": "Alpha"
+      },
+      {
+        "type": "double",
+        "name": "Delta"
+      },
+      {
+        "type": "double",
+        "name": "JD0"
+      },
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "PrecessEcliptic": [
+      {
+        "type": "double",
+        "name": "Lambda"
+      },
+      {
+        "type": "double",
+        "name": "Beta"
+      },
+      {
+        "type": "double",
+        "name": "JD0"
+      },
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "EquatorialPMToEcliptic": [
+      {
+        "type": "double",
+        "name": "Alpha"
+      },
+      {
+        "type": "double",
+        "name": "Delta"
+      },
+      {
+        "type": "double",
+        "name": "Beta"
+      },
+      {
+        "type": "double",
+        "name": "PMAlpha"
+      },
+      {
+        "type": "double",
+        "name": "PMDelta"
+      },
+      {
+        "type": "double",
+        "name": "Epsilon"
+      }
+    ],
+    "AdjustPositionUsingUniformProperMotion": [
+      {
+        "type": "double",
+        "name": "t"
+      },
+      {
+        "type": "double",
+        "name": "Alpha"
+      },
+      {
+        "type": "double",
+        "name": "Delta"
+      },
+      {
+        "type": "double",
+        "name": "PMAlpha"
+      },
+      {
+        "type": "double",
+        "name": "PMDelta"
+      }
+    ],
+    "AdjustPositionUsingMotionInSpace": [
+      {
+        "type": "double",
+        "name": "r"
+      },
+      {
+        "type": "double",
+        "name": "deltar"
+      },
+      {
+        "type": "double",
+        "name": "t"
+      },
+      {
+        "type": "double",
+        "name": "Alpha"
+      },
+      {
+        "type": "double",
+        "name": "Delta"
+      },
+      {
+        "type": "double",
+        "name": "PMAlpha"
+      },
+      {
+        "type": "double",
+        "name": "PMDelta"
+      }
+    ]
+  },
+  "CAARefraction": {
+    "RefractionFromApparent": [
+      {
+        "type": "double",
+        "name": "Altitude"
+      },
+      {
+        "type": "double",
+        "name": "Pressure"
+      },
+      {
+        "type": "double",
+        "name": "Temperature"
+      }
+    ],
+    "RefractionFromTrue": [
+      {
+        "type": "double",
+        "name": "Altitude"
+      },
+      {
+        "type": "double",
+        "name": "Pressure"
+      },
+      {
+        "type": "double",
+        "name": "Temperature"
+      }
+    ]
+  },
+  "CAARiseTransitSet": {
+    "Calculate": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "double",
+        "name": "Alpha1"
+      },
+      {
+        "type": "double",
+        "name": "Delta1"
+      },
+      {
+        "type": "double",
+        "name": "Alpha2"
+      },
+      {
+        "type": "double",
+        "name": "Delta2"
+      },
+      {
+        "type": "double",
+        "name": "Alpha3"
+      },
+      {
+        "type": "double",
+        "name": "Delta3"
+      },
+      {
+        "type": "double",
+        "name": "Longitude"
+      },
+      {
+        "type": "double",
+        "name": "Latitude"
+      },
+      {
+        "type": "double",
+        "name": "h0"
+      }
+    ],
+    "CorrectRAValuesForInterpolation": [
+      {
+        "type": "double &",
+        "name": "Alpha1"
+      },
+      {
+        "type": "double &",
+        "name": "Alpha2"
+      },
+      {
+        "type": "double &",
+        "name": "Alpha3"
+      }
+    ]
+  },
+  "CAARiseTransitSet2": {
+    "Calculate": [
+      {
+        "type": "double",
+        "name": "StartJD"
+      },
+      {
+        "type": "double",
+        "name": "EndJD"
+      },
+      {
+        "type": "Object",
+        "name": "object"
+      },
+      {
+        "type": "double",
+        "name": "Longitude"
+      },
+      {
+        "type": "double",
+        "name": "Latitude"
+      },
+      {
+        "type": "double",
+        "name": "h0"
+      },
+      {
+        "type": "double",
+        "name": "StepInterval"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ],
+    "CalculateMoon": [
+      {
+        "type": "double",
+        "name": "StartJD"
+      },
+      {
+        "type": "double",
+        "name": "EndJD"
+      },
+      {
+        "type": "double",
+        "name": "Longitude"
+      },
+      {
+        "type": "double",
+        "name": "Latitude"
+      },
+      {
+        "type": "double",
+        "name": "RefractionAtHorizon"
+      },
+      {
+        "type": "double",
+        "name": "StepInterval"
+      },
+      {
+        "type": "MoonAlgorithm",
+        "name": "algorithm"
+      }
+    ],
+    "CalculateStationary": [
+      {
+        "type": "double",
+        "name": "StartJD"
+      },
+      {
+        "type": "double",
+        "name": "EndJD"
+      },
+      {
+        "type": "double",
+        "name": "Alpha"
+      },
+      {
+        "type": "double",
+        "name": "Delta"
+      },
+      {
+        "type": "double",
+        "name": "Longitude"
+      },
+      {
+        "type": "double",
+        "name": "Latitude"
+      },
+      {
+        "type": "double",
+        "name": "h0"
+      },
+      {
+        "type": "double",
+        "name": "StepInterval"
+      }
+    ]
+  },
+  "CAASaturn": {
+    "EclipticLongitude": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ],
+    "EclipticLatitude": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ],
+    "RadiusVector": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ]
+  },
+  "CAASaturnMoons": {
+    "Calculate": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ]
+  },
+  "CAASaturnRings": {
+    "Calculate": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ]
+  },
+  "CAASidereal": {
+    "MeanGreenwichSiderealTime": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "ApparentGreenwichSiderealTime": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAStellarMagnitudes": {
+    "CombinedMagnitude": [
+      {
+        "type": "int",
+        "name": "Magnitudes"
+      },
+      {
+        "type": "const double *",
+        "name": "pMagnitudes"
+      }
+    ],
+    "BrightnessRatio": [
+      {
+        "type": "double",
+        "name": "m1"
+      },
+      {
+        "type": "double",
+        "name": "m2"
+      }
+    ],
+    "MagnitudeDifference": [
+      {
+        "type": "double",
+        "name": "brightnessRatio"
+      }
+    ]
+  },
+  "CAASun": {
+    "GeometricEclipticLongitude": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ],
+    "GeometricEclipticLatitude": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ],
+    "GeometricEclipticLongitudeJ2000": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ],
+    "GeometricEclipticLatitudeJ2000": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ],
+    "GeometricFK5EclipticLongitude": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ],
+    "GeometricFK5EclipticLatitude": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ],
+    "ApparentEclipticLongitude": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ],
+    "ApparentEclipticLatitude": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ],
+    "VariationGeometricEclipticLongitude": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "EquatorialRectangularCoordinatesMeanEquinox": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ],
+    "EclipticRectangularCoordinatesJ2000": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ],
+    "EquatorialRectangularCoordinatesJ2000": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ],
+    "EquatorialRectangularCoordinatesB1950": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ],
+    "EquatorialRectangularCoordinatesAnyEquinox": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "double",
+        "name": "JDEquinox"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ]
+  },
+  "CAAUranus": {
+    "EclipticLongitude": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ],
+    "EclipticLatitude": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ],
+    "RadiusVector": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ]
+  },
+  "CAAVSOP2013": {
+    "CalculateMeanMotion": [
+      {
+        "type": "Planet",
+        "name": "planet"
+      },
+      {
+        "type": "double",
+        "name": "a"
+      }
+    ],
+    "OrbitToElements": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "Planet",
+        "name": "planet"
+      },
+      {
+        "type": "const CAAVSOP2013Orbit &",
+        "name": "orbit"
+      }
+    ],
+    "Ecliptic2Equatorial": [
+      {
+        "type": "const CAAVSOP2013Position &",
+        "name": "value"
+      }
+    ]
+  },
+  "CAAVSOP87": {
+    "Calculate": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "const VSOP87Coefficient2 *",
+        "name": "pTable"
+      },
+      {
+        "type": "int",
+        "name": "nTableSize"
+      },
+      {
+        "type": "bool",
+        "name": "bAngle"
+      }
+    ],
+    "Calculate_Dash": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "const VSOP87Coefficient2 *",
+        "name": "pTable"
+      },
+      {
+        "type": "int",
+        "name": "nTableSize"
+      }
+    ]
+  },
+  "CAAVSOP87A_Earth": {
+    "X": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "X_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVSOP87A_EMB": {
+    "X": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "X_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVSOP87A_Jupiter": {
+    "X": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "X_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVSOP87A_Mars": {
+    "X": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "X_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVSOP87A_Mercury": {
+    "X": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "X_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVSOP87A_Neptune": {
+    "X": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "X_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVSOP87A_Saturn": {
+    "X": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "X_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVSOP87A_Uranus": {
+    "X": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "X_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVSOP87A_Venus": {
+    "X": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "X_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVSOP87B_Earth": {
+    "L": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "L_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "B": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "B_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "R": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "R_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVSOP87B_Jupiter": {
+    "L": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "L_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "B": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "B_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "R": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "R_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVSOP87B_Mars": {
+    "L": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "L_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "B": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "B_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "R": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "R_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVSOP87B_Mercury": {
+    "L": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "L_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "B": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "B_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "R": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "R_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVSOP87B_Neptune": {
+    "L": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "L_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "B": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "B_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "R": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "R_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVSOP87B_Saturn": {
+    "L": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "L_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "B": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "B_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "R": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "R_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVSOP87B_Uranus": {
+    "L": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "L_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "B": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "B_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "R": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "R_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVSOP87B_Venus": {
+    "L": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "L_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "B": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "B_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "R": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "R_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVSOP87C_Earth": {
+    "X": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "X_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVSOP87C_Jupiter": {
+    "X": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "X_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVSOP87C_Mars": {
+    "X": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "X_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVSOP87C_Mercury": {
+    "X": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "X_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVSOP87C_Neptune": {
+    "X": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "X_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVSOP87C_Saturn": {
+    "X": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "X_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVSOP87C_Uranus": {
+    "X": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "X_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVSOP87C_Venus": {
+    "X": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "X_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVSOP87D_Earth": {
+    "L": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "L_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "B": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "B_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "R": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "R_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVSOP87D_Jupiter": {
+    "L": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "L_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "B": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "B_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "R": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "R_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVSOP87D_Mars": {
+    "L": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "L_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "B": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "B_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "R": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "R_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVSOP87D_Mercury": {
+    "L": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "L_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "B": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "B_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "R": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "R_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVSOP87D_Neptune": {
+    "L": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "L_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "B": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "B_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "R": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "R_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVSOP87D_Saturn": {
+    "L": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "L_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "B": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "B_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "R": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "R_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVSOP87D_Uranus": {
+    "L": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "L_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "B": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "B_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "R": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "R_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVSOP87D_Venus": {
+    "L": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "L_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "B": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "B_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "R": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "R_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVSOP87E_Earth": {
+    "X": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "X_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVSOP87E_Jupiter": {
+    "X": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "X_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVSOP87E_Mars": {
+    "X": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "X_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVSOP87E_Mercury": {
+    "X": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "X_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVSOP87E_Neptune": {
+    "X": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "X_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVSOP87E_Saturn": {
+    "X": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "X_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVSOP87E_Sun": {
+    "X": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "X_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVSOP87E_Uranus": {
+    "X": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "X_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVSOP87E_Venus": {
+    "X": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "X_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Y_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Z_DASH": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVSOP87_EMB": {
+    "A": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "L": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "K": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "H": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Q": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "P": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVSOP87_Jupiter": {
+    "A": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "L": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "K": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "H": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Q": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "P": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVSOP87_Mars": {
+    "A": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "L": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "K": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "H": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Q": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "P": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVSOP87_Mercury": {
+    "A": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "L": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "K": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "H": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Q": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "P": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVSOP87_Neptune": {
+    "A": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "L": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "K": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "H": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Q": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "P": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVSOP87_Saturn": {
+    "A": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "L": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "K": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "H": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Q": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "P": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVSOP87_Uranus": {
+    "A": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "L": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "K": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "H": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Q": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "P": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVSOP87_Venus": {
+    "A": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "L": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "K": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "H": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "Q": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ],
+    "P": [
+      {
+        "type": "double",
+        "name": "JD"
+      }
+    ]
+  },
+  "CAAVenus": {
+    "EclipticLongitude": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ],
+    "EclipticLatitude": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ],
+    "RadiusVector": [
+      {
+        "type": "double",
+        "name": "JD"
+      },
+      {
+        "type": "bool",
+        "name": "bHighPrecision"
+      }
+    ]
+  }
+}
