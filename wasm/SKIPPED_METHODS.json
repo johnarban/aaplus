@@ -1,0 +1,576 @@
+[
+  {
+    "class": "CAADate",
+    "method": "DayOfYearToDayAndMonth",
+    "return_type": "void",
+    "params": "long DayOfYear, bool bLeap, long & DayOfMonth, long & Month",
+    "reason": "non-const reference"
+  },
+  {
+    "class": "CAADate",
+    "method": "AfterPapalReform",
+    "return_type": "bool",
+    "params": "long Year, long Month, double Day",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAADate",
+    "method": "AfterPapalReform",
+    "return_type": "bool",
+    "params": "double JD",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAADate",
+    "method": "DaysInCommonMonth",
+    "return_type": "std::vector",
+    "params": "long Month",
+    "reason": "std::vector"
+  },
+  {
+    "class": "CAADynamicalTime",
+    "method": "SetUserDefinedDeltaT",
+    "return_type": "DELTAT_PROC",
+    "params": "DELTAT_PROC pProc",
+    "reason": "unknown"
+  },
+  {
+    "class": "CAAMoonMaxDeclinations2",
+    "method": "Calculate",
+    "return_type": "std::vector",
+    "params": "double StartJD, double EndJD, double StepInterval, Algorithm algorithm",
+    "reason": "std::vector"
+  },
+  {
+    "class": "CAAMoonNodes2",
+    "method": "Calculate",
+    "return_type": "std::vector",
+    "params": "double StartJD, double EndJD, double StepInterval, Algorithm algorithm",
+    "reason": "std::vector"
+  },
+  {
+    "class": "CAAMoonPerigeeApogee2",
+    "method": "Calculate",
+    "return_type": "std::vector",
+    "params": "double StartJD, double EndJD, double StepInterval, Algorithm algorithm",
+    "reason": "std::vector"
+  },
+  {
+    "class": "CAAMoonPhases2",
+    "method": "Calculate",
+    "return_type": "std::vector",
+    "params": "double StartJD, double EndJD, double StepInterval, Algorithm algorithm",
+    "reason": "std::vector"
+  },
+  {
+    "class": "CAARiseTransitSet",
+    "method": "CorrectRAValuesForInterpolation",
+    "return_type": "void",
+    "params": "double & Alpha1, double & Alpha2, double & Alpha3",
+    "reason": "non-const reference"
+  },
+  {
+    "class": "CAARiseTransitSet2",
+    "method": "Calculate",
+    "return_type": "std::vector",
+    "params": "double StartJD, double EndJD, Object object, double Longitude, double Latitude, double h0, double StepInterval, bool bHighPrecision",
+    "reason": "std::vector"
+  },
+  {
+    "class": "CAARiseTransitSet2",
+    "method": "CalculateMoon",
+    "return_type": "std::vector",
+    "params": "double StartJD, double EndJD, double Longitude, double Latitude, double RefractionAtHorizon, double StepInterval, MoonAlgorithm algorithm",
+    "reason": "std::vector"
+  },
+  {
+    "class": "CAARiseTransitSet2",
+    "method": "CalculateStationary",
+    "return_type": "std::vector",
+    "params": "double StartJD, double EndJD, double Alpha, double Delta, double Longitude, double Latitude, double h0, double StepInterval",
+    "reason": "std::vector"
+  },
+  {
+    "class": "CAAElliptical",
+    "method": "Calculate",
+    "return_type": "CAAEllipticalPlanetaryDetails",
+    "params": "double JD, Object object, bool bHighPrecision",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAElliptical",
+    "method": "Calculate",
+    "return_type": "CAAEllipticalObjectDetails",
+    "params": "double JD, const CAAEllipticalObjectElements & elements, bool bHighPrecision, double epsilon",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAHyperbolic",
+    "method": "CalculateTrueAnomalyAndRadius",
+    "return_type": "void",
+    "params": "double JD, const CAAHyperbolicObjectElements & elements, double & v, double & r, double epsilon",
+    "reason": "unknown"
+  },
+  {
+    "class": "CAANearParabolic",
+    "method": "CalculateTrueAnomalyAndRadius",
+    "return_type": "void",
+    "params": "double JD, const CAANearParabolicObjectElements & elements, double & v, double & r",
+    "reason": "unknown"
+  },
+  {
+    "class": "CAANodes",
+    "method": "PassageThroAscendingNode",
+    "return_type": "CAANodeObjectDetails",
+    "params": "const CAAEllipticalObjectElements & elements",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAANodes",
+    "method": "PassageThroDescendingNode",
+    "return_type": "CAANodeObjectDetails",
+    "params": "const CAAEllipticalObjectElements & elements",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAANodes",
+    "method": "PassageThroAscendingNode",
+    "return_type": "CAANodeObjectDetails",
+    "params": "const CAAParabolicObjectElements & elements",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAANodes",
+    "method": "PassageThroDescendingNode",
+    "return_type": "CAANodeObjectDetails",
+    "params": "const CAAParabolicObjectElements & elements",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAEquinoxesAndSolstices2",
+    "method": "Calculate",
+    "return_type": "std::vector",
+    "params": "double StartJD, double EndJD, double StepInterval, bool bHighPrecision",
+    "reason": "std::vector"
+  },
+  {
+    "class": "CAAPlanetPerihelionAphelion2",
+    "method": "Calculate",
+    "return_type": "std::vector",
+    "params": "double StartJD, double EndJD, Object object, double StepInterval, bool bHighPrecision",
+    "reason": "std::vector"
+  },
+  {
+    "class": "CAAPlanetaryPhenomena",
+    "method": "K",
+    "return_type": "double",
+    "params": "double Year, Planet planet, Type type",
+    "reason": "nested enum (Planet)"
+  },
+  {
+    "class": "CAAPlanetaryPhenomena",
+    "method": "Mean",
+    "return_type": "double",
+    "params": "double k, Planet planet, Type type",
+    "reason": "nested enum (Planet)"
+  },
+  {
+    "class": "CAAPlanetaryPhenomena",
+    "method": "True",
+    "return_type": "double",
+    "params": "double k, Planet planet, Type type",
+    "reason": "nested enum (Planet)"
+  },
+  {
+    "class": "CAAPlanetaryPhenomena",
+    "method": "ElongationValue",
+    "return_type": "double",
+    "params": "double k, Planet planet, bool bEastern",
+    "reason": "nested enum (Planet)"
+  },
+  {
+    "class": "CAAPlanetaryPhenomena2",
+    "method": "Calculate",
+    "return_type": "std::vector",
+    "params": "double StartJD, double EndJD, Object object, double StepInterval, bool bHighPrecision",
+    "reason": "std::vector"
+  },
+  {
+    "class": "CAAAngularSeparation",
+    "method": "SmallestCircle",
+    "return_type": "double",
+    "params": "double Alpha1, double Delta1, double Alpha2, double Delta2, double Alpha3, double Delta3, bool & bType1",
+    "reason": "non-const reference"
+  },
+  {
+    "class": "CAAIlluminatedFraction",
+    "method": "PhaseAngle",
+    "return_type": "double",
+    "params": "double r, double R, double Delta",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAIlluminatedFraction",
+    "method": "PhaseAngle",
+    "return_type": "double",
+    "params": "double R, double R0, double B, double L, double L0, double Delta",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAIlluminatedFraction",
+    "method": "IlluminatedFraction",
+    "return_type": "double",
+    "params": "double PhaseAngle",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAIlluminatedFraction",
+    "method": "IlluminatedFraction",
+    "return_type": "double",
+    "params": "double r, double R, double Delta",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAInterpolate",
+    "method": "Interpolate",
+    "return_type": "double",
+    "params": "double n, double Y1, double Y2, double Y3",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAInterpolate",
+    "method": "Interpolate",
+    "return_type": "double",
+    "params": "double n, double Y1, double Y2, double Y3, double Y4, double Y5",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAInterpolate",
+    "method": "LagrangeInterpolate",
+    "return_type": "double",
+    "params": "double X, int n, const double * pX, const double * pY",
+    "reason": "pointer"
+  },
+  {
+    "class": "CAAInterpolate",
+    "method": "Extremum",
+    "return_type": "double",
+    "params": "double Y1, double Y2, double Y3, double & nm",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAInterpolate",
+    "method": "Extremum",
+    "return_type": "double",
+    "params": "double Y1, double Y2, double Y3, double Y4, double Y5, double & nm, double epsilon",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAInterpolate",
+    "method": "Zero",
+    "return_type": "double",
+    "params": "double Y1, double Y2, double Y3, double epsilon",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAInterpolate",
+    "method": "Zero",
+    "return_type": "double",
+    "params": "double Y1, double Y2, double Y3, double Y4, double Y5, double epsilon",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAInterpolate",
+    "method": "Zero2",
+    "return_type": "double",
+    "params": "double Y1, double Y2, double Y3, double epsilon",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAInterpolate",
+    "method": "Zero2",
+    "return_type": "double",
+    "params": "double Y1, double Y2, double Y3, double Y4, double Y5, double epsilon",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAStellarMagnitudes",
+    "method": "CombinedMagnitude",
+    "return_type": "double",
+    "params": "double m1, double m2",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAStellarMagnitudes",
+    "method": "CombinedMagnitude",
+    "return_type": "double",
+    "params": "int Magnitudes, const double * pMagnitudes",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAELP2000",
+    "method": "EclipticLongitude",
+    "return_type": "double",
+    "params": "double JD",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAELP2000",
+    "method": "EclipticLongitude",
+    "return_type": "double",
+    "params": "const double * pT, int nTSize",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAELP2000",
+    "method": "EclipticLatitude",
+    "return_type": "double",
+    "params": "double JD",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAELP2000",
+    "method": "EclipticLatitude",
+    "return_type": "double",
+    "params": "const double * pT, int nTSize",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAELP2000",
+    "method": "RadiusVector",
+    "return_type": "double",
+    "params": "double JD",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAELP2000",
+    "method": "RadiusVector",
+    "return_type": "double",
+    "params": "const double * pT, int nTSize",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAELP2000",
+    "method": "MoonMeanMeanLongitude",
+    "return_type": "double",
+    "params": "const double * pT, int nTSize",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAELP2000",
+    "method": "MoonMeanMeanLongitude",
+    "return_type": "double",
+    "params": "double JD",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAELP2000",
+    "method": "MeanLongitudeLunarPerigee",
+    "return_type": "double",
+    "params": "const double * pT, int nTSize",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAELP2000",
+    "method": "MeanLongitudeLunarPerigee",
+    "return_type": "double",
+    "params": "double JD",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAELP2000",
+    "method": "MeanLongitudeLunarAscendingNode",
+    "return_type": "double",
+    "params": "const double * pT, int nTSize",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAELP2000",
+    "method": "MeanLongitudeLunarAscendingNode",
+    "return_type": "double",
+    "params": "double JD",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAELP2000",
+    "method": "MeanHeliocentricMeanLongitudeEarthMoonBarycentre",
+    "return_type": "double",
+    "params": "const double * pT, int nTSize",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAELP2000",
+    "method": "MeanHeliocentricMeanLongitudeEarthMoonBarycentre",
+    "return_type": "double",
+    "params": "double JD",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAELP2000",
+    "method": "MeanLongitudeOfPerihelionOfEarthMoonBarycentre",
+    "return_type": "double",
+    "params": "const double * pT, int nTSize",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAELP2000",
+    "method": "MeanLongitudeOfPerihelionOfEarthMoonBarycentre",
+    "return_type": "double",
+    "params": "double JD",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAELP2000",
+    "method": "MoonMeanSolarElongation",
+    "return_type": "double",
+    "params": "const double * pT, int nTSize",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAELP2000",
+    "method": "MoonMeanSolarElongation",
+    "return_type": "double",
+    "params": "double JD",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAELP2000",
+    "method": "SunMeanAnomaly",
+    "return_type": "double",
+    "params": "const double * pT, int nTSize",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAELP2000",
+    "method": "SunMeanAnomaly",
+    "return_type": "double",
+    "params": "double JD",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAELP2000",
+    "method": "MoonMeanAnomaly",
+    "return_type": "double",
+    "params": "const double * pT, int nTSize",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAELP2000",
+    "method": "MoonMeanAnomaly",
+    "return_type": "double",
+    "params": "double JD",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAELP2000",
+    "method": "MoonMeanArgumentOfLatitude",
+    "return_type": "double",
+    "params": "const double * pT, int nTSize",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAELP2000",
+    "method": "MoonMeanArgumentOfLatitude",
+    "return_type": "double",
+    "params": "double JD",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAELPMPP02",
+    "method": "EclipticLongitude",
+    "return_type": "double",
+    "params": "double JD, Correction correction, double * pDerivative",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAELPMPP02",
+    "method": "EclipticLongitude",
+    "return_type": "double",
+    "params": "const double * pT, int nTSize, Correction correction, double * pDerivative",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAELPMPP02",
+    "method": "EclipticLatitude",
+    "return_type": "double",
+    "params": "double JD, Correction correction, double * pDerivative",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAELPMPP02",
+    "method": "EclipticLatitude",
+    "return_type": "double",
+    "params": "const double * pT, int nTSize, Correction correction, double * pDerivative",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAELPMPP02",
+    "method": "RadiusVector",
+    "return_type": "double",
+    "params": "double JD, Correction correction, double * pDerivative",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAELPMPP02",
+    "method": "RadiusVector",
+    "return_type": "double",
+    "params": "const double * pT, int nTSize, Correction correction, double * pDerivative",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAELPMPP02",
+    "method": "EclipticRectangularCoordinates",
+    "return_type": "CAA3DCoordinate",
+    "params": "double JD, Correction correction, CAA3DCoordinate * pDerivative",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAELPMPP02",
+    "method": "EclipticRectangularCoordinates",
+    "return_type": "CAA3DCoordinate",
+    "params": "const double * pT, int nTSize, Correction correction, CAA3DCoordinate * pDerivative",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAELPMPP02",
+    "method": "EclipticRectangularCoordinatesJ2000",
+    "return_type": "CAA3DCoordinate",
+    "params": "double JD, Correction correction, CAA3DCoordinate * pDerivative",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAELPMPP02",
+    "method": "EclipticRectangularCoordinatesJ2000",
+    "return_type": "CAA3DCoordinate",
+    "params": "const double * pT, int nTSize, Correction correction, CAA3DCoordinate * pDerivative",
+    "reason": "overloaded"
+  },
+  {
+    "class": "CAAVSOP2013",
+    "method": "CalculateMeanMotion",
+    "return_type": "double",
+    "params": "Planet planet, double a",
+    "reason": "nested enum (Planet)"
+  },
+  {
+    "class": "CAAVSOP2013",
+    "method": "OrbitToElements",
+    "return_type": "CAAEllipticalObjectElements",
+    "params": "double JD, Planet planet, const CAAVSOP2013Orbit & orbit",
+    "reason": "nested enum (Planet)"
+  },
+  {
+    "class": "CAAVSOP87",
+    "method": "Calculate",
+    "return_type": "double",
+    "params": "double JD, const VSOP87Coefficient2 * pTable, int nTableSize, bool bAngle",
+    "reason": "pointer"
+  },
+  {
+    "class": "CAAVSOP87",
+    "method": "Calculate_Dash",
+    "return_type": "double",
+    "params": "double JD, const VSOP87Coefficient2 * pTable, int nTableSize",
+    "reason": "pointer"
+  }
+]

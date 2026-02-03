@@ -31,11 +31,12 @@ if [ -f "${WASM_DIR}/generate_bindings.py" ]; then
 fi
 
 emcmake cmake -S "${WASM_DIR}" -B "${BUILD_DIR}" -DCMAKE_BUILD_TYPE=Release
-emmake make -C "${BUILD_DIR}" -j4 --emit-tsd interface.d.ts
+emmake make -C "${BUILD_DIR}" -j4
 
 echo "Build complete:"
 echo "- ${DIST_DIR}/aaplus.js"
 echo "- ${DIST_DIR}/aaplus.wasm"
+echo "- ${DIST_DIR}/aaplus.d.ts"
 
-echo "\nTo make this script executable (per requirement):"
-echo "sudo chmod +x ${WASM_DIR}/build.sh"
+# rm -rf "${BUILD_DIR}" 
+
