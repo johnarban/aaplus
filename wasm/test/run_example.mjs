@@ -77,4 +77,12 @@ console.log('Mars Longitude:', Module.CAAMars.EclipticLongitude(jd, true), 'degr
 console.log('Jupiter Longitude:', Module.CAAJupiter.EclipticLongitude(jd, true), 'degrees');
 console.log('Saturn Longitude:', Module.CAASaturn.EclipticLongitude(jd, true), 'degrees');
 
+// Test overloaded methods with enums
+console.log('\n=== Planetary Details (Overloaded Method with Enum) ===');
+const marsEnum = Module.CAAElliptical_Object.MARS;
+const marsDetails = Module.CAAElliptical.Calculate_DOB(jd, marsEnum, true);
+console.log('Mars True Geocentric RA:', marsDetails.TrueGeocentricRA, 'hours');
+console.log('Mars True Geocentric Dec:', marsDetails.TrueGeocentricDeclination, 'degrees');
+console.log('Mars Apparent Geocentric Distance:', marsDetails.ApparentGeocentricDistance, 'AU');
+
 console.log('\n✅ All tests completed successfully!');

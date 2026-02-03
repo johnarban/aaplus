@@ -4,6 +4,7 @@
 
 #include <emscripten/bind.h>
 #include <string>
+#include <vector>
 #include "AA+.h"
 
 using namespace emscripten;
@@ -18,6 +19,69 @@ static double AA_DateToJD(long year, long month, long day, long hour, long minut
 }
 
 EMSCRIPTEN_BINDINGS(aa_plus_comprehensive) {
+
+  // ============== Vector Type Registrations ==============
+  register_vector<CAAEquinoxSolsticeDetails2>("CAAEquinoxSolsticeDetails2Vector");
+  register_vector<CAAMoonMaxDeclinationsDetails2>("CAAMoonMaxDeclinationsDetails2Vector");
+  register_vector<CAAMoonNodesDetails2>("CAAMoonNodesDetails2Vector");
+  register_vector<CAAMoonPerigeeApogeeDetails2>("CAAMoonPerigeeApogeeDetails2Vector");
+  register_vector<CAAMoonPhasesDetails2>("CAAMoonPhasesDetails2Vector");
+  register_vector<CAAPlanetPerihelionAphelionDetails2>("CAAPlanetPerihelionAphelionDetails2Vector");
+  register_vector<CAAPlanetaryPhenomenaDetails2>("CAAPlanetaryPhenomenaDetails2Vector");
+  register_vector<CAARiseTransitSetDetails2>("CAARiseTransitSetDetails2Vector");
+
+  // ============== Enum Bindings ==============
+  enum_<CAAElliptical::Object>("CAAElliptical_Object")
+    .value("SUN", CAAElliptical::Object::SUN)
+    .value("MERCURY", CAAElliptical::Object::MERCURY)
+    .value("VENUS", CAAElliptical::Object::VENUS)
+    .value("MARS", CAAElliptical::Object::MARS)
+    .value("JUPITER", CAAElliptical::Object::JUPITER)
+    .value("SATURN", CAAElliptical::Object::SATURN)
+    .value("URANUS", CAAElliptical::Object::URANUS)
+    .value("NEPTUNE", CAAElliptical::Object::NEPTUNE)
+    ;
+  enum_<CAAPlanetaryPhenomena::Planet>("CAAPlanetaryPhenomena_Planet")
+    .value("MERCURY", CAAPlanetaryPhenomena::Planet::MERCURY)
+    .value("VENUS", CAAPlanetaryPhenomena::Planet::VENUS)
+    .value("MARS", CAAPlanetaryPhenomena::Planet::MARS)
+    .value("JUPITER", CAAPlanetaryPhenomena::Planet::JUPITER)
+    .value("SATURN", CAAPlanetaryPhenomena::Planet::SATURN)
+    .value("URANUS", CAAPlanetaryPhenomena::Planet::URANUS)
+    .value("NEPTUNE", CAAPlanetaryPhenomena::Planet::NEPTUNE)
+    ;
+  enum_<CAAPlanetaryPhenomena::Type>("CAAPlanetaryPhenomena_Type")
+    .value("INFERIOR_CONJUNCTION", CAAPlanetaryPhenomena::Type::INFERIOR_CONJUNCTION)
+    .value("SUPERIOR_CONJUNCTION", CAAPlanetaryPhenomena::Type::SUPERIOR_CONJUNCTION)
+    .value("OPPOSITION", CAAPlanetaryPhenomena::Type::OPPOSITION)
+    .value("CONJUNCTION", CAAPlanetaryPhenomena::Type::CONJUNCTION)
+    .value("EASTERN_ELONGATION", CAAPlanetaryPhenomena::Type::EASTERN_ELONGATION)
+    .value("WESTERN_ELONGATION", CAAPlanetaryPhenomena::Type::WESTERN_ELONGATION)
+    .value("STATION1", CAAPlanetaryPhenomena::Type::STATION1)
+    .value("STATION2", CAAPlanetaryPhenomena::Type::STATION2)
+    ;
+  enum_<CAARiseTransitSet2::Object>("CAARiseTransitSet2_Object")
+    .value("SUN", CAARiseTransitSet2::Object::SUN)
+    .value("MOON", CAARiseTransitSet2::Object::MOON)
+    .value("MERCURY", CAARiseTransitSet2::Object::MERCURY)
+    .value("VENUS", CAARiseTransitSet2::Object::VENUS)
+    .value("MARS", CAARiseTransitSet2::Object::MARS)
+    .value("JUPITER", CAARiseTransitSet2::Object::JUPITER)
+    .value("SATURN", CAARiseTransitSet2::Object::SATURN)
+    .value("URANUS", CAARiseTransitSet2::Object::URANUS)
+    .value("NEPTUNE", CAARiseTransitSet2::Object::NEPTUNE)
+    ;
+  enum_<CAAPlanetPerihelionAphelion2::Object>("CAAPlanetPerihelionAphelion2_Object")
+    .value("MERCURY", CAAPlanetPerihelionAphelion2::Object::MERCURY)
+    .value("VENUS", CAAPlanetPerihelionAphelion2::Object::VENUS)
+    .value("EARTH", CAAPlanetPerihelionAphelion2::Object::EARTH)
+    .value("MARS", CAAPlanetPerihelionAphelion2::Object::MARS)
+    .value("JUPITER", CAAPlanetPerihelionAphelion2::Object::JUPITER)
+    .value("SATURN", CAAPlanetPerihelionAphelion2::Object::SATURN)
+    .value("URANUS", CAAPlanetPerihelionAphelion2::Object::URANUS)
+    .value("NEPTUNE", CAAPlanetPerihelionAphelion2::Object::NEPTUNE)
+    ;
+
   // ============== Version ==============
   function("version", &CAAPlus_Version);
   function("versionNumber", &CAAPlus::VersionNumber);
@@ -394,7 +458,10 @@ EMSCRIPTEN_BINDINGS(aa_plus_comprehensive) {
     .class_function("JulianToGregorian", &CAADate::JulianToGregorian)
     .class_function("GregorianToJulian", &CAADate::GregorianToJulian)
     .class_function("INT", &CAADate::INT)
+    .class_function("AfterPapalReform_LLD", select_overload<bool(long, long, double)>(&CAADate::AfterPapalReform))
+    .class_function("AfterPapalReform_D", select_overload<bool(double)>(&CAADate::AfterPapalReform))
     .class_function("DayOfYear", &CAADate::DayOfYear)
+    .class_function("DaysInCommonMonth", &CAADate::DaysInCommonMonth)
     .class_function("DaysInMonth", &CAADate::DaysInMonth)
     ;
   class_<CAADynamicalTime>("CAADynamicalTime")
@@ -463,12 +530,14 @@ EMSCRIPTEN_BINDINGS(aa_plus_comprehensive) {
     .class_function("TrueGreatestDeclinationValue", &CAAMoonMaxDeclinations::TrueGreatestDeclinationValue)
     ;
   class_<CAAMoonMaxDeclinations2>("CAAMoonMaxDeclinations2")
+    .class_function("Calculate", &CAAMoonMaxDeclinations2::Calculate)
     ;
   class_<CAAMoonNodes>("CAAMoonNodes")
     .class_function("K", &CAAMoonNodes::K)
     .class_function("PassageThroNode", &CAAMoonNodes::PassageThroNode)
     ;
   class_<CAAMoonNodes2>("CAAMoonNodes2")
+    .class_function("Calculate", &CAAMoonNodes2::Calculate)
     ;
   class_<CAAMoonPerigeeApogee>("CAAMoonPerigeeApogee")
     .class_function("K", &CAAMoonPerigeeApogee::K)
@@ -480,6 +549,7 @@ EMSCRIPTEN_BINDINGS(aa_plus_comprehensive) {
     .class_function("ApogeeParallax", &CAAMoonPerigeeApogee::ApogeeParallax)
     ;
   class_<CAAMoonPerigeeApogee2>("CAAMoonPerigeeApogee2")
+    .class_function("Calculate", &CAAMoonPerigeeApogee2::Calculate)
     ;
   class_<CAAMoonPhases>("CAAMoonPhases")
     .class_function("K", &CAAMoonPhases::K)
@@ -487,6 +557,7 @@ EMSCRIPTEN_BINDINGS(aa_plus_comprehensive) {
     .class_function("TruePhase", &CAAMoonPhases::TruePhase)
     ;
   class_<CAAMoonPhases2>("CAAMoonPhases2")
+    .class_function("Calculate", &CAAMoonPhases2::Calculate)
     ;
   class_<CAASaturnMoons>("CAASaturnMoons")
     .class_function("Calculate", &CAASaturnMoons::Calculate)
@@ -598,6 +669,9 @@ EMSCRIPTEN_BINDINGS(aa_plus_comprehensive) {
     .class_function("Calculate", &CAARiseTransitSet::Calculate)
     ;
   class_<CAARiseTransitSet2>("CAARiseTransitSet2")
+    .class_function("Calculate", &CAARiseTransitSet2::Calculate)
+    .class_function("CalculateMoon", &CAARiseTransitSet2::CalculateMoon)
+    .class_function("CalculateStationary", &CAARiseTransitSet2::CalculateStationary)
     ;
 
   // ============== Eclipses ==============
@@ -625,8 +699,10 @@ EMSCRIPTEN_BINDINGS(aa_plus_comprehensive) {
   // ============== Orbital Calculations ==============
   class_<CAAElliptical>("CAAElliptical")
     .class_function("DistanceToLightTime", &CAAElliptical::DistanceToLightTime)
+    .class_function("Calculate_DOB", select_overload<CAAEllipticalPlanetaryDetails(double, CAAElliptical::Object, bool)>(&CAAElliptical::Calculate))
     .class_function("SemiMajorAxisFromPerihelionDistance", &CAAElliptical::SemiMajorAxisFromPerihelionDistance)
     .class_function("MeanMotionFromSemiMajorAxis", &CAAElliptical::MeanMotionFromSemiMajorAxis)
+    .class_function("Calculate_DEllipticalObjectElementsBD", select_overload<CAAEllipticalObjectDetails(double, const CAAEllipticalObjectElements &, bool, double)>(&CAAElliptical::Calculate))
     .class_function("InstantaneousVelocity", &CAAElliptical::InstantaneousVelocity)
     .class_function("VelocityAtPerihelion", &CAAElliptical::VelocityAtPerihelion)
     .class_function("VelocityAtAphelion", &CAAElliptical::VelocityAtAphelion)
@@ -647,6 +723,10 @@ EMSCRIPTEN_BINDINGS(aa_plus_comprehensive) {
     .class_function("cbrt", &CAANearParabolic::cbrt)
     ;
   class_<CAANodes>("CAANodes")
+    .class_function("PassageThroAscendingNode_EllipticalObjectElements", select_overload<CAANodeObjectDetails(const CAAEllipticalObjectElements &)>(&CAANodes::PassageThroAscendingNode))
+    .class_function("PassageThroDescendingNode_EllipticalObjectElements", select_overload<CAANodeObjectDetails(const CAAEllipticalObjectElements &)>(&CAANodes::PassageThroDescendingNode))
+    .class_function("PassageThroAscendingNode_ParabolicObjectElements", select_overload<CAANodeObjectDetails(const CAAParabolicObjectElements &)>(&CAANodes::PassageThroAscendingNode))
+    .class_function("PassageThroDescendingNode_ParabolicObjectElements", select_overload<CAANodeObjectDetails(const CAAParabolicObjectElements &)>(&CAANodes::PassageThroDescendingNode))
     ;
   class_<CAAParabolic>("CAAParabolic")
     .class_function("CalculateBarkers", &CAAParabolic::CalculateBarkers)
@@ -665,6 +745,7 @@ EMSCRIPTEN_BINDINGS(aa_plus_comprehensive) {
     .class_function("LengthOfWinter", &CAAEquinoxesAndSolstices::LengthOfWinter)
     ;
   class_<CAAEquinoxesAndSolstices2>("CAAEquinoxesAndSolstices2")
+    .class_function("Calculate", &CAAEquinoxesAndSolstices2::Calculate)
     ;
   class_<CAAPlanetPerihelionAphelion>("CAAPlanetPerihelionAphelion")
     .class_function("MercuryK", &CAAPlanetPerihelionAphelion::MercuryK)
@@ -686,10 +767,16 @@ EMSCRIPTEN_BINDINGS(aa_plus_comprehensive) {
     .class_function("Neptune", &CAAPlanetPerihelionAphelion::Neptune)
     ;
   class_<CAAPlanetPerihelionAphelion2>("CAAPlanetPerihelionAphelion2")
+    .class_function("Calculate", &CAAPlanetPerihelionAphelion2::Calculate)
     ;
   class_<CAAPlanetaryPhenomena>("CAAPlanetaryPhenomena")
+    .class_function("K", &CAAPlanetaryPhenomena::K)
+    .class_function("Mean", &CAAPlanetaryPhenomena::Mean)
+    .class_function("True", &CAAPlanetaryPhenomena::True)
+    .class_function("ElongationValue", &CAAPlanetaryPhenomena::ElongationValue)
     ;
   class_<CAAPlanetaryPhenomena2>("CAAPlanetaryPhenomena2")
+    .class_function("Calculate", &CAAPlanetaryPhenomena2::Calculate)
     ;
 
   // ============== Moons ==============
@@ -785,7 +872,27 @@ EMSCRIPTEN_BINDINGS(aa_plus_comprehensive) {
     .class_function("JupiterLongitudeAscendingNode", &CAAElementsPlanetaryOrbit::JupiterLongitudeAscendingNode)
     .class_function("JupiterLongitudePerihelion", &CAAElementsPlanetaryOrbit::JupiterLongitudePerihelion)
     .class_function("SaturnMeanLongitude", &CAAElementsPlanetaryOrbit::SaturnMeanLongitude)
-    // ... 49 more methods available
+    .class_function("SaturnSemimajorAxis", &CAAElementsPlanetaryOrbit::SaturnSemimajorAxis)
+    .class_function("SaturnEccentricity", &CAAElementsPlanetaryOrbit::SaturnEccentricity)
+    .class_function("SaturnInclination", &CAAElementsPlanetaryOrbit::SaturnInclination)
+    .class_function("SaturnLongitudeAscendingNode", &CAAElementsPlanetaryOrbit::SaturnLongitudeAscendingNode)
+    .class_function("SaturnLongitudePerihelion", &CAAElementsPlanetaryOrbit::SaturnLongitudePerihelion)
+    .class_function("UranusMeanLongitude", &CAAElementsPlanetaryOrbit::UranusMeanLongitude)
+    .class_function("UranusSemimajorAxis", &CAAElementsPlanetaryOrbit::UranusSemimajorAxis)
+    .class_function("UranusEccentricity", &CAAElementsPlanetaryOrbit::UranusEccentricity)
+    .class_function("UranusInclination", &CAAElementsPlanetaryOrbit::UranusInclination)
+    .class_function("UranusLongitudeAscendingNode", &CAAElementsPlanetaryOrbit::UranusLongitudeAscendingNode)
+    .class_function("UranusLongitudePerihelion", &CAAElementsPlanetaryOrbit::UranusLongitudePerihelion)
+    .class_function("NeptuneMeanLongitude", &CAAElementsPlanetaryOrbit::NeptuneMeanLongitude)
+    .class_function("NeptuneSemimajorAxis", &CAAElementsPlanetaryOrbit::NeptuneSemimajorAxis)
+    .class_function("NeptuneEccentricity", &CAAElementsPlanetaryOrbit::NeptuneEccentricity)
+    .class_function("NeptuneInclination", &CAAElementsPlanetaryOrbit::NeptuneInclination)
+    .class_function("NeptuneLongitudeAscendingNode", &CAAElementsPlanetaryOrbit::NeptuneLongitudeAscendingNode)
+    .class_function("NeptuneLongitudePerihelion", &CAAElementsPlanetaryOrbit::NeptuneLongitudePerihelion)
+    .class_function("MercuryMeanLongitudeJ2000", &CAAElementsPlanetaryOrbit::MercuryMeanLongitudeJ2000)
+    .class_function("MercuryInclinationJ2000", &CAAElementsPlanetaryOrbit::MercuryInclinationJ2000)
+    .class_function("MercuryLongitudeAscendingNodeJ2000", &CAAElementsPlanetaryOrbit::MercuryLongitudeAscendingNodeJ2000)
+    // ... 29 more methods available
     ;
   class_<CAAEquationOfTime>("CAAEquationOfTime")
     .class_function("Calculate", &CAAEquationOfTime::Calculate)
@@ -798,7 +905,11 @@ EMSCRIPTEN_BINDINGS(aa_plus_comprehensive) {
     .class_function("DistanceBetweenPoints", &CAAGlobe::DistanceBetweenPoints)
     ;
   class_<CAAIlluminatedFraction>("CAAIlluminatedFraction")
+    .class_function("PhaseAngle_DDD", select_overload<double(double, double, double)>(&CAAIlluminatedFraction::PhaseAngle))
+    .class_function("PhaseAngle_DDDDDD", select_overload<double(double, double, double, double, double, double)>(&CAAIlluminatedFraction::PhaseAngle))
     .class_function("PhaseAngleRectangular", &CAAIlluminatedFraction::PhaseAngleRectangular)
+    .class_function("IlluminatedFraction_D", select_overload<double(double)>(&CAAIlluminatedFraction::IlluminatedFraction))
+    .class_function("IlluminatedFraction_DDD", select_overload<double(double, double, double)>(&CAAIlluminatedFraction::IlluminatedFraction))
     .class_function("MercuryMagnitudeMuller", &CAAIlluminatedFraction::MercuryMagnitudeMuller)
     .class_function("VenusMagnitudeMuller", &CAAIlluminatedFraction::VenusMagnitudeMuller)
     .class_function("MarsMagnitudeMuller", &CAAIlluminatedFraction::MarsMagnitudeMuller)
@@ -816,7 +927,13 @@ EMSCRIPTEN_BINDINGS(aa_plus_comprehensive) {
     .class_function("PlutoMagnitudeAA", &CAAIlluminatedFraction::PlutoMagnitudeAA)
     ;
   class_<CAAInterpolate>("CAAInterpolate")
+    .class_function("Interpolate_DDDD", select_overload<double(double, double, double, double)>(&CAAInterpolate::Interpolate))
+    .class_function("Interpolate_DDDDDD", select_overload<double(double, double, double, double, double, double)>(&CAAInterpolate::Interpolate))
     .class_function("InterpolateToHalves", &CAAInterpolate::InterpolateToHalves)
+    .class_function("Zero_DDDD", select_overload<double(double, double, double, double)>(&CAAInterpolate::Zero))
+    .class_function("Zero_DDDDDD", select_overload<double(double, double, double, double, double, double)>(&CAAInterpolate::Zero))
+    .class_function("Zero2_DDDD", select_overload<double(double, double, double, double)>(&CAAInterpolate::Zero2))
+    .class_function("Zero2_DDDDDD", select_overload<double(double, double, double, double, double, double)>(&CAAInterpolate::Zero2))
     ;
   class_<CAAParallactic>("CAAParallactic")
     .class_function("ParallacticAngle", &CAAParallactic::ParallacticAngle)
@@ -840,15 +957,28 @@ EMSCRIPTEN_BINDINGS(aa_plus_comprehensive) {
     .class_function("ApparentGreenwichSiderealTime", &CAASidereal::ApparentGreenwichSiderealTime)
     ;
   class_<CAAStellarMagnitudes>("CAAStellarMagnitudes")
+    .class_function("CombinedMagnitude_DD", select_overload<double(double, double)>(&CAAStellarMagnitudes::CombinedMagnitude))
     .class_function("BrightnessRatio", &CAAStellarMagnitudes::BrightnessRatio)
     .class_function("MagnitudeDifference", &CAAStellarMagnitudes::MagnitudeDifference)
     ;
 
   // ============== VSOP87 Core ==============
   class_<CAAELP2000>("CAAELP2000")
+    .class_function("EclipticLongitude_D", select_overload<double(double)>(&CAAELP2000::EclipticLongitude))
+    .class_function("EclipticLatitude_D", select_overload<double(double)>(&CAAELP2000::EclipticLatitude))
+    .class_function("RadiusVector_D", select_overload<double(double)>(&CAAELP2000::RadiusVector))
     .class_function("EclipticRectangularCoordinates", &CAAELP2000::EclipticRectangularCoordinates)
     .class_function("EclipticRectangularCoordinatesJ2000", &CAAELP2000::EclipticRectangularCoordinatesJ2000)
     .class_function("EquatorialRectangularCoordinatesFK5", &CAAELP2000::EquatorialRectangularCoordinatesFK5)
+    .class_function("MoonMeanMeanLongitude_D", select_overload<double(double)>(&CAAELP2000::MoonMeanMeanLongitude))
+    .class_function("MeanLongitudeLunarPerigee_D", select_overload<double(double)>(&CAAELP2000::MeanLongitudeLunarPerigee))
+    .class_function("MeanLongitudeLunarAscendingNode_D", select_overload<double(double)>(&CAAELP2000::MeanLongitudeLunarAscendingNode))
+    .class_function("MeanHeliocentricMeanLongitudeEarthMoonBarycentre_D", select_overload<double(double)>(&CAAELP2000::MeanHeliocentricMeanLongitudeEarthMoonBarycentre))
+    .class_function("MeanLongitudeOfPerihelionOfEarthMoonBarycentre_D", select_overload<double(double)>(&CAAELP2000::MeanLongitudeOfPerihelionOfEarthMoonBarycentre))
+    .class_function("MoonMeanSolarElongation_D", select_overload<double(double)>(&CAAELP2000::MoonMeanSolarElongation))
+    .class_function("SunMeanAnomaly_D", select_overload<double(double)>(&CAAELP2000::SunMeanAnomaly))
+    .class_function("MoonMeanAnomaly_D", select_overload<double(double)>(&CAAELP2000::MoonMeanAnomaly))
+    .class_function("MoonMeanArgumentOfLatitude_D", select_overload<double(double)>(&CAAELP2000::MoonMeanArgumentOfLatitude))
     .class_function("MercuryMeanLongitude", &CAAELP2000::MercuryMeanLongitude)
     .class_function("VenusMeanLongitude", &CAAELP2000::VenusMeanLongitude)
     .class_function("MarsMeanLongitude", &CAAELP2000::MarsMeanLongitude)
@@ -860,6 +990,8 @@ EMSCRIPTEN_BINDINGS(aa_plus_comprehensive) {
   class_<CAAELPMPP02>("CAAELPMPP02")
     ;
   class_<CAAVSOP2013>("CAAVSOP2013")
+    .class_function("CalculateMeanMotion", &CAAVSOP2013::CalculateMeanMotion)
+    .class_function("OrbitToElements", &CAAVSOP2013::OrbitToElements)
     .class_function("Ecliptic2Equatorial", &CAAVSOP2013::Ecliptic2Equatorial)
     ;
   class_<CAAVSOP87>("CAAVSOP87")

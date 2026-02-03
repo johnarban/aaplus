@@ -9,6 +9,13 @@ export interface ClassHandle {
   clone(): this;
 }
 
+// Enum types
+export type CAAElliptical_Object = { value: number };
+export type CAAPlanetaryPhenomena_Planet = { value: number };
+export type CAAPlanetaryPhenomena_Type = { value: number };
+export type CAARiseTransitSet2_Object = { value: number };
+export type CAAPlanetPerihelionAphelion2_Object = { value: number };
+
 export type CAA2DCoordinate = {
   X: number;
   Y: number;
@@ -787,6 +794,58 @@ export interface MainModule {
   // Helper functions
   dateToJD(year: number, month: number, day: number, hour?: number, minute?: number, second?: number): number;
 
+  // Enum values
+  CAAElliptical_Object: {
+    SUN: CAAElliptical_Object;
+    MERCURY: CAAElliptical_Object;
+    VENUS: CAAElliptical_Object;
+    MARS: CAAElliptical_Object;
+    JUPITER: CAAElliptical_Object;
+    SATURN: CAAElliptical_Object;
+    URANUS: CAAElliptical_Object;
+    NEPTUNE: CAAElliptical_Object;
+  };
+  CAAPlanetaryPhenomena_Planet: {
+    MERCURY: CAAPlanetaryPhenomena_Planet;
+    VENUS: CAAPlanetaryPhenomena_Planet;
+    MARS: CAAPlanetaryPhenomena_Planet;
+    JUPITER: CAAPlanetaryPhenomena_Planet;
+    SATURN: CAAPlanetaryPhenomena_Planet;
+    URANUS: CAAPlanetaryPhenomena_Planet;
+    NEPTUNE: CAAPlanetaryPhenomena_Planet;
+  };
+  CAAPlanetaryPhenomena_Type: {
+    INFERIOR_CONJUNCTION: CAAPlanetaryPhenomena_Type;
+    SUPERIOR_CONJUNCTION: CAAPlanetaryPhenomena_Type;
+    OPPOSITION: CAAPlanetaryPhenomena_Type;
+    CONJUNCTION: CAAPlanetaryPhenomena_Type;
+    EASTERN_ELONGATION: CAAPlanetaryPhenomena_Type;
+    WESTERN_ELONGATION: CAAPlanetaryPhenomena_Type;
+    STATION1: CAAPlanetaryPhenomena_Type;
+    STATION2: CAAPlanetaryPhenomena_Type;
+  };
+  CAARiseTransitSet2_Object: {
+    SUN: CAARiseTransitSet2_Object;
+    MOON: CAARiseTransitSet2_Object;
+    MERCURY: CAARiseTransitSet2_Object;
+    VENUS: CAARiseTransitSet2_Object;
+    MARS: CAARiseTransitSet2_Object;
+    JUPITER: CAARiseTransitSet2_Object;
+    SATURN: CAARiseTransitSet2_Object;
+    URANUS: CAARiseTransitSet2_Object;
+    NEPTUNE: CAARiseTransitSet2_Object;
+  };
+  CAAPlanetPerihelionAphelion2_Object: {
+    MERCURY: CAAPlanetPerihelionAphelion2_Object;
+    VENUS: CAAPlanetPerihelionAphelion2_Object;
+    EARTH: CAAPlanetPerihelionAphelion2_Object;
+    MARS: CAAPlanetPerihelionAphelion2_Object;
+    JUPITER: CAAPlanetPerihelionAphelion2_Object;
+    SATURN: CAAPlanetPerihelionAphelion2_Object;
+    URANUS: CAAPlanetPerihelionAphelion2_Object;
+    NEPTUNE: CAAPlanetPerihelionAphelion2_Object;
+  };
+
   CAAAberration: {
     EarthVelocity(JD: number, bHighPrecision: boolean): CAA3DCoordinate;
     EclipticAberration(Alpha: number, Delta: number, JD: number, bHighPrecision: boolean): CAA2DCoordinate;
@@ -826,7 +885,12 @@ export interface MainModule {
     JulianToGregorian(Year: number, Month: number, Day: number): CAACalendarDate;
     GregorianToJulian(Year: number, Month: number, Day: number): CAACalendarDate;
     INT(value: number): number;
+    /** Overload: call as `AfterPapalReform_LLD()` in JavaScript */
+    AfterPapalReform(Year: number, Month: number, Day: number): boolean;
+    /** Overload: call as `AfterPapalReform_D()` in JavaScript */
+    AfterPapalReform(JD: number): boolean;
     DayOfYear(JD: number, Year: number, bGregorianCalendar: boolean): number;
+    DaysInCommonMonth(Month: number): any;
     DaysInMonth(Month: number, bLeap: boolean): number;
   };
   CAADiameters: {
@@ -869,9 +933,33 @@ export interface MainModule {
     UT1MinusUTC(JD: number): number;
   };
   CAAELP2000: {
+    /** Overload: call as `EclipticLongitude_D()` in JavaScript */
+    EclipticLongitude(JD: number): number;
+    /** Overload: call as `EclipticLatitude_D()` in JavaScript */
+    EclipticLatitude(JD: number): number;
+    /** Overload: call as `RadiusVector_D()` in JavaScript */
+    RadiusVector(JD: number): number;
     EclipticRectangularCoordinates(JD: number): CAA3DCoordinate;
     EclipticRectangularCoordinatesJ2000(JD: number): CAA3DCoordinate;
     EquatorialRectangularCoordinatesFK5(JD: number): CAA3DCoordinate;
+    /** Overload: call as `MoonMeanMeanLongitude_D()` in JavaScript */
+    MoonMeanMeanLongitude(JD: number): number;
+    /** Overload: call as `MeanLongitudeLunarPerigee_D()` in JavaScript */
+    MeanLongitudeLunarPerigee(JD: number): number;
+    /** Overload: call as `MeanLongitudeLunarAscendingNode_D()` in JavaScript */
+    MeanLongitudeLunarAscendingNode(JD: number): number;
+    /** Overload: call as `MeanHeliocentricMeanLongitudeEarthMoonBarycentre_D()` in JavaScript */
+    MeanHeliocentricMeanLongitudeEarthMoonBarycentre(JD: number): number;
+    /** Overload: call as `MeanLongitudeOfPerihelionOfEarthMoonBarycentre_D()` in JavaScript */
+    MeanLongitudeOfPerihelionOfEarthMoonBarycentre(JD: number): number;
+    /** Overload: call as `MoonMeanSolarElongation_D()` in JavaScript */
+    MoonMeanSolarElongation(JD: number): number;
+    /** Overload: call as `SunMeanAnomaly_D()` in JavaScript */
+    SunMeanAnomaly(JD: number): number;
+    /** Overload: call as `MoonMeanAnomaly_D()` in JavaScript */
+    MoonMeanAnomaly(JD: number): number;
+    /** Overload: call as `MoonMeanArgumentOfLatitude_D()` in JavaScript */
+    MoonMeanArgumentOfLatitude(JD: number): number;
     MercuryMeanLongitude(T: number): number;
     VenusMeanLongitude(T: number): number;
     MarsMeanLongitude(T: number): number;
@@ -983,6 +1071,10 @@ export interface MainModule {
   };
   CAAElliptical: {
     DistanceToLightTime(Distance: number): number;
+    /** Overload: call as `Calculate_DOB()` in JavaScript */
+    Calculate(JD: number, object: CAAElliptical_Object, bHighPrecision: boolean): CAAEllipticalPlanetaryDetails;
+    /** Overload: call as `Calculate_DEllipticalObjectElementsBD()` in JavaScript */
+    Calculate(JD: number, elements: CAAEllipticalObjectElements, bHighPrecision: boolean, epsilon: number): CAAEllipticalObjectDetails;
     SemiMajorAxisFromPerihelionDistance(q: number, e: number): number;
     MeanMotionFromSemiMajorAxis(a: number): number;
     InstantaneousVelocity(r: number, a: number): number;
@@ -1004,6 +1096,9 @@ export interface MainModule {
     LengthOfSummer(Year: number, bNorthernHemisphere: boolean, bHighPrecision: boolean): number;
     LengthOfAutumn(Year: number, bNorthernHemisphere: boolean, bHighPrecision: boolean): number;
     LengthOfWinter(Year: number, bNorthernHemisphere: boolean, bHighPrecision: boolean): number;
+  };
+  CAAEquinoxesAndSolstices2: {
+    Calculate(StartJD: number, EndJD: number, StepInterval: number, bHighPrecision: boolean): any;
   };
   CAAFK5: {
     CorrectionInLongitude(Longitude: number, Latitude: number, JD: number): number;
@@ -1027,7 +1122,15 @@ export interface MainModule {
     Calculate(JD: number, elements: CAAHyperbolicObjectElements, bHighPrecision: boolean, epsilon: number): CAAHyperbolicObjectDetails;
   };
   CAAIlluminatedFraction: {
+    /** Overload: call as `PhaseAngle_DDD()` in JavaScript */
+    PhaseAngle(r: number, R: number, Delta: number): number;
+    /** Overload: call as `PhaseAngle_DDDDDD()` in JavaScript */
+    PhaseAngle(R: number, R0: number, B: number, L: number, L0: number, Delta: number): number;
     PhaseAngleRectangular(x: number, y: number, z: number, B: number, L: number, Delta: number): number;
+    /** Overload: call as `IlluminatedFraction_D()` in JavaScript */
+    IlluminatedFraction(PhaseAngle: number): number;
+    /** Overload: call as `IlluminatedFraction_DDD()` in JavaScript */
+    IlluminatedFraction(r: number, R: number, Delta: number): number;
     MercuryMagnitudeMuller(r: number, Delta: number, i: number): number;
     VenusMagnitudeMuller(r: number, Delta: number, i: number): number;
     MarsMagnitudeMuller(r: number, Delta: number, i: number): number;
@@ -1045,7 +1148,19 @@ export interface MainModule {
     PlutoMagnitudeAA(r: number, Delta: number): number;
   };
   CAAInterpolate: {
+    /** Overload: call as `Interpolate_DDDD()` in JavaScript */
+    Interpolate(n: number, Y1: number, Y2: number, Y3: number): number;
+    /** Overload: call as `Interpolate_DDDDDD()` in JavaScript */
+    Interpolate(n: number, Y1: number, Y2: number, Y3: number, Y4: number, Y5: number): number;
     InterpolateToHalves(Y1: number, Y2: number, Y3: number, Y4: number): number;
+    /** Overload: call as `Zero_DDDD()` in JavaScript */
+    Zero(Y1: number, Y2: number, Y3: number, epsilon: number): number;
+    /** Overload: call as `Zero_DDDDDD()` in JavaScript */
+    Zero(Y1: number, Y2: number, Y3: number, Y4: number, Y5: number, epsilon: number): number;
+    /** Overload: call as `Zero2_DDDD()` in JavaScript */
+    Zero2(Y1: number, Y2: number, Y3: number, epsilon: number): number;
+    /** Overload: call as `Zero2_DDDDDD()` in JavaScript */
+    Zero2(Y1: number, Y2: number, Y3: number, Y4: number, Y5: number, epsilon: number): number;
   };
   CAAJewishCalendar: {
     DateOfPesach(Year: number, bGregorianCalendar: boolean): CAACalendarDate;
@@ -1098,9 +1213,15 @@ export interface MainModule {
     TrueGreatestDeclination(k: number, bNortherly: boolean): number;
     TrueGreatestDeclinationValue(k: number, bNortherly: boolean): number;
   };
+  CAAMoonMaxDeclinations2: {
+    Calculate(StartJD: number, EndJD: number, StepInterval: number, algorithm: any): any;
+  };
   CAAMoonNodes: {
     K(Year: number): number;
     PassageThroNode(k: number): number;
+  };
+  CAAMoonNodes2: {
+    Calculate(StartJD: number, EndJD: number, StepInterval: number, algorithm: any): any;
   };
   CAAMoonPerigeeApogee: {
     K(Year: number): number;
@@ -1111,10 +1232,16 @@ export interface MainModule {
     PerigeeParallax(k: number): number;
     ApogeeParallax(k: number): number;
   };
+  CAAMoonPerigeeApogee2: {
+    Calculate(StartJD: number, EndJD: number, StepInterval: number, algorithm: any): any;
+  };
   CAAMoonPhases: {
     K(Year: number): number;
     MeanPhase(k: number): number;
     TruePhase(k: number): number;
+  };
+  CAAMoonPhases2: {
+    Calculate(StartJD: number, EndJD: number, StepInterval: number, algorithm: any): any;
   };
   CAAMoslemCalendar: {
     MoslemToJulian(Year: number, Month: number, Day: number): CAACalendarDate;
@@ -1129,6 +1256,16 @@ export interface MainModule {
     EclipticLongitude(JD: number, bHighPrecision: boolean): number;
     EclipticLatitude(JD: number, bHighPrecision: boolean): number;
     RadiusVector(JD: number, bHighPrecision: boolean): number;
+  };
+  CAANodes: {
+    /** Overload: call as `PassageThroAscendingNode_EllipticalObjectElements()` in JavaScript */
+    PassageThroAscendingNode(elements: CAAEllipticalObjectElements): CAANodeObjectDetails;
+    /** Overload: call as `PassageThroAscendingNode_ParabolicObjectElements()` in JavaScript */
+    PassageThroAscendingNode(elements: CAAParabolicObjectElements): CAANodeObjectDetails;
+    /** Overload: call as `PassageThroDescendingNode_EllipticalObjectElements()` in JavaScript */
+    PassageThroDescendingNode(elements: CAAEllipticalObjectElements): CAANodeObjectDetails;
+    /** Overload: call as `PassageThroDescendingNode_ParabolicObjectElements()` in JavaScript */
+    PassageThroDescendingNode(elements: CAAParabolicObjectElements): CAANodeObjectDetails;
   };
   CAANutation: {
     NutationInLongitude(JD: number): number;
@@ -1192,6 +1329,18 @@ export interface MainModule {
     NeptuneK(Year: number): number;
     Neptune(k: number): number;
   };
+  CAAPlanetPerihelionAphelion2: {
+    Calculate(StartJD: number, EndJD: number, object: CAAElliptical_Object, StepInterval: number, bHighPrecision: boolean): any;
+  };
+  CAAPlanetaryPhenomena: {
+    K(Year: number, planet: CAAPlanetaryPhenomena_Planet, type: CAAPlanetaryPhenomena_Type): number;
+    Mean(k: number, planet: CAAPlanetaryPhenomena_Planet, type: CAAPlanetaryPhenomena_Type): number;
+    True(k: number, planet: CAAPlanetaryPhenomena_Planet, type: CAAPlanetaryPhenomena_Type): number;
+    ElongationValue(k: number, planet: CAAPlanetaryPhenomena_Planet, bEastern: boolean): number;
+  };
+  CAAPlanetaryPhenomena2: {
+    Calculate(StartJD: number, EndJD: number, object: CAAElliptical_Object, StepInterval: number, bHighPrecision: boolean): any;
+  };
   CAAPlus: {
     VersionNumber(): number;
   };
@@ -1215,6 +1364,11 @@ export interface MainModule {
   CAARiseTransitSet: {
     Calculate(JD: number, Alpha1: number, Delta1: number, Alpha2: number, Delta2: number, Alpha3: number, Delta3: number, Longitude: number, Latitude: number, h0: number): CAARiseTransitSetDetails;
   };
+  CAARiseTransitSet2: {
+    Calculate(StartJD: number, EndJD: number, object: CAAElliptical_Object, Longitude: number, Latitude: number, h0: number, StepInterval: number, bHighPrecision: boolean): any;
+    CalculateMoon(StartJD: number, EndJD: number, Longitude: number, Latitude: number, RefractionAtHorizon: number, StepInterval: number, algorithm: any): any;
+    CalculateStationary(StartJD: number, EndJD: number, Alpha: number, Delta: number, Longitude: number, Latitude: number, h0: number, StepInterval: number): any;
+  };
   CAASaturn: {
     EclipticLongitude(JD: number, bHighPrecision: boolean): number;
     EclipticLatitude(JD: number, bHighPrecision: boolean): number;
@@ -1231,6 +1385,8 @@ export interface MainModule {
     ApparentGreenwichSiderealTime(JD: number): number;
   };
   CAAStellarMagnitudes: {
+    /** Overload: call as `CombinedMagnitude_DD()` in JavaScript */
+    CombinedMagnitude(m1: number, m2: number): number;
     BrightnessRatio(m1: number, m2: number): number;
     MagnitudeDifference(brightnessRatio: number): number;
   };
@@ -1256,6 +1412,8 @@ export interface MainModule {
     RadiusVector(JD: number, bHighPrecision: boolean): number;
   };
   CAAVSOP2013: {
+    CalculateMeanMotion(planet: CAAPlanetaryPhenomena_Planet, a: number): number;
+    OrbitToElements(JD: number, planet: CAAPlanetaryPhenomena_Planet, orbit: CAAVSOP2013Orbit): CAAEllipticalObjectElements;
     Ecliptic2Equatorial(value: CAAVSOP2013Position): CAAVSOP2013Position;
   };
   CAAVSOP87A_EMB: {
