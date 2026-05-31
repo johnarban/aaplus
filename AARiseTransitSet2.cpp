@@ -42,6 +42,8 @@ History: PJN / 13-07-2019 1. Initial implementation
                           to Alexander Vasenin for reporting this issue.
          PJN / 17-10-2024 1. Reimplemented the internal methods of CAARiseTransitSet2 to avoid code duplication. Thanks to 
                           "Pavel" for providing this update.
+         PJN / 26-04-2026 1. Updated CAARiseTransitSet2::CalculateMoon to apply nutation for ELP2000 and ELPMPP02 code paths.
+                          Thanks to "Pavel" for reporting this issue.
 
 Copyright (c) 2019 - 2026 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -326,6 +328,7 @@ std::vector<CAARiseTransitSetDetails2> CAARiseTransitSet2::CalculateMoon(double 
       case MoonAlgorithm::ELP2000:
       {
         MoonPos = CAAPrecession::PrecessEcliptic(CAAELP2000::EclipticLongitude(JD), CAAELP2000::EclipticLatitude(JD), 2451545.0, JD);
+        MoonPos.X += CAACoordinateTransformation::DMSToDegrees(0, 0, CAANutation::NutationInLongitude(JD));
         MoonRad = CAAELP2000::RadiusVector(JD);
         break;
       }
@@ -334,24 +337,28 @@ std::vector<CAARiseTransitSetDetails2> CAARiseTransitSet2::CalculateMoon(double 
       case MoonAlgorithm::ELPMPP02Nominal:
       {
         MoonPos = CAAPrecession::PrecessEcliptic(CAAELPMPP02::EclipticLongitude(JD, CAAELPMPP02::Correction::Nominal), CAAELPMPP02::EclipticLatitude(JD, CAAELPMPP02::Correction::Nominal), 2451545.0, JD);
+        MoonPos.X += CAACoordinateTransformation::DMSToDegrees(0, 0, CAANutation::NutationInLongitude(JD));
         MoonRad = CAAELPMPP02::RadiusVector(JD, CAAELPMPP02::Correction::Nominal);
         break;
       }
       case MoonAlgorithm::ELPMPP02LLR:
       {
         MoonPos = CAAPrecession::PrecessEcliptic(CAAELPMPP02::EclipticLongitude(JD, CAAELPMPP02::Correction::LLR), CAAELPMPP02::EclipticLatitude(JD, CAAELPMPP02::Correction::LLR), 2451545.0, JD);
+        MoonPos.X += CAACoordinateTransformation::DMSToDegrees(0, 0, CAANutation::NutationInLongitude(JD));
         MoonRad = CAAELPMPP02::RadiusVector(JD, CAAELPMPP02::Correction::LLR);
         break;
       }
       case MoonAlgorithm::ELPMPP02DE405:
       {
         MoonPos = CAAPrecession::PrecessEcliptic(CAAELPMPP02::EclipticLongitude(JD, CAAELPMPP02::Correction::DE405), CAAELPMPP02::EclipticLatitude(JD, CAAELPMPP02::Correction::DE405), 2451545.0, JD);
+        MoonPos.X += CAACoordinateTransformation::DMSToDegrees(0, 0, CAANutation::NutationInLongitude(JD));
         MoonRad = CAAELPMPP02::RadiusVector(JD, CAAELPMPP02::Correction::DE405);
         break;
       }
       case MoonAlgorithm::ELPMPP02DE406:
       {
         MoonPos = CAAPrecession::PrecessEcliptic(CAAELPMPP02::EclipticLongitude(JD, CAAELPMPP02::Correction::DE406), CAAELPMPP02::EclipticLatitude(JD, CAAELPMPP02::Correction::DE406), 2451545.0, JD);
+        MoonPos.X += CAACoordinateTransformation::DMSToDegrees(0, 0, CAANutation::NutationInLongitude(JD));
         MoonRad = CAAELPMPP02::RadiusVector(JD, CAAELPMPP02::Correction::DE406);
         break;
       }

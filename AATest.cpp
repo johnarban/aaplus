@@ -1034,6 +1034,80 @@ static void PrintBostonRiseTransitSetTimesSirius()
   }
 }
 
+static void CAADateUpdateHourBitmask(long nHour1, long nHour2, long& nRoundTripBitmask) noexcept
+{
+  if (std::labs(nHour1 - nHour2) > 12)
+  {
+    if (nHour2 > nHour1)
+    {
+      nHour1 += 24;
+      nRoundTripBitmask += (100 * (std::labs(nHour2 - nHour1)));
+    }
+    else
+    {
+      nHour2 += 24;
+      nRoundTripBitmask += (100 * (std::labs(nHour2 - nHour1)));
+    }
+  }
+  else
+    nRoundTripBitmask += (100 * (std::labs(nHour2 - nHour1)));
+}
+
+static void CAADateUpdateMinuteBitmask(long nMinute1, long nMinute2, long& nRoundTripBitmask) noexcept
+{
+  if (std::labs(nMinute1 - nMinute2) > 30)
+  {
+    if (nMinute2 > nMinute1)
+    {
+      nMinute1 += 60;
+      nRoundTripBitmask += (10 * (std::labs(nMinute2 - nMinute1)));
+    }
+    else
+    {
+      nMinute2 += 60;
+      nRoundTripBitmask += (10 * (std::labs(nMinute2 - nMinute1)));
+    }
+  }
+  else
+    nRoundTripBitmask += (10 * (std::labs(nMinute2 - nMinute1)));
+}
+
+static void CAADateUpdateSecondBitmask(long nSecond1, long nSecond2, long& nRoundTripBitmask) noexcept
+{
+  if (std::labs(nSecond1 - nSecond2) > 30)
+  {
+    if (nSecond2 > nSecond1)
+    {
+      nSecond1 += 60;
+      nRoundTripBitmask += (1 * (std::labs(nSecond2 - nSecond1)));
+    }
+    else
+    {
+      nSecond2 += 60;
+      nRoundTripBitmask += (1 * (std::labs(nSecond2 - nSecond1)));
+    }
+  }
+  else
+    nRoundTripBitmask += (1 * (std::labs(nSecond2 - nSecond1)));
+}
+
+[[nodiscard]] static bool CAADateRoundTripBitmaskAccurateEnough(long nRoundTripBitmask) noexcept
+{
+  if (((nRoundTripBitmask / 100000) % 10) > 1)
+    return false;
+  if (((nRoundTripBitmask / 10000) % 10) > 1)
+    return false;
+  if (((nRoundTripBitmask / 1000) % 10) > 1)
+    return false;
+  if (((nRoundTripBitmask / 100) % 10) > 1)
+    return false;
+  if (((nRoundTripBitmask / 10) % 10) > 1)
+    return false;
+  if ((nRoundTripBitmask % 10) > 1)
+    return false;
+  return true;
+}
+
 #ifdef _MSC_VER
 #pragma warning(disable : 6262)
 #endif //#ifdef _MSC_VER
@@ -1074,6 +1148,10 @@ int main()
   assert(p == -1);
   p = CAADate::INT(-1.1111); //NOLINT(clang-analyzer-deadcode.DeadStores)
   assert(p == -2);
+  p = CAADate::INT(-2000000.01111); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(p == -2000001);
+  p = CAADate::INT(2000000.01111); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(p == 2000000);
 
   //Test out the CAAEaster class
   const auto e1{CAAEaster::Calculate(2021, true)};
@@ -1236,7 +1314,7 @@ int main()
   ELP2000 = CAAELP2000::EclipticRectangularCoordinatesJ2000(2429000.5);
   ELP2000 = CAAELP2000::EclipticRectangularCoordinatesJ2000(2409000.5);
   ELP2000 = CAAELP2000::EclipticRectangularCoordinatesJ2000(2389000.5);
-#endif
+#endif //#ifndef AAPLUS_NO_ELP2000
 
 #ifndef AAPLUS_NO_ELPMPP02
   //Test out the CAAELPMPP02 class
@@ -1289,7 +1367,8 @@ int main()
 #endif //#ifndef AAPLUS_NO_ELPMPP02
 
   //Calculate the Moon's phase for 2019 using CAAMoonPhases
-  for (int k{235}; k < 248; k++)
+  ::printf("Calculate the Moon's phase for 2019 using CAAMoonPhases\n");
+  for (int k{235}; k<248; k++)
   {
     const double NewMoon{CAAMoonPhases::TruePhase(k)};
     CAADate date_time{CAADynamicalTime::TT2UTC(NewMoon), true};
@@ -1333,6 +1412,7 @@ int main()
   };
 
   //Calculate the Moon's phases for 2019 using CAAMoonPhases2
+  ::printf("Calculate the Moon's phases for 2019 using CAAMoonPhases2\n");
   for (const auto& algo : algos4)
   {
     std::vector<CAAMoonPhasesDetails2> events4{CAAMoonPhases2::Calculate(CAADynamicalTime::UTC2TT(2458484.5), CAADynamicalTime::UTC2TT(2458848.5), 0.007, algo.first)};
@@ -1401,7 +1481,8 @@ int main()
   }
 
   //Calculate the passage through the nodes of the Moon for 2019 using CAAMoonNodes
-  for (int k{254}; k < 268; k++)
+  ::printf("Calculate the passage through the nodes of the Moon for 2019 using CAAMoonNodes\n");
+  for (int k{254}; k<268; k++)
   {
     const double MoonNode1{CAAMoonNodes::PassageThroNode(k)};
     CAADate date_time{CAADynamicalTime::TT2UTC(MoonNode1), true};
@@ -1434,6 +1515,7 @@ int main()
   };
 
   //Calculate the passage through the nodes of the Moon for 2019 using CAAMoonNodes2
+  ::printf("Calculate the passage through the nodes of the Moon for 2019 using CAAMoonNodes2\n");
   for (const auto& algo : algos3)
   {
     std::vector<CAAMoonNodesDetails2> events4{CAAMoonNodes2::Calculate(CAADynamicalTime::UTC2TT(2458484.5), CAADynamicalTime::UTC2TT(2458848.5), 0.007, algo.first)};
@@ -1476,7 +1558,8 @@ int main()
   }
 
   //Calculate the Moon Apogee and Perigee's for 2019 using CAAMoonPerigeeApogee
-  for (int k{252}; k < 266; k++)
+  ::printf("Calculate the Moon Apogee and Perigee's for 2019 using CAAMoonPerigeeApogee\n");
+  for (int k{252}; k<266; k++)
   {
     const double MoonPerigee{CAAMoonPerigeeApogee::TruePerigee(k)};
     const double MoonPerigeeValue{CAAMoon::HorizontalParallaxToRadiusVector(CAAMoonPerigeeApogee::PerigeeParallax(k))};
@@ -1511,6 +1594,7 @@ int main()
   };
 
   //Calculate the Moon Apogee and Perigee's for 2019 using CAAMoonPerigeeApogee2
+  ::printf("Calculate the Moon Apogee and Perigee's for 2019 using CAAMoonPerigeeApogee2\n");
   for (const auto& algo : algos2)
   {
     std::vector<CAAMoonPerigeeApogeeDetails2> events3{CAAMoonPerigeeApogee2::Calculate(CAADynamicalTime::UTC2TT(2458484.5), CAADynamicalTime::UTC2TT(2458848.5), 0.007, algo.first)};
@@ -1574,7 +1658,8 @@ int main()
   PrintSouthPoleRiseTransitSetTimes(-0.8333 - (2.076 * sqrt(20000) / 60), "Sun@20000m");
   PrintSouthPoleRiseTransitSetTimes(-0.8333 - (2.076 * sqrt(50000) / 60), "Sun@50000m");
 
-  //Print out the rise, transit and set times for the Moon for the North Pole for the 8th - 11th March 2019 using the new CAARiseTransitSet2 class
+  //Calculate the rise, transit and set times for the Moon for the North Pole for the 8th - 11th March 2019 using the new CAARiseTransitSet2 class
+  ::printf("Calculate the rise, transit and set times for the Moon for the North Pole for the 8th - 11th March 2019 using the new CAARiseTransitSet2 class\n");
   auto events{CAARiseTransitSet2::Calculate(CAADynamicalTime::UTC2TT(2458550.5), CAADynamicalTime::UTC2TT(2458553.5), CAARiseTransitSet2::Object::MOON, 0, 90, -0.825)};
   for (const auto& event : events)
   {
@@ -1641,7 +1726,8 @@ int main()
     }
   }
 
-  //Print out the rise, transit and set times for the Moon for the North Pole for the 8th to 11th March 2019 using the new CAARiseTransitSet2 class and its higher accuracy CalculateMoon method
+  //Calculate the rise, transit and set times for the Moon for the North Pole for the 8th to 11th March 2019 using the new CAARiseTransitSet2 class and its higher accuracy CalculateMoon method
+  ::printf("Calculate the rise, transit and set times for the Moon for the North Pole for the 8th to 11th March 2019 using the new CAARiseTransitSet2 class and its higher accuracy CalculateMoon method\n");
   events = CAARiseTransitSet2::CalculateMoon(CAADynamicalTime::UTC2TT(2458550.5), CAADynamicalTime::UTC2TT(2458553.5), 0, 90);
   for (const auto& event : events)
   {
@@ -1709,6 +1795,7 @@ int main()
   }
 
   //Calculate the equinoxes and solstices for 2019
+  ::printf("Calculate the equinoxes and solstices for 2019\n");
   std::vector<CAAEquinoxSolsticeDetails2> events2{CAAEquinoxesAndSolstices2::Calculate(CAADynamicalTime::UTC2TT(2458484.5), CAADynamicalTime::UTC2TT(2458848.5))};
   for (const auto& event : events2)
   {
@@ -1774,6 +1861,7 @@ int main()
   }
 
   //Calculate the max declinations for the Moon for 2019 using CAAMoonMaxDeclinations
+  ::printf("Calculate the max declinations for the Moon for 2019 using CAAMoonMaxDeclinations\n");
   for (int k{254}; k<268; k++)
   {
     double MoonDec{CAAMoonMaxDeclinations::TrueGreatestDeclination(k, false)};
@@ -1809,6 +1897,7 @@ int main()
   };
 
   //Calculate the max declinations for the Moon for 2019 using CAAMoonMaxDeclinations2
+  ::printf("Calculate the max declinations for the Moon for 2019 using CAAMoonMaxDeclinations2\n");
   for (const auto& algo : algos)
   {
     std::vector<CAAMoonMaxDeclinationsDetails2> events3{CAAMoonMaxDeclinations2::Calculate(CAADynamicalTime::UTC2TT(2458484.5), CAADynamicalTime::UTC2TT(2458848.5), 0.007, algo.first)};
@@ -2725,7 +2814,103 @@ int main()
   MoonHorizontal.Y += CAARefraction::RefractionFromTrue(MoonHorizontal.Y, 1013, 10);
   //The result above should be that we have a rising Moon at 17 degrees above the horizon at azimuth 38 degrees east of the southern horizon
 
-  //Test out the CAADate class
+  //Test out the the CAADate class
+  ::printf("Test out the the CAADate class\n");
+  CAADate date3{1582, 10, 15, true};
+  assert(date3.Year() == 1582);
+  assert(date3.Month() == 10);
+  assert(date3.Day() == 15);
+  assert(date3.Hour() == 0);
+  assert(date3.Minute() == 0);
+  assert(date3.Second() == 0);
+  date3 = CAADate{2299160.5, true};
+  assert(date3.Year() == 1582);
+  assert(date3.Month() == 10);
+  assert(date3.Day() == 15);
+  assert(date3.Hour() == 0);
+  assert(date3.Minute() == 0);
+  assert(date3.Second() == 0);
+  date3 = CAADate{1582, 10, 15, 0, 0, 1, true};
+  assert(date3.Year() == 1582);
+  assert(date3.Month() == 10);
+  assert(date3.Day() == 15);
+  assert(date3.Hour() == 0);
+  assert(date3.Minute() == 0);
+  date3 = CAADate{2026, 10, 5, true};
+  assert(date3.Year() == 2026);
+  assert(date3.Month() == 10);
+  assert(date3.Day() == 5);
+  assert(date3.Hour() == 0);
+  assert(date3.Minute() == 0);
+  date3 = CAADate{2026, 10, 5, 1, 2, 3, true};
+  assert(date3.Year() == 2026);
+  assert(date3.Month() == 10);
+  assert(date3.Day() == 5);
+  assert(date3.Hour() == 1);
+  assert(date3.Minute() == 2);
+  date3 = CAADate{1969, 12, 31, 0, 0, 0, true};
+  assert(date3.Year() == 1969);
+  assert(date3.Month() == 12);
+  assert(date3.Day() == 31);
+  assert(date3.Hour() == 0);
+  assert(date3.Minute() == 0);
+  const CAADate d{2000, 3, 0, true}; //March 0 2000 Gregorian, should fail to construct
+  assert(!d.IsValid());
+  const CAADate d2{2000, 3, 0, false}; //March 0 2000 Julian, should fail to construct
+  assert(!d2.IsValid());
+  {
+    constexpr long nStartYear{-2000000};
+    constexpr long nEndYear{2000000};
+    long nYear{nStartYear};
+    long nMonth{1};
+    long nDay{1};
+    bool bContinue{true};
+    while (bContinue)
+    {
+      const long nHour{std::rand() % 24};
+      const long nMinute{std::rand() % 60};
+      const long nSecond{std::rand() % 60};
+      const bool bAfterPapalReform{CAADate::AfterPapalReform(nYear, nMonth, nDay)};
+      if ((nDay == 1) && (nMonth == 1) && (nYear % 50000) == 0)
+        ::printf("Testing Year %d\n", static_cast<int>(nYear));
+      const CAADate date{nYear, nMonth, static_cast<double>(nDay), static_cast<double>(nHour), static_cast<double>(nMinute), static_cast<double>(nSecond), bAfterPapalReform};
+      if (!date.IsValid())
+        ::printf("%d/%d/%d %02d:%02d:%02d was not valid\n", static_cast<int>(nYear), static_cast<int>(nMonth), static_cast<int>(nDay), static_cast<int>(nHour), static_cast<int>(nMinute), static_cast<int>(nSecond));
+      else
+      {
+        long nRoundTripBitmask = 0; //Bitmask is YMDHMS and each digit in the bitmask is the difference
+        const long nReturnYear{date.Year()};
+        if (nReturnYear != nYear)
+          nRoundTripBitmask += (100000 * (std::labs(nReturnYear - nYear)));
+        const long nReturnMonth{date.Month()};
+        if (nReturnMonth != nMonth)
+          nRoundTripBitmask += (10000 * (std::labs(nReturnMonth - nMonth)));
+        const long nReturnDay{date.Day()};
+        if (nReturnDay != nDay)
+          nRoundTripBitmask += (1000 * (std::labs(nReturnDay - nDay)));
+        const long nReturnHour{date.Hour()};
+        CAADateUpdateHourBitmask(nReturnHour, nHour, nRoundTripBitmask);
+        const long nReturnMinute{date.Minute()};
+        CAADateUpdateMinuteBitmask(nReturnMinute, nMinute, nRoundTripBitmask);
+        const long nReturnSecond{static_cast<long>(date.Second())};
+        CAADateUpdateSecondBitmask(nReturnSecond, nSecond, nRoundTripBitmask);
+        if (!CAADateRoundTripBitmaskAccurateEnough(nRoundTripBitmask))
+          ::printf("%d/%d/%d %02d:%02d:%02d incorrectly returned %d/%d/%d %02d:%02d:%02d %06d\n", static_cast<int>(nYear), static_cast<int>(nMonth), static_cast<int>(nDay), static_cast<int>(nHour), static_cast<int>(nMinute), static_cast<int>(nSecond), static_cast<int>(nReturnYear), static_cast<int>(nReturnMonth), static_cast<int>(nReturnDay), static_cast<int>(nReturnHour), static_cast<int>(nReturnMinute), static_cast<int>(nReturnSecond), static_cast<int>(nRoundTripBitmask));
+      }
+      nDay++;
+      if (nDay > CAADate::DaysInMonth(nMonth, CAADate::IsLeap(nYear, bAfterPapalReform)))
+      {
+        nDay = 1;
+        nMonth++;
+      }
+      if (nMonth > 12)
+      {
+        nMonth = 1;
+        nYear++;
+      }
+      bContinue = nYear < nEndYear;
+    }
+  }
   CAADate date;
   assert(!date.IsValid());
   date.Set(1970, 1, 1, 12, 1, 2.3, true);
@@ -3034,7 +3219,6 @@ int main()
 #endif //#ifdef _MSC_VER
   std::modf(Second, &tempZ);
   assert(tempZ == 0);
-
   CAACalendarDate JulianDate{CAADate::GregorianToJulian(1969, 12, 31)};
   CAACalendarDate GregorianDate{CAADate::JulianToGregorian(JulianDate.Year, JulianDate.Month, JulianDate.Day)};
   assert(GregorianDate.Year == 1969);
@@ -3044,14 +3228,14 @@ int main()
   //Do a full round trip test on CAADate in the Gregorian Calendar across a nice wide range.
   ::printf("Doing CAADate validation tests using Gregorian calendar\n");
   double prevJulian{-1};
-  for (int YYYY{-10000}; YYYY < 10000; YYYY++) //Change the end YYYY value if you would like to test a longer range
+  for (int YYYY{-10000}; YYYY<10000; YYYY++) //Change the end YYYY value if you would like to test a longer range
   {
     if ((YYYY % 1000) == 0)
       ::printf("Doing Gregorian CDate tests on year %d\n", YYYY);
-    for (int MMMM{1}; MMMM <= 12; MMMM++)
+    for (int MMMM{1}; MMMM<=12; MMMM++)
     {
       bLeap = CAADate::IsLeap(YYYY, true);
-      for (int DDDD{1}; DDDD <= CAADate::DaysInMonth(MMMM, bLeap); DDDD++)
+      for (int DDDD{1}; DDDD<=CAADate::DaysInMonth(MMMM, bLeap); DDDD++)
       {
         date = CAADate{YYYY, MMMM, static_cast<double>(DDDD), 0, 0, 0, true};
         if ((date.Year() != YYYY) || (date.Month() != MMMM) || (date.Day() != DDDD))
@@ -3081,14 +3265,14 @@ int main()
   //Do a full round trip test on CAADate in the Julian Calendar across a nice wide range.
   ::printf("Doing CAADate validation tests using Julian calendar\n");
   prevJulian = -1;
-  for (int YYYY{-10000}; YYYY < 10000; YYYY++) //Change the end YYYY value if you would like to test a longer range
+  for (int YYYY{-10000}; YYYY<10000; YYYY++) //Change the end YYYY value if you would like to test a longer range
   {
     if ((YYYY % 1000) == 0)
       ::printf("Doing Julian CDate tests on year %d\n", YYYY);
-    for (int MMMM{1}; MMMM <= 12; MMMM++)
+    for (int MMMM{1}; MMMM<=12; MMMM++)
     {
       bLeap = CAADate::IsLeap(YYYY, false);
-      for (int DDDD{1}; DDDD <= CAADate::DaysInMonth(MMMM, bLeap); DDDD++)
+      for (int DDDD{1}; DDDD<=CAADate::DaysInMonth(MMMM, bLeap); DDDD++)
       {
         date = CAADate{YYYY, MMMM, static_cast<double>(DDDD), 0, 0, 0, false};
         if ((date.Year() != YYYY) || (date.Month() != MMMM) || (date.Day() != DDDD))
@@ -3360,6 +3544,7 @@ int main()
   UNREFERENCED_PARAMETER(refract28);
 
   //Test round tripping of CAARefraction::RefractionFromApparent and CAARefraction::RefractionFromTrue
+  ::printf("Test round tripping of CAARefraction::RefractionFromApparent and CAARefraction::RefractionFromTrue\n");
   double f{-12.0};
   while (f < 100.0)
   {
@@ -3390,31 +3575,40 @@ int main()
   const double AngularSeparation{CAAAngularSeparation::Separation(CAACoordinateTransformation::DMSToDegrees(14, 15, 39.7), CAACoordinateTransformation::DMSToDegrees(19, 10, 57),
                                                                   CAACoordinateTransformation::DMSToDegrees(13, 25, 11.6), CAACoordinateTransformation::DMSToDegrees(11, 9, 41, false))};
   UNREFERENCED_PARAMETER(AngularSeparation);
-  const double AngularSeparation2{CAAAngularSeparation::Separation(CAACoordinateTransformation::DMSToDegrees(2, 0, 0), CAACoordinateTransformation::DMSToDegrees(0, 0, 0),
-                                                                   CAACoordinateTransformation::DMSToDegrees(2, 0, 0), CAACoordinateTransformation::DMSToDegrees(0, 0, 0))};
+  const double AngularSeparation2{CAAAngularSeparation::Separation(2, 0, 2, 0)};
   UNREFERENCED_PARAMETER(AngularSeparation2);
-  const double AngularSeparation3{CAAAngularSeparation::Separation(CAACoordinateTransformation::DMSToDegrees(2, 0, 0), CAACoordinateTransformation::DMSToDegrees(0, 0, 0),
-                                                                   CAACoordinateTransformation::DMSToDegrees(14, 0, 0), CAACoordinateTransformation::DMSToDegrees(0, 0, 0))};
+  const double AngularSeparation3{CAAAngularSeparation::Separation(2, 0, 14, 0)};
   UNREFERENCED_PARAMETER(AngularSeparation3);
   const double PA0{CAAAngularSeparation::PositionAngle(CAACoordinateTransformation::DMSToDegrees(5, 32, 0.4), CAACoordinateTransformation::DMSToDegrees(0, 17, 56.9, false),
                                                        CAACoordinateTransformation::DMSToDegrees(5, 36, 12.81), CAACoordinateTransformation::DMSToDegrees(1, 12, 7, false))};
   UNREFERENCED_PARAMETER(PA0);
-  const double PA1{CAAAngularSeparation::PositionAngle(CAACoordinateTransformation::DMSToDegrees(5, 40, 45.52), CAACoordinateTransformation::DMSToDegrees(1, 56, 33.3, false),
-                                                       CAACoordinateTransformation::DMSToDegrees(5, 36, 12.81), CAACoordinateTransformation::DMSToDegrees(1, 12, 7, false)) };
+  double PA1{CAAAngularSeparation::PositionAngle(CAACoordinateTransformation::DMSToDegrees(5, 40, 45.52), CAACoordinateTransformation::DMSToDegrees(1, 56, 33.3, false),
+                                                 CAACoordinateTransformation::DMSToDegrees(5, 36, 12.81), CAACoordinateTransformation::DMSToDegrees(1, 12, 7, false))}; //123.1208 Wrong?
+  UNREFERENCED_PARAMETER(PA1);
+  PA1 = CAAAngularSeparation::PositionAngle(3, -30, 6, 30);
+  UNREFERENCED_PARAMETER(PA1);
+  PA1 = CAAAngularSeparation::PositionAngle(3, -30, 3, 30);
+  UNREFERENCED_PARAMETER(PA1);
+  PA1 = CAAAngularSeparation::PositionAngle(3, 30, 3, -30);
+  UNREFERENCED_PARAMETER(PA1);
+  PA1 = CAAAngularSeparation::PositionAngle(3, 0, 6, 0);
+  UNREFERENCED_PARAMETER(PA1);
+  PA1 = CAAAngularSeparation::PositionAngle(3, 0, 1, 0);
   UNREFERENCED_PARAMETER(PA1);
   const double distance{CAAAngularSeparation::DistanceFromGreatArc(CAACoordinateTransformation::DMSToDegrees(5, 32, 0.4), CAACoordinateTransformation::DMSToDegrees(0, 17, 56.9, false),
-                                                                   CAACoordinateTransformation::DMSToDegrees(5, 40, 45.52), CAACoordinateTransformation::DMSToDegrees(1, 56, 33.3, false),
-                                                                   CAACoordinateTransformation::DMSToDegrees(5, 36, 12.81), CAACoordinateTransformation::DMSToDegrees(1, 12, 7, false))};
+                                                                    CAACoordinateTransformation::DMSToDegrees(5, 40, 45.52), CAACoordinateTransformation::DMSToDegrees(1, 56, 33.3, false),
+                                                                    CAACoordinateTransformation::DMSToDegrees(5, 36, 12.81), CAACoordinateTransformation::DMSToDegrees(1, 12, 7, false))};
   UNREFERENCED_PARAMETER(distance);
   bool bType1{false};
   double separation{CAAAngularSeparation::SmallestCircle(CAACoordinateTransformation::DMSToDegrees(12, 41, 8.63), CAACoordinateTransformation::DMSToDegrees(5, 37, 54.2, false), //NOLINT(clang-analyzer-deadcode.DeadStores)
-                                                         CAACoordinateTransformation::DMSToDegrees(12, 52, 5.21), CAACoordinateTransformation::DMSToDegrees(4, 22, 26.2, false),
-                                                         CAACoordinateTransformation::DMSToDegrees(12, 39, 28.11), CAACoordinateTransformation::DMSToDegrees(1, 50, 3.7, false), bType1)};
+                                                          CAACoordinateTransformation::DMSToDegrees(12, 52, 5.21), CAACoordinateTransformation::DMSToDegrees(4, 22, 26.2, false),
+                                                          CAACoordinateTransformation::DMSToDegrees(12, 39, 28.11), CAACoordinateTransformation::DMSToDegrees(1, 50, 3.7, false), bType1)};
   separation = CAAAngularSeparation::SmallestCircle(CAACoordinateTransformation::DMSToDegrees(9, 5, 41.44), CAACoordinateTransformation::DMSToDegrees(18, 30, 30),
-    CAACoordinateTransformation::DMSToDegrees(9, 9, 29), CAACoordinateTransformation::DMSToDegrees(17, 43, 56.7),
-    CAACoordinateTransformation::DMSToDegrees(8, 59, 47.14), CAACoordinateTransformation::DMSToDegrees(17, 49, 36.8), bType1);
+                                                    CAACoordinateTransformation::DMSToDegrees(9, 9, 29), CAACoordinateTransformation::DMSToDegrees(17, 43, 56.7),
+                                                    CAACoordinateTransformation::DMSToDegrees(8, 59, 47.14), CAACoordinateTransformation::DMSToDegrees(17, 49, 36.8), bType1);
   UNREFERENCED_PARAMETER(separation);
 
+  //Test out the CAACoordinateTransformation, CAAPrecession & CAAAberration classes
   Alpha = CAACoordinateTransformation::DMSToDegrees(2, 44, 11.986);
   double Delta{CAACoordinateTransformation::DMSToDegrees(49, 13, 42.48)};
   const CAA2DCoordinate PA{CAAPrecession::AdjustPositionUsingUniformProperMotion((2462088.69 - 2451545) / 365.25, Alpha, Delta, 0.03425, -0.0895)};
@@ -3462,6 +3656,7 @@ int main()
   UNREFERENCED_PARAMETER(Aberration2);
   PA13 = CAAPrecession::PrecessEquatorial(PA13.X, PA13.Y, 2451545, 2462088.69);
 
+  //Test out the CAANutation class
   Obliquity = CAANutation::MeanObliquityOfEcliptic(2462088.69);
   NutationInLongitude = CAANutation::NutationInLongitude(2462088.69);
   NutationInEcliptic = CAANutation::NutationInObliquity(2462088.69);
@@ -3470,7 +3665,7 @@ int main()
   PA13.X += CAACoordinateTransformation::DMSToDegrees(0, 0, AlphaNutation / 15);
   PA13.Y += CAACoordinateTransformation::DMSToDegrees(0, 0, DeltaNutation);
 
-  //Try out the AAKepler class
+  //Test out the AAKepler class
   double E0{CAAKepler::Calculate(5, 0.1)}; //NOLINT(clang-analyzer-deadcode.DeadStores)
   UNREFERENCED_PARAMETER(E0);
   E0 = CAAKepler::Calculate(5, 0.2); //NOLINT(clang-analyzer-deadcode.DeadStores)
@@ -3547,7 +3742,7 @@ int main()
   const double E31{CAAKepler::Calculate(-361, 0.4)}; //NOLINT(clang-analyzer-deadcode.DeadStores)
   UNREFERENCED_PARAMETER(E31);
 
-  //Try out the binary star class
+  //Test out the CAABinaryStar class
   CAABinaryStarDetails bsdetails{CAABinaryStar::Calculate(1980, 41.623, 1934.008, 0.2763, 0.907, 59.025, 23.717, 219.907)};
   UNREFERENCED_PARAMETER(bsdetails);
   const double ApparentE{CAABinaryStar::ApparentEccentricity(0.2763, 59.025, 219.907)};
@@ -4367,7 +4562,8 @@ int main()
   UNREFERENCED_PARAMETER(JED);
 
   //Test out the CAAEquinoxesAndSolstices class
-  for (Year = 1962; Year < 2021; Year++)
+  ::printf("Test out the CAAEquinoxesAndSolstices class\n");
+  for (Year=1962; Year<2021; Year++)
   {
     double NorthwardEquinox{CAAEquinoxesAndSolstices::NorthwardEquinox(Year, false)};
     const double NorthwardEquinox4{CAAEquinoxesAndSolstices::NorthwardEquinox(Year, true)};
@@ -4999,6 +5195,7 @@ int main()
   PrintDoverSunRiseTransitSetTimes(); //More test cases for the CAARiseTransitSet2 class
 
   //Calculate the time of moon set for 11th of August 2009 UTC for Palomar Observatory
+  ::printf("Calculate the time of moon set for 11th of August 2009 UTC for Palomar Observatory\n");
   constexpr int YYYY{2009};
   constexpr int MM{8};
   constexpr int DD{11};
@@ -5054,6 +5251,7 @@ int main()
   }
 
   //Test out the CAAPlanetaryPhenomena class
+  ::printf("Test out the CAAPlanetaryPhenomena class\n");
   double Kpp{CAAPlanetaryPhenomena::K(1993.75, CAAPlanetaryPhenomena::Planet::MERCURY, CAAPlanetaryPhenomena::Type::INFERIOR_CONJUNCTION)};
   Kpp = floor(Kpp + 0.5);
   ::printf("Mercury K: %f\n", Kpp);
@@ -7099,7 +7297,7 @@ int main()
 
   //Calculate the Eclipse Disappearance of Satellite 1 on February 1 2004 at 13:32 UCT
   double JD{2453037.05903};
-  for (int i{0}; i < 10; i++)
+  for (int i{0}; i<10; i++)
   {
     const CAAGalileanMoonsDetails GalileanDetails1{CAAGalileanMoons::Calculate(JD, false)};
     UNREFERENCED_PARAMETER(GalileanDetails1);
@@ -7110,7 +7308,7 @@ int main()
 
   //Calculate the Shadow Egress of Satellite 1 on February 2  2004 at 13:07 UT
   JD = 2453038.04236;
-  for (int i{0}; i < 10; i++)
+  for (int i{0}; i<10; i++)
   {
     const CAAGalileanMoonsDetails GalileanDetails1{CAAGalileanMoons::Calculate(JD, false)};
     UNREFERENCED_PARAMETER(GalileanDetails1);
@@ -7121,7 +7319,7 @@ int main()
 
   //Calculate the Shadow Ingress of Satellite 4 on February 6 2004 at 22:59 UCT
   JD = 2453042.45486;
-  for (int i{0}; i < 10; i++)
+  for (int i{0}; i<10; i++)
   {
     const CAAGalileanMoonsDetails GalileanDetails1{CAAGalileanMoons::Calculate(JD, false)};
     UNREFERENCED_PARAMETER(GalileanDetails1);
@@ -7132,7 +7330,7 @@ int main()
 
   //Calculate the Shadow Egress of Satellite 4 on February 7 2004 at 2:41 UCT
   JD = 2453042.61042;
-  for (int i{0}; i < 10; i++)
+  for (int i{0}; i<10; i++)
   {
     const CAAGalileanMoonsDetails GalileanDetails1{CAAGalileanMoons::Calculate(JD, false)};
     UNREFERENCED_PARAMETER(GalileanDetails1);
@@ -7143,7 +7341,7 @@ int main()
 
   //Calculate the Transit Ingress of Satellite 4 on February 7 2004 at 5:07 UCT
   JD = 2453042.71181;
-  for (int i{0}; i < 10; i++)
+  for (int i{0}; i<10; i++)
   {
     const CAAGalileanMoonsDetails GalileanDetails1{CAAGalileanMoons::Calculate(JD, false)};
     UNREFERENCED_PARAMETER(GalileanDetails1);
@@ -7154,7 +7352,7 @@ int main()
 
   //Calculate the Transit Egress of Satellite 4 on February 7 2004 at 7:46 UT
   JD = 2453042.82222;
-  for (int i{0}; i < 10; i++)
+  for (int i{0}; i<10; i++)
   {
     const CAAGalileanMoonsDetails GalileanDetails1{CAAGalileanMoons::Calculate(JD, false)};
     UNREFERENCED_PARAMETER(GalileanDetails1);
@@ -7197,13 +7395,22 @@ int main()
   double ApproxK{CAAMoonPhases::K(1977.125)};
   UNREFERENCED_PARAMETER(ApproxK);
   const double NewMoonJD{CAAMoonPhases::TruePhase(-283)};
-  UNREFERENCED_PARAMETER(NewMoonJD);
+  date_time = CAADate{NewMoonJD, true};
+  date_time.Get(year, month, day, hour, minute, second);
+  ::printf("True New Moon for K = -283 is (TD) %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
+  const double FullMoonJD{CAAMoonPhases::TruePhase(-282.5)};
+  date_time = CAADate{FullMoonJD, true};
+  date_time.Get(year, month, day, hour, minute, second);
+  ::printf("Full New Moon for K = -282.5 is (TD) %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
   ApproxK = CAAMoonPhases::K(1952.88); //NOLINT(clang-analyzer-deadcode.DeadStores)
   double LastQuarterJD{CAAMoonPhases::TruePhase(-583 + 0.75)};
   UNREFERENCED_PARAMETER(LastQuarterJD);
   constexpr double ApproxK2{CAAMoonPhases::K(2044)};
   UNREFERENCED_PARAMETER(ApproxK2);
   LastQuarterJD = CAAMoonPhases::TruePhase(544.75); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  date_time = CAADate{LastQuarterJD, true};
+  date_time.Get(year, month, day, hour, minute, second);
+  ::printf("True Last Quarter Moon for K = -544.75 is (TD) %d-%d-%d %02d:%02d:%02d\n", static_cast<int>(year), static_cast<int>(month), static_cast<int>(day), static_cast<int>(hour), static_cast<int>(minute), static_cast<int>(second));
 
   //Test out the CAAMoonMaxDeclinations class
   constexpr double MoonDeclinationK{CAAMoonMaxDeclinations::K(1988.95)};
@@ -7356,7 +7563,7 @@ int main()
   EclipseDetails4 = CAAEclipses::CalculateLunar(-29.5); //No lunar eclipse
   EclipseDetails4 = CAAEclipses::CalculateLunar(-28.5); //Aha, found you!
   ::printf("Calculating Solar eclipse details from 1903 to 2080\n");
-  for (int K{-1200}; K < 1000; K++)
+  for (int K{-1200}; K<1000; K++)
   {
     EclipseDetails = CAAEclipses::CalculateSolar(K);
     if (EclipseDetails.Flags)
@@ -7381,21 +7588,101 @@ int main()
   }
 
   //Test out the CAAMoslemCalendar class
-  JulianDate = CAAMoslemCalendar::MoslemToJulian(1421, 1, 1);
-  GregorianDate = CAADate::JulianToGregorian(JulianDate.Year, JulianDate.Month, JulianDate.Day);
-  const CAACalendarDate JulianDate2{CAADate::GregorianToJulian(GregorianDate.Year, GregorianDate.Month, GregorianDate.Day)};
-  CAACalendarDate MoslemDate{CAAMoslemCalendar::JulianToMoslem(JulianDate2.Year, JulianDate2.Month, JulianDate2.Day)};
-  bLeap = CAAMoslemCalendar::IsLeap(1421);
-  UNREFERENCED_PARAMETER(bLeap);
-  MoslemDate = CAAMoslemCalendar::JulianToMoslem(2006, 12, 31);
-  CAACalendarDate OriginalMoslemDate{CAAMoslemCalendar::MoslemToJulian(MoslemDate.Year, MoslemDate.Month, MoslemDate.Day)};
-  MoslemDate = CAAMoslemCalendar::JulianToMoslem(2007, 1, 1);
-  OriginalMoslemDate = CAAMoslemCalendar::MoslemToJulian(MoslemDate.Year, MoslemDate.Month, MoslemDate.Day);
-  const CAACalendarDate JulianDate3{CAADate::GregorianToJulian(1991, 8, 13)};
-  const CAACalendarDate MoslemDate2{CAAMoslemCalendar::JulianToMoslem(JulianDate3.Year, JulianDate3.Month, JulianDate3.Day)};
-  const CAACalendarDate JulianDate4{CAAMoslemCalendar::MoslemToJulian(MoslemDate2.Year, MoslemDate2.Month, MoslemDate2.Day)};
-  const CAACalendarDate GregorianDate2{CAADate::JulianToGregorian(JulianDate4.Year, JulianDate4.Month, JulianDate4.Day)};
-  UNREFERENCED_PARAMETER(GregorianDate2);
+  ::printf("Test out the CAAMoslemCalendar class\n");
+  {
+    JulianDate = CAAMoslemCalendar::MoslemToJulian(1421, 1, 1);
+    GregorianDate = CAADate::JulianToGregorian(JulianDate.Year, JulianDate.Month, JulianDate.Day);
+    assert(GregorianDate.Day == 6);
+    assert(GregorianDate.Month == 4);
+    assert(GregorianDate.Year == 2000);
+    CAACalendarDate JulianDate2{CAADate::GregorianToJulian(GregorianDate.Year, GregorianDate.Month, GregorianDate.Day)};
+    CAACalendarDate MoslemDate{CAAMoslemCalendar::JulianToMoslem(JulianDate2.Year, JulianDate2.Month, JulianDate2.Day)};
+    assert(MoslemDate.Day == 1);
+    assert(MoslemDate.Month == 1);
+    assert(MoslemDate.Year == 1421);
+    bLeap = CAAMoslemCalendar::IsLeap(1421);
+    assert(!bLeap);
+    UNREFERENCED_PARAMETER(bLeap);
+    JulianDate2 = CAADate::GregorianToJulian(1991, 8, 13);
+    assert(JulianDate2.Day == 31);
+    assert(JulianDate2.Month == 7);
+    assert(JulianDate2.Year == 1991);
+    MoslemDate = CAAMoslemCalendar::JulianToMoslem(JulianDate2.Year, JulianDate2.Month, JulianDate2.Day);
+    assert(MoslemDate.Day == 2);
+    assert(MoslemDate.Month == 2);
+    assert(MoslemDate.Year == 1412);
+    JulianDate2 = CAAMoslemCalendar::MoslemToJulian(MoslemDate.Year, MoslemDate.Month, MoslemDate.Day);
+    assert(JulianDate2.Day == 31);
+    assert(JulianDate2.Month == 7);
+    assert(JulianDate2.Year == 1991);
+    GregorianDate = CAADate::JulianToGregorian(JulianDate2.Year, JulianDate2.Month, JulianDate2.Day);
+    assert(GregorianDate.Day == 13);
+    assert(GregorianDate.Month == 8);
+    assert(GregorianDate.Year == 1991);
+    MoslemDate = CAAMoslemCalendar::JulianToMoslem(2006, 12, 31);
+    const CAACalendarDate OriginalMoslemDate{CAAMoslemCalendar::MoslemToJulian(MoslemDate.Year, MoslemDate.Month, MoslemDate.Day)};
+    UNREFERENCED_PARAMETER(OriginalMoslemDate);
+    assert(OriginalMoslemDate.Day == 31);
+    assert(OriginalMoslemDate.Month == 12);
+    assert(OriginalMoslemDate.Year == 2006);
+    MoslemDate = CAAMoslemCalendar::JulianToMoslem(2006, 12, 31);
+    assert(MoslemDate.Day == 23);
+    assert(MoslemDate.Month == 12);
+    assert(MoslemDate.Year == 1427);
+    MoslemDate = CAAMoslemCalendar::JulianToMoslem(2007, 1, 1);
+    assert(MoslemDate.Day == 24);
+    assert(MoslemDate.Month == 12);
+    assert(MoslemDate.Year == 1427);
+    MoslemDate = CAAMoslemCalendar::JulianToMoslem(6500, 12, 30);
+    assert(MoslemDate.Day == 30);
+    assert(MoslemDate.Month == 12);
+    assert(MoslemDate.Year == 6059);
+    bLeap = CAAMoslemCalendar::IsLeap(MoslemDate.Year);
+    assert(bLeap);
+    UNREFERENCED_PARAMETER(bLeap);
+    JulianDate2 = CAAMoslemCalendar::MoslemToJulian(MoslemDate.Year, MoslemDate.Month, MoslemDate.Day);
+    assert(JulianDate2.Day == 30);
+    assert(JulianDate2.Month == 12);
+    assert(JulianDate2.Year == 6500);
+    MoslemDate = CAAMoslemCalendar::JulianToMoslem(6500, 12, 31);
+    assert(MoslemDate.Day == 1);
+    assert(MoslemDate.Month == 1);
+    assert(MoslemDate.Year == 6060);
+    JulianDate2 = CAAMoslemCalendar::MoslemToJulian(MoslemDate.Year, MoslemDate.Month, MoslemDate.Day);
+    assert(JulianDate2.Day == 31);
+    assert(JulianDate2.Month == 12);
+    assert(JulianDate2.Year == 6500);
+    constexpr long nEndYear{2000000};
+    long nYear{622};
+    long nMonth{7};
+    long nDay{16};
+    bool bContinue{true};
+    while (bContinue)
+    {
+      if ((nDay == 1) && (nMonth == 1) && (nYear % 50000) == 0)
+        ::printf("Testing Year %d\n", static_cast<int>(nYear));
+      MoslemDate = CAAMoslemCalendar::JulianToMoslem(nYear, nMonth, nDay);
+      GregorianDate = CAADate::JulianToGregorian(nYear, nMonth, nDay);
+      JulianDate2 = CAAMoslemCalendar::MoslemToJulian(MoslemDate.Year, MoslemDate.Month, MoslemDate.Day);
+      if ((JulianDate2.Day != nDay) || (JulianDate2.Month != nMonth) || (JulianDate2.Year != nYear))
+        ::printf("%d/%d/%d Julian -> Moslem -> Julian calendar incorrectly returned %d/%d/%d\n", static_cast<int>(nYear), static_cast<int>(nMonth), static_cast<int>(nDay), static_cast<int>(JulianDate2.Year), static_cast<int>(JulianDate2.Month), static_cast<int>(JulianDate2.Day));
+      const auto GregorianDate2{CAADate::JulianToGregorian(nYear, nMonth, nDay)};
+      if ((GregorianDate2.Day != GregorianDate.Day) || (GregorianDate2.Month != GregorianDate.Month) || (GregorianDate2.Year != GregorianDate.Year))
+        ::printf("%d/%d/%d Gregorian -> Julian -> Gregorian calendar incorrectly returned %d/%d/%d\n", static_cast<int>(GregorianDate.Year), static_cast<int>(GregorianDate.Month), static_cast<int>(GregorianDate.Day), static_cast<int>(GregorianDate2.Year), static_cast<int>(GregorianDate2.Month), static_cast<int>(GregorianDate2.Day));
+      nDay++;
+      if (nDay > CAADate::DaysInMonth(nMonth, CAADate::IsLeap(nYear, false)))
+      {
+        nDay = 1;
+        nMonth++;
+      }
+      if (nMonth > 12)
+      {
+        nMonth = 1;
+        nYear++;
+      }
+      bContinue = nYear < nEndYear;
+    }
+  }
 
   //Test out the CAAJewishCalendar class
   const CAACalendarDate JewishDate{CAAJewishCalendar::DateOfPesach(1990)};

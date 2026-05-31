@@ -10,6 +10,8 @@ History: PJN / 22-10-2019 1. Initial implementation
                           StepInterval to EndJD get lost because the step where we can catch it is outside of StartJD...EndJD
                           interval. Now the code iterates from StartJD by StepInterval until JD <
                           (EndJD+StepInterval+StepInterval). Thanks to Alexander Vasenin for reporting this issue.
+         PJN / 26-04-2026 1. Updated CAAMoonMaxDeclinations2::Calculate to apply nutation for ELP2000 and ELPMPP02 code paths.
+                          Thanks to "Pavel" for reporting this issue.
 
 Copyright (c) 2019 - 2026 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -74,6 +76,7 @@ std::vector<CAAMoonMaxDeclinationsDetails2> CAAMoonMaxDeclinations2::Calculate(d
       case Algorithm::ELP2000:
       {
         MoonLong = CAAELP2000::EclipticLongitude(JD);
+        MoonLong += CAACoordinateTransformation::DMSToDegrees(0, 0, CAANutation::NutationInLongitude(JD));
         MoonLat = CAAELP2000::EclipticLatitude(JD);
         break;
       }
@@ -82,24 +85,28 @@ std::vector<CAAMoonMaxDeclinationsDetails2> CAAMoonMaxDeclinations2::Calculate(d
       case Algorithm::ELPMPP02Nominal:
       {
         MoonLong = CAAELPMPP02::EclipticLongitude(JD, CAAELPMPP02::Correction::Nominal);
+        MoonLong += CAACoordinateTransformation::DMSToDegrees(0, 0, CAANutation::NutationInLongitude(JD));
         MoonLat = CAAELPMPP02::EclipticLatitude(JD, CAAELPMPP02::Correction::Nominal);
         break;
       }
       case Algorithm::ELPMPP02LLR:
       {
         MoonLong = CAAELPMPP02::EclipticLongitude(JD, CAAELPMPP02::Correction::LLR);
+        MoonLong += CAACoordinateTransformation::DMSToDegrees(0, 0, CAANutation::NutationInLongitude(JD));
         MoonLat = CAAELPMPP02::EclipticLatitude(JD, CAAELPMPP02::Correction::LLR);
         break;
       }
       case Algorithm::ELPMPP02DE405:
       {
         MoonLong = CAAELPMPP02::EclipticLongitude(JD, CAAELPMPP02::Correction::DE405);
+        MoonLong += CAACoordinateTransformation::DMSToDegrees(0, 0, CAANutation::NutationInLongitude(JD));
         MoonLat = CAAELPMPP02::EclipticLatitude(JD, CAAELPMPP02::Correction::DE405);
         break;
       }
       case Algorithm::ELPMPP02DE406:
       {
         MoonLong = CAAELPMPP02::EclipticLongitude(JD, CAAELPMPP02::Correction::DE406);
+        MoonLong += CAACoordinateTransformation::DMSToDegrees(0, 0, CAANutation::NutationInLongitude(JD));
         MoonLat = CAAELPMPP02::EclipticLatitude(JD, CAAELPMPP02::Correction::DE406);
         break;
       }

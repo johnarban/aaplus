@@ -2,7 +2,7 @@
 
 <head>
 <meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
-<title>AA+ v2.70</title>
+<title>AA+ v2.72</title>
 <link href="./naughter.css" rel="stylesheet" type="text/css">
 <style type="text/css">
 .auto-style1 {
@@ -13,7 +13,7 @@
 
 <body>
 
-<h2>AA+ v2.70</h2>
+<h2>AA+ v2.72</h2>
 <p>Welcome to <b>AA+</b>, a collection of freeware C++ classes which provide an 
 implementation of the algorithms as presented in the book &quot;Astronomical Algorithms&quot; 
 (2nd Edition) by Jean Meeus.</p>
@@ -94,6 +94,56 @@ of Jupiter and Saturn as well as many other algorithms presented in the book.</p
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <h2><a name="History"></a>History</h2>
+<p><b>v2.72 (30 May 2026)</b></p>
+<ul>
+	<li>Fixed a bug in the CAAPhysicalMoon::CalculateOpticalLibration method where the 
+	calculation of the ldash2 variable had a transcription error. Thanks to 
+	Bünyamin Olgun for reporting this issue. </li>
+	<li>Fixed a bug in the CAAMoonPhases::TruePhase method where a full-moon 
+	coefficient should have been -0.00515 and not -0.00514. Thanks to Bünyamin 
+	Olgun for reporting this issue.</li>
+	<li>Updated the g_DeltaTValues lookup table to use observed DeltaT values to 
+	28 May 2026 and predicted values to 5 June 2027 from
+	<a href="https://cddis.nasa.gov/archive/products/iers/finals2000A.all">
+	https://cddis.nasa.gov/archive/products/iers/finals2000A.all</a>. </li>
+</ul>
+<p><b>v2.71 (26 April 2026)</b></p>
+<ul>
+	<li>Fixed an issue with the CAADate::Get where it would incorrectly 
+	calculate Hour values for dates at exactly midnight before the Unix epoch. 
+	Thanks to &quot;Pavel&quot; for reporting this bug. Also added comprehensive test code 
+	to AATest.cpp to test roundtripping of CAADate.</li>
+	<li>Added validation code to CAADate::DateToJDGregorian and 
+	CAADate::DateToJDJulian to now not allow a Day parameter less than 1. Thanks 
+	to &quot;Pavel&quot; for reporting this issue.</li>
+	<li>Add some modifications to CAAMoslemCalendar::JulianToMoslem to handle 
+	conversion of more Julian dates to the Moslem calendar correctly. For 
+	example the Julian date 1st January 2007 now correctly returns 24 Dhu 
+	Al-ijjah 1427 AH instead of 24th of Month 0 in the year 1428. Thanks to 
+	&quot;Pavel&quot; for reporting this bug. I have also added comprehensive test code to 
+	AATest.cpp to test roundtripping of from the Julian to Moslem Calendar and 
+	back again. Also added was code to round trip from the Julian to Gregorian 
+	calendars. Please note that the algorithms in CAAMoslemCalendar still do not 
+	round trip for certain dates. Examples of dates which cause issue are all 
+	days in the Julian year 622 after the Moslem epoch of 16 July 622. This means that I still consider the code in 
+	CAAMoslemCalendar deprecated and the author points you to the DTime++ code 
+	at <a href="http://www.naughter.com/dtimeplus.html">
+	http://www.naughter.com/dtimeplus.html</a> which includes comprehensive 
+	support for the Moslem calendars.</li>
+	<li>Fixed a bug in CAAAngularSeparation::PositionAngle where the position 
+	angle returned was not in the correct range of 90°&#8211;270° when the denominator 
+	of the fraction is negative. Thanks to &quot;Pavel&quot; for reporting this issue.</li>
+	<li>Updated CAAMoonPhases2::Calculate to apply nutation for ELP2000 and 
+	ELPMPP02 code paths. Thanks to &quot;Pavel&quot; for reporting this issue.</li>
+	<li>Updated CAARiseTransitSet2::CalculateMoon to apply nutation for ELP2000 
+	and ELPMPP02 code paths. Thanks to &quot;Pavel&quot; for reporting this issue.</li>
+	<li>Updated CAAMoonMaxDeclinations2::Calculate to apply nutation for ELP2000 
+	and ELPMPP02 code paths. Thanks to &quot;Pavel&quot; for reporting this issue.</li>
+	<li>Updated the g_DeltaTValues lookup table to use observed DeltaT values to 
+	23 April 2026 and predicted values to 1 May 2027 from
+	<a href="https://cddis.nasa.gov/archive/products/iers/finals2000A.all">
+	https://cddis.nasa.gov/archive/products/iers/finals2000A.all</a>. </li>
+</ul>
 <p><b>v2.70 (12 January 2026)</b></p>
 <ul>
 	<li>Fixed an issue with the CAADate::INT method where it would return wrong 
@@ -127,7 +177,7 @@ of Jupiter and Saturn as well as many other algorithms presented in the book.</p
 	<li>The CAADate::DayOfWeek method has been optimized. </li>
 	<li>The CAADate::DaysInMonth method has been optimized. </li>
 	<li>Updated the g_DeltaTValues lookup table to use observed DeltaT values to 
-	08 January 2026 and predicted values to 16 January 2027 from
+	8 January 2026 and predicted values to 16 January 2027 from
 	<a href="https://cddis.nasa.gov/archive/products/iers/finals2000A.all">
 	https://cddis.nasa.gov/archive/products/iers/finals2000A.all</a>.</li>
 </ul>
@@ -172,7 +222,7 @@ of Jupiter and Saturn as well as many other algorithms presented in the book.</p
 	book using CAAParabolic, CAANearParabolic and the new CAAHyperbolic class. All 
 	three classes now produce similar values for this example.</li>
 	<li>Updated the g_DeltaTValues lookup table to use observed DeltaT values to 
-	04 December 2025 and predicted values to 12 December 2026 from
+	4 December 2025 and predicted values to 12 December 2026 from
 	<a href="https://cddis.nasa.gov/archive/products/iers/finals2000A.all">https://cddis.nasa.gov/archive/products/iers/finals2000A.all</a>.</li>
 </ul>
 <p><b>v2.64 (15 November 2025)</b></p>
@@ -341,14 +391,14 @@ of Jupiter and Saturn as well as many other algorithms presented in the book.</p
 <ul>
 	<li>Updated copyright details.</li>
 	<li>Updated the g_DeltaTValues lookup table to use observed DeltaT values to 
-	25 April 2024 and predicted values to 03 May 2025 from
+	25 April 2024 and predicted values to 3 May 2025 from
 	<a href="https://cddis.nasa.gov/archive/products/iers/finals2000A.all">https://cddis.nasa.gov/archive/products/iers/finals2000A.all</a>.
 	</li>
 </ul>
 <p><b>v2.53 (7 October 2023)</b></p>
 <ul>
 	<li>Updated the g_DeltaTValues lookup table to use observed DeltaT values to 
-	05 October 2023 and predicted values to 12 October 2024 from
+	5 October 2023 and predicted values to 12 October 2024 from
 	<a href="https://cddis.nasa.gov/archive/products/iers/finals2000A.all">https://cddis.nasa.gov/archive/products/iers/finals2000A.all</a>.
 	</li>
 </ul>
@@ -378,7 +428,7 @@ of Jupiter and Saturn as well as many other algorithms presented in the book.</p
 	<li>Improved the k value in the CAADiameters::ApparentSaturnPolarSemidiameterB 
 	method. Thanks to &quot;Pavel&quot; for reporting this issue. </li>
 	<li>Updated the g_DeltaTValues lookup table to use observed DeltaT values to 
-	06 July 2023 and predicted values to 13 July 2024 from
+	6 July 2023 and predicted values to 13 July 2024 from
 	<a href="https://cddis.nasa.gov/archive/products/iers/finals2000A.all">https://cddis.nasa.gov/archive/products/iers/finals2000A.all</a>.
 	</li>
 </ul>
@@ -463,7 +513,7 @@ of Jupiter and Saturn as well as many other algorithms presented in the book.</p
 	<li>Updated all the code in AADynamicalTime.cpp to use C++ uniform initialization 
 	for all variable declarations.</li>
 	<li>Updated the g_DeltaTValues lookup table to use observed DeltaT values to 
-	07 July 2022 and predicted values to 15 July 2023 from
+	7 July 2022 and predicted values to 15 July 2023 from
 	<a href="https://cddis.nasa.gov/archive/products/iers/finals2000A.all">https://cddis.nasa.gov/archive/products/iers/finals2000A.all</a>.
 	</li>
 	<li>Updated all the code in AAEarth.cpp to use C++ uniform initialization for 
@@ -2284,7 +2334,8 @@ of Jupiter and Saturn as well as many other algorithms presented in the book.</p
 <p><b><a href="#CAAMoonPerigeeApogee2">CAAMoonPerigeeApogee2</a></b></p>
 <p><b><a href="#CAAMoonPhases">CAAMoonPhases</a></b></p>
 <p><b><a href="#CAAMoonPhases2">CAAMoonPhases2</a></b></p>
-<p><b><a href="#CAAMoslemCalendar">CAAMoslemCalendar</a></b></p>
+<p><b><a href="#CAAMoslemCalendar">CAAMoslemCalendar</a>
+<span class="auto-style1">(Deprecated)</span></b></p>
 <p><b><a href="#CAANearParabolic">CAANearParabolic</a></b></p>
 <p><b><a href="#CAANeptune">CAANeptune</a></b></p>
 <p><b><a href="#CAANodes">CAANodes</a></b></p>
@@ -2469,8 +2520,8 @@ double </b><i>Alpha2</i><b>, double </b><i>Delta2</i><b>)</b></p>
 <p><b>static double PositionAngle(double </b><i>Alpha1</i><b>, double </b><i>Delta1</i><b>, 
 double </b><i>Alpha2</i><b>, double </b><i>Delta2</i><b>)</b></p>
 <p><b>Return Value</b></p>
-<p>Returns the position angle of (Alpha1, Delta1) relative to (Alpha2, Delta2) in 
-degrees.</p>
+<p>Returns the position angle of (Alpha1, Delta1) relative to (Alpha2, Delta2). 
+The position angle is measured in degrees west of north.</p>
 <p><b>Parameters</b></p>
 <p><i>Alpha1 </i>The first right ascension expressed as an hour angle.</p>
 <p><i>Delta1 </i>The first declination in degrees</p>
@@ -6080,9 +6131,19 @@ fit, ELPMPP02DE405 which uses the ELPMPP02 DE405 fit and ELPMPP02DE406 which use
 the ELPMPP02 DE406 fit.</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
-<p><b><a name="CAAMoslemCalendar"></a>CAAMoslemCalendar</b></p>
+<p><b><a name="CAAMoslemCalendar"></a>CAAMoslemCalendar
+<span class="auto-style1">(Deprecated)</span></b></p>
 <p>This class provides the algorithms which convert between the Julian and Moslem 
-calendars. This refers to Chapter 9 in the book.</p>
+calendars. This refers to Chapter 9 in the book. Please note that this class is 
+now considered deprecated as of v2.71 of AA+. The reason is that since May 2006 
+there have been confirmed bugs in these algorithms. Please note that the 
+algorithms in CAAMoslemCalendar still do not round trip for certain dates. 
+Examples of dates which cause issue are all days in the Julian year 622 after 
+the Moslem epoch of 16 July 622. This means that I still consider the 
+code in CAAMoslemCalendar deprecated and the author points you to the DTime++ 
+code at <a href="http://www.naughter.com/dtimeplus.html">
+http://www.naughter.com/dtimeplus.html</a> which includes comprehensive support 
+for the Moslem calendars.</p>
 <p>&nbsp;</p>
 <p><b>Functions this class provides include:</b></p>
 <p><a href="#CAAMoslemCalendar_DateOfPesach">JulianToMoslem</a></p>
@@ -11456,8 +11517,7 @@ for further details.</p>
 <p>&nbsp;</p>
 <h2><a name="Contact"></a>Contacting the Author</h2>
 <p>PJ Naughter<br>Email: <a href="mailto:pjna@naughter.com">pjna@naughter.com</a><br>
-Web: <a href="http://www.naughter.com">http://www.naughter.com</a><br>12 January 
-2026</p>
+Web: <a href="http://www.naughter.com">http://www.naughter.com</a><br>30 May 2026</p>
 
 </body>
 

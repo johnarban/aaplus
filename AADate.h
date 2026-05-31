@@ -67,8 +67,13 @@ History: PJN / 10-11-2004 1. Fix for CAADate::Get so that it works correctly for
                           7. The CAADate::DayOfWeek method has been optimized.
                           8. The CAADate::DaysInMonth method has been optimized.
          PJN / 11-01-2026 1. Made the whole CAADate class constexpr.
-         PJN / 12-01-2026 1. Fixed an issue with the CAADate::INT method where it would return wrong values for negative
-                          integer values. Thanks to "znight" for reporting this issue.
+         PJN / 12-01-2026 1. Fixed an issue with the CAADate::INT method where it would return wrong values for 
+                          negative integer values. Thanks to "znight" for reporting this issue.
+         PJN / 11-04-2026 1. Fixed an issue with the CAADate::Get where it would incorrectly calculate Hour values
+                          for dates at exactly midnight before the Unix epoch. Thanks to "Pavel" for reporting this
+                          bug.
+                          2. Added validation code to CAADate::DateToJDGregorian and CAADate::DateToJDJulian to now 
+                          not allow a Day parameter less than 1. Thanks to "Pavel" for reporting this issue.
 
 Copyright (c) 2003 - 2026 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -190,7 +195,7 @@ protected:
     //Validate our parameters
     static_assert(std::numeric_limits<unsigned>::digits >= 18, "This algorithm has not been ported to a 16 bit unsigned integer");
     static_assert(std::numeric_limits<long>::digits >= 20, "This algorithm has not been ported to a 16 bit signed integer");
-    if ((month < 1) || (month > 12) || (Day > DaysInMonth(month, IsLeap(Year, true))))
+    if ((month < 1) || (month > 12) || (Day < 1) || (Day > DaysInMonth(month, IsLeap(Year, true))))
       return false;
 
     if (month <= 2)
@@ -216,7 +221,7 @@ protected:
   {
     //Validate our parameters
     static_assert(std::numeric_limits<long>::digits >= 20, "This algorithm has not been ported to a 16 bit signed integer");
-    if ((month < 1) || (month > 12) || (Day > DaysInMonth(month, IsLeap(Year, false))))
+    if ((month < 1) || (month > 12) || (Day < 1) || (Day > DaysInMonth(month, IsLeap(Year, false))))
       return false;
 
     if (month <= 2)
@@ -267,7 +272,7 @@ public:
   constexpr void Set(double JD, bool bGregorianCalendar) noexcept
   {
     m_dblDays = JD - UNIX_EPOCH_AS_JD;
-    SetInGregorianCalendar(bGregorianCalendar);
+    m_bGregorianCalendar = bGregorianCalendar;
   }
 
   constexpr void Set(long Year, long Month, double Day, double Hour, double Minute, double Second, bool bGregorianCalendar) noexcept
@@ -285,7 +290,7 @@ public:
     else
     {
       double tempZ{0};
-      const double FDay{std::modf(Day, &tempZ) };
+      const double FDay{std::modf(Day, &tempZ)};
       long Days{0};
       if (DateToJDJulian(Year, Month, static_cast<long>(Day), Days))
         m_dblDays = Days + (Hour / 24.0) + (Minute / 1440.0) + Second / 86400 + FDay;
@@ -300,7 +305,7 @@ public:
     return (m_dblDays != std::numeric_limits<int>::min());
   }
 
-  constexpr void SetIsValid() noexcept
+  constexpr void SetInvalid() noexcept
   {
     m_dblDays = std::numeric_limits<int>::min();
   }
@@ -311,36 +316,26 @@ public:
     double F{0};
     if (m_dblDays >= 0)
     {
-      DaysPart = static_cast<long>(m_dblDays);
+      DaysPart = INT(m_dblDays);
       double tempZ{0};
       F = std::modf(m_dblDays, &tempZ);
     }
     else
     {
-      const double PrevDay{std::nextafter(m_dblDays, 0) - 1 };
+      DaysPart = INT(m_dblDays);
       double tempZ{0};
-#ifdef _MSC_VER
-#pragma warning(suppress : 6031)
-#endif //#ifdef _MSC_VER
-      std::modf(PrevDay, &tempZ);
-      tempZ = tempZ + 1;
-      if (tempZ > m_dblDays)
-      {
-        DaysPart = static_cast<long>(PrevDay);
-        F = 1 + std::modf(m_dblDays, &tempZ);
-      }
+      F = std::modf(m_dblDays, &tempZ);
+      if (F < 0)
+        F = F + 1;
       else
-      {
-        F = -std::modf(m_dblDays, &tempZ);
-        DaysPart = static_cast<long>(m_dblDays);
-      }
+        F = std::fabs(F); //Convert negative zero to positive zero
     }
     if (m_bGregorianCalendar)
       JDToDMYGregorian(DaysPart, Year, Month, Day);
     else
       JDToDMYJulian(DaysPart, Year, Month, Day);
     Hour = static_cast<long>(F * 24);
-    Minute = static_cast<long>((F - (Hour) / 24.0) * 1440.0);
+    Minute = static_cast<long>((F - (Hour / 24.0)) * 1440.0);
     Second = (F - (Hour / 24.0) - (Minute / 1440.0)) * 86400.0;
   }
 

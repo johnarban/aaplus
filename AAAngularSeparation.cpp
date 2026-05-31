@@ -4,6 +4,9 @@ Purpose: Implementation for the algorithms which obtain various separation dista
 Created: PJN / 29-12-2003
 History: PJN / 16-05-2022 1. Updated all the code in AAAngularSeparation.cpp to use C++ uniform initialization
                           for all variable declarations.
+         PJN / 26-04-2026 1. Fixed a bug in CAAAngularSeparation::PositionAngle where the position angle 
+                          returned was not in the correct range of 90°–270° when the denominator of the 
+                          fraction is negative. Thanks to "Pavel" for reporting this issue.
 
 Copyright (c) 2003 - 2026 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -60,7 +63,7 @@ double CAAAngularSeparation::PositionAngle(double Alpha1, double Delta1, double 
   double value{atan2(sin(DeltaAlpha), (cos(Delta2)*tan(Delta1)) - (sin(Delta2)*cos(DeltaAlpha)))};
   value = CAACoordinateTransformation::RadiansToDegrees(value);
   if (value < 0)
-    value += 180;
+    value += 360;
 
   return value;
 }

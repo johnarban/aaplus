@@ -10,6 +10,8 @@ History: PJN / 01-01-2020 1. Initial implementation
                           StepInterval to EndJD get lost because the step where we can catch it is outside of StartJD...EndJD
                           interval. Now the code iterates from StartJD by StepInterval until JD < (EndJD+StepInterval). Thanks
                           to Alexander Vasenin for reporting this issue.
+         PJN / 26-04-2026 1. Updated CAAMoonPhases2::Calculate to apply nutation for ELP2000 and ELPMPP02 code paths. Thanks
+                          to "Pavel" for reporting this issue.
 
 Copyright (c) 2020 - 2026 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -40,6 +42,7 @@ to maintain a single distribution point for the source code.
 #include "AAELPMPP02.h"
 #endif //#ifndef AAPLUS_NO_ELPMPP02
 #include "AACoordinateTransformation.h"
+#include "AANutation.h"
 #include <cassert>
 
 
@@ -67,7 +70,8 @@ std::vector<CAAMoonPhasesDetails2> CAAMoonPhases2::Calculate(double StartJD, dou
 #ifndef AAPLUS_NO_ELP2000
       case Algorithm::ELP2000:
       {
-        const CAA2DCoordinate MoonPos = CAAPrecession::PrecessEcliptic(CAAELP2000::EclipticLongitude(JD), CAAELP2000::EclipticLatitude(JD), 2451545.0, JD);
+        CAA2DCoordinate MoonPos{CAAPrecession::PrecessEcliptic(CAAELP2000::EclipticLongitude(JD), CAAELP2000::EclipticLatitude(JD), 2451545.0, JD)};
+        MoonPos.X += CAACoordinateTransformation::DMSToDegrees(0, 0, CAANutation::NutationInLongitude(JD));
         ExcessApparentGeocentricLongitude = CAACoordinateTransformation::MapTo0To360Range(MoonPos.X - CAASun::ApparentEclipticLongitude(JD, true));
         break;
       }
@@ -75,25 +79,29 @@ std::vector<CAAMoonPhasesDetails2> CAAMoonPhases2::Calculate(double StartJD, dou
 #ifndef AAPLUS_NO_ELPMPP02
       case Algorithm::ELPMPP02Nominal:
       {
-        const CAA2DCoordinate MoonPos = CAAPrecession::PrecessEcliptic(CAAELPMPP02::EclipticLongitude(JD, CAAELPMPP02::Correction::Nominal), CAAELPMPP02::EclipticLatitude(JD, CAAELPMPP02::Correction::Nominal), 2451545.0, JD);
+        CAA2DCoordinate MoonPos{CAAPrecession::PrecessEcliptic(CAAELPMPP02::EclipticLongitude(JD, CAAELPMPP02::Correction::Nominal), CAAELPMPP02::EclipticLatitude(JD, CAAELPMPP02::Correction::Nominal), 2451545.0, JD)};
+        MoonPos.X += CAACoordinateTransformation::DMSToDegrees(0, 0, CAANutation::NutationInLongitude(JD));
         ExcessApparentGeocentricLongitude = CAACoordinateTransformation::MapTo0To360Range(MoonPos.X - CAASun::ApparentEclipticLongitude(JD, true));
         break;
       }
       case Algorithm::ELPMPP02LLR:
       {
-        const CAA2DCoordinate MoonPos = CAAPrecession::PrecessEcliptic(CAAELPMPP02::EclipticLongitude(JD, CAAELPMPP02::Correction::LLR), CAAELPMPP02::EclipticLatitude(JD, CAAELPMPP02::Correction::LLR), 2451545.0, JD);
+        CAA2DCoordinate MoonPos{CAAPrecession::PrecessEcliptic(CAAELPMPP02::EclipticLongitude(JD, CAAELPMPP02::Correction::LLR), CAAELPMPP02::EclipticLatitude(JD, CAAELPMPP02::Correction::LLR), 2451545.0, JD)};
+        MoonPos.X += CAACoordinateTransformation::DMSToDegrees(0, 0, CAANutation::NutationInLongitude(JD));
         ExcessApparentGeocentricLongitude = CAACoordinateTransformation::MapTo0To360Range(MoonPos.X - CAASun::ApparentEclipticLongitude(JD, true));
         break;
       }
       case Algorithm::ELPMPP02DE405:
       {
-        const CAA2DCoordinate MoonPos = CAAPrecession::PrecessEcliptic(CAAELPMPP02::EclipticLongitude(JD, CAAELPMPP02::Correction::DE405), CAAELPMPP02::EclipticLatitude(JD, CAAELPMPP02::Correction::DE405), 2451545.0, JD);
+        CAA2DCoordinate MoonPos{CAAPrecession::PrecessEcliptic(CAAELPMPP02::EclipticLongitude(JD, CAAELPMPP02::Correction::DE405), CAAELPMPP02::EclipticLatitude(JD, CAAELPMPP02::Correction::DE405), 2451545.0, JD)};
+        MoonPos.X += CAACoordinateTransformation::DMSToDegrees(0, 0, CAANutation::NutationInLongitude(JD));
         ExcessApparentGeocentricLongitude = CAACoordinateTransformation::MapTo0To360Range(MoonPos.X - CAASun::ApparentEclipticLongitude(JD, true));
         break;
       }
       case Algorithm::ELPMPP02DE406:
       {
-        const CAA2DCoordinate MoonPos = CAAPrecession::PrecessEcliptic(CAAELPMPP02::EclipticLongitude(JD, CAAELPMPP02::Correction::DE406), CAAELPMPP02::EclipticLatitude(JD, CAAELPMPP02::Correction::DE406), 2451545.0, JD);
+        CAA2DCoordinate MoonPos{CAAPrecession::PrecessEcliptic(CAAELPMPP02::EclipticLongitude(JD, CAAELPMPP02::Correction::DE406), CAAELPMPP02::EclipticLatitude(JD, CAAELPMPP02::Correction::DE406), 2451545.0, JD)};
+        MoonPos.X += CAACoordinateTransformation::DMSToDegrees(0, 0, CAANutation::NutationInLongitude(JD));
         ExcessApparentGeocentricLongitude = CAACoordinateTransformation::MapTo0To360Range(MoonPos.X - CAASun::ApparentEclipticLongitude(JD, true));
         break;
       }

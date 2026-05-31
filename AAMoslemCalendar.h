@@ -8,7 +8,19 @@ History: PJN / 12-02-2004 1. Replaced all calls to the macro "INT" with the func
          PJN / 28-01-2007 1. Minor updates to fit in with new layout of CAADate class
          PJN / 29-06-2022 1. Updated all the code in AAMoslemCalendar.cpp to use C++ uniform initialization
                           for all variable declarations.
-         PJN / 11-01-2026 1. Made the whole CAAMoslemCalendar class constexpr
+         PJN / 11-01-2026 1. Made the whole CAAMoslemCalendar class constexpr.
+         PJN / 25-04-2026 1. Add some modifications to CAAMoslemCalendar::JulianToMoslem to handle conversion
+                          of more Julian dates to the Moslem calendar correctly. For example the Julian date
+                          1st January 2007 now correctly returns 24 Dhu Al-ijjah 1427 AH instead of 24th of 
+                          Month 0 in the year 1428. Thanks to "Pavel" for reporting this bug. I have also
+                          added comprehensive test code to AATest.cpp to test roundtripping of from the Julian
+                          to Moslem Calendar and back again. Also added was code to round trip from the Julian
+                          to Gregorian calendars. Please note that the algorithms in CAAMoslemCalendar still
+                          do not round trip for certain dates. Examples of dates which cause issue are all 
+                          days in the year 622 after the Moslem epoch of 16 July 622. This means that I still
+                          consider the code in CAAMoslemCalendar deprecated and the author points you to the 
+                          DTime++ code at http://www.naughter.com/dtimeplus.html which includes comprehensive
+                          support for the Moslem calendars.
 
 Copyright (c) 2004 - 2026 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -79,6 +91,11 @@ public:
       J -= 365;
       X++;
     }
+    if (J == 0)
+    {
+      J += 366;
+      X--;
+    }
 
     JulianDate.Year = X;
     CAADate::DayOfYearToDayAndMonth(J, CAADate::IsLeap(X, false), JulianDate.Day, JulianDate.Month);
@@ -128,6 +145,13 @@ public:
         JJ = 355;
         H--;
       }
+    }
+    else if (JJ < 1)
+    {
+      H--;
+      const long CL{H % 30};
+      const long DL{((11*CL) + 3) % 30};
+      JJ += (DL < 19) ? 354 : 355; //add length of the (now correct) prior year
     }
 
     const long S{CAADate::INT((JJ - 1.0)/29.5)};
