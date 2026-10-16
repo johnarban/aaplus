@@ -13,6 +13,10 @@ History: PJN / 16-06-2004 1. Fixed a typo in the calculation of SunLongDash in C
          PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
          PJN / 03-07-2022 1. Updated all the code in AAPhysicalSun.cpp to use C++ uniform initialization for
                           all variable declarations.
+         PJN / 01-06-2026 1. Fixed a bug in the CAAPhysicalSun::Calculate method where the Sun's longitude was
+                          not being updated to include the effect of nutation. This corresponds to the use of 
+                          the "lambda_dash" variable from the book instead of "lambda". Thanks to Buenyamin 
+                          Olgun for reporting this issue.
 
 Copyright (c) 2003 - 2026 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -51,18 +55,19 @@ CAAPhysicalSunDetails CAAPhysicalSun::Calculate(double JD, bool bHighPrecision) 
   const double L{CAAEarth::EclipticLongitude(JD, bHighPrecision)};
   const double R{CAAEarth::RadiusVector(JD, bHighPrecision)};
   double SunLong{L + 180 - CAACoordinateTransformation::DMSToDegrees(0, 0, 20.4898/R)};
-
+  const double dpsi_deg{CAACoordinateTransformation::DMSToDegrees(0, 0, CAANutation::NutationInLongitude(JD))};
   double epsilon{CAANutation::TrueObliquityOfEcliptic(JD)};
 
   //Convert to radians
   epsilon = CAACoordinateTransformation::DegreesToRadians(epsilon);
   SunLong = CAACoordinateTransformation::DegreesToRadians(SunLong);
+  const double SunLongDash{SunLong + CAACoordinateTransformation::DegreesToRadians(dpsi_deg)};
   K = CAACoordinateTransformation::DegreesToRadians(K);
   I = CAACoordinateTransformation::DegreesToRadians(I);
   theta = CAACoordinateTransformation::DegreesToRadians(theta);
 
-  const double x{atan(-cos(SunLong)*tan(epsilon))};
-  const double y{atan(-cos(SunLong - K) * tan(I))};
+  const double x{atan(-cos(SunLongDash)*tan(epsilon))};
+  const double y{atan(-cos(SunLong - K)*tan(I))};
 
   CAAPhysicalSunDetails details;
   details.P = CAACoordinateTransformation::RadiansToDegrees(x + y);

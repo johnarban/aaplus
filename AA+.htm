@@ -2,7 +2,7 @@
 
 <head>
 <meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
-<title>AA+ v2.72</title>
+<title>AA+ v2.75</title>
 <link href="./naughter.css" rel="stylesheet" type="text/css">
 <style type="text/css">
 .auto-style1 {
@@ -13,7 +13,7 @@
 
 <body>
 
-<h2>AA+ v2.72</h2>
+<h2>AA+ v2.75</h2>
 <p>Welcome to <b>AA+</b>, a collection of freeware C++ classes which provide an 
 implementation of the algorithms as presented in the book &quot;Astronomical Algorithms&quot; 
 (2nd Edition) by Jean Meeus.</p>
@@ -94,6 +94,51 @@ of Jupiter and Saturn as well as many other algorithms presented in the book.</p
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <h2><a name="History"></a>History</h2>
+<p><b>v2.75 (9 September 2026)</b></p>
+<ul>
+	<li>Fix compile problems in AADate.h when &quot;Windows.h&quot; is also included. When 
+	you include &quot;Windows.h&quot;, this causes known compilation issues when using 
+	std::numeric_limits<T>::min in your code. The CAADate code now uses &quot;nan&quot; in 
+	the CAADate constructor, CAADate::SetInvalid and CAADate::IsValid methods to 
+	indicate an invalid CAADate instance. Thanks to &quot;znight&quot; for reporting this 
+	issue.</li>
+	<li>Updated the g_DeltaTValues lookup table to use observed DeltaT values to 
+	3 September 2026 and predicted values to 11 September 2027 from
+	<a href="https://cddis.nasa.gov/archive/products/iers/finals2000A.all">
+	https://cddis.nasa.gov/archive/products/iers/finals2000A.all</a>. </li>
+</ul>
+<p><b>v2.74 (14 June 2026)</b></p>
+<ul>
+	<li>Fixed a transcription error in the calculation of the Sigma3 variable 
+	for Satellite III (Ganymede) in CAAGalileanMoons::CalculateHelper. Thanks to 
+	&quot;Pavel&quot; for reporting this issue.</li>
+	<li>Fixed an issue in CAAPhysicalJupiter::Calculate where the squares of the 
+	x, y and z variables are not recalculated in step 7. Thanks to &quot;Pavel&quot; for 
+	reporting this issue.</li>
+	<li>Fixed an issue in CAASaturnRings::Calculate where the aberration 
+	correction uses the already modified lambda variable in step 12. Thanks to 
+	&quot;Pavel&quot; for reporting this issue.</li>
+	<li>Updated the g_DeltaTValues lookup table to use observed DeltaT values to 
+	11 June 2026 and predicted values to 19 June 2027 from
+	<a href="https://cddis.nasa.gov/archive/products/iers/finals2000A.all">
+	https://cddis.nasa.gov/archive/products/iers/finals2000A.all</a>. </li>
+</ul>
+<p><b>v2.73 (1 June 2026)</b></p>
+<ul>
+	<li>Fixed a transcription error in the 
+	CAAElementsPlanetaryOrbit::EarthLongitudePerihelion method. Thanks to 
+	Bünyamin Olgun for reporting this issue.</li>
+	<li>Fixed a transcription error in the 
+	CAAElementsPlanetaryOrbit::EarthLongitudeAscendingNodeJ2000 method. Thanks 
+	to Bünyamin Olgun for reporting this issue.</li>
+	<li>Fixed a bug in the CAADate::DayOfWeek method where it would return the 
+	wrong week day for dates prior to 1 January 1970. Thanks to Bünyamin Olgun 
+	for reporting this issue.</li>
+	<li>Fixed a bug in the CAAPhysicalSun::Calculate method where the Sun's 
+	longitude was not being updated to include the effect of nutation. This 
+	corresponds to the use of the &quot;lambda_dash&quot; variable from the book instead 
+	of &quot;lambda&quot;. Thanks to Bünyamin Olgun for reporting this issue.</li>
+</ul>
 <p><b>v2.72 (30 May 2026)</b></p>
 <ul>
 	<li>Fixed a bug in the CAAPhysicalMoon::CalculateOpticalLibration method where the 
@@ -6615,7 +6660,7 @@ double </b><i>Latitude</i><b>, double</b><i> Height</i><b>, double </b><i>JD</i>
 <p><b>Return Value</b></p>
 <p>Returns the converted equatorial coordinates in a CAA2DCoordinate class. The 
 x value in the class corresponds to right ascension expressed as an hour angle and 
-the y value corresponds to the right ascension in degrees.</p>
+the y value corresponds to the declination in degrees.</p>
 <p><b>Parameters</b></p>
 <p><i>Alpha </i>The right ascension in hours of the object at time JD.</p>
 <p><i>Delta </i>The declination in degrees of the object at time JD.</p>
@@ -11517,7 +11562,8 @@ for further details.</p>
 <p>&nbsp;</p>
 <h2><a name="Contact"></a>Contacting the Author</h2>
 <p>PJ Naughter<br>Email: <a href="mailto:pjna@naughter.com">pjna@naughter.com</a><br>
-Web: <a href="http://www.naughter.com">http://www.naughter.com</a><br>30 May 2026</p>
+Web: <a href="http://www.naughter.com">http://www.naughter.com</a><br>9 
+September 2026</p>
 
 </body>
 

@@ -20,7 +20,7 @@ History: PJN / 19-02-2004 1. The optical libration in longitude is now returned 
          PJN / 12-07-2023 1. Fixed another bug in the calculation of the return value in the
                           CAAPhysicalMoon::AltitudeOfSun method. Thanks to "Pavel" for reporting this issue.
          PJN / 30-05-2026 1. Fixed a bug in the CAAPhysicalMoon::CalculateOpticalLibration method where the 
-                          calculation of the ldash2 variable had a transcription error. Thanks to Bunyamin 
+                          calculation of the ldash2 variable had a transcription error. Thanks to Buenyamin 
                           Olgun for reporting this issue.
 
 Copyright (c) 2004 - 2026 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)

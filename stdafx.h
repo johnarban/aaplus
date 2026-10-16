@@ -29,6 +29,7 @@
 //#define AAPLUS_NO_ELP2000 //Uncomment to test exclusion of ELP2000 from AA+
 #define AAPLUS_NO_ELPMPP02 //Uncomment to test exclusion of ELPMPP02 from AA+
 //#define AAPLUS_NO_VSOP87 //Uncomment to test exclusion of Full VSOP87 from AA+
+#define AAPLUS_NO_VSOP2013  //Uncomment to test exclusion of VSOP2013 from AA+
 
 #ifndef _SECURE_ATL
 #define _SECURE_ATL 1 //Use the Secure C Runtime in ATL

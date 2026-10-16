@@ -18,6 +18,9 @@ History: PJN / 05-07-2015 1. U1 (the Saturnicentric longitude of the Sun) and U2
          PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
          PJN / 11-07-2022 1. Updated all the code in AASaturnRings.cpp to use C++ uniform initialization for all
                           variable declarations.
+         PJN / 14-06-2026 1. Fixed an issue in CAASaturnRings::Calculate where the aberration correction uses 
+                          the already modified lambda variable in step 12. Thanks to "Pavel" for reporting this
+                          issue.
 
 Copyright (c) 2004 - 2026 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -158,8 +161,9 @@ CAASaturnRingDetails CAASaturnRings::Calculate(double JD, bool bHighPrecision) n
   const double beta0{90 - i};
 
   //Step 12. Correct lambda and beta for the aberration of Saturn
-  lambda += CAACoordinateTransformation::DegreesToRadians(0.005693*cos(l0rad - lambda)/cosbeta);
-  beta += CAACoordinateTransformation::DegreesToRadians(0.005693*sin(l0rad - lambda)*sinbeta);
+  const double lambdaOld{lambda};
+  lambda += CAACoordinateTransformation::DegreesToRadians(0.005693*cos(l0rad - lambdaOld)/cosbeta);
+  beta += CAACoordinateTransformation::DegreesToRadians(0.005693*sin(l0rad - lambdaOld)*sinbeta);
 
   //Step 13. Add nutation in longitude to lambda0 and lambda
   lambda = CAACoordinateTransformation::RadiansToDegrees(lambda);

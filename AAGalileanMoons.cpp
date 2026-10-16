@@ -13,6 +13,8 @@ History: PJN / 08-05-2011 1. Fixed a bug in CAAGalileanMoons::CalculateHelper wh
          PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
          PJN / 24-06-2022 1. Updated all the code in AAGalileanMoons.cpp to use C++ uniform initialization for all
                           variable declarations.
+         PJN / 14-06-2026 1. Fixed a transcription error in the calculation of the Sigma3 variable for Satellite III 
+                          (Ganymede) in CAAGalileanMoons::CalculateHelper. Thanks to "Pavel" for reporting this issue.
 
 Copyright (c) 2003 - 2026 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -247,7 +249,7 @@ CAAGalileanMoonsDetails CAAGalileanMoons::CalculateHelper(double JD, double sunl
                       -0.00028*sin(w3rad + psi - twoPI - twoG) +
                        0.00026*sin(l3rad - PI - G) +
                        0.00024*sin(l2rad - threel3rad + twol4rad) +
-                       0.00021*sin(l3rad - PI - G) +
+                       0.00021*sin(2*(l3rad - PI - G)) +
                       -0.00021*sin(l3rad - pi2) +
                        0.00017*sin(2*(l3rad - pi3))};
   const double Sigma3rad{CAACoordinateTransformation::DegreesToRadians(Sigma3)};

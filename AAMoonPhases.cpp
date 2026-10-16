@@ -13,7 +13,7 @@ History: PJN / 22-02-2004 1. Fixed a bug in the calculation of the phase type fr
          PJN / 29-06-2022 1. Updated all the code in AAMoonPhases.cpp to use C++ uniform initialization for all
                           variable declarations.
          PJN / 30-05-2026 1. Fixed a bug in the CAAMoonPhases::TruePhase method where a full-moon coefficient should
-                          have been -0.00515 and not -0.00514. Thanks to Bunyamin Olgun for reporting this issue.
+                          have been -0.00515 and not -0.00514. Thanks to Buenyamin Olgun for reporting this issue.
 
 Copyright (c) 2004 - 2026 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 

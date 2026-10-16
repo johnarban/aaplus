@@ -43,8 +43,8 @@ to maintain a single distribution point for the source code.
 //The [AAPLUS_VERSION_NUMBER] C preprocessor macro resolves to
 //an integer with the value (X * 1000 + Y) where X and Y are the
 //same numbers used in [AAPLLUS_VERSION].
-#define AAPLUS_VERSION        "2.70"
-#define AAPLUS_VERSION_NUMBER 2070 //NOLINT(modernize-macro-to-enum)
+#define AAPLUS_VERSION        "2.75"
+#define AAPLUS_VERSION_NUMBER 2075 //NOLINT(modernize-macro-to-enum)
 
 
 //////////////////// Includes /////////////////////////////////////////////////

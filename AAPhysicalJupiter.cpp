@@ -8,6 +8,8 @@ History: PJN / 16-09-2015 1. CAAPhysicalJupiter::Calculate now includes a "bool 
          PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
          PJN / 02-07-2022 1. Updated all the code in AAPhysicalJupiter.cpp to use C++ uniform initialization for
                           all variable declarations.
+         PJN / 14-06-2026 1. Fixed an issue in CAAPhysicalJupiter::Calculate where the squares of the x, y and z
+                          variables are not recalculated in step 7. Thanks to "Pavel" for reporting this issue.
 
 Copyright (c) 2003 - 2026 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -79,12 +81,9 @@ CAAPhysicalJupiterDetails CAAPhysicalJupiter::Calculate(double JD, bool bHighPre
 
   //Step 5
   double x{(r*cosbrad*coslrad) - (R*cosl0rad)};
-  const double x2{x*x};
   double y{(r*cosbrad*sinlrad) - (R*sinl0rad)};
-  const double y2{y*y};
   double z{(r*sinbrad) - (R*sinb0rad)};
-  const double z2{z*z};
-  double DELTA{sqrt(x2 + y2 + z2)};
+  double DELTA{sqrt((x*x) + (y*y) + (z*z))};
 
   //Step 6
   l -= 0.012990*DELTA/(r*r);
@@ -96,7 +95,7 @@ CAAPhysicalJupiterDetails CAAPhysicalJupiter::Calculate(double JD, bool bHighPre
   x = (r*cosbrad*coslrad) - (R*cosl0rad);
   y = (r*cosbrad*sinlrad) - (R*sinl0rad);
   z = (r*sinbrad) - (R*sinb0rad);
-  DELTA = sqrt(x2 + y2 + (z2));
+  DELTA = sqrt((x*x) + (y*y) + (z*z));
 
   //Step 8
   double e0{CAANutation::MeanObliquityOfEcliptic(JD)};

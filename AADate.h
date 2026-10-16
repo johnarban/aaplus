@@ -74,6 +74,14 @@ History: PJN / 10-11-2004 1. Fix for CAADate::Get so that it works correctly for
                           bug.
                           2. Added validation code to CAADate::DateToJDGregorian and CAADate::DateToJDJulian to now 
                           not allow a Day parameter less than 1. Thanks to "Pavel" for reporting this issue.
+         PJN / 01-06-2026 1. Fixed a bug in the CAADate::DayOfWeek method where it would return the wrong week
+                          day for some dates prior to 1 January 1970. Thanks to Buenyamin Olgun for reporting this 
+                          issue.
+         PJN / 09-09-2026 1. Fix compile problems in AADate.h when "Windows.h" is also included. When you include 
+                          "Windows.h", this causes known compilation issues when using std::numeric_limits<T>::min in
+                          your code. The CAADate code now uses "nan" in the CAADate constructor, CAADate::SetInvalid 
+                          and CAADate::IsValid methods to indicate an invalid CAADate instance. Thanks to "znight" 
+                          for reporting this issue.
 
 Copyright (c) 2003 - 2026 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -302,12 +310,12 @@ public:
 
   [[nodiscard]] constexpr bool IsValid() const noexcept
   {
-    return (m_dblDays != std::numeric_limits<int>::min());
+    return m_dblDays == m_dblDays;
   }
 
   constexpr void SetInvalid() noexcept
   {
-    m_dblDays = std::numeric_limits<int>::min();
+    m_dblDays = std::numeric_limits<double>::quiet_NaN();
   }
 
   constexpr void Get(long& Year, long& Month, long& Day, long& Hour, long& Minute, double& Second) const noexcept
@@ -340,7 +348,7 @@ public:
   }
 
 //Constructors / Destructors
-  constexpr CAADate() noexcept : m_dblDays{std::numeric_limits<int>::min()},
+  constexpr CAADate() noexcept : m_dblDays{std::numeric_limits<double>::quiet_NaN()},
                                  m_bGregorianCalendar{false}
   {
   }
@@ -574,7 +582,7 @@ public:
     //Validate our parameters
     assert(IsValid());
 
-    const long z(static_cast<long>(m_dblDays));
+    const long z(INT(m_dblDays));
     return static_cast<DOW>(z >= -4 ? (z + 4) % 7 : (z + 5) % 7 + 6);
   }
 

@@ -3,6 +3,7 @@
 #include "AA+.h"
 #include "AADefines.h"
 #include <cstdio>
+#include <cstdlib>
 #include <cmath>
 #include <cassert>
 #include <vector>
@@ -1959,7 +1960,6 @@ int main()
   //"VSOP2013p5.dat", "VSOP2013p6.dat", "VSOP2013p7.dat", "VSOP2013p8.dat" and "VSOP2013p9.dat" from 
   //ftp://ftp.imcce.fr/pub/ephem/planets/vsop2013/ and copy them into the current directory. Then you should be able to 
   //run this code successfully and produce the bin files which AA+ needs to use the VSOP2013 theory.
-  /*
 #ifndef AAPLUS_NO_VSOP2013
   const double n{CAAVSOP2013::CalculateMeanMotion(CAAVSOP2013::Planet::EARTH_MOON_BARYCENTER, 1)}; //NOLINT(clang-analyzer-deadcode.DeadStores)
   UNREFERENCED_PARAMETER(n);
@@ -2518,14 +2518,16 @@ int main()
   UNREFERENCED_PARAMETER(merEqu);
   try
   {
-    vsop.CalculateOrbit(static_cast<CAAVSOP2013::Planet>(-1), 2411545.0);
+    const CAAVSOP2013Orbit orbit{vsop.CalculateOrbit(static_cast<CAAVSOP2013::Planet>(-1), 2411545.0)};
+    UNREFERENCED_PARAMETER(orbit);
   }
   catch (CAAVSOP2013Exception&)
   {
   }
   try
   {
-    vsop.CalculateOrbit(static_cast<CAAVSOP2013::Planet>(10), 2411545.0);
+    const CAAVSOP2013Orbit orbit{vsop.CalculateOrbit(static_cast<CAAVSOP2013::Planet>(10), 2411545.0)};
+    UNREFERENCED_PARAMETER(orbit);
   }
   catch (CAAVSOP2013Exception&)
   {
@@ -2570,7 +2572,6 @@ int main()
   const auto plutoOrbit{vsop.CalculateOrbit(CAAVSOP2013::Planet::PLUTO, 2411545.0)}; //NOLINT(clang-analyzer-deadcode.DeadStores)
   UNREFERENCED_PARAMETER(plutoOrbit);
 #endif //#ifndef AAPLUS_NO_VSOP2013
-  */
 
   //Test out the CAADynamicalTime UTC time frame conversion methods
   double TT{CAADynamicalTime::UTC2TT(2433282.5)};
@@ -2816,7 +2817,14 @@ int main()
 
   //Test out the the CAADate class
   ::printf("Test out the the CAADate class\n");
+  CAADate date4;
+  assert(!date4.IsValid());
+  date4 = CAADate{1582, 10, 15, true};
+  assert(date4.IsValid());
+  date4.SetInvalid();
+  assert(!date4.IsValid());
   CAADate date3{1582, 10, 15, true};
+  assert(date3.IsValid());
   assert(date3.Year() == 1582);
   assert(date3.Month() == 10);
   assert(date3.Day() == 15);
@@ -3026,6 +3034,129 @@ int main()
   FractionalYear = date.FractionalYear();
   UNREFERENCED_PARAMETER(FractionalYear);
   DayOfYear = date.DayOfYear(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  date.Set(1969, 12, 31, 23, 59, 59.9, true);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::WEDNESDAY);
+  date.Set(1969, 12, 31, 12, 59, 59.9, true);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::WEDNESDAY);
+  date.Set(1969, 12, 31, 0, 1, 59.9, true);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::WEDNESDAY);
+  date.Set(1969, 12, 31, 0, 0, 1, true);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::WEDNESDAY);
+  date.Set(1969, 12, 31, 0, 0, 0, true);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::WEDNESDAY);
+  date.Set(1969, 12, 30, 23, 59, 59.9, true);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::TUESDAY);
+  date.Set(1969, 12, 30, 12, 59, 59.9, true);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::TUESDAY);
+  date.Set(1969, 12, 30, 0, 1, 59.9, true);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::TUESDAY);
+  date.Set(1969, 12, 30, 0, 0, 1, true);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::TUESDAY);
+  date.Set(1969, 12, 30, 0, 0, 0, true);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::TUESDAY);
+  date.Set(1969, 12, 29, 23, 59, 59.9, true);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::MONDAY);
+  date.Set(1969, 12, 29, 12, 59, 59.9, true);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::MONDAY);
+  date.Set(1969, 12, 29, 0, 1, 59.9, true);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::MONDAY);
+  date.Set(1969, 12, 29, 0, 0, 1, true);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::MONDAY);
+  date.Set(1969, 12, 29, 0, 0, 0, true);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::MONDAY);
+  date.Set(1969, 12, 28, 23, 59, 59.9, true);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::SUNDAY);
+  date.Set(1969, 12, 28, 12, 59, 59.9, true);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::SUNDAY);
+  date.Set(1969, 12, 28, 0, 1, 59.9, true);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::SUNDAY);
+  date.Set(1969, 12, 28, 0, 0, 1, true);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::SUNDAY);
+  date.Set(1969, 12, 28, 0, 0, 0, true);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::SUNDAY);
+  date.Set(1969, 12, 27, 23, 59, 59.9, true);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::SATURDAY);
+  date.Set(1969, 12, 27, 12, 59, 59.9, true);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::SATURDAY);
+  date.Set(1969, 12, 27, 0, 1, 59.9, true);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::SATURDAY);
+  date.Set(1969, 12, 27, 0, 0, 1, true);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::SATURDAY);
+  date.Set(1969, 12, 27, 0, 0, 0, true);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::SATURDAY);
+  date.Set(1969, 12, 26, 23, 59, 59.9, true);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::FRIDAY);
+  date.Set(1969, 12, 26, 12, 59, 59.9, true);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::FRIDAY);
+  date.Set(1969, 12, 26, 0, 1, 59.9, true);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::FRIDAY);
+  date.Set(1969, 12, 26, 0, 0, 1, true);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::FRIDAY);
+  date.Set(1969, 12, 26, 0, 0, 0, true);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::FRIDAY);
+  date.Set(1969, 12, 25, 23, 59, 59.9, true);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::THURSDAY);
+  date.Set(1969, 12, 25, 12, 59, 59.9, true);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::THURSDAY);
+  date.Set(1969, 12, 25, 0, 1, 59.9, true);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::THURSDAY);
+  date.Set(1969, 12, 25, 0, 0, 1, true);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::THURSDAY);
+  date.Set(1969, 12, 25, 0, 0, 0, true);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::THURSDAY);
+  date.Set(1969, 12, 24, 23, 59, 59.9, true);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::WEDNESDAY);
+  date.Set(1969, 12, 24, 12, 59, 59.9, true);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::WEDNESDAY);
+  date.Set(1969, 12, 24, 0, 1, 59.9, true);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::WEDNESDAY);
+  date.Set(1969, 12, 24, 0, 0, 1, true);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::WEDNESDAY);
+  date.Set(1969, 12, 24, 0, 0, 0, true);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::WEDNESDAY);
+  date.Set(1957, 10, 4, 19, 26, 0.0, true);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::FRIDAY);
   date.Set(1970, 12, 31, 23, 25, 59.0, true);
   FractionalYear = date.FractionalYear(); //NOLINT(clang-analyzer-deadcode.DeadStores)
   DayOfYear = date.DayOfYear(); //NOLINT(clang-analyzer-deadcode.DeadStores)
@@ -3149,6 +3280,9 @@ int main()
   dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
   assert(dow == CAADate::DOW::SUNDAY);
   date.Set(-4714, 12, 24, 0, 0, 0, false);
+  dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
+  assert(dow == CAADate::DOW::SATURDAY);
+  date.Set(-4714, 12, 24, 0, 0, 1, false);
   dow = date.DayOfWeek(); //NOLINT(clang-analyzer-deadcode.DeadStores)
   assert(dow == CAADate::DOW::SATURDAY);
   date.Set(-4714, 12, 23, 0, 0, 0, false);
@@ -5196,10 +5330,7 @@ int main()
 
   //Calculate the time of moon set for 11th of August 2009 UTC for Palomar Observatory
   ::printf("Calculate the time of moon set for 11th of August 2009 UTC for Palomar Observatory\n");
-  constexpr int YYYY{2009};
-  constexpr int MM{8};
-  constexpr int DD{11};
-  const CAADate CalcDate{YYYY, MM, DD, true};
+  const CAADate CalcDate{2009, 8, 11.0, true};
   const double JD2{CalcDate.Julian()};
 #ifdef _MSC_VER
 #pragma warning(suppress: 26444)

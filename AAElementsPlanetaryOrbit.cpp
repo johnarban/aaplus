@@ -12,6 +12,10 @@ History: PJN / 27-10-2012 1. Fixed a transcription bug in CAAElementsPlanetaryOr
       PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
       PJN / 19-06-2022 1. Updated all the code in AAEclipses.cpp to use C++ uniform initialization for all variable
                           declarations.
+      PJN / 30-05-2026 1. Fixed a transcription error in the CAAElementsPlanetaryOrbit::EarthLongitudePerihelion method.
+                          Thanks to Buenyamin Olgun for reporting this issue.
+                       2. Fixed a transcription error in the CAAElementsPlanetaryOrbit::EarthLongitudeAscendingNodeJ2000
+                          method. Thanks to Buenyamin Olgun for reporting this issue.
 
 Copyright (c) 2003 - 2026 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -124,7 +128,7 @@ double CAAElementsPlanetaryOrbit::EarthLongitudePerihelion(double JD) noexcept
   const double Tsquared{T*T};
   const double Tcubed{Tsquared*T};
 
-  return CAACoordinateTransformation::MapTo0To360Range(102.937348 + (1.17195366*T) + (0.00045688*Tsquared) - (0.000000018*Tcubed));
+  return CAACoordinateTransformation::MapTo0To360Range(102.937348 + (1.7195366*T) + (0.00045688*Tsquared) - (0.000000018*Tcubed));
 }
 
 double CAAElementsPlanetaryOrbit::MarsMeanLongitude(double JD) noexcept
@@ -394,7 +398,7 @@ double CAAElementsPlanetaryOrbit::EarthLongitudeAscendingNodeJ2000(double JD) no
   const double Tsquared{T*T};
   const double Tcubed{Tsquared*T};
 
-  return CAACoordinateTransformation::MapTo0To360Range(174.873176 - (0.241098*T) + (0.00004262*Tsquared) + (0.000000001*Tcubed));
+  return CAACoordinateTransformation::MapTo0To360Range(174.873176 - (0.2410908*T) + (0.00004262*Tsquared) + (0.000000001*Tcubed));
 }
 
 double CAAElementsPlanetaryOrbit::EarthLongitudePerihelionJ2000(double JD) noexcept

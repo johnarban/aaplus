@@ -679,7 +679,7 @@ CAAVSOP2013Orbit CAAVSOP2013::CalculateOrbit(Planet planet, double JD)
 
   CAAVSOP2013Orbit orbit;
   orbit.a = r[0];
-  orbit.lambda = CAACoordinateTransformation::MapTo0To2PIRange(r[1]); //Normalize the lambda value to 0 to 2 radians
+  orbit.lambda = CAACoordinateTransformation::MapTo0To2PIRange(r[1]); //Normalize the lambda value to 0 to 2 PI radians
   orbit.k = r[2];
   orbit.h = r[3];
   orbit.q = r[4];

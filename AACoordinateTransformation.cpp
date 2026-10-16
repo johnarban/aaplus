@@ -12,7 +12,7 @@ History: PJN / 14-02-2004 1. Fixed a "minus zero" bug in the function CAACoordin
                           issue.
          PJN / 30-08-2015 1. Updated the MapTo0To360Range to use the fmod C runtime function.
                           2. Updated the MapTo0To24Range to use the fmod C runtime function.
-                          3. Added new MapTo0To2PIRange & MapToMinus180To180Range methods.
+                          3. Added new MapTo0To2PIRange and MapToMinus90To90Range methods.
          PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
          PJN / 14-06-2022 1. Updated all the code in AACoordinateTransformation.cpp to use C++ uniform
                           initialization for all variable declarations.
